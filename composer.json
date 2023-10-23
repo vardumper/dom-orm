@@ -11,7 +11,8 @@
     "phpunit/phpunit": "^10.4",
     "phpstan/phpstan": "^1.10",
     "friendsofphp/php-cs-fixer": "^3.35",
-    "symplify/easy-coding-standard": "^12.0"
+    "symplify/easy-coding-standard": "^12.0",
+    "brainmaestro/composer-git-hooks": "@dev"
   },
   "autoload": {
     "psr-4": {
