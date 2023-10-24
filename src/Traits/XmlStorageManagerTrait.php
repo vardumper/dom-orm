@@ -1,10 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace DOM\ORM\Traits;
 
 use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Serializer\Encoder\GroupItemFragmentXmlEncoder;
-use DOM\ORM\Traits\AttributeResolverTrait;
 use DOMDocument;
 use DOMNode;
 use DOMNodeList;
@@ -17,13 +16,13 @@ use Symfony\Component\Serializer\SerializerInterface;
 trait XmlStorageManagerTrait
 {
     use AttributeResolverTrait;
+    protected const STORAGE_PATH = __DIR__ . '/../../storage/';
+    protected const FILENAME = 'data.xml';
 
     protected DOMDocument $dom;
     protected DOMXPath $xpath;
 
     protected SerializerInterface $serializer;
-    protected const STORAGE_PATH = __DIR__ . '/../../storage/';
-    protected const FILENAME = 'data.xml';
 
     public function __construct()
     {
@@ -48,25 +47,7 @@ trait XmlStorageManagerTrait
         }
     }
 
-    private function getEmptyDOMDocument(): DOMDocument
-    {
-        $dom = new DOMDocument('1.0', 'utf-8');
-        $dom->preserveWhiteSpace = false;
-        $dom->validateOnParse = false;
-        $dom->strictErrorChecking = false;
-        $dom->formatOutput = true;
-        return $dom;
-    }
-
-    private function getSerializer(): Serializer
-    {
-        $encoders = [new GroupItemFragmentXmlEncoder()];
-        $normalizers = [new JsonSerializableNormalizer()];
-        return new Serializer($normalizers, $encoders);
-    }
-
     /**
-     * @param EntityInterface $entity
      * @param DOMNode|DOMNodeList $parent if a Nodelist is provided, the item will be duplicated to multiple locations
      */
     public function persist(EntityInterface $entity, DOMNode|DOMNodeList $parent = null): void
@@ -129,4 +110,23 @@ trait XmlStorageManagerTrait
      * or a CategoryRepository::findAll() to get a list of folders or a NavigationRepository::findAll() to get a list of navs
      */
     abstract public function findAll(): ?Collection;
+
+    private function getEmptyDOMDocument(): DOMDocument
+    {
+        $dom = new DOMDocument('1.0', 'utf-8');
+        $dom->preserveWhiteSpace = false;
+        $dom->validateOnParse = false;
+        $dom->strictErrorChecking = false;
+        $dom->formatOutput = true;
+
+        return $dom;
+    }
+
+    private function getSerializer(): Serializer
+    {
+        $encoders = [new GroupItemFragmentXmlEncoder()];
+        $normalizers = [new JsonSerializableNormalizer()];
+
+        return new Serializer($normalizers, $encoders);
+    }
 }

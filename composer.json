@@ -37,11 +37,11 @@
   "extra": {
     "hooks": {
       "pre-commit": [
-        "@check-cs",
-        "@phpstan"
+        "composer fix-cs",
+        "composer phpstan"
       ],
       "commit-msg": [
-        "commitlint -E HUSKY_GIT_PARAMS"
+        "commitlint -e"
       ]
     }
   },

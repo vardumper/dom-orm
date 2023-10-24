@@ -86,12 +86,13 @@ abstract class AbstractEntity implements EntityInterface
             'item' => [
                 '@type' => $entityType,
                 '@id' => $this->getId(),
-            ]
+            ],
         ];
 
         $fragments = $this->resolveFragments($this);
         foreach ($fragments as [$storageStrategy, $fragmentName, $propertyName]) {
             $name = ($storageStrategy === 'inline') ? '@' . $fragmentName : $fragmentName;
+
             try {
                 // we expect private properties to be inaccessible here
                 $value = $this->{$propertyName};
@@ -119,6 +120,7 @@ abstract class AbstractEntity implements EntityInterface
         foreach ($groups as [$entity, $groupType, $propertyName]) {
             $name = $groupType ?? $propertyName;
             $value = null;
+
             try {
                 // we expect private properties to be inaccessible here
                 $value = $this->{$propertyName};
@@ -149,6 +151,7 @@ abstract class AbstractEntity implements EntityInterface
                 $data['item'][$name][] = $item->jsonSerialize();
             }
         }
+
         return $data;
     }
 }

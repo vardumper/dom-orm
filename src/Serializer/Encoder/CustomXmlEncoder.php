@@ -24,12 +24,12 @@ class GroupItemFragmentXmlEncoder implements EncoderInterface, DecoderInterface
 
     public function supportsDecoding(string $format): bool
     {
-        return self::FORMAT === $format;
+        return $format === self::FORMAT;
     }
 
     public function supportsEncoding(string $format): bool
     {
-        return self::FORMAT === $format;
+        return $format === self::FORMAT;
     }
 
     public function encode($data, string $format, array $context = []): string
@@ -78,6 +78,7 @@ class GroupItemFragmentXmlEncoder implements EncoderInterface, DecoderInterface
         }
         // append child
         $parentNode->appendChild($node);
+
         // convert to XML string and return
         return $this->dom->saveXML($this->dom->documentElement);
     }

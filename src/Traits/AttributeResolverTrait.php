@@ -24,6 +24,7 @@ trait AttributeResolverTrait
                 return $value;
             }
         }
+
         return null;
     }
 
@@ -33,6 +34,7 @@ trait AttributeResolverTrait
         foreach ($reflectionClass->getAttributes(Item::class) as $attribute) {
             return $attribute->newInstance()->entityType;
         }
+
         return null;
     }
 
@@ -62,6 +64,7 @@ trait AttributeResolverTrait
         if (empty($fragments)) {
             return null;
         }
+
         return $fragments;
     }
 
@@ -92,6 +95,7 @@ trait AttributeResolverTrait
         if (empty($groups)) {
             return null;
         }
+
         return $groups;
     }
 }
