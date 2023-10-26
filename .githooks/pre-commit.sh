@@ -30,7 +30,7 @@ fi
 
 if $HAS_PHP_ECS; then
 # if ([ -x $PHP_ECS ] && [ -n "$CHANGED_FILES" ]); then
-    printf "ECS start"
+    printf "Eeasy Coding Standards"
     # Get a list of files in the staging area
     FILES=` git status --porcelain | grep -e '^[AM]\(.*\).php$' | cut -c 3- | tr '\n' ' '`
     if [ -z "$FILES" ]; then
@@ -39,9 +39,8 @@ if $HAS_PHP_ECS; then
         $PHP_ECS check ${FILES} --fix
         ret_code=$?
         if [[ $ret_code == 0 ]]; then
-            echo
-            touch .commit
-            # See post-commit hook
+            echo $FILES > .commit
+            # Writes the list of files into .commit, which is then used in @see post-commit hook
         else
             # Different code than 0 means that there were unresolved fixes
             PASS=false
@@ -49,9 +48,9 @@ if $HAS_PHP_ECS; then
     fi
 else
     echo ""
-    echo "Please install easy-coding-standard, and php-code-sniffer"
+    echo "Both, easy-coding-standard & php-cs-fixer are required. Install them with:"
     echo ""
-    echo "  composer require --dev symplify/easy-coding-standard"
+    echo "  composer require --dev symplify/easy-coding-standard friendsofphp/php-cs-fixer"
     echo ""
 fi
 

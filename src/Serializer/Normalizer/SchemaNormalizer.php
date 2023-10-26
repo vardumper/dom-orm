@@ -99,6 +99,7 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
         if (json_last_error() !== JSON_ERROR_NONE) {
             return null;
         }
+
         return $decodedData;
     }
 }
