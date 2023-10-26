@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Serializer\Encoder;
 
-use DOMDocument;
-use DOMNode;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
@@ -13,7 +11,7 @@ class SchemaEncoder implements EncoderInterface, DecoderInterface
 {
     public const FORMAT = 'group_item_fragment_xml';
 
-    protected DOMDocument $dom;
+    protected \DOMDocument $dom;
 
     public function __construct()
     {
@@ -40,7 +38,7 @@ class SchemaEncoder implements EncoderInterface, DecoderInterface
         // Parent (create root node)
         $node = $this->dom->createElement($elementName);
         $parentNode = ($this->dom->documentElement === null) ? $this->dom : $this->dom->documentElement;
-        if (isset($context['parentNode']) && $context['parentNode'] instanceof DOMNode) {
+        if (isset($context['parentNode']) && $context['parentNode'] instanceof \DOMNode) {
             $parentNode = $context['parentNode'];
         }
 

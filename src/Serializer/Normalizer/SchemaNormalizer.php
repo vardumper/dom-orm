@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+namespace DOM\ORM\Serializer\Normalizer;
+
 use DOM\ORM\Entity\AbstractEntity;
+use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -42,12 +45,12 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
         }
 
         if ($data instanceof \Traversable) {
-            $data = iterator_to_array($data);
+            $data = \iterator_to_array($data);
         }
 
         // If an iterable is passed allow normalization if all items are AbstractEntities.
         if (is_array($data)) {
-            $invalid_count = count(array_filter($data, function ($object) {
+            $invalid_count = \count(\array_filter($data, function ($object) {
                 return !$object instanceof AbstractEntity;
             }));
 
@@ -64,21 +67,26 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
 
     public function supportsDenormalization($data, $type, $format = null)
     {
+        $isXml = (\simplexml_load_string($data) !== false);
+        if ($isXml) {
+            throw new \InvalidArgumentException(sprintf('You don\'t need to pass XML directly to the denormalize() method. Please use the decode() method of %s instead.', SchemaEncoder::class));
+        }
+
         $valid = false; // default
 
-        // Look into the $data passed.
-        // If a string is passed, check if we can transform it to an array
-        if (is_string($data)) {
-            $isJson = (json_decode($data) !== null);
+        // Look into the $data passed: if a string, check if we can transform it to an array
+        if (\is_string($data)) {
+            $isJson = (\json_decode($data) !== null);
             if ($isJson) {
-                $valid = true; // string is valid json
+                $valid = true; // string is valid JSON
             }
         }
 
         try {
             Yaml::parse($data);
-            $valid = true;
+            $valid = true; // string is valid YAML
         } catch (ParseException $e) {
+            // Cathc exception and continue execution if not valid YAML
         }
 
         if ($valid) {
@@ -91,12 +99,12 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
 
     private function getJson($data): ?array
     {
-        if (!is_string($data)) {
+        if (!\is_string($data)) {
             return null;
         }
 
-        $decodedData = json_decode($data, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        $decodedData = \json_decode($data, true);
+        if (\json_last_error() !== JSON_ERROR_NONE) {
             return null;
         }
 

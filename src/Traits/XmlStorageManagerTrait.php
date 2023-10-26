@@ -6,10 +6,6 @@ namespace DOM\ORM\Traits;
 
 use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
-use DOMDocument;
-use DOMNode;
-use DOMNodeList;
-use DOMXPath;
 use Ramsey\Collection\Collection;
 use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -21,8 +17,8 @@ trait XmlStorageManagerTrait
     protected const STORAGE_PATH = __DIR__ . '/../../storage/';
     protected const FILENAME = 'data.xml';
 
-    protected DOMDocument $dom;
-    protected DOMXPath $xpath;
+    protected \DOMDocument $dom;
+    protected \DOMXPath $xpath;
 
     protected SerializerInterface $serializer;
 
@@ -31,7 +27,7 @@ trait XmlStorageManagerTrait
         $this->init();
         $xml = $this->getEmptyDOMDocument();
         $xml->load(self::STORAGE_PATH . self::FILENAME);
-        $this->xpath = new DOMXPath($xml);
+        $this->xpath = new \DOMXPath($xml);
         $this->dom = $xml;
         $this->serializer = $this->getSerializer();
     }
@@ -50,9 +46,9 @@ trait XmlStorageManagerTrait
     }
 
     /**
-     * @param DOMNode|DOMNodeList $parent if a Nodelist is provided, the item will be duplicated to multiple locations
+     * @param \DOMNode|\DOMNodeList $parent if a Nodelist is provided, the item will be duplicated to multiple locations
      */
-    public function persist(EntityInterface $entity, DOMNode|DOMNodeList $parent = null): void
+    public function persist(EntityInterface $entity, \DOMNode|\DOMNodeList $parent = null): void
     {
         $allowedParentPaths = $this->resolveAllowedParentPaths($entity);
         // $entityType = $this->resolveEntityType($entity);
@@ -113,9 +109,9 @@ trait XmlStorageManagerTrait
      */
     abstract public function findAll(): ?Collection;
 
-    private function getEmptyDOMDocument(): DOMDocument
+    private function getEmptyDOMDocument(): \DOMDocument
     {
-        $dom = new DOMDocument('1.0', 'utf-8');
+        $dom = new \DOMDocument('1.0', 'utf-8');
         $dom->preserveWhiteSpace = false;
         $dom->validateOnParse = false;
         $dom->strictErrorChecking = false;

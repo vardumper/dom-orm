@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Mapping;
 
-use Attribute;
-
-#[Attribute(Attribute::TARGET_PROPERTY)]
+#[\Attribute(\Attribute::TARGET_PROPERTY)]
 final class Group
 {
     public const ELEMENT_NAME = 'group';

@@ -16,6 +16,7 @@ use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
 use PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer;
 use PhpCsFixer\Fixer\FunctionNotation\SingleLineThrowFixer;
+use PhpCsFixer\Fixer\Import\GlobalNamespaceImportFixer;
 use PhpCsFixer\Fixer\Import\OrderedImportsFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\DeclareEqualNormalizeFixer;
 use PhpCsFixer\Fixer\NamespaceNotation\BlankLinesBeforeNamespaceFixer;
@@ -114,6 +115,16 @@ return static function (ECSConfig $ecsConfig): void {
             DeclareEqualNormalizeFixer::class,
             [
                 'space' => 'none',
+            ],
+        ],
+
+        /* erik: have phpcs fix the FQCN for classes,functions,constants */
+        [
+            GlobalNamespaceImportFixer::class,
+            [
+                'import_classes' => false,
+                'import_constants' => false,
+                'import_functions' => false,
             ],
         ],
     ];

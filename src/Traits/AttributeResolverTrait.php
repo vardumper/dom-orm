@@ -8,7 +8,6 @@ use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Mapping\Fragment;
 use DOM\ORM\Mapping\Group;
 use DOM\ORM\Mapping\Item;
-use ReflectionClass;
 
 trait AttributeResolverTrait
 {
@@ -17,7 +16,7 @@ trait AttributeResolverTrait
      */
     private function resolveAllowedParentPaths(EntityInterface $entity): ?array
     {
-        $reflectionClass = new ReflectionClass($entity);
+        $reflectionClass = new \ReflectionClass($entity);
         foreach ($reflectionClass->getAttributes(Item::class) as $attribute) {
             $value = $attribute->newInstance()->allowedParentPaths;
             if (is_array($value)) {
@@ -30,7 +29,7 @@ trait AttributeResolverTrait
 
     private function resolveEntityType(EntityInterface $entity): ?string
     {
-        $reflectionClass = new ReflectionClass($entity);
+        $reflectionClass = new \ReflectionClass($entity);
         foreach ($reflectionClass->getAttributes(Item::class) as $attribute) {
             return $attribute->newInstance()->entityType;
         }
@@ -40,7 +39,7 @@ trait AttributeResolverTrait
 
     private function resolveFragments(EntityInterface $entity): ?array
     {
-        $reflectionClass = new ReflectionClass($entity);
+        $reflectionClass = new \ReflectionClass($entity);
 
         $properties = array_merge($reflectionClass->getProperties(), $reflectionClass->getParentClass()->getProperties());
 
@@ -70,7 +69,7 @@ trait AttributeResolverTrait
 
     private function resolveGroups(EntityInterface $entity): ?array
     {
-        $reflectionClass = new ReflectionClass($entity);
+        $reflectionClass = new \ReflectionClass($entity);
 
         $properties = array_merge(
             $reflectionClass->getProperties(),
