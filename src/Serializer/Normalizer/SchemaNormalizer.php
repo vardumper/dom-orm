@@ -39,13 +39,15 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
             return false;
         }
 
+        if ($data instanceof \Traversable) {
+            $data = iterator_to_array($data);
+        }
+
         // If an iterable is passed allow normalization if all items are AbstractEntities.
-        if (is_array($data) || $data instanceof \Traversable) {
-            $data = is_array($data) ? $data : iterator_to_array($data);
+        if (is_array($data)) {
             $invalid_count = count(array_filter($data, function ($object) {
                 return !$object instanceof AbstractEntity;
             }));
-
             return $invalid_count === 0;
         }
 

@@ -38,7 +38,7 @@
   "extra": {
     "hooks": {
       "pre-commit": [
-        "composer fix-cs",
+        "composer fix-cs && git add . && git commit --amend --no-edit",
         "composer phpstan"
       ],
       "commit-msg": [
