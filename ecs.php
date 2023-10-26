@@ -122,9 +122,9 @@ return static function (ECSConfig $ecsConfig): void {
         [
             GlobalNamespaceImportFixer::class,
             [
-                'import_classes' => true,
-                'import_constants' => true,
-                'import_functions' => true,
+                'import_classes' => false,
+                'import_constants' => false,
+                'import_functions' => false,
             ],
         ],
     ];
