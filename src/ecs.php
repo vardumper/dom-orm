@@ -16,9 +16,10 @@ use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
 use PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer;
 use PhpCsFixer\Fixer\FunctionNotation\SingleLineThrowFixer;
+use PhpCsFixer\Fixer\Import\GlobalNamespaceImportFixer;
 use PhpCsFixer\Fixer\Import\OrderedImportsFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\DeclareEqualNormalizeFixer;
-use PhpCsFixer\Fixer\NamespaceNotation\NoBlankLinesBeforeNamespaceFixer;
+use PhpCsFixer\Fixer\NamespaceNotation\BlankLinesBeforeNamespaceFixer;
 use PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer;
 use PhpCsFixer\Fixer\Operator\ConcatSpaceFixer;
 use PhpCsFixer\Fixer\Operator\IncrementStyleFixer;
@@ -118,6 +119,16 @@ return static function (ECSConfig $ecsConfig): void {
                 'space' => 'none',
             ],
         ],
+
+        /* erik: have phpcs fix the FQCN for classes,functions,constants */
+        [
+            GlobalNamespaceImportFixer::class,
+            [
+                'import_classes' => false,
+                'import_constants' => false,
+                'import_functions' => false,
+            ],
+        ],
     ];
 
     array_map(static fn ($parameters) => $ecsConfig->ruleWithConfiguration(...$parameters), $ruleConfigurations);
@@ -136,7 +147,7 @@ return static function (ECSConfig $ecsConfig): void {
         PhpdocSeparationFixer::class => null,
         BlankLineAfterOpeningTagFixer::class => null,
         ClassAttributesSeparationFixer::class => null,
-        NoBlankLinesBeforeNamespaceFixer::class => null,
+        BlankLinesBeforeNamespaceFixer::class => null,
         NotOperatorWithSuccessorSpaceFixer::class => null,
         SingleLineThrowFixer::class => null,
         PhpdocAlignFixer::class => null,
