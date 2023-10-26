@@ -64,9 +64,10 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
 
     public function supportsDenormalization($data, $type, $format = null)
     {
-        // First, look into the data.
+        $valid = false; // default
+
+        // Look into the $data passed.
         // If a string is passed, check if we can transform it to an array
-        $valid = false;
         if (is_string($data)) {
             $isJson = (json_decode($data) !== null);
             if ($isJson) {
@@ -79,6 +80,7 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
             $valid = true;
         } catch (ParseException $e) {
         }
+
         if ($valid) {
             return true;
         }
@@ -97,7 +99,6 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
         if (json_last_error() !== JSON_ERROR_NONE) {
             return null;
         }
-
         return $decodedData;
     }
 }
