@@ -38,11 +38,10 @@
   "extra": {
     "hooks": {
       "pre-commit": [
-        "composer fix-cs && git add . && git commit --amend --no-edit",
-        "composer phpstan"
+        "./.githooks/pre-commit.sh"
       ],
       "commit-msg": [
-        "cat $($(git rev-parse --git-dir)/COMMIT_EDITMSG) | commitlint"
+        "./.githooks/commit-msg.sh"
       ]
     }
   },
