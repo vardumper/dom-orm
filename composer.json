@@ -37,8 +37,8 @@
   "extra": {
     "hooks": {
       "pre-commit": [
-        "ecs check --ansi --fix",
-        "phpstan --memory-limit=1G --configuration=./phpstan.neon"
+        "composer fix-cs",
+        "composer phpstan"
       ],
       "commit-msg": [
         "commitlint -e"
