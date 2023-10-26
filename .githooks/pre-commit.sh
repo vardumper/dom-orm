@@ -37,11 +37,13 @@ if $HAS_PHP_ECS; then
           echo "No PHP file changed in commit"
     else
         $PHP_ECS check ${FILES} --fix
-        if [[ "$?" == 0 ]]; then
+        ret_code=$?
+        echo $ret_code
+        if [[ $ret_code == 0 ]]; then
             # Add the fixed files back to the staging area
             git add ${FILES}
             # Amend the updated files to the current commit, and prevent dupliacte run of pre-commit hook
-            git ci --amend --no-edit --no-verify
+            # git ci --amend --no-edit
         else
             # Different code than 0 means that there were unresolved fixes
             PASS=false

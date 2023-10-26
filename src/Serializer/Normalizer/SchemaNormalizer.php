@@ -5,6 +5,8 @@ declare(strict_types=1);
 use DOM\ORM\Entity\AbstractEntity;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
 class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
 {
@@ -63,7 +65,7 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
     public function supportsDenormalization($data, $type, $format = null)
     {
         // First, look into the data.
-        // A string was passed, check if we can transform it to an array
+        // If a string is passed, check if we can transform it to an array
         $valid = false;
         if (is_string($data)) {
             $isJson = (json_decode($data) !== null);
@@ -72,6 +74,17 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
             }
         }
 
+        try {
+            Yaml::parse($data);
+            $valid = true;
+        } catch (ParseException $e) {
+        }
+
+        if ($valid) {
+            return true;
+        }
+
+        // otherwise: neither json nor yaml, cheack params
         return $type === static::TYPE && $format === static::FORMAT;
     }
 
