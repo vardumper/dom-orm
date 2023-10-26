@@ -40,8 +40,8 @@ if $HAS_PHP_ECS; then
         if [[ "$?" == 0 ]]; then
             # Add the fixed files back to the staging area
             git add ${FILES}
-            # Amend the updated files to the current commit
-            git ci --amend --no-edit
+            # Amend the updated files to the current commit, and prevent dupliacte run of pre-commit hook
+            git ci --amend --no-edit --no-verify
         else
             # Different code than 0 means that there were unresolved fixes
             PASS=false
