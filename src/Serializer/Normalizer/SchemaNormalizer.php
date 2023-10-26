@@ -78,7 +78,6 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
             $valid = true;
         } catch (ParseException $e) {
         }
-
         if ($valid) {
             return true;
         }
