@@ -1,2 +1,6 @@
+# Package Manager-related
 /vendor/
+# IDE-related
 /.history/
+# OS related
+**/.DS_Store

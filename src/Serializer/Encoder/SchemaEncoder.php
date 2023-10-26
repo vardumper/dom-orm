@@ -9,7 +9,7 @@ use DOMNode;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
-class GroupItemFragmentXmlEncoder implements EncoderInterface, DecoderInterface
+class SchemaEncoder implements EncoderInterface, DecoderInterface
 {
     public const FORMAT = 'group_item_fragment_xml';
 

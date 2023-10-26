@@ -1,9 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace DOM\ORM\Traits;
 
 use DOM\ORM\Entity\EntityInterface;
-use DOM\ORM\Serializer\Encoder\GroupItemFragmentXmlEncoder;
+use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOMDocument;
 use DOMNode;
 use DOMNodeList;
@@ -78,7 +80,7 @@ trait XmlStorageManagerTrait
         }
 
         $array = $this->serializer->normalize($entity, null);
-        $xml = $this->serializer->encode($array, GroupItemFragmentXmlEncoder::FORMAT);
+        $xml = $this->serializer->encode($array, SchemaEncoder::FORMAT);
         $tmp = $this->getEmptyDOMDocument();
         $tmp->loadXML($xml);
         $importedNode = $this->dom->importNode($tmp->documentElement, true); // @todo hanlde false on error
@@ -124,7 +126,7 @@ trait XmlStorageManagerTrait
 
     private function getSerializer(): Serializer
     {
-        $encoders = [new GroupItemFragmentXmlEncoder()];
+        $encoders = [new SchemaEncoder()];
         $normalizers = [new JsonSerializableNormalizer()];
 
         return new Serializer($normalizers, $encoders);
