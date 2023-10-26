@@ -41,7 +41,7 @@
         "composer phpstan"
       ],
       "commit-msg": [
-        "commitlint -e"
+        "$(cat '$1') | commitlint"
       ]
     }
   },
