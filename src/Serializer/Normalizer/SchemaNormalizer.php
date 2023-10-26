@@ -48,6 +48,7 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
             $invalid_count = count(array_filter($data, function ($object) {
                 return !$object instanceof AbstractEntity;
             }));
+
             return $invalid_count === 0;
         }
 
