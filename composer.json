@@ -42,7 +42,7 @@
         "composer phpstan"
       ],
       "commit-msg": [
-        "commitlint --edit $1"
+        "commitlint -e {$1}"
       ]
     }
   },
