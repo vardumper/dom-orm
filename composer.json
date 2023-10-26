@@ -42,7 +42,7 @@
         "composer phpstan"
       ],
       "commit-msg": [
-        "commitlint -e {$1}"
+        "cat $(git rev-parse --git-dir)/COMMIT_EDITMSG | commitlint"
       ]
     }
   },
