@@ -1,6 +1,5 @@
 #!/bin/bash
 
-echo
 if [ -e .commit ]
     then
     rm .commit
