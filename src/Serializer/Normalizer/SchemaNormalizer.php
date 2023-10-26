@@ -58,7 +58,6 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
         if (!$data instanceof AbstractEntity) {
             return false;
         }
-
         return true;
     }
 
@@ -98,7 +97,6 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
         if (json_last_error() !== JSON_ERROR_NONE) {
             return null;
         }
-
         return $decodedData;
     }
 }

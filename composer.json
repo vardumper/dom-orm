@@ -42,6 +42,9 @@
       ],
       "commit-msg": [
         ".githooks/commit-msg.sh"
+      ],
+      "post-commit": [
+        ".githooks/post-commit.sh"
       ]
     }
   },

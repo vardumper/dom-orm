@@ -4,4 +4,5 @@
 /.history/
 # OS related
 **/.DS_Storecghooks.lock
-
+# Used internally by Git hooks
+/.commit

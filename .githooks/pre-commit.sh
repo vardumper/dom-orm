@@ -38,12 +38,10 @@ if $HAS_PHP_ECS; then
     else
         $PHP_ECS check ${FILES} --fix
         ret_code=$?
-        echo $ret_code
         if [[ $ret_code == 0 ]]; then
-            # Add the fixed files back to the staging area
-            git add ${FILES}
-            # Amend the updated files to the current commit, and prevent dupliacte run of pre-commit hook
-            # git ci --amend --no-edit
+            echo
+            touch .commit
+            # See post-commit hook
         else
             # Different code than 0 means that there were unresolved fixes
             PASS=false
