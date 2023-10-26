@@ -58,6 +58,7 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
         if (!$data instanceof AbstractEntity) {
             return false;
         }
+
         return true;
     }
 
