@@ -9,19 +9,19 @@
     "ext-libxml": "*",
     "ext-mbstring": "*",
     "ext-xml": "*",
-    "ramsey/uuid": "^4.7",
+    "ramsey/uuid": "^4.7.4",
     "ramsey/collection": "^2.0",
-    "symfony/console": "^6.3",
-    "symfony/serializer": "^6.3",
-    "symfony/messenger": "^6.3",
+    "symfony/console": "^6.3.4",
+    "symfony/serializer": "^6.3.7",
+    "symfony/messenger": "^6.3.7",
     "league/flysystem": "^3.18",
-    "symfony/yaml": "^6.3"
+    "symfony/yaml": "^6.3.7"
   },
   "require-dev": {
-    "phpunit/phpunit": "^10.4",
-    "phpstan/phpstan": "^1.10",
-    "friendsofphp/php-cs-fixer": "^3.35",
-    "symplify/easy-coding-standard": "^12.0",
+    "phpunit/phpunit": "^10.4.2",
+    "phpstan/phpstan": "^1.10.39",
+    "friendsofphp/php-cs-fixer": "^3.37.1",
+    "symplify/easy-coding-standard": "^12.0.8",
     "brainmaestro/composer-git-hooks": "@dev"
   },
   "autoload": {
