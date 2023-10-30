@@ -34,20 +34,19 @@ if (null === $file) {
 
 require_once $file;
 
-use DOM\ORM\Command\InitCommand;
+use DOM\ORM\Command\Init;
 use Silly\Application;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
+
 $app = new Application('DOM-ORM CLI Tool', '0.1.0');
 
-$app->command('diagnose [-p|--print]', function (OutputInterface $output, $print, $plain) {
+$app->command('init [-p|--path]', function (ConsoleOutputInterface $output, $path) {
     $output->writeln('Initializing database...');
 
-    InitCommand::run();
+    Init::run($path);
 
     $output->writeln('Diagnostics output has been copied to your clipboard.');
-})->descriptions('Output diagnostics to aid in debugging Valet.', [
-    '--print' => 'print diagnostics output while running',
-    '--plain' => 'format clipboard output as plain text',
-]);
+});
 
 $app->setDefaultCommand('init');
 $app->run();
