@@ -7,6 +7,7 @@ namespace DOM\ORM\Serializer\Normalizer;
 use DOM\ORM\Entity\AbstractEntity;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -21,24 +22,32 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
     /**
      * The supported type to denormalize to.
      */
-    public const TYPE = 'dom_orm_type';
+    public const TYPE = 'array';
+    private JsonSerializableNormalizer $normalizer;
 
-    public function normalize($object, $format = null, array $context = [])
+    public function __construct(JsonSerializableNormalizer $normalizer)
     {
-        if (!$object instanceof \DateTime) {
-            throw new \InvalidArgumentException('The object must be a DateTime instance');
-        }
-
-        return $object->format('Y-m-d H:i:s');
+        $this->normalizer = $normalizer;
     }
 
-    public function denormalize(mixed $data, string $type, string $format = null, array $context = [])
+    public function normalize(mixed $object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    {
+        // Add your additional functionality here
+        // ...
+
+        // Call the original normalize() method
+        return $this->normalizer->normalize($object, $format, $context);
+    }
+
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         return true;
     }
 
-    public function supportsNormalization($data, $format = null)
-    {
+    public function supportsNormalization(
+        mixed $data,
+        string|null $format = null
+    ): bool {
         // First check if the format is supported.
         if ($format !== static::FORMAT) {
             return false;
@@ -65,10 +74,13 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
         return true;
     }
 
-    public function supportsDenormalization($data, $type, $format = null)
-    {
+    public function supportsDenormalization(
+        mixed $data,
+        string $type,
+        string|null $format = null
+    ): bool {
         $isXml = (\simplexml_load_string($data) !== false);
-        if ($isXml) {
+        if ($isXml || $data instanceof \DOMDocument) {
             throw new \InvalidArgumentException(sprintf('You don\'t need to pass XML directly to the denormalize() method. Please use the decode() method of %s instead.', SchemaEncoder::class));
         }
 
@@ -80,13 +92,13 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
             if ($isJson) {
                 $valid = true; // string is valid JSON
             }
-        }
 
-        try {
-            Yaml::parse($data);
-            $valid = true; // string is valid YAML
-        } catch (ParseException $e) {
-            // Cathc exception and continue execution if not valid YAML
+            try {
+                Yaml::parse($data);
+                $valid = true; // string is valid YAML
+            } catch (ParseException $e) {
+                // Cathc exception and continue execution if not valid YAML
+            }
         }
 
         if ($valid) {
@@ -95,19 +107,5 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
 
         // otherwise: neither json nor yaml, cheack params
         return $type === static::TYPE && $format === static::FORMAT;
-    }
-
-    private function getJson($data): ?array
-    {
-        if (!\is_string($data)) {
-            return null;
-        }
-
-        $decodedData = \json_decode($data, true);
-        if (\json_last_error() !== JSON_ERROR_NONE) {
-            return null;
-        }
-
-        return $decodedData;
     }
 }

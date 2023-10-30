@@ -11,6 +11,8 @@ interface EntityRepositoryInterface
 {
     public function find($id, $lockMode = null, $lockVersion = null): ?EntityInterface;
 
+    public function findAll(): ?Collection;
+
     public function findOneBy(array $criteria): ?EntityInterface;
 
     public function findBy(array $criteria): ?Collection;

@@ -6,8 +6,8 @@ namespace DOM\ORM\Traits;
 
 use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
+use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use Ramsey\Collection\Collection;
-use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -17,31 +17,48 @@ trait XmlStorageManagerTrait
     protected const STORAGE_PATH = __DIR__ . '/../../storage/';
     protected const FILENAME = 'data.xml';
 
-    protected \DOMDocument $dom;
+    protected \DOMDocument $data;
     protected \DOMXPath $xpath;
 
     protected SerializerInterface $serializer;
 
-    public function __construct()
+    // public function __construct(?string $storage = null)
+    // {
+    //     if ($storage === null) {
+    //         $storage = self::STORAGE_PATH . self::FILENAME;
+    //     }
+    //     die($storage);
+    //     $this->init($storage); // does nothing if file exists
+    //     $xml = $this->getEmptyDOMDocument();
+    //     $xml->load($storage);
+    //     $this->data = $xml;
+    //     $this->xpath = new \DOMXPath($xml);
+    //     $this->serializer = $this->getSerializer();
+    // }
+
+    public function loadData($storage)
     {
-        $this->init();
-        $xml = $this->getEmptyDOMDocument();
-        $xml->load(self::STORAGE_PATH . self::FILENAME);
-        $this->xpath = new \DOMXPath($xml);
-        $this->dom = $xml;
-        $this->serializer = $this->getSerializer();
+        $xml = $this->getEmptyDom();
+        $xml->load($storage);
+        $this->data = $xml;
+        // $this->xpath = new \DOMXPath($xml);
+        // $this->serializer = $this->getSerializer();
     }
 
-    public function init(): void
+    public function init(string $storage): void
     {
-        if (!is_dir(self::STORAGE_PATH)) {
-            mkdir(self::STORAGE_PATH);
+        if (!is_dir(dirname($storage))) {
+            mkdir(dirname($storage), 0755, true);
         }
 
-        if (!file_exists(self::STORAGE_PATH . self::FILENAME)) {
-            $xml = $this->getEmptyDOMDocument();
+        if (!is_writable(dirname($storage))) {
+            chmod(dirname($storage), 0755);
+        }
+
+        if (!file_exists($storage)) {
+            $xml = $this->getEmptyDom();
             $xml->loadXML('<data />');
-            $xml->save(self::STORAGE_PATH . self::FILENAME);
+            $xml->save($storage);
         }
     }
 
@@ -77,14 +94,19 @@ trait XmlStorageManagerTrait
 
         $array = $this->serializer->normalize($entity, null);
         $xml = $this->serializer->encode($array, SchemaEncoder::FORMAT);
-        $tmp = $this->getEmptyDOMDocument();
+        $tmp = $this->getEmptyDom();
         $tmp->loadXML($xml);
-        $importedNode = $this->dom->importNode($tmp->documentElement, true); // @todo hanlde false on error
+        $importedNode = $this->data->importNode($tmp->documentElement, true); // @todo hanlde false on error
         if ($importedNode) {
             $parent->appendChild($importedNode);
         }
 
-        $this->dom->save(self::STORAGE_PATH . self::FILENAME, LIBXML_NOXMLDECL);
+        $this->data->save(self::STORAGE_PATH . self::FILENAME, LIBXML_NOXMLDECL);
+    }
+
+    public function findAll(): ?Collection
+    {
+        return null;
     }
 
     public function find($id, $lockMode = null, $lockVersion = null): ?EntityInterface
@@ -107,9 +129,8 @@ trait XmlStorageManagerTrait
      * @tutorial what does make sense are concrete implementations. eg: UserRepository::findAll() to return all users
      * or a CategoryRepository::findAll() to get a list of folders or a NavigationRepository::findAll() to get a list of navs
      */
-    abstract public function findAll(): ?Collection;
-
-    private function getEmptyDOMDocument(): \DOMDocument
+    // abstract public function findAll(): ?Collection;
+    public function getEmptyDom(): \DOMDocument
     {
         $dom = new \DOMDocument('1.0', 'utf-8');
         $dom->preserveWhiteSpace = false;
@@ -123,7 +144,7 @@ trait XmlStorageManagerTrait
     private function getSerializer(): Serializer
     {
         $encoders = [new SchemaEncoder()];
-        $normalizers = [new JsonSerializableNormalizer()];
+        $normalizers = [new SchemaNormalizer()];
 
         return new Serializer($normalizers, $encoders);
     }

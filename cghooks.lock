@@ -1,1 +1,1 @@
-["pre-commit","commit-msg"]
+["pre-commit","commit-msg","post-commit"]

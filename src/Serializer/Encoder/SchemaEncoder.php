@@ -7,9 +7,9 @@ namespace DOM\ORM\Serializer\Encoder;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
-class SchemaEncoder implements EncoderInterface, DecoderInterface
+class SchemaEncoder implements SchemaEncoderInterface, EncoderInterface, DecoderInterface
 {
-    public const FORMAT = 'group_item_fragment_xml';
+    public const FORMAT = 'dom_orm_schema';
 
     protected \DOMDocument $dom;
 
@@ -30,7 +30,7 @@ class SchemaEncoder implements EncoderInterface, DecoderInterface
         return $format === self::FORMAT;
     }
 
-    public function encode($data, string $format, array $context = []): string
+    public function encode($data, string $format = null, array $context = []): string
     {
         // Node
         $elementName = array_keys($data)[0]; // root key is element name
@@ -78,16 +78,40 @@ class SchemaEncoder implements EncoderInterface, DecoderInterface
         $parentNode->appendChild($node);
 
         // convert to XML string and return
-        return $this->dom->saveXML($this->dom->documentElement);
+        return $this->dom->saveXML();
     }
 
-    public function decode(string $data, string $format, array $context = []): array
+    public function decode(string|\DOMDocument $data, string $format, array $context = []): array
     {
-        return $this->parseXml($data);
-    }
+        if (\is_string($data)) {
+            $isXml = (\simplexml_load_string($data) !== false);
+            if (!$isXml) {
+                throw new \InvalidArgumentException('Only XML strings are supported or DOMDocument is supported.');
+            }
+            $xml = $data;
+            $data = new \DOMDocument();
+            $data->loadXML($xml);
+        }
 
-    private function parseXml(string $data): array
-    {
-        return [];
+        if (!$data instanceof \DOMDocument) {
+            throw new \InvalidArgumentException('Neither XML nor DOMDocument was passed.');
+        }
+
+        if (!$data->schemaValidate(__DIR__ . '/../../Resources/schema/schema.xsd')) {
+            throw new \InvalidArgumentException('The XML document is not .');
+        }
+
+        $xpath = new \DOMXPath($data);
+        $array = [];
+        $tmp = [];
+        $tmp['@id'] = $data->documentElement->getAttribute('id');
+        foreach ($data->documentElement->childNodes as $fragment) {
+            $tmp[$fragment->getAttribute('name')] = $fragment->nodeValue;
+        }
+        $array[] = [
+            $data->documentElement->nodeName => $tmp,
+        ];
+
+        return $array;
     }
 }
