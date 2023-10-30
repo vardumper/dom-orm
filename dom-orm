@@ -1,0 +1,41 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * This file is part of DOM-ORM.
+ *
+ * (c) Erik Pöhler <info@erikpoehler.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+
+set_error_handler(static function ($severity, $message, $file, $line) {
+    if ($severity & error_reporting()) {
+        throw new ErrorException($message, 0, $severity, $file, $line);
+    }
+});
+
+$possibleFiles = [__DIR__.'/../../autoload.php', __DIR__.'/../autoload.php', __DIR__.'/vendor/autoload.php'];
+$file = null;
+foreach ($possibleFiles as $possibleFile) {
+    if (file_exists($possibleFile)) {
+        $file = $possibleFile;
+
+        break;
+    }
+}
+
+if (null === $file) {
+    throw new RuntimeException('Unable to locate autoload.php file.');
+}
+
+require_once $file;
+
+use Silly\Application;
+$app = new Application('DOM-ORM CLI Tool', '0.1.0');
+$app->run();
+
+__HALT_COMPILER();

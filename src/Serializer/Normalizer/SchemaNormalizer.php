@@ -25,9 +25,9 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
     public const TYPE = 'array';
     private JsonSerializableNormalizer $normalizer;
 
-    public function __construct(JsonSerializableNormalizer $normalizer)
+    public function __construct(JsonSerializableNormalizer $jsonSerializableNormalizer)
     {
-        $this->normalizer = $normalizer;
+        $this->normalizer = $jsonSerializableNormalizer;
     }
 
     public function normalize(mixed $object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
