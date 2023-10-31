@@ -7,6 +7,7 @@ namespace DOM\ORM\Traits;
 use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
+use DOM\ORM\Serializer\SchemaSerializer;
 use Ramsey\Collection\Collection;
 use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -29,7 +30,7 @@ trait XmlStorageManagerTrait
         $xml->load($storage);
         $this->data = $xml;
         // $this->xpath = new \DOMXPath($xml);
-        // $this->serializer = $this->getSerializer();
+        $this->serializer = $this->getSerializer();
     }
 
     public function init(string $storage): void
@@ -130,6 +131,6 @@ trait XmlStorageManagerTrait
 
     private function getSerializer(): Serializer
     {
-        return new Serializer([new SchemaNormalizer(new JsonSerializableNormalizer())], [new SchemaEncoder()]);
+        return new SchemaSerializer(new SchemaNormalizer(new JsonSerializableNormalizer()), new SchemaEncoder());
     }
 }

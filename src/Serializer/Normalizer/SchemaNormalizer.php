@@ -14,8 +14,6 @@ use Symfony\Component\Yaml\Yaml;
 
 class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-    use \Symfony\Component\Serializer\SerializerAwareTrait;
-
     /**
      * The supported format.
      */
@@ -39,8 +37,11 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
         }
 
         // return $this->normalizer->serializer->normalize($object->jsonSerialize(), $format, $context);
+        if (function_exists('\uopz_implement')) {
+            \uopz_implement(get_class($object), \JsonSerializable::class);
+        }
 
-        return $this->normalizer->getSerializer()->normalize($object, $format, $context);
+        return $this->normalizer->normalize($object, $format, $context);
     }
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
