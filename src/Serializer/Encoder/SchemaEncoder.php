@@ -32,8 +32,8 @@ class SchemaEncoder implements SchemaEncoderInterface, EncoderInterface, Decoder
 
     public function encode($data, string $format = null, array $context = []): string
     {
-        if ($data === null) {
-            return '';
+        if (!is_array($data)) {
+            throw new \InvalidArgumentException('Only arrays are supported.');
         }
         // Node
         $elementName = array_keys($data)[0]; // root key is element name

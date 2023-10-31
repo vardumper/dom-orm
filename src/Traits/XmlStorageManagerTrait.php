@@ -81,6 +81,7 @@ trait XmlStorageManagerTrait
         }
 
         $array = $this->serializer->normalize($entity, SchemaNormalizer::FORMAT);
+        die('hello');
         $xml = $this->serializer->encode($array, SchemaEncoder::FORMAT);
         $tmp = $this->getEmptyDom();
         $tmp->loadXML($xml);
