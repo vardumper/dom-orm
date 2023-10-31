@@ -2,13 +2,13 @@
 
 namespace DOM\ORM\Serializer;
 
-use Symfony\Component\Serializer\Encoder\EncoderInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use DOM\ORM\Serializer\Encoder\SchemaEncoder;
+use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 class SchemaSerializer extends Serializer
 {
-    public function __construct(NormalizerInterface $normalizer, EncoderInterface $encoder)
+    public function __construct(SchemaNormalizer $normalizer, SchemaEncoder $encoder)
     {
         parent::__construct([$normalizer], [$encoder]);
     }
