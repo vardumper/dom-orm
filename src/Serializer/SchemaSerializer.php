@@ -4,9 +4,11 @@ namespace DOM\ORM\Serializer;
 
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Serializer;
 
-class SchemaSerializer extends Serializer
+class SchemaSerializer extends Serializer implements NormalizerInterface, DenormalizerInterface
 {
     public function __construct(SchemaNormalizer $normalizer, SchemaEncoder $encoder)
     {
