@@ -14,6 +14,8 @@ use Symfony\Component\Yaml\Yaml;
 
 class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
 {
+    use \Symfony\Component\Serializer\SerializerAwareTrait;
+
     /**
      * The supported format.
      */
@@ -32,13 +34,13 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
 
     public function normalize(mixed $object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        // Add your additional functionality here
-        // ...
+        if (!$object instanceof AbstractEntity) {
+            throw new \InvalidArgumentException(sprintf('The object must extend "%s" or implement %s.', AbstractEntity::class, \JsonSerializable::class));
+        }
 
-        // Call the original normalize() method
-        var_dump($format);
+        // return $this->normalizer->serializer->normalize($object->jsonSerialize(), $format, $context);
 
-        return $this->normalizer->normalize($object, $format, $context);
+        return $this->normalizer->getSerializer()->normalize($object, $format, $context);
     }
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
@@ -117,6 +119,8 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
 
         $children = [];
         $children[AbstractEntity::class] = $isCacheable;
+
+        return $children;
         foreach (get_declared_classes() as $class) {
             $reflected = new \ReflectionClass($class);
             if ($reflected->isSubclassOf(AbstractEntity::class)) {

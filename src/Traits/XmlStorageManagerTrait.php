@@ -10,18 +10,17 @@ use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use Ramsey\Collection\Collection;
 use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\SerializerInterface;
 
 trait XmlStorageManagerTrait
 {
     use AttributeResolverTrait;
+    use \Symfony\Component\Serializer\SerializerAwareTrait;
+
     protected const STORAGE_PATH = __DIR__ . '/../../storage/';
     protected const FILENAME = 'data.xml';
 
     protected \DOMDocument $data;
     protected \DOMXPath $xpath;
-
-    protected SerializerInterface $serializer;
 
     public function loadData($storage)
     {
@@ -31,6 +30,8 @@ trait XmlStorageManagerTrait
         // $this->xpath = new \DOMXPath($xml);
         // $this->serializer = $this->getSerializer();
     }
+
+
 
     public function init(string $storage): void
     {
