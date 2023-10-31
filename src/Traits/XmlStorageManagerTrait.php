@@ -8,6 +8,7 @@ use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use Ramsey\Collection\Collection;
+use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -21,20 +22,6 @@ trait XmlStorageManagerTrait
     protected \DOMXPath $xpath;
 
     protected SerializerInterface $serializer;
-
-    // public function __construct(?string $storage = null)
-    // {
-    //     if ($storage === null) {
-    //         $storage = self::STORAGE_PATH . self::FILENAME;
-    //     }
-    //     die($storage);
-    //     $this->init($storage); // does nothing if file exists
-    //     $xml = $this->getEmptyDOMDocument();
-    //     $xml->load($storage);
-    //     $this->data = $xml;
-    //     $this->xpath = new \DOMXPath($xml);
-    //     $this->serializer = $this->getSerializer();
-    // }
 
     public function loadData($storage)
     {
@@ -143,9 +130,6 @@ trait XmlStorageManagerTrait
 
     private function getSerializer(): Serializer
     {
-        $encoders = [new SchemaEncoder()];
-        $normalizers = [new SchemaNormalizer()];
-
-        return new Serializer($normalizers, $encoders);
+        return new Serializer([new SchemaNormalizer(new JsonSerializableNormalizer())], [new SchemaEncoder()]);
     }
 }

@@ -36,6 +36,8 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
         // ...
 
         // Call the original normalize() method
+        var_dump($format);
+
         return $this->normalizer->normalize($object, $format, $context);
     }
 
@@ -107,5 +109,26 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
 
         // otherwise: neither json nor yaml, cheack params
         return $type === static::TYPE && $format === static::FORMAT;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        $isCacheable = static::class === __CLASS__ || $this->hasCacheableSupportsMethod();
+
+        $children = [];
+        $children[AbstractEntity::class] = $isCacheable;
+        foreach (get_declared_classes() as $class) {
+            $reflected = new \ReflectionClass($class);
+            if ($reflected->isSubclassOf(AbstractEntity::class)) {
+                $children[$class] = $isCacheable;
+            }
+        }
+
+        return $children;
+    }
+
+    public function hasCacheableSupportsMethod(): bool
+    {
+        return true;
     }
 }
