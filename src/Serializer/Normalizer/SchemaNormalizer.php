@@ -38,7 +38,7 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
 
         // return $this->normalizer->serializer->normalize($object->jsonSerialize(), $format, $context);
         if (function_exists('\uopz_implement')) {
-            \uopz_implement(get_class($object), \JsonSerializable::class);
+            \uopz_implement($object::class, \JsonSerializable::class);
         }
 
         return $this->normalizer->normalize($object, $format, $context);

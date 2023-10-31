@@ -9,7 +9,7 @@ use DOM\ORM\Traits\AttributeResolverTrait;
 use Ramsey\Collection\Collection;
 use Ramsey\Uuid\Uuid;
 
-abstract class AbstractEntity implements EntityInterface
+class AbstractEntity implements EntityInterface
 {
     use AttributeResolverTrait;
 
