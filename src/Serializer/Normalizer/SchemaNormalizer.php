@@ -23,6 +23,7 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
      * The supported type to denormalize to.
      */
     public const TYPE = 'array';
+
     private JsonSerializableNormalizer $normalizer;
 
     public function __construct(JsonSerializableNormalizer $jsonSerializableNormalizer)
