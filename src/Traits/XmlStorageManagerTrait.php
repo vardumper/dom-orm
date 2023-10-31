@@ -79,7 +79,7 @@ trait XmlStorageManagerTrait
             throw new \InvalidArgumentException('Invalid parent node given. Allowed parents are: ' . implode(', ', $allowedParentPaths));
         }
 
-        $array = $this->serializer->normalize($entity, null);
+        $array = $this->serializer->normalize($entity, SchemaNormalizer::FORMAT);
         $xml = $this->serializer->encode($array, SchemaEncoder::FORMAT);
         $tmp = $this->getEmptyDom();
         $tmp->loadXML($xml);
