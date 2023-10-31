@@ -7,7 +7,6 @@ namespace DOM\ORM\Serializer\Normalizer;
 use DOM\ORM\Entity\AbstractEntity;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -24,25 +23,13 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
      */
     public const TYPE = 'array';
 
-    private JsonSerializableNormalizer $normalizer;
-
-    public function __construct(JsonSerializableNormalizer $jsonSerializableNormalizer)
-    {
-        $this->normalizer = $jsonSerializableNormalizer;
-    }
-
     public function normalize(mixed $object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         if (!$object instanceof AbstractEntity) {
             throw new \InvalidArgumentException(sprintf('The object must extend "%s" or implement %s.', AbstractEntity::class, \JsonSerializable::class));
         }
 
-        // return $this->normalizer->serializer->normalize($object->jsonSerialize(), $format, $context);
-        if (function_exists('\uopz_implement')) {
-            \uopz_implement($object::class, \JsonSerializable::class);
-        }
-
-        return $this->normalizer->normalize($object, $format, $context);
+        return $object->jsonSerialize();
     }
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed

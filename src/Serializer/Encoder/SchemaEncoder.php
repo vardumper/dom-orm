@@ -7,7 +7,7 @@ namespace DOM\ORM\Serializer\Encoder;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
-class SchemaEncoder implements SchemaEncoderInterface, EncoderInterface, DecoderInterface
+class SchemaEncoder implements EncoderInterface, DecoderInterface
 {
     public const FORMAT = 'dom_orm_schema';
 

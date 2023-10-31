@@ -3,16 +3,17 @@
 namespace DOM\ORM\Serializer;
 
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
-use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
+use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Serializer;
 
-class SchemaSerializer extends Serializer
+class SchemaSerializer extends Serializer implements NormalizerInterface
 {
     protected $encoder;
 
-    private JsonSerializableNormalizer $normalizer;
+    private SchemaNormalizer $normalizer;
 
-    public function __construct(JsonSerializableNormalizer $normalizer, SchemaEncoder $encoder)
+    public function __construct(SchemaNormalizer $normalizer, SchemaEncoder $encoder)
     {
         $this->normalizer = $normalizer;
         $this->encoder = $encoder;

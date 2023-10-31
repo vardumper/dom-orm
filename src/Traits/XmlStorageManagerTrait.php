@@ -9,7 +9,6 @@ use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use DOM\ORM\Serializer\SchemaSerializer;
 use Ramsey\Collection\Collection;
-use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
 use Symfony\Component\Serializer\SerializerAwareTrait;
 
 trait XmlStorageManagerTrait
@@ -131,6 +130,6 @@ trait XmlStorageManagerTrait
 
     private function getSerializer(): SchemaSerializer
     {
-        return new SchemaSerializer(new SchemaNormalizer(new JsonSerializableNormalizer()), new SchemaEncoder());
+        return new SchemaSerializer(new SchemaNormalizer(), new SchemaEncoder());
     }
 }
