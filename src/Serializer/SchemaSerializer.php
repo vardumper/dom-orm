@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Serializer;
+namespace DOM\ORM\Serializer;
 
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -13,15 +13,15 @@ class SchemaSerializer extends Serializer
         parent::__construct([$normalizer], [$encoder]);
     }
 
-    public function serialize(mixed $data, string $format, array $context = []): string
-    {
-        // Implement your custom serialization logic here
-        return '';
-    }
+    // final public function serialize(mixed $data, string $format, array $context = []): string
+    // {
+    //     // Implement your custom serialization logic here
+    //     return '';
+    // }
 
-    public function deserialize(mixed $data, string $type, string $format, array $context = []): mixed
-    {
-        return '';
-        // Implement your custom deserialization logic here
-    }
+    // public function deserialize(mixed $data, string $type, string $format, array $context = []): mixed
+    // {
+    //     return '';
+    //     // Implement your custom deserialization logic here
+    // }
 }
