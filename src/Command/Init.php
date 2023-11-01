@@ -7,9 +7,9 @@ class Init
 {
     protected static $defaultName = 'dom-orm:init';
 
-    public static function run($path): void
+    public static function run(): void
     {
-        $storage = $path . '/storage/data.xml';
+        $storage = getcwd() . '/storage/data.xml';
 
         if (!\is_dir(\dirname($storage))) {
             \mkdir(\dirname($storage), 0755, true);

@@ -3,9 +3,9 @@
   <xs:element name="data">
     <xs:complexType>
       <xs:sequence>
-        <xs:element maxOccurs="unbounded" ref="group"/>
-        <xs:element maxOccurs="unbounded" ref="item"/>
-        <xs:element maxOccurs="unbounded" ref="fragment"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="group"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="item"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="fragment"/>
       </xs:sequence>
       <xs:attribute name="id"/>
     </xs:complexType>
@@ -14,6 +14,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" maxOccurs="unbounded" ref="item"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="fragment"/>
       </xs:sequence>
       <xs:attribute name="type" use="required" type="xs:NCName"/>
     </xs:complexType>

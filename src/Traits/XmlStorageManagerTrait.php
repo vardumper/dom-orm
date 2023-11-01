@@ -9,12 +9,10 @@ use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use DOM\ORM\Serializer\SchemaSerializer;
 use Ramsey\Collection\Collection;
-use Symfony\Component\Serializer\SerializerAwareTrait;
 
 trait XmlStorageManagerTrait
 {
     use AttributeResolverTrait;
-    use SerializerAwareTrait;
 
     protected const STORAGE_PATH = __DIR__ . '/../../storage/';
     protected const FILENAME = 'data.xml';
@@ -88,7 +86,7 @@ trait XmlStorageManagerTrait
             $parent->appendChild($importedNode);
         }
 
-        $this->data->save(self::STORAGE_PATH . self::FILENAME, LIBXML_NOXMLDECL);
+        $this->data->save(getcwd() . '/storage/data.xml', LIBXML_NOXMLDECL);
     }
 
     public function findAll(): ?Collection

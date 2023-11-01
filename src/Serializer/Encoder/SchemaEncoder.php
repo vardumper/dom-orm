@@ -84,8 +84,13 @@ class SchemaEncoder implements EncoderInterface, DecoderInterface
         return $this->dom->saveXML();
     }
 
-    public function decode(string|\DOMDocument $data, string $format, array $context = []): array
+    /**
+     * Decodes an entire XML Document or single DOMElement nodes into an array in a format that can be used for serialization.
+     * @throws \InvalidArgumentException
+     */
+    public function decode(string|\DOMDocument|\DOMElement $data, string $format, array $context = []): array
     {
+        // if a XML string is passed, load it into an empty DOM
         if (\is_string($data)) {
             $isXml = (\simplexml_load_string($data) !== false);
             if (!$isXml) {
@@ -96,25 +101,63 @@ class SchemaEncoder implements EncoderInterface, DecoderInterface
             $data->loadXML($xml);
         }
 
-        if (!$data instanceof \DOMDocument) {
-            throw new \InvalidArgumentException('Neither XML nor DOMDocument was passed.');
+        // Make sure that $data is DOMDocument ot DOMElement
+        if (!$data instanceof \DOMDocument && !$data instanceof \DOMElement) {
+            throw new \InvalidArgumentException('Neither an XML string, DOMElement nor DOMDocument was passed.');
         }
 
-        if (!$data->schemaValidate(__DIR__ . '/../../Resources/schema/schema.xsd')) {
-            throw new \InvalidArgumentException('The XML document is not .');
+        // If a DOMDocument is passed, validate against XSD
+        if ($data instanceof \DOMDocument) {
+            // only run schea validation against DOMDocument
+            if (!$data->schemaValidate(__DIR__ . '/../../Resources/schema/schema.xsd')) {
+                throw new \InvalidArgumentException('The XML document does not comply to the schema.xsd');
+            }
         }
 
-        $xpath = new \DOMXPath($data);
-        $array = [];
+        // If a DOMElement is passed, load into empty DOM
+        if ($data instanceof \DOMElement) {
+            $xml = $data;
+            $data = new \DOMDocument();
+            $importedNode = $data->importNode($xml, true);
+            $data->appendChild($importedNode);
+        }
+
+        $return = [];
         $tmp = [];
-        $tmp['@id'] = $data->documentElement->getAttribute('id');
-        foreach ($data->documentElement->childNodes as $fragment) {
-            $tmp[$fragment->getAttribute('name')] = $fragment->nodeValue;
-        }
-        $array[] = [
-            $data->documentElement->nodeName => $tmp,
-        ];
 
-        return $array;
+        if ($data->documentElement->hasAttribute('id')) {
+            $tmp['@id'] = $data->documentElement->getAttribute('id');
+        }
+        if ($data->documentElement->hasAttribute('type')) {
+            $tmp['@type'] = $data->documentElement->getAttribute('type');
+        }
+
+        foreach ($data->documentElement->childNodes as $child) {
+            if ($child->nodeName === 'group') {
+                $tmp[$child->getAttribute('type')] = [];
+                foreach ($child->childNodes as $subChild) {
+                    $tmp[$child->getAttribute('type')][] = $this->decode($subChild, $format, $context);
+                }
+            }
+            if ($child->nodeName === 'item') {
+                $children = [];
+                foreach ($child->childNodes as $subChild) {
+                    if ($subChild->nodeName === 'fragment') {
+                        $children[$subChild->getAttribute('name')] = $subChild->nodeValue;
+
+                        continue;
+                    }
+                    $children[] = $this->decode($subChild, $format, $context);
+                }
+                $tmp[$child->nodeName . '-' . $child->getAttribute('id')] = [
+                    '@id' => $child->getAttribute('id'),
+                    '@type' => $child->getAttribute('type'),
+                ];
+                $tmp = array_merge($tmp[$child->nodeName . '-' . $child->getAttribute('id')], $children);
+            }
+            $return[$child->nodeName . '-' . $child->getAttribute('id')] = $tmp;
+        }
+
+        return $return;
     }
 }

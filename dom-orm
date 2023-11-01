@@ -34,18 +34,23 @@ if (null === $file) {
 
 require_once $file;
 
+use DOM\ORM\Command\Backup;
 use DOM\ORM\Command\Init;
 use Silly\Application;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 
 $app = new Application('DOM-ORM CLI Tool', '0.1.0');
 
-$app->command('init [-p|--path]', function (ConsoleOutputInterface $output, $path) {
+$app->command('init', function (ConsoleOutputInterface $output) {
     $output->writeln('Initializing database...');
+    Init::run();
+    $output->writeln('Done.');
+});
 
-    Init::run($path);
-
-    $output->writeln('Diagnostics output has been copied to your clipboard.');
+$app->command('backup', function (ConsoleOutputInterface $output) {
+    $output->writeln('Creating a database backup...');
+    Backup::run();
+    $output->writeln('Done.');
 });
 
 $app->setDefaultCommand('init');
