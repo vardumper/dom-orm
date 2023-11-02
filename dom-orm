@@ -42,14 +42,15 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
 $app = new Application('DOM-ORM CLI Tool', '0.1.0');
 
 $app->command('list', function (ConsoleOutputInterface $output) {
-    $output->writeln('Available commands:');
-    $output->writeln('list');
-    $output->writeln('init');
-    $output->writeln('backup');
-    $output->writeln('schema-validate');
-    $output->writeln('import [file]');
-    $output->writeln('export [file] --<format>');
-    $output->writeln('diagnose');
+    $output->writeln(sprintf("DOM-ORM <fg=green>%s</>",'1.0.0'));
+    $output->writeln("Available commands:");
+    $output->writeln('<fg=green>backup</>           Backup the database.');
+    $output->writeln('<fg=green>diagnose</>         Diagnose the database.');
+    $output->writeln('<fg=green>export</>           Export the database.');
+    $output->writeln('<fg=green>import</>           Import into the database.');
+    $output->writeln('<fg=green>init</>             Initialize the database');
+    $output->writeln('<fg=green>list</>             List commands');
+    $output->writeln('<fg=green>schema-validate</>  Validate the database schema.');
 });
 
 $app->command('init', function (ConsoleOutputInterface $output) {
@@ -86,7 +87,7 @@ $app->command('diagnose', function (ConsoleOutputInterface $output) {
     Diagnose::run();
 });
 
-$app->setDefaultCommand('list');
+// $app->setDefaultCommand('list');
 $app->run();
 
 __HALT_COMPILER();
