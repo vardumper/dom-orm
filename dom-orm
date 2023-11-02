@@ -12,7 +12,7 @@
 
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 
-set_error_handler(static fn ($severity, $message, $file, $line) => {
+set_error_handler(static function ($severity, $message, $file, $line) {
     if ($severity & error_reporting()) {
         throw new ErrorException($message, 0, $severity, $file, $line);
     }
@@ -41,7 +41,7 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
 
 $app = new Application('DOM-ORM CLI Tool', '0.1.0');
 
-$app->command('list', fn (ConsoleOutputInterface $output) => {
+$app->command('list', function (ConsoleOutputInterface $output) {
     $output->writeln('Available commands:');
     $output->writeln('list');
     $output->writeln('init');
@@ -52,37 +52,37 @@ $app->command('list', fn (ConsoleOutputInterface $output) => {
     $output->writeln('diagnose');
 });
 
-$app->command('init', fn (ConsoleOutputInterface $output) => {
+$app->command('init', function (ConsoleOutputInterface $output) {
     $output->writeln('Initializing database...');
     Init::run();
     $output->writeln('Done.');
 });
 
-$app->command('backup', fn (ConsoleOutputInterface $output) => {
+$app->command('backup', function (ConsoleOutputInterface $output) {
     $output->writeln('Creating a database backup...');
     Backup::run();
     $output->writeln('Done.');
 });
 
-$app->command('schema-validate', fn (ConsoleOutputInterface $output) => {
+$app->command('schema-validate', function (ConsoleOutputInterface $output) {
     $output->writeln('Validating database against schema...');
     Validate::run();
     $output->writeln('Done.');
 });
 
-$app->command('import [file]', fn ( $file, ConsoleOutputInterface $output) => {
+$app->command('import [file]', function ( $file, ConsoleOutputInterface $output) {
     $output->writeln('Importing into database...');
     Import::run();
     $output->writeln('Done.');
 });
 
-$app->command('export [file] [--xml] [--yaml] [--json] [--php]', fn ($file, $xml, $yaml, $json, $php, ConsoleOutputInterface $output) => {
+$app->command('export [file] [--xml] [--yaml] [--json] [--php]', function ($file, $xml, $yaml, $json, $php, ConsoleOutputInterface $output) {
     $output->writeln('Exporting database...');
     Export::run($file, $xml, $yaml, $json, $php);
     $output->writeln('Done.');
 });
 
-$app->command('diagnose', fn (ConsoleOutputInterface $output) => {
+$app->command('diagnose', function (ConsoleOutputInterface $output) {
     Diagnose::run();
 });
 

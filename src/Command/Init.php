@@ -7,26 +7,33 @@ class Init
 {
     protected static $defaultName = 'dom-orm:init';
 
-    public static function run(): void
+    public static function run(): ?string
     {
         $storage = getcwd() . '/storage/data.xml';
 
-        if (!\is_dir(\dirname($storage))) {
-            \mkdir(\dirname($storage), 0755, true);
+        try {
+            if (!\is_dir(\dirname($storage))) {
+                \mkdir(\dirname($storage), 0755, true);
+            }
+
+            if (!\is_writable(\dirname($storage))) {
+                \chmod(\dirname($storage), 0755);
+            }
+        } catch (\Throwable $e) {
+            return sprintf('Unable to create storage directory %s or directory isn`t writable. Check your configuration and permissions. Exiting.', \dirname($storage));
         }
 
-        if (!\is_writable(\dirname($storage))) {
-            \chmod(\dirname($storage), 0755);
+        if (\file_exists($storage)) {
+            return 'Database is already initialized. Exiting.';
         }
+        $dom = new \DOMDocument('1.0', 'utf-8');
+        $dom->preserveWhiteSpace = false;
+        $dom->validateOnParse = false;
+        $dom->strictErrorChecking = false;
+        $dom->formatOutput = true;
+        $dom->loadXML('<data />');
+        $dom->save($storage);
 
-        if (!\file_exists($storage)) {
-            $dom = new \DOMDocument('1.0', 'utf-8');
-            $dom->preserveWhiteSpace = false;
-            $dom->validateOnParse = false;
-            $dom->strictErrorChecking = false;
-            $dom->formatOutput = true;
-            $dom->loadXML('<data />');
-            $dom->save($storage);
-        }
+        return null;
     }
 }
