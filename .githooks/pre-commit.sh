@@ -58,7 +58,7 @@ fi
 PHP_STAN="./vendor/bin/phpstan"
 if ([ -x $PHP_STAN ] && [ -n "$CHANGED_FILES" ]); then
     printf "PHPStan start"
-    if $PHP_STAN analyse --quiet --no-progress --memory-limit=1G $CHANGED_FILES; then
+    if $PHP_STAN analyse --no-progress --memory-limit=1G $CHANGED_FILES; then
       # All good
       printf "${GREEN}PHPStan passed${NC}\n"
     else

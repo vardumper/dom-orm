@@ -6,6 +6,8 @@ namespace DOM\ORM\Serializer\Normalizer;
 
 use DOM\ORM\Entity\AbstractEntity;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
+use DOM\ORM\Traits\AttributeResolverTrait;
+use Ramsey\Collection\Collection;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -13,6 +15,8 @@ use Symfony\Component\Yaml\Yaml;
 
 class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
 {
+    use AttributeResolverTrait;
+
     /**
      * The supported format.
      */
@@ -29,11 +33,85 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
             throw new \InvalidArgumentException(sprintf('The object must extend "%s" or implement %s.', AbstractEntity::class, \JsonSerializable::class));
         }
 
-        return $object->jsonSerialize();
+        $entityType = $this->resolveEntityType($object);
+        $data = [
+            'item-' . $object->getId() => [
+                '@type' => $entityType,
+                '@id' => $object->getId(),
+                // '@class' => get_class($object), - not really needed we can get the class by the entity attribute
+            ],
+        ];
+
+        // fragments
+        $fragments = $this->resolveFragments($object);
+        foreach ($fragments as [$storageStrategy, $fragmentName, $propertyName]) {
+            $name = ($storageStrategy === 'inline') ? '@' . $fragmentName : $fragmentName;
+
+            try {
+                // we expect private properties to be inaccessible here
+                $value = $object->{$propertyName};
+            } catch (\Throwable $th) {
+                // so we'll try to get the value via the getter
+                $methodName = 'get' . ucfirst($propertyName);
+                $value = $object->{$methodName}();
+            }
+
+            // basic sanitization
+            if ($value instanceof \DateTimeInterface) {
+                $value = $value->format('c');
+            }
+
+            $data['item-' . $object->getId()][$name] = $value;
+        }
+
+        $groups = $this->resolveGroups($object);
+
+        // nothing more to do here
+        if ($groups === null) {
+            return $data;
+        }
+
+        foreach ($groups as [$entity, $groupType, $propertyName]) {
+            $name = $groupType ?? $propertyName;
+            $value = null;
+
+            try {
+                // we expect private properties to be inaccessible here
+                $value = $object->{$propertyName};
+            } catch (\Throwable $th) {
+                // so we'll try to get the value via a getter method
+                $methodName = 'get' . ucfirst($propertyName);
+                if (!method_exists($object, $methodName)) {
+                    throw new \InvalidArgumentException(sprintf('Error getting %s value. Make the property public or add a %s() getter method.', $propertyName, $methodName));
+                }
+                $value = $object->{$methodName}();
+            }
+
+            // skip empty groups
+            if ($value === null) {
+                continue;
+            }
+
+            // some basic validation
+            if (!is_array($value) && !$value instanceof Collection && !is_iterable($value)) {
+                throw new \InvalidArgumentException(sprintf('Groups must be of type Ramsey\Collection, an Array of EntityInterface objects or an Iterable. %s given', gettype($value)));
+            }
+
+            // recursion
+            foreach ($value as $item) {
+                if (get_class($item) !== $entity) {
+                    throw new \InvalidArgumentException(sprintf('Wrong EntityInterface type given. Expected type was %s', $entity));
+                }
+                $data['item-' . $object->getId()][$name][] = $this->normalize($item);
+            }
+        }
+
+        return $data;
     }
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
+        /** @todo */
         return true;
     }
 

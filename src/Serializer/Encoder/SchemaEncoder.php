@@ -36,17 +36,21 @@ class SchemaEncoder implements EncoderInterface, DecoderInterface
             throw new \InvalidArgumentException('Only arrays are supported.');
         }
         // Node
-        $elementName = array_keys($data)[0]; // root key is element name
+        $elementName = 'item'; // defaults to item
+        $elementKey = array_keys($data)[0];
 
         // Parent (create root node)
         $node = $this->dom->createElement($elementName);
         $parentNode = ($this->dom->documentElement === null) ? $this->dom : $this->dom->documentElement;
+
         if (isset($context['parentNode']) && $context['parentNode'] instanceof \DOMNode) {
             $parentNode = $context['parentNode'];
         }
 
         // Node attributes
-        foreach ($data[$elementName] as $key => $value) {
+        // var_dump($data);
+        // exit;
+        foreach ($data[$elementKey] as $key => $value) {
             if (strpos($key, '@') === 0) {
                 /** @todo validate key */
                 /** @todo validate value */
@@ -59,8 +63,7 @@ class SchemaEncoder implements EncoderInterface, DecoderInterface
 
                     $context['parentNode'] = $group;
                     foreach ($value as $element) {
-                        // recursion into sub-items
-                        $this->encode($element, $format, $context);
+                        $this->encode($element, $format, $context); // recursion into sub-items
                     }
                     $node->appendChild($group);
                 }
@@ -88,8 +91,10 @@ class SchemaEncoder implements EncoderInterface, DecoderInterface
      * Decodes an entire XML Document or single DOMElement nodes into an array in a format that can be used for serialization.
      * @throws \InvalidArgumentException
      */
-    public function decode(string|\DOMDocument|\DOMElement $data, string $format, array $context = []): array
+    public function decode(string|\DOMDocument|\DOMElement $data, string $format, array $context = []): ?array
     {
+        $return = null;
+
         // if a XML string is passed, load it into an empty DOM
         if (\is_string($data)) {
             $isXml = (\simplexml_load_string($data) !== false);
@@ -103,7 +108,7 @@ class SchemaEncoder implements EncoderInterface, DecoderInterface
 
         // Make sure that $data is DOMDocument ot DOMElement
         if (!$data instanceof \DOMDocument && !$data instanceof \DOMElement) {
-            throw new \InvalidArgumentException('Neither an XML string, DOMElement nor DOMDocument was passed.');
+            throw new \InvalidArgumentException('Only an XML string, a DOMElement or a DOMDocument is supported.');
         }
 
         // If a DOMDocument is passed, validate against XSD
@@ -122,42 +127,71 @@ class SchemaEncoder implements EncoderInterface, DecoderInterface
             $data->appendChild($importedNode);
         }
 
-        $return = [];
-        $tmp = [];
+        $rootNodeName = $data->documentElement->nodeName;
 
-        if ($data->documentElement->hasAttribute('id')) {
-            $tmp['@id'] = $data->documentElement->getAttribute('id');
-        }
-        if ($data->documentElement->hasAttribute('type')) {
-            $tmp['@type'] = $data->documentElement->getAttribute('type');
-        }
-
-        foreach ($data->documentElement->childNodes as $child) {
-            if ($child->nodeName === 'group') {
-                $tmp[$child->getAttribute('type')] = [];
-                foreach ($child->childNodes as $subChild) {
-                    $tmp[$child->getAttribute('type')][] = $this->decode($subChild, $format, $context);
-                }
-            }
-            if ($child->nodeName === 'item') {
-                $children = [];
-                foreach ($child->childNodes as $subChild) {
-                    if ($subChild->nodeName === 'fragment') {
-                        $children[$subChild->getAttribute('name')] = $subChild->nodeValue;
-
-                        continue;
-                    }
-                    $children[] = $this->decode($subChild, $format, $context);
-                }
-                $tmp[$child->nodeName . '-' . $child->getAttribute('id')] = [
-                    '@id' => $child->getAttribute('id'),
-                    '@type' => $child->getAttribute('type'),
-                ];
-                $tmp = array_merge($tmp[$child->nodeName . '-' . $child->getAttribute('id')], $children);
-            }
-            $return[$child->nodeName . '-' . $child->getAttribute('id')] = $tmp;
-        }
+        match ($rootNodeName) {
+            'data' => $return = $this->decodeData($data, $format, $context),
+            'group' => $return = $this->decodeGroup($data, $format, $context),
+            'item' => $return = $this->decodeItem($data, $format, $context),
+            'fragment' => $return = $this->decodeFragment($data, $format, $context),
+            default => throw new \InvalidArgumentException(sprintf('Unsopperted element %s given. Supported elements are data, group, item and fragment.', $rootNodeName)),
+        };
 
         return $return;
+    }
+
+    private function decodeData($data, $format, $context): ?array
+    {
+        $tmp = [];
+        foreach ($data->documentElement->childNodes as $child) {
+            $tmp[] = $this->decode($child, $format, $context);
+        }
+
+        return [
+            'data' => $tmp,
+        ];
+    }
+
+    private function decodeGroup($data, $format, $context): ?array
+    {
+        $groupType = $data->documentElement->getAttribute('type');
+        $groupItems = [];
+        foreach ($data->documentElement->childNodes as $child) {
+            $groupItems = $this->decode($child, $format, $context);
+        }
+
+        return [
+            $groupType => $groupItems,
+        ];
+    }
+
+    private function decodeItem($data, $format, $context): ?array
+    {
+        $id = $data->documentElement->getAttribute('id');
+
+        $itemData = [
+            '@id' => $id,
+            '@type' => $data->documentElement->getAttribute('type'),
+            // '@class' => $data->documentElement->getAttribute('class'), not really needed, we find the class by its attribute
+        ];
+
+        // merge each child node into itemData
+        foreach ($data->documentElement->childNodes as $child) {
+            $itemData = array_merge($itemData, $this->decode($child, $format, $context));
+        }
+
+        return [
+            'item-' . $id => $itemData,
+        ];
+    }
+
+    private function decodeFragment($data, $format, $context): ?array
+    {
+        $name = $data->documentElement->getAttribute('name');
+        $value = $data->documentElement->nodeValue;
+
+        return [
+            $name => $value,
+        ];
     }
 }

@@ -5,14 +5,10 @@ declare(strict_types=1);
 namespace DOM\ORM\Entity;
 
 use DOM\ORM\Mapping\Fragment;
-use DOM\ORM\Traits\AttributeResolverTrait;
-use Ramsey\Collection\Collection;
 use Ramsey\Uuid\Uuid;
 
-abstract class AbstractEntity implements EntityInterface, \JsonSerializable
+abstract class AbstractEntity implements EntityInterface
 {
-    use AttributeResolverTrait;
-
     #[Fragment(storageStrategy: 'inline')]
     private ?string $id = null;
 
@@ -77,81 +73,5 @@ abstract class AbstractEntity implements EntityInterface, \JsonSerializable
     public function hasAllowedParentPaths(): bool
     {
         return $this->allowedParentPaths !== null;
-    }
-
-    public function jsonSerialize(): array
-    {
-        $entityType = $this->resolveEntityType($this);
-        $data = [
-            'item' => [
-                '@type' => $entityType,
-                '@id' => $this->getId(),
-            ],
-        ];
-
-        $fragments = $this->resolveFragments($this);
-        foreach ($fragments as [$storageStrategy, $fragmentName, $propertyName]) {
-            $name = ($storageStrategy === 'inline') ? '@' . $fragmentName : $fragmentName;
-
-            try {
-                // we expect private properties to be inaccessible here
-                $value = $this->{$propertyName};
-            } catch (\Throwable $th) {
-                // so we'll try to get the value via the getter
-                $methodName = 'get' . ucfirst($propertyName);
-                $value = $this->{$methodName}();
-            }
-
-            // basic sanitization
-            if ($value instanceof \DateTimeInterface) {
-                $value = $value->format('c');
-            }
-
-            $data['item'][$name] = $value;
-        }
-
-        $groups = $this->resolveGroups($this);
-
-        // nothing more to do here
-        if ($groups === null) {
-            return $data;
-        }
-
-        foreach ($groups as [$entity, $groupType, $propertyName]) {
-            $name = $groupType ?? $propertyName;
-            $value = null;
-
-            try {
-                // we expect private properties to be inaccessible here
-                $value = $this->{$propertyName};
-            } catch (\Throwable $th) {
-                // so we'll try to get the value via the getter
-                $methodName = 'get' . ucfirst($propertyName);
-                $value = $this->{$methodName}();
-            }
-
-            // skip empty groups
-            if ($value === null) {
-                continue;
-            }
-
-            // basic validation
-            if (!is_array($value) && !$value instanceof Collection) {
-                throw new \Exception('wtf');
-            }
-            if (!is_iterable($value) && !$value instanceof Collection) {
-                throw new \InvalidArgumentException(sprintf('Groups must be of type Ramsey\Collection or an array of EntityInterface objects. %s given', gettype($value)));
-            }
-
-            // recursion
-            foreach ($value as $item) {
-                if (get_class($item) !== $entity) {
-                    throw new \InvalidArgumentException(sprintf('Wrong EntityInterface type given. Expected type was %s', $entity));
-                }
-                $data['item'][$name][] = $item->jsonSerialize();
-            }
-        }
-
-        return $data;
     }
 }
