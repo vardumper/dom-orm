@@ -86,7 +86,7 @@ $app->command('diagnose', function (ConsoleOutputInterface $output) {
     Diagnose::run();
 });
 
-$app->setDefaultCommand('init');
+$app->setDefaultCommand('list');
 $app->run();
 
 __HALT_COMPILER();
