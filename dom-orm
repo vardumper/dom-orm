@@ -12,7 +12,7 @@
 
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 
-set_error_handler(static function ($severity, $message, $file, $line) {
+set_error_handler(static fn ($severity, $message, $file, $line) => {
     if ($severity & error_reporting()) {
         throw new ErrorException($message, 0, $severity, $file, $line);
     }
@@ -41,16 +41,49 @@ use Symfony\Component\Console\Output\ConsoleOutputInterface;
 
 $app = new Application('DOM-ORM CLI Tool', '0.1.0');
 
-$app->command('init', function (ConsoleOutputInterface $output) {
+$app->command('list', fn (ConsoleOutputInterface $output) => {
+    $output->writeln('Available commands:');
+    $output->writeln('list');
+    $output->writeln('init');
+    $output->writeln('backup');
+    $output->writeln('schema-validate');
+    $output->writeln('import [file]');
+    $output->writeln('export [file] --<format>');
+    $output->writeln('diagnose');
+});
+
+$app->command('init', fn (ConsoleOutputInterface $output) => {
     $output->writeln('Initializing database...');
     Init::run();
     $output->writeln('Done.');
 });
 
-$app->command('backup', function (ConsoleOutputInterface $output) {
+$app->command('backup', fn (ConsoleOutputInterface $output) => {
     $output->writeln('Creating a database backup...');
     Backup::run();
     $output->writeln('Done.');
+});
+
+$app->command('schema-validate', fn (ConsoleOutputInterface $output) => {
+    $output->writeln('Validating database against schema...');
+    Validate::run();
+    $output->writeln('Done.');
+});
+
+$app->command('import [file]', fn ( $file, ConsoleOutputInterface $output) => {
+    $output->writeln('Importing into database...');
+    Import::run();
+    $output->writeln('Done.');
+});
+
+$app->command('export [file] [--xml] [--yaml] [--json] [--php]', fn ($file, $xml, $yaml, $json, $php, ConsoleOutputInterface $output) => {
+    $output->writeln('Exporting database...');
+    Export::run($file, $xml, $yaml, $json, $php);
+    $output->writeln('Done.');
+});
+
+$app->command('diagnose', fn (ConsoleOutputInterface $output) => {
+    Diagnose::run();
 });
 
 $app->setDefaultCommand('init');
