@@ -8,17 +8,15 @@ use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use DOM\ORM\Serializer\SchemaSerializer;
-use Ramsey\Collection\Collection;
 
 trait XmlStorageManagerTrait
 {
     use AttributeResolverTrait;
 
-    protected const STORAGE_PATH = __DIR__ . '/../../storage/';
-    protected const FILENAME = 'data.xml';
-
     protected \DOMDocument $data;
     protected \DOMXPath $xpath;
+
+    protected SchemaSerializer $serializer;
 
     public function loadData($storage)
     {
@@ -87,26 +85,6 @@ trait XmlStorageManagerTrait
         }
 
         $this->data->save(getcwd() . '/storage/data.xml', LIBXML_NOXMLDECL);
-    }
-
-    public function findAll(): ?Collection
-    {
-        return null;
-    }
-
-    public function find($id, $lockMode = null, $lockVersion = null): ?EntityInterface
-    {
-        return null;
-    }
-
-    public function findOneBy(array $criteria, array $orderBy = null): ?EntityInterface
-    {
-        return null;
-    }
-
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): ?Collection
-    {
-        return new Collection();
     }
 
     /**

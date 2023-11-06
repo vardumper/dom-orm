@@ -9,7 +9,7 @@ use Ramsey\Collection\Collection;
 
 interface EntityRepositoryInterface
 {
-    public function find($id, $lockMode = null, $lockVersion = null): ?EntityInterface;
+    public function find(string $id): ?EntityInterface;
 
     public function findAll(): ?Collection;
 
