@@ -42,18 +42,18 @@ class Car {
 
 Just like Doctrine ORM, by adding PHP8 Attributes, this library knows how to persist the data into an XML file.
 
-```
+```diff
 use DOM\ORM\Mapping\Fragment;
 use DOM\ORM\Mapping\Group;
 use DOM\ORM\Mapping\Item;
 
-#[Item('car')]
-class Car extends AbstractEntity implements JsonSerializable {
-  #[Fragment]
++ #[Item('car')]
+! class Car extends AbstractEntity implements JsonSerializable {
+  + #[Fragment]
   public string $make;
-  #[Fragment]
+  + #[Fragment]
   public string $model;
-  #[Group(entity: Color::class)]
+  + #[Group(entity: Color::class)]
   public Color[] $colors;
   public function __construct(string $make, string $model)
   {
