@@ -49,15 +49,15 @@ use DOM\ORM\Mapping\Item;
 
 + #[Item('car')]
 ! class Car extends AbstractEntity implements JsonSerializable {
-  + #[Fragment]
++   #[Fragment]
   public string $make;
-  + #[Fragment]
++   #[Fragment]
   public string $model;
-  + #[Group(entity: Color::class)]
++   #[Group(entity: Color::class)]
   public Color[] $colors;
   public function __construct(string $make, string $model)
   {
-    parent::__construct();
++    parent::__construct();
     $this->make = $make;
     $this->model = $model;
   }
