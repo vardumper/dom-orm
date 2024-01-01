@@ -26,6 +26,7 @@
         <xs:element ref="fragment"/>
       </xs:choice>
       <xs:attribute name="id"/>
+      <xs:attribute name="key"/>
       <xs:attribute name="type" use="required" type="xs:NCName"/>
     </xs:complexType>
   </xs:element>
