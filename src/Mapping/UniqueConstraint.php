@@ -14,7 +14,7 @@ final class UniqueConstraint
     public $fragments;
 
     /**
-     * @param array<string>|null       $fragments
+     * @param array<string>|null $fragments
      */
     public function __construct(
         ?array $fragments = null
