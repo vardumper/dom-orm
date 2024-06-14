@@ -29,7 +29,7 @@ abstract class AbstractEntity implements EntityInterface
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->id;
     }
@@ -46,7 +46,7 @@ abstract class AbstractEntity implements EntityInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }

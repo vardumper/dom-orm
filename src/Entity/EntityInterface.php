@@ -6,15 +6,13 @@ namespace DOM\ORM\Entity;
 
 interface EntityInterface
 {
-    public function getId(): ?string;
+    public function getId(): string;
 
     public function getDeletedAt(): ?\DateTimeInterface;
 
     public function setDeletedAt(\DateTimeInterface $deletedAt): static;
 
-    public function getCreatedAt(): ?\DateTimeInterface;
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): static;
+    public function getCreatedAt(): \DateTimeInterface;
 
     public function getUpdatedAt(): ?\DateTimeInterface;
 
