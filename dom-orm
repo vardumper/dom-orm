@@ -35,7 +35,12 @@ if (null === $file) {
 require_once $file;
 
 use DOM\ORM\Command\Backup;
+use DOM\ORM\Command\Diagnose;
+use DOM\ORM\Command\Export;
+use DOM\ORM\Command\Import;
 use DOM\ORM\Command\Init;
+use DOM\ORM\Command\Validate;
+
 use Silly\Application;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 
@@ -84,6 +89,7 @@ $app->command('export [file] [--xml] [--yaml] [--json] [--php]', function ($file
 });
 
 $app->command('diagnose', function (ConsoleOutputInterface $output) {
+    $output->writeln('Diagnose database...');
     Diagnose::run();
 });
 

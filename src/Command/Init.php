@@ -19,7 +19,7 @@ class Init
             if (!\is_writable(\dirname($storage))) {
                 \chmod(\dirname($storage), 0755);
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return sprintf('Unable to create storage directory %s or directory isn`t writable. Check your configuration and permissions. Exiting.', \dirname($storage));
         }
 
