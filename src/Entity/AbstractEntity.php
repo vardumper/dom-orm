@@ -10,12 +10,12 @@ use Ramsey\Uuid\Uuid;
 abstract class AbstractEntity implements EntityInterface
 {
     #[Fragment(storageStrategy: 'inline')]
-    private ?string $id = null;
-
-    private ?array $allowedParentPaths = null;
+    private readonly string $id;
 
     #[Fragment]
-    private ?\DateTimeInterface $createdAt = null;
+    private readonly \DateTimeInterface $createdAt;
+
+    private array $allowedParentPaths;
 
     #[Fragment]
     private ?\DateTimeInterface $updatedAt = null;
@@ -49,13 +49,6 @@ abstract class AbstractEntity implements EntityInterface
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface
