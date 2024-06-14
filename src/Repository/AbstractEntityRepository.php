@@ -46,8 +46,6 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
         return new Collection($this->entityType);
     }
 
-
-
     public function findOneBy(array $criteria, array $orderBy = null): ?EntityInterface
     {
         $this->xpath->query('//item[@type="section"]');

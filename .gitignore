@@ -3,6 +3,7 @@
 # IDE-related
 /.history/
 # OS related
-**/.DS_Storecghooks.lock
+**/.DS_Store
 # Used internally by Git hooks
+cghooks.lock
 /.commit
