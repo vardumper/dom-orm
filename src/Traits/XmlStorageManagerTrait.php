@@ -25,7 +25,7 @@ trait XmlStorageManagerTrait
     {
         $this->storage = new StorageService();
         $xml = $this->getEmptyDom();
-        $xml->load($this->storage->read());
+        $xml->loadXML($this->storage->read());
         $this->data = $xml;
         $this->xpath = new \DOMXPath($xml);
         $this->serializer = $this->getSerializer();
