@@ -19,14 +19,7 @@ set_error_handler(static function ($severity, $message, $file, $line) {
 });
 
 $possibleFiles = [__DIR__.'/../../autoload.php', __DIR__.'/../autoload.php', __DIR__.'/vendor/autoload.php'];
-$file = null;
-foreach ($possibleFiles as $possibleFile) {
-    if (file_exists($possibleFile)) {
-        $file = $possibleFile;
-
-        break;
-    }
-}
+$file = current(array_filter($possibleFiles, 'file_exists'));
 
 if (null === $file) {
     throw new RuntimeException('Unable to locate autoload.php file.');

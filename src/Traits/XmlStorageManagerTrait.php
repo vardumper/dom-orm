@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace DOM\ORM\Traits;
@@ -8,40 +7,28 @@ use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use DOM\ORM\Serializer\SchemaSerializer;
+use DOM\ORM\Storage\StorageService;
 
 trait XmlStorageManagerTrait
 {
     use AttributeResolverTrait;
 
+    protected StorageService $storage;
+
     protected \DOMDocument $data;
+
     protected \DOMXPath $xpath;
 
     protected SchemaSerializer $serializer;
 
-    public function loadData($storage)
+    public function init(): void
     {
+        $this->storage = new StorageService();
         $xml = $this->getEmptyDom();
-        $xml->load($storage);
+        $xml->load($this->storage->read());
         $this->data = $xml;
-        // $this->xpath = new \DOMXPath($xml);
+        $this->xpath = new \DOMXPath($xml);
         $this->serializer = $this->getSerializer();
-    }
-
-    public function init(string $storage): void
-    {
-        if (!is_dir(dirname($storage))) {
-            mkdir(dirname($storage), 0755, true);
-        }
-
-        if (!is_writable(dirname($storage))) {
-            chmod(dirname($storage), 0755);
-        }
-
-        if (!file_exists($storage)) {
-            $xml = $this->getEmptyDom();
-            $xml->loadXML('<data />');
-            $xml->save($storage);
-        }
     }
 
     /**
@@ -49,8 +36,13 @@ trait XmlStorageManagerTrait
      */
     public function persist(EntityInterface $entity, \DOMNode|\DOMNodeList $parent = null): void
     {
+        $this->init();
+
+        if ($parent === null) {
+            $parent = $this->data->documentElement;
+        }
+
         $allowedParentPaths = $this->resolveAllowedParentPaths($entity);
-        // $entityType = $this->resolveEntityType($entity);
 
         if ($allowedParentPaths === null && $parent === null) {
             throw new \InvalidArgumentException('To store an entity a parent node is required.');
@@ -75,7 +67,6 @@ trait XmlStorageManagerTrait
         }
 
         $array = $this->serializer->normalize($entity, SchemaNormalizer::FORMAT);
-        die('hello');
         $xml = $this->serializer->encode($array, SchemaEncoder::FORMAT);
         $tmp = $this->getEmptyDom();
         $tmp->loadXML($xml);
@@ -84,15 +75,10 @@ trait XmlStorageManagerTrait
             $parent->appendChild($importedNode);
         }
 
-        $this->data->save(getcwd() . '/storage/data.xml', LIBXML_NOXMLDECL);
+        $contents = $this->data->saveXML($this->data->documentElement, LIBXML_NOXMLDECL);
+        $this->storage->write($contents);
     }
 
-    /**
-     * find all needs to return every <item> stored in the xml, that doesn't make uch sense, so it's declared abstract
-     * @tutorial what does make sense are concrete implementations. eg: UserRepository::findAll() to return all users
-     * or a CategoryRepository::findAll() to get a list of folders or a NavigationRepository::findAll() to get a list of navs
-     */
-    // abstract public function findAll(): ?Collection;
     public function getEmptyDom(): \DOMDocument
     {
         $dom = new \DOMDocument('1.0', 'utf-8');
