@@ -75,8 +75,23 @@ trait XmlStorageManagerTrait
             $parent->appendChild($importedNode);
         }
 
+        $this->save();
+    }
+
+    public function save(): void
+    {
         $contents = $this->data->saveXML($this->data->documentElement, LIBXML_NOXMLDECL);
         $this->storage->write($contents);
+    }
+
+    public function removeById(string $id): void
+    {
+        $this->init();
+
+        $node = $this->xpath->query("//*[@id='{$id}']")?->item(0);
+        $node->parentNode->removeChild($node);
+
+        $this->save();
     }
 
     public function getEmptyDom(): \DOMDocument
