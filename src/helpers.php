@@ -30,6 +30,10 @@ function getConfig(): Configuration
 
     $file = current(array_filter($possibleFiles, 'file_exists'));
 
+    if (empty($file)) {
+        return $config;
+    }
+
     $config->merge(require_once $file);
 
     return $config;
