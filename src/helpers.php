@@ -9,6 +9,7 @@ use Nette\Schema\Expect;
 
 function getConfig(): Configuration
 {
+    // set defaults
     $config = new Configuration([
         'dom-orm' => Expect::structure([
             'flysystem' => Expect::structure([
@@ -17,6 +18,7 @@ function getConfig(): Configuration
                     'location' => getcwd() . '/storage',
                 ]),
             ]),
+            'filename' => Expect::string()->default('data.xml'),
         ]),
     ]);
 
@@ -34,6 +36,7 @@ function getConfig(): Configuration
         return $config;
     }
 
+    // splat a custom config file into the default config
     $config->merge(require_once $file);
 
     return $config;

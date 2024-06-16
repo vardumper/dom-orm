@@ -10,25 +10,25 @@ class StorageService
 {
     protected readonly Filesystem $filesystem;
 
-    protected readonly string $location;
+    protected readonly string $filename;
 
     public function __construct()
     {
         $config = getConfig();
         $adapterClass = $config->get('dom-orm.flysystem.adapter');
         $options = $config->get('dom-orm.flysystem.config');
-        $adapter = new $adapterClass(extract($options));
-        $this->location = $config->get('dom-orm.location');
+        $adapter = new $adapterClass(...$options);
+        $this->filename = $config->get('dom-orm.filename');
         $this->filesystem = new Filesystem($adapter);
     }
 
     public function read(): string
     {
-        return $this->filesystem->read($this->location);
+        return $this->filesystem->read($this->filename);
     }
 
     public function write($contents): void
     {
-        $this->filesystem->write($this->location, $contents);
+        $this->filesystem->write($this->filename, $contents);
     }
 }
