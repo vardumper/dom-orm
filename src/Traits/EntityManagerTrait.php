@@ -9,7 +9,7 @@ use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use DOM\ORM\Serializer\SchemaSerializer;
 use DOM\ORM\Storage\StorageService;
 
-trait XmlStorageManagerTrait
+trait EntityManagerTrait
 {
     use AttributeResolverTrait;
 

@@ -5,18 +5,18 @@ namespace DOM\ORM\Repository;
 
 use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
-use DOM\ORM\Traits\XmlStorageManagerTrait;
+use DOM\ORM\Traits\EntityManagerTrait;
 use Ramsey\Collection\Collection;
 
 abstract class AbstractEntityRepository implements EntityRepositoryInterface
 {
-    use XmlStorageManagerTrait;
+    use EntityManagerTrait;
     protected string $entityType;
 
     public function __construct(string $entityType)
     {
         $this->entityType = $entityType;
-        $this->loadData(getcwd() . '/storage/data.xml');
+        $this->init();
     }
 
     public function getEntityType(): string
