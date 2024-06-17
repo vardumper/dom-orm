@@ -5,82 +5,67 @@ This is a storage adapter for small web projects. Like any other ORM, it stores 
 ## Features
 
 - A very lightweight approach to persisting data into a single XML file.
-- Drop-in replacement for Doctrine ORM.
-- No database required.
-- No configuration required.
-- No dependencies.
-- No SQL.
-- No migrations.
-- Supports data fixtures.
-- Supports local and external file storage via Flysystem (S3,Azure,Google Cloud,(S)FTP,Redis,etc.)
+- Supports local and external file storage via Flysystem (S3,Azure,Google Cloud,(S)FTP,etc.)
 - Supports Many-to-one, One-to-many and Many-to-many relationships.
-- Headless API supporting XML, YAML & JSON
-- Supports versioning (using Mercurial or Git) to track and backup a full history.
-- Caching baked-in (Local or Redis)
 
 ## Documentation
 
 Read the [Documentation](https://linktodocumentation)
 
-## Basic Example
+## Basic Usage
 
-Take a basic entity like this:
+By adding PHP8 Attributes to your entity class, DOM ORM knows how to persist it.
 
-```
-class Car {
-  public string $make;
-  public string $model;
-  public Color[] $colors;
+```php
+use DOM\ORM\Entity\AbstractEntity;
+use DOM\ORM\Mapping as ORM;
 
-  public function __construct(string $make, string $model)
-  {
-    $this->make = $make;
-    $this->model = $model;
-  }
+#[ORM\Item(entityType: 'tag')]
+class Tag extends AbstractEntity
+{
+    public function __construct(
+        #[ORM\Fragment]
+        private readonly string $name,
+    ) {
+        parent::__construct();
+    }
 }
 ```
 
-Just like Doctrine ORM, by adding PHP8 Attributes, this library knows how to persist the data into an XML file.
+### Persistance
 
-```diff
-use DOM\ORM\Mapping\Fragment;
-use DOM\ORM\Mapping\Group;
-use DOM\ORM\Mapping\Item;
-
-+ #[Item('car')]
-! class Car extends AbstractEntity implements JsonSerializable {
-+   #[Fragment]
-  public string $make;
-+   #[Fragment]
-  public string $model;
-+   #[Group(entity: Color::class)]
-  public Color[] $colors;
-  public function __construct(string $make, string $model)
-  {
-+    parent::__construct();
-    $this->make = $make;
-    $this->model = $model;
-  }
-}
-
+An EntityManagerTrait can be used in controllers or services to persist entities to the XML file. 
+```php
+    use DOM\ORM\Traits\EntityManagerTrait;
+    $tag = new Tag('Tagname');
+    $this->persist($tag);
 ```
 
-Now you can create a new Car and persist it to the XML file like so:
+### Serialization
 
+When persisting the entity, DOM ORM automatically generates a UID and adds a creation date for the entity.
+The built-in normalizer and encoder transforms the object into a standardized XML format and saves it.
+
+```xml
+<data>
+  <item type="tag" id="e34cbf80edaf490aa39113254b6cdfa9">
+    <fragment name="name"><![CDATA[Tagname]]></fragment>
+    <fragment name="createdAt"><![CDATA[2024-06-17T06:30:37+00:00]]></fragment>
+  </item>
+  ...
+</data>
 ```
 
-$car = new Car('Opel', 'Tigra', [new Color('red'), new Color('blue')]);
-$repository->persist($car);
+## Querying data
 
+Just like persisting a PHP Object to a XML format, this process works in both directions. 
+When you query data, the XML file is read and transformed back into PHP objects.
+
+```php
+    $tag = $this->find('e34cbf80edaf490aa39113254b6cdfa9');
 ```
-
-The resulting XML looks like this:
-
-```
-
-<item type="car" id="0b58fe63d6da4d7e8c6a12e39adf0bb4">
-    <fragment type="make">Opel</fragment>
-    <fragment type="model">Tigra</fragment>
-    <fragment type="createdAt">2023-11-01 22:00:00</fragment>
-</item>
-```
+@todo
+### XPath
+### XSLT
+### Repository Pattern
+### ~GraphQL~ (coming soon)
