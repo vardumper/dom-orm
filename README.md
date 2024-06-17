@@ -36,9 +36,14 @@ class Tag extends AbstractEntity
 
 An EntityManagerTrait can be used in controllers or services to persist entities to the XML file. 
 ```php
+class SomeService {
     use DOM\ORM\Traits\EntityManagerTrait;
-    $tag = new Tag('Tagname');
-    $this->persist($tag);
+    ...
+    public function doStuff() {
+      $tag = new Tag('Tagname');
+      $this->persist($tag);
+    }
+}
 ```
 
 ### Serialization
@@ -58,8 +63,11 @@ The built-in normalizer and encoder transforms the object into a standardized XM
 
 ## Querying data
 
-Just like persisting a PHP Object to a XML format, this process works in both directions. 
-When you query data, the XML file is read and transformed back into PHP objects.
+Just like persisting a PHP Object to a XML format, querying data is just as easy.
+When you query data, internally the query is transformed into an XPath query and the result is mapped back to its Entity class object(s).
+
+```php
+    $tags = $this->findAll('tag');
 
 ```php
     $tag = $this->find('e34cbf80edaf490aa39113254b6cdfa9');
