@@ -5,13 +5,17 @@ namespace DOM\ORM\Serializer;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\Serializer;
 
-class SchemaSerializer extends Serializer implements NormalizerInterface
+class SchemaSerializer implements NormalizerInterface
 {
     protected $encoder;
 
     private SchemaNormalizer $normalizer;
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return ['*' => false];
+    }
 
     public function __construct(SchemaNormalizer $normalizer, SchemaEncoder $encoder)
     {
@@ -23,6 +27,14 @@ class SchemaSerializer extends Serializer implements NormalizerInterface
     {
         return $this->normalizer->normalize($data, $format, $context);
     }
+
+    public function encode(mixed $data, string $format, array $context = []): string
+    {
+        return $this->encoder->encode($data, $format, $context);
+    }
+
+
+
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {

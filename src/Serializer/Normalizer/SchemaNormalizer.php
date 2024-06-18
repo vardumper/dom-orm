@@ -117,7 +117,8 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
 
     public function supportsNormalization(
         mixed $data,
-        string|null $format = null
+        string|null $format = null,
+        array $context = []
     ): bool {
         // First check if the format is supported.
         if ($format !== static::FORMAT) {
@@ -148,7 +149,8 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
     public function supportsDenormalization(
         mixed $data,
         string $type,
-        string|null $format = null
+        ?string $format = null,
+        array $context = []
     ): bool {
         $isXml = (\simplexml_load_string($data) !== false);
         if ($isXml || $data instanceof \DOMDocument) {

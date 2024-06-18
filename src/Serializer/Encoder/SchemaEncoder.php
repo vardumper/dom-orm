@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Serializer\Encoder;
 
+use Symfony\Component\Serializer\Encoder\ChainEncoder;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
