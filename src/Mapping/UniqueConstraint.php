@@ -8,17 +8,10 @@ namespace DOM\ORM\Mapping;
 final class UniqueConstraint
 {
     /**
-     * @var array<string>|null
-     * @readonly
-     */
-    public $fragments;
-
-    /**
      * @param array<string>|null $fragments
      */
     public function __construct(
-        ?array $fragments = null
+        public readonly ?array $fragments = null
     ) {
-        $this->fragments = $fragments;
     }
 }

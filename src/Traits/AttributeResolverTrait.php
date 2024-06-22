@@ -11,6 +11,23 @@ use DOM\ORM\Mapping\Item;
 
 trait AttributeResolverTrait
 {
+    public function getEntityByEntityType(string $entityType): ?string
+    {
+        $allClasses = get_declared_classes();
+
+        foreach ($allClasses as $className) {
+            $reflectionClass = new \ReflectionClass($className);
+            $attributes = $reflectionClass->getAttributes();
+
+            foreach ($attributes as $attribute) {
+                if ($attribute::ELEMENT_NAME === 'item' && $attribute->entityType === $entityType) {
+                    return $className;
+                }
+            }
+        }
+
+        return null;
+    }
     /**
      * figures out if the entity has fixed parent paths
      */

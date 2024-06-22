@@ -8,12 +8,10 @@ namespace DOM\ORM\Mapping;
 final class Item
 {
     public const ELEMENT_NAME = 'item';
-    public string $entityType;
-    public ?array $allowedParentPaths;
 
-    public function __construct(string $entityType, ?array $allowedParentPaths = [])
-    {
-        $this->entityType = $entityType;
-        $this->allowedParentPaths = $allowedParentPaths;
+    public function __construct(
+        public string $entityType,
+        public ?array $allowedParentPaths = []
+    ) {
     }
 }
