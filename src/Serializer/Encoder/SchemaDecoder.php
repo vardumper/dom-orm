@@ -28,7 +28,7 @@ class SchemaDecoder implements DecoderInterface
      * Decodes an entire XML Document or single DOMElement nodes into an array in a format that can be used for serialization.
      * @throws \InvalidArgumentException
      */
-    public function decode(string|\DOMDocument|\DOMElement $data, string $format, array $context = []): ?array
+    public function decode(string|\DOMDocument|\DOMNodeList|\DOMElement $data, string $format, array $context = []): ?array
     {
         $return = null;
 
@@ -62,6 +62,16 @@ class SchemaDecoder implements DecoderInterface
             $data = new \DOMDocument();
             $importedNode = $data->importNode($xml, true);
             $data->appendChild($importedNode);
+        }
+
+        // If a DOMNodelist is passed, load them into empty DOM
+        if ($data instanceof \DOMNodeList) {
+            $data = new \DOMDocument();
+            $data->loadXML('<data/>');
+            foreach ($data as $node) {
+                $importedNode = $data->importNode($node, true);
+                $data->documentElement->appendChild($importedNode);
+            }
         }
 
         $rootNodeName = $data->documentElement->nodeName;
