@@ -40,8 +40,8 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
             var_dump($id);
             var_dump($this->entityType);
             var_dump($entityClass);
-            exit;
             $array = $this->serializer->decode($node, SchemaEncoder::FORMAT);
+            exit;
             var_dump($array);
             exit;
 

@@ -30,13 +30,15 @@ class SchemaDecoder implements DecoderInterface
      */
     public function decode(string|\DOMDocument|\DOMNodeList|\DOMElement $data, string $format, array $context = []): ?array
     {
+        // die('whatthefuck');
         $return = null;
 
         // if a XML string is passed, load it into an empty DOM
         if (\is_string($data)) {
+            // die('WTF');
             $isXml = (\simplexml_load_string($data) !== false);
             if (!$isXml) {
-                throw new \InvalidArgumentException('Only XML strings are supported or DOMDocument is supported.');
+                throw new \InvalidArgumentException('If you pass a string, it must be XML.');
             }
             $xml = $data;
             $data = new \DOMDocument();
@@ -58,6 +60,7 @@ class SchemaDecoder implements DecoderInterface
 
         // If a DOMElement is passed, load into empty DOM
         if ($data instanceof \DOMElement) {
+            // die('wtf');
             $xml = $data;
             $data = new \DOMDocument();
             $importedNode = $data->importNode($xml, true);
@@ -75,12 +78,14 @@ class SchemaDecoder implements DecoderInterface
         }
 
         $rootNodeName = $data->documentElement->nodeName;
-
-        match ($rootNodeName) {
-            'data' => $return = $this->decodeData($data, $format, $context),
-            'group' => $return = $this->decodeGroup($data, $format, $context),
-            'item' => $return = $this->decodeItem($data, $format, $context),
-            'fragment' => $return = $this->decodeFragment($data, $format, $context),
+        var_dump($rootNodeName);
+        var_dump($data->saveXML());
+        // exit;
+        $return = match ($rootNodeName) {
+            'data' => $this->decodeData($data, $format, $context),
+            'group' => $this->decodeGroup($data, $format, $context),
+            'item' => $this->decodeItem($data, $format, $context),
+            'fragment' => $this->decodeFragment($data, $format, $context),
             default => throw new \InvalidArgumentException(sprintf('Unsopperted element %s given. Supported elements are data, group, item and fragment.', $rootNodeName)),
         };
 
