@@ -107,6 +107,6 @@ trait EntityManagerTrait
 
     private function getSerializer(): SchemaSerializer
     {
-        return new SchemaSerializer(new SchemaNormalizer(), new SchemaEncoder());
+        return new SchemaSerializer(new SchemaNormalizer(), new SchemaEncoder(), new SchemaDecoder());
     }
 }
