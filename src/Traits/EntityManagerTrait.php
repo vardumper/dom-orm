@@ -6,6 +6,7 @@ namespace DOM\ORM\Traits;
 use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Serializer\Encoder\SchemaDecoder;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
+use DOM\ORM\Serializer\Normalizer\SchemaDenormalizer;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use DOM\ORM\Serializer\SchemaSerializer;
 use DOM\ORM\Storage\StorageService;
@@ -108,6 +109,6 @@ trait EntityManagerTrait
 
     private function getSerializer(): SchemaSerializer
     {
-        return new SchemaSerializer(new SchemaNormalizer(), new SchemaEncoder(), new SchemaDecoder());
+        return new SchemaSerializer(new SchemaNormalizer(), new SchemaDenormalizer(), new SchemaEncoder(), new SchemaDecoder());
     }
 }
