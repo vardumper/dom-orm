@@ -20,7 +20,10 @@ trait AttributeResolverTrait
             $attributes = $reflectionClass->getAttributes();
 
             foreach ($attributes as $attribute) {
-                if ($attribute::ELEMENT_NAME === 'item' && $attribute->entityType === $entityType) {
+                if (!defined("{$attribute}::ELEMENT_NAME")) {
+                    continue;
+                }
+                if ($attribute::ELEMENT_NAME === 'item') {
                     return $className;
                 }
             }
