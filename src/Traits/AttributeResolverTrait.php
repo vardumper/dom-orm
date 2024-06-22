@@ -18,7 +18,7 @@ trait AttributeResolverTrait
         foreach ($allClasses as $className) {
             $reflectionClass = new \ReflectionClass($className);
             $attributes = $reflectionClass->getAttributes();
-            var_dump($reflectionClass);
+            var_dump($attribute);
             exit;
             foreach ($attributes as $attribute) {
                 if (!defined("{$attribute}::ELEMENT_NAME")) {
