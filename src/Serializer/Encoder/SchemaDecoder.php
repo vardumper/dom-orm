@@ -35,7 +35,6 @@ class SchemaDecoder implements DecoderInterface
 
         // if a XML string is passed, load it into an empty DOM
         if (\is_string($data)) {
-            // die('WTF');
             $isXml = (\simplexml_load_string($data) !== false);
             if (!$isXml) {
                 throw new \InvalidArgumentException('If you pass a string, it must be XML.');
@@ -69,17 +68,18 @@ class SchemaDecoder implements DecoderInterface
 
         // If a DOMNodelist is passed, load them into empty DOM
         if ($data instanceof \DOMNodeList) {
+            $nodes = $data;
             $data = new \DOMDocument();
             $data->loadXML('<data/>');
-            foreach ($data as $node) {
+            foreach ($nodes as $node) {
                 $importedNode = $data->importNode($node, true);
                 $data->documentElement->appendChild($importedNode);
             }
         }
 
         $rootNodeName = $data->documentElement->nodeName;
-        var_dump($rootNodeName);
-        var_dump($data->saveXML());
+        // var_dump($rootNodeName);
+        // var_dump($data->saveXML());
         // exit;
         $return = match ($rootNodeName) {
             'data' => $this->decodeData($data, $format, $context),

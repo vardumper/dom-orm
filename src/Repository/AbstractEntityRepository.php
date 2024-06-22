@@ -37,13 +37,13 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
         $node = $this->xpath->query(sprintf('//item[@type="%s" and @id="%s"]', $this->entityType, $id));
         if ($node->length === 1) {
             $entityClass = $this->getEntityByEntityType($this->entityType);
-            var_dump($id);
-            var_dump($this->entityType);
-            var_dump($entityClass);
+            // var_dump($id);
+            // var_dump($this->entityType);
+            // var_dump($entityClass);
             $array = $this->serializer->decode($node, SchemaEncoder::FORMAT);
-            exit;
-            var_dump($array);
-            exit;
+            // exit;
+            // var_dump($array);
+            // exit;
 
             return $this->serializer->denormalize($array, $entityClass);
         }

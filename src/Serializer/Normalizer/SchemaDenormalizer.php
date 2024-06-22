@@ -28,6 +28,13 @@ class SchemaDenormalizer implements DenormalizerInterface
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         /** @todo */
+        if (count($data['data']) > 1) {
+            // we need a collection
+        }
+        if (count($data['data']) === 1) {
+            // we need a single entity
+        }
+
         return true;
     }
 

@@ -23,10 +23,10 @@ abstract class AbstractEntity implements EntityInterface
     #[Fragment]
     private ?\DateTimeInterface $deletedAt = null;
 
-    public function __construct()
+    public function __construct(?string $id = null, ?\DateTimeInterface $createdAt = null)
     {
-        $this->id = Uuid::uuid4()->getHex()->toString();
-        $this->createdAt = new \DateTimeImmutable();
+        $this->id = $id ?? Uuid::uuid4()->getHex()->toString();
+        $this->createdAt = $createdAt ?? new \DateTimeImmutable();
     }
 
     public function getId(): string
