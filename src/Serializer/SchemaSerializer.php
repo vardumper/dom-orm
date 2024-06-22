@@ -4,22 +4,19 @@ namespace DOM\ORM\Serializer;
 
 use DOM\ORM\Serializer\Encoder\SchemaDecoder;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
+use DOM\ORM\Serializer\Normalizer\SchemaDenormalizer;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class SchemaSerializer implements NormalizerInterface
+class SchemaSerializer implements NormalizerInterface, DenormalizerInterface
 {
-    protected $encoder;
-
-    protected $decoder;
-
-    private SchemaNormalizer $normalizer;
-
-    public function __construct(SchemaNormalizer $normalizer, SchemaEncoder $encoder, SchemaDecoder $decoder)
-    {
-        $this->normalizer = $normalizer;
-        $this->encoder = $encoder;
-        $this->decoder = $decoder;
+    public function __construct(
+        private readonly SchemaNormalizer $normalizer,
+        private readonly SchemaDenormalizer $denormalizer,
+        private readonly SchemaEncoder $encoder,
+        private readonly SchemaDecoder $decoder
+    ) {
     }
 
     public function getSupportedTypes(?string $format): array
@@ -32,6 +29,11 @@ class SchemaSerializer implements NormalizerInterface
     public function normalize(mixed $data, ?string $format = null, array $context = []): \ArrayObject|array|string|int|float|bool|null
     {
         return $this->normalizer->normalize($data, $format, $context);
+    }
+
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+    {
+        return $this->denormalizer->denormalize($data, $type, $format, $context);
     }
 
     public function encode(mixed $data, string $format, array $context = []): string
@@ -48,15 +50,9 @@ class SchemaSerializer implements NormalizerInterface
     {
         return true;
     }
-    // final public function serialize(mixed $data, string $format, array $context = []): string
-    // {
-    //     // Implement your custom serialization logic here
-    //     return '';
-    // }
 
-    // public function deserialize(mixed $data, string $type, string $format, array $context = []): mixed
-    // {
-    //     return '';
-    //     // Implement your custom deserialization logic here
-    // }
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+    {
+        return true;
+    }
 }

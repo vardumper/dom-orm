@@ -8,12 +8,11 @@ use DOM\ORM\Entity\AbstractEntity;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Traits\AttributeResolverTrait;
 use Ramsey\Collection\Collection;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
-class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
+class SchemaNormalizer implements NormalizerInterface
 {
     use AttributeResolverTrait;
 
@@ -27,7 +26,7 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
      */
     public const TYPE = 'array';
 
-    public function normalize(mixed $object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    public function normalize(mixed $object, string|null $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         if (!$object instanceof AbstractEntity) {
             throw new \InvalidArgumentException(sprintf('The object must extend "%s" or implement %s.', AbstractEntity::class, \JsonSerializable::class));
@@ -48,9 +47,9 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
             $name = ($storageStrategy === 'inline') ? '@' . $fragmentName : $fragmentName;
 
             try {
-                // we expect private properties to be inaccessible here
+                // we expect private properties to be inaccessible here (therefor throw an Exception)
                 $value = $object->{$propertyName};
-            } catch (\Throwable $th) {
+            } catch (\Throwable) {
                 // so we'll try to get the value via the getter
                 $methodName = 'get' . ucfirst($propertyName);
                 $value = $object->{$methodName}();
@@ -78,7 +77,7 @@ class SchemaNormalizer implements NormalizerInterface, DenormalizerInterface
             try {
                 // we expect private properties to be inaccessible here
                 $value = $object->{$propertyName};
-            } catch (\Throwable $th) {
+            } catch (\Throwable) {
                 // so we'll try to get the value via a getter method
                 $methodName = 'get' . ucfirst($propertyName);
                 if (!method_exists($object, $methodName)) {
