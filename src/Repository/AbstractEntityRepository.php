@@ -5,12 +5,15 @@ namespace DOM\ORM\Repository;
 
 use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
+use DOM\ORM\Traits\AttributeResolverTrait;
 use DOM\ORM\Traits\EntityManagerTrait;
 use Ramsey\Collection\Collection;
 
 abstract class AbstractEntityRepository implements EntityRepositoryInterface
 {
     use EntityManagerTrait;
+    use AttributeResolverTrait;
+
     protected string $entityType;
 
     public function __construct(string $entityType)
@@ -33,7 +36,8 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
     {
         $node = $this->xpath->query(sprintf('//item[@type="%s" and @id="%s"]', $this->entityType, $id));
         if ($node->length === 1) {
-            $array = $this->serializer->decode($node, SchemaEncoder::FORMAT);
+            $this->resolveEntityType($this->entityType);
+            $array = $this->serializer->decoder->decode($node, SchemaEncoder::FORMAT);
 
             return $this->serializer->denormalize($array);
         }
