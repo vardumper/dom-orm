@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Traits;
 
+use DOM\ORM\Entity\AbstractEntity;
 use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Mapping\Fragment;
 use DOM\ORM\Mapping\Group;
@@ -13,23 +14,31 @@ trait AttributeResolverTrait
 {
     public function getEntityByEntityType(string $entityType): ?string
     {
-        $allClasses = get_declared_classes();
+        // get Entity classes only
+        $entityClasses = [];
+        foreach (get_declared_classes() as $class) {
+            if (is_subclass_of($class, AbstractEntity::class)) {
+                $entityClasses[] = $class;
+            }
+        }
 
-        foreach ($allClasses as $className) {
+        foreach ($entityClasses as $className) {
             $reflectionClass = new \ReflectionClass($className);
-            $attributes = $reflectionClass->getAttributes();
+            $attributes = $reflectionClass->getAttributes(Item::class);
             foreach ($attributes as $attribute) {
-                if (!defined("{$attribute}::ELEMENT_NAME")) {
+                $args = $attribute->getArguments();
+                if (!array_key_exists('entityType', $args)) {
                     continue;
                 }
-                if ($attribute::ELEMENT_NAME === 'item' && $attribute->entityType === $entityType) {
+                if ($args['entityType'] === $entityType) {
                     return $className;
                 }
             }
         }
 
-        return null;
+        throw new \Exception(sprintf('Entity type %s not implemented yet.', $entityType));
     }
+
     /**
      * figures out if the entity has fixed parent paths
      */
