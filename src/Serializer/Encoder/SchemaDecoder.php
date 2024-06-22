@@ -44,7 +44,7 @@ class SchemaDecoder implements DecoderInterface
         }
 
         // Make sure that $data is DOMDocument, DOMNodeList or DOMElement
-        if (!$data instanceof \DOMDocument && !$data instanceof \DOMElement && !$data instanceof \DOMElement) {
+        if (!$data instanceof \DOMDocument && !$data instanceof \DOMElement && !$data instanceof \DOMNodeList) {
             throw new \InvalidArgumentException('Only an XML string, a DOMNodeList, DOMElement or DOMDocument is supported.');
         }
 
