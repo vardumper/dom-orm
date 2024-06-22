@@ -14,7 +14,7 @@ trait AttributeResolverTrait
     /**
      * figures out if the entity has fixed parent paths
      */
-    private function resolveAllowedParentPaths(EntityInterface $entity): ?array
+    private function resolveAllowedParentPaths(string|EntityInterface $entity): ?array
     {
         $reflectionClass = new \ReflectionClass($entity);
         foreach ($reflectionClass->getAttributes(Item::class) as $attribute) {
@@ -27,7 +27,7 @@ trait AttributeResolverTrait
         return null;
     }
 
-    private function resolveEntityType(EntityInterface $entity): ?string
+    private function resolveEntityType(string|EntityInterface $entity): ?string
     {
         $reflectionClass = new \ReflectionClass($entity);
         foreach ($reflectionClass->getAttributes(Item::class) as $attribute) {
@@ -37,7 +37,7 @@ trait AttributeResolverTrait
         return null;
     }
 
-    private function resolveFragments(EntityInterface $entity): ?array
+    private function resolveFragments(string|EntityInterface $entity): ?array
     {
         $reflectionClass = new \ReflectionClass($entity);
 
@@ -67,7 +67,7 @@ trait AttributeResolverTrait
         return $fragments;
     }
 
-    private function resolveGroups(EntityInterface $entity): ?array
+    private function resolveGroups(string|EntityInterface $entity): ?array
     {
         $reflectionClass = new \ReflectionClass($entity);
 
