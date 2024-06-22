@@ -7,6 +7,7 @@ namespace DOM\ORM\Serializer\Normalizer;
 use DOM\ORM\Entity\AbstractEntity;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Traits\AttributeResolverTrait;
+use Ramsey\Collection\Collection;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -14,7 +15,6 @@ use Symfony\Component\Yaml\Yaml;
 class SchemaDenormalizer implements DenormalizerInterface
 {
     use AttributeResolverTrait;
-
     /**
      * The supported format.
      */
@@ -25,17 +25,36 @@ class SchemaDenormalizer implements DenormalizerInterface
      */
     public const TYPE = 'array';
 
+    private const RESERVED_ATTRIBUTES = ['@id', '@type'];
+
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
+        $ret = null;
+
         /** @todo */
         if (count($data['data']) > 1) {
             // we need a collection
-        }
-        if (count($data['data']) === 1) {
-            // we need a single entity
+            $ret = new Collection($type);
+
         }
 
-        return true;
+        if (count($data['data']) === 1) {
+            // we need a single entity
+            $entityData = $data['data'][0][array_key_first($data['data'][0])];
+            $entityClass = $this->getEntityByEntityType($entityData['@type']);
+            $ret = new $entityClass();
+            foreach ($entityData as $key => $value) {
+                if (in_array($key, self::RESERVED_ATTRIBUTES, true)) {
+                    continue;
+                }
+                $method = 'set' . ucfirst($key);
+                $ret->{$method}($value);
+            }
+
+            // $ret->fromArray($entityData);
+        }
+
+        return $ret;
     }
 
     public function supportsDenormalization(

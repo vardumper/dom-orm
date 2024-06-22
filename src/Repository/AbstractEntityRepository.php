@@ -15,10 +15,12 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
     use AttributeResolverTrait;
 
     protected string $entityType;
+    protected string $entityClass;
 
     public function __construct(string $entityType)
     {
         $this->entityType = $entityType;
+        $this->entityClass = $this->getEntityByEntityType($entityType);
         $this->init();
     }
 
@@ -29,31 +31,35 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
 
     public function findAll(): ?Collection
     {
-        return null;
+        $nodes = $this->xpath->query(sprintf('//item[@type="%s"]', $this->entityType));
+        if ($nodes->length < 1) {
+            return null;
+        }
+
+        $array = $this->serializer->decode($nodes, SchemaEncoder::FORMAT);
+
+        return $this->serializer->denormalize($array, $this->entityClass);
     }
 
     public function find(string $id): ?EntityInterface
     {
         $node = $this->xpath->query(sprintf('//item[@type="%s" and @id="%s"]', $this->entityType, $id));
-        if ($node->length === 1) {
-            $entityClass = $this->getEntityByEntityType($this->entityType);
-            // var_dump($id);
-            // var_dump($this->entityType);
-            // var_dump($entityClass);
-            $array = $this->serializer->decode($node, SchemaEncoder::FORMAT);
-            // exit;
-            // var_dump($array);
-            // exit;
-
-            return $this->serializer->denormalize($array, $entityClass);
+        if ($node->length > 1) {
+            throw new \Exception('Multiple entities found with the same ID.');
         }
 
-        return null;
+        if ($node->length < 1) {
+            return null;
+        }
+
+        $array = $this->serializer->decode($node, SchemaEncoder::FORMAT);
+
+        return $this->serializer->denormalize($array, $this->entityClass);
     }
 
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): ?Collection
     {
-        return new Collection($this->entityType);
+        return new Collection($this->entityClass);
     }
 
     public function findOneBy(array $criteria, array $orderBy = null): ?EntityInterface
