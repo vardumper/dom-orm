@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DOM\ORM\Serializer\Decoder;
+namespace DOM\ORM\Serializer\Encoder;
 
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 
