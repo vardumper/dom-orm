@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace DOM\ORM\Traits;
 
 use DOM\ORM\Entity\EntityInterface;
-use DOM\ORM\Serializer\Decoder\SchemaDecoder;
+use DOM\ORM\Serializer\Encoder\SchemaDecoder;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use DOM\ORM\Serializer\SchemaSerializer;
