@@ -2,7 +2,7 @@
 
 namespace DOM\ORM\Serializer;
 
-use DOM\ORM\Serializer\Decoder\SchemaDecoder;
+use DOM\ORM\Serializer\Encoder\SchemaDecoder;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
