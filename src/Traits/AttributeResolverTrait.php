@@ -18,12 +18,13 @@ trait AttributeResolverTrait
         foreach ($allClasses as $className) {
             $reflectionClass = new \ReflectionClass($className);
             $attributes = $reflectionClass->getAttributes();
-
+            var_dump($reflectionClass);
+            exit;
             foreach ($attributes as $attribute) {
                 if (!defined("{$attribute}::ELEMENT_NAME")) {
                     continue;
                 }
-                if ($attribute::ELEMENT_NAME === 'item') {
+                if ($attribute::ELEMENT_NAME === 'item' && $attribute->entityType === $entityType) {
                     return $className;
                 }
             }
