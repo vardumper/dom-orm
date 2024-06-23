@@ -27,6 +27,8 @@ class SchemaDenormalizer implements DenormalizerInterface
 
     private const RESERVED_ATTRIBUTES = ['@id', '@type'];
 
+    private const DATETIME_ATTRIBUTES = ['createdAt', 'updatedAt', 'deletedAt'];
+
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $ret = null;
@@ -38,14 +40,42 @@ class SchemaDenormalizer implements DenormalizerInterface
 
         }
 
+        // we need a single entity
         if (count($data['data']) === 1) {
-            // we need a single entity
             $entityData = $data['data'][0][array_key_first($data['data'][0])];
             $entityClass = $this->getEntityByEntityType($entityData['@type']);
-            $ret = new $entityClass();
+
+            // get entity constructor params
+            $reflection = new \ReflectionClass($entityClass);
+            $params = $reflection->getConstructor()->getParameters();
+            $constructoArgs = [];
+            foreach ($params as $param) {
+                // skip missing
+                if (!isset($entityData[$param->getName()])) {
+                    continue;
+                }
+                // convert datetime strings to objects
+                if (in_array($param->getName(), self::DATETIME_ATTRIBUTES, true)) {
+                    $entityData[$param->getName()] = new \DateTimeImmutable($entityData[$param->getName()]);
+                }
+
+                // dont set stuff twice
+                if (!isset($constructoArgs[$param->getName()])) {
+                    $constructoArgs[$param->getName()] = $entityData[$param->getName()];
+                }
+
+                // @todo how about groups, collections, arrays?
+            }
+
+            // how to use php8.3 named arguments dynamically?
+            $ret = new $entityClass(...$constructoArgs);
             foreach ($entityData as $key => $value) {
                 if (in_array($key, self::RESERVED_ATTRIBUTES, true)) {
                     continue;
+                }
+                // convert datetime strings to objects
+                if (in_array($key, self::DATETIME_ATTRIBUTES, true)) {
+                    $value = new \DateTimeImmutable($value);
                 }
                 $method = 'set' . ucfirst($key);
                 $ret->{$method}($value);
