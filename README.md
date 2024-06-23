@@ -92,11 +92,11 @@ When you query data, internally XPath is used to find the elements, the resultin
 
 By using the EntityRepository class, you can query data in an object-oriented way, always retrieving instances of Entity object(s).
 ```php
-    $tagRepository = new EntityRepository(Tag::class);
-    $tag = $tagRepository->findOneBy(['name' => 'Tagname']); // returns a single Tag object
-    $tag = $tagRepository->find('fec69a494c3145f89af03ae3b3702e19'); // return a single Tag object
-    $tags = $tagRepository->findAll(); // returns a Collection of Tag objects
-    $tags = $tagRepository->findBy(['name' => 'Tagname']); // returns a Collection of Tag objects
+$tagRepository = new EntityRepository(Tag::class);
+$tag = $tagRepository->findOneBy(['name' => 'Tagname']); // returns a single Tag object
+$tag = $tagRepository->find('fec69a494c3145f89af03ae3b3702e19'); // return a single Tag object
+$tags = $tagRepository->findAll(); // returns a Collection of Tag objects
+$tags = $tagRepository->findBy(['name' => 'Tagname']); // returns a Collection of Tag objects
 ```
 
 ### Querying data using DOMXPath
@@ -107,8 +107,6 @@ $dom = (new DOMDocument())->loadXML($xml);
 $xpath = new DOMXPath($dom);
 $tags = $xpath->query('//item[@type="tag"]'); // eg: retrieve all tags at any depth
 $tag = $xpath->query('//item[@type="tag" and @id="fec69a494c3145f89af03ae3b3702e19"]'); // eg: retrieve a single tag with a specific ID
-
-
 ```
 
 ### Querying data using DOMDocument
@@ -119,3 +117,21 @@ $dom = (new DOMDocument())->loadXML($xml);
 $entities = $dom->getElementsByTagName('item'); // returns a DOMNodeList of all entities
 ```
 ### ~GraphQL~ (coming soon)
+
+## The Serializer
+
+The serializer is responsible for encoding and decoding entities to and from XML format.
+
+The decoder supports a variety of input types:
+- string
+- DOMDocument
+- DOMNodeList
+- DOMElement
+
+```php
+// turn a DOMElement into an Entity object
+use EntityManagerTrait;
+$serializer = $this->getSerializer();
+$tagData = $serializer->decode($tag, \DOM\ORM\Serializer\Encoder\SchemaDecoder::FORMAT); // returns an array
+$tagEntity = $serializer->denormalize($tagData, Tag::class); // returns a Tag object
+```
