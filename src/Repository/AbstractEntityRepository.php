@@ -68,4 +68,11 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
 
         return null;
     }
+
+    public function remove(string $id): void
+    {
+        // we assume that IDs are unique and that the entity having that unique ID is of the type we want to remove
+        // @todo add tests for this
+        $this->removeById($id);
+    }
 }

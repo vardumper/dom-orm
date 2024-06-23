@@ -68,6 +68,32 @@ class SomeService {
 }
 ```
 
+When you want to update an existing Entity, you can use the `persist` method as well.
+```php
+// src/Service/SomeService.php
+class SomeService {
+    use DOM\ORM\Traits\EntityManagerTrait;
+    ...
+    public function updateTag(string $id, string $name) {
+      $tag = (new EntityRepository(Tag::class))->find($id);
+      $tag->setName($name);
+      $this->persist($tag);
+    }
+}
+```
+
+When you want to remove an existing Entity, you can use the `remove` method.
+```php
+// src/Service/SomeService.php
+class SomeService {
+    use DOM\ORM\Traits\EntityManagerTrait;
+    ...
+    public function removeTag(string $id) {
+      (new EntityRepository(Tag::class))->remove($id);
+    }
+}
+```
+
 ### Serialization
 
 When persisting the entity, DOM ORM automatically generates a UID and adds a creation date for the entity.
@@ -154,6 +180,7 @@ echo $xslt->transformToXML($dom);
 ### Roadmap
 
 - [ ] Add support for Many-to-many relationships using hash maps.
+- [ ] Add ordering/sorting to the EntityRepository pattern.
 - [ ] By providing a GraphQL endpoint, you can interact with your DOM-ORM database in a more flexible, headless way.
 - [ ] Adding support for migrations (or rather a cleanup) so that removed fragments are removed from the XML file as well.
 - [ ] Add support to encrypt parts or the entire XML file for better security.
