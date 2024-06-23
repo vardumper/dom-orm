@@ -144,6 +144,7 @@ class SchemaDenormalizer implements DenormalizerInterface
         // @todo how to use php8.3 named arguments dynamically?
         /** @var EntityInterface $ret */
         $ret = new $entityClass(...$constructoArgs);
+        $ret->setId($entityData['@id']);
         foreach ($entityData as $key => $value) {
             if (in_array($key, self::RESERVED_ATTRIBUTES, true)) {
                 continue;

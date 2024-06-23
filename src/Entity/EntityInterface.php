@@ -8,6 +8,8 @@ interface EntityInterface
 {
     public function getId(): string;
 
+    public function setId($id): void;
+
     public function getDeletedAt(): ?\DateTimeInterface;
 
     public function setDeletedAt(\DateTimeInterface $deletedAt): static;
