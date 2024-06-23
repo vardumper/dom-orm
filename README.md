@@ -117,4 +117,43 @@ $xml = (new DOM\ORM\Storage\StorageService())->read();
 $dom = (new DOMDocument())->loadXML($xml);
 $entities = $dom->getElementsByTagName('item'); // returns a DOMNodeList of all entities
 ```
-### ~GraphQL~ (coming soon)
+
+## Templating
+
+### Twig
+Probably the easiest way is to query for entities and pass them to your Twig templates:
+```php
+$twig->render('index.twig', [
+    'title' => 'Hello there!',
+    'tag' => (new EntityRepository(Tag::class))->find('fec69a494c3145f89af03ae3b3702e19'),
+]);
+```
+
+Or you could just decoded some DOMElements and pass an array to Twig templates (without instantiating the object):
+```php
+use EntityManagerTrait;
+$serializer = $this->getSerializer();
+$item = $serializer->decode($dom->getELementsByTagName('item')->item(0)); // example: decode the first item into an array
+
+echo $twig->render('index.twig', [
+    'title' => 'Hello there!',
+    'item' => $item,
+]);
+```
+
+### XSLT
+You can use the XML data to transform it into HTML using XSLT.
+```php
+$xml = (new DOM\ORM\Storage\StorageService())->read();
+$dom = (new DOMDocument())->loadXML($xml);
+$xslt = (new XSLTProcessor())->importStylesheet(DOMDocument::load('path/to/stylesheet.xsl'));
+
+echo $xslt->transformToXML($dom);
+```
+
+### Roadmap
+
+- [ ] Add support for Many-to-many relationships using hash maps.
+- [ ] By providing a GraphQL endpoint, you can interact with your DOM-ORM database in a more flexible, headless way.
+- [ ] Adding support for migrations (or rather a cleanup) so that removed fragments are removed from the XML file as well.
+- [ ] Add support to encrypt parts or the entire XML file for better security.
