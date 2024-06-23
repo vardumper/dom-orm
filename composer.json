@@ -12,7 +12,6 @@
     "ramsey/uuid": "^4.7.6",
     "ramsey/collection": "^2.0",
     "symfony/serializer": "^6.4.8 || ^7.1.1",
-    "symfony/messenger": "^6.4.8 || ^7.1.1",
     "league/flysystem": "^3.28",
     "symfony/yaml": "^6.4.8",
     "mnapoli/silly": "^1.9.0",

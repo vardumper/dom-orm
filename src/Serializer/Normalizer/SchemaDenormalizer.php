@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DOM\ORM\Serializer\Normalizer;
 
 use DOM\ORM\Entity\AbstractEntity;
+use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Traits\AttributeResolverTrait;
 use Ramsey\Collection\Collection;
@@ -31,60 +32,24 @@ class SchemaDenormalizer implements DenormalizerInterface
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
-        $ret = null;
-
         /** @todo */
         if (count($data['data']) > 1) {
             // we need a collection
             $ret = new Collection($type);
+            foreach ($data['data'] as $key => $data) {
+                $entity = $this->instantiateEntity($data);
+                $ret->add($entity);
+            }
 
+            return $ret;
         }
 
         // we need a single entity
         if (count($data['data']) === 1) {
-            $entityData = $data['data'][0][array_key_first($data['data'][0])];
-            $entityClass = $this->getEntityByEntityType($entityData['@type']);
-
-            // get entity constructor params
-            $reflection = new \ReflectionClass($entityClass);
-            $params = $reflection->getConstructor()->getParameters();
-            $constructoArgs = [];
-            foreach ($params as $param) {
-                // skip missing
-                if (!isset($entityData[$param->getName()])) {
-                    continue;
-                }
-                // convert datetime strings to objects
-                if (in_array($param->getName(), self::DATETIME_ATTRIBUTES, true)) {
-                    $entityData[$param->getName()] = new \DateTimeImmutable($entityData[$param->getName()]);
-                }
-
-                // dont set stuff twice
-                if (!isset($constructoArgs[$param->getName()])) {
-                    $constructoArgs[$param->getName()] = $entityData[$param->getName()];
-                }
-
-                // @todo how about groups, collections, arrays?
-            }
-
-            // how to use php8.3 named arguments dynamically?
-            $ret = new $entityClass(...$constructoArgs);
-            foreach ($entityData as $key => $value) {
-                if (in_array($key, self::RESERVED_ATTRIBUTES, true)) {
-                    continue;
-                }
-                // convert datetime strings to objects
-                if (in_array($key, self::DATETIME_ATTRIBUTES, true)) {
-                    $value = new \DateTimeImmutable($value);
-                }
-                $method = 'set' . ucfirst($key);
-                $ret->{$method}($value);
-            }
-
-            // $ret->fromArray($entityData);
+            return $this->instantiateEntity($data['data'][0]);
         }
 
-        return $ret;
+        return null;
     }
 
     public function supportsDenormalization(
@@ -144,5 +109,53 @@ class SchemaDenormalizer implements DenormalizerInterface
     public function hasCacheableSupportsMethod(): bool
     {
         return true;
+    }
+
+    /**
+     * Instantiate an entity from stored values
+     */
+    private function instantiateEntity(array $data): EntityInterface
+    {
+        $entityData = $data[array_key_first($data)];
+        $entityClass = $this->getEntityByEntityType($entityData['@type']);
+
+        // get entity constructor params
+        $reflection = new \ReflectionClass($entityClass);
+        $params = $reflection->getConstructor()->getParameters();
+        $constructoArgs = [];
+        foreach ($params as $param) {
+            // skip missing
+            if (!isset($entityData[$param->getName()])) {
+                continue;
+            }
+            // convert datetime strings to objects
+            if (in_array($param->getName(), self::DATETIME_ATTRIBUTES, true)) {
+                $entityData[$param->getName()] = new \DateTimeImmutable($entityData[$param->getName()]);
+            }
+
+            // dont set stuff twice
+            if (!isset($constructoArgs[$param->getName()])) {
+                $constructoArgs[$param->getName()] = $entityData[$param->getName()];
+            }
+
+            // @todo how about groups, collections, arrays?
+        }
+
+        // @todo how to use php8.3 named arguments dynamically?
+        /** @var EntityInterface $ret */
+        $ret = new $entityClass(...$constructoArgs);
+        foreach ($entityData as $key => $value) {
+            if (in_array($key, self::RESERVED_ATTRIBUTES, true)) {
+                continue;
+            }
+            // convert datetime strings to objects
+            if (in_array($key, self::DATETIME_ATTRIBUTES, true)) {
+                $value = new \DateTimeImmutable($value);
+            }
+            $method = 'set' . ucfirst($key);
+            $ret->{$method}($value);
+        }
+
+        return $ret;
     }
 }
