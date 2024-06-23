@@ -33,6 +33,7 @@ You can change the storage location by changing the Flysystem adapter and config
 
 ## Basic Usage
 
+### Entity
 By adding PHP8 Attributes to your entity class, DOM ORM knows how to persist it.
 
 ```php
@@ -117,21 +118,3 @@ $dom = (new DOMDocument())->loadXML($xml);
 $entities = $dom->getElementsByTagName('item'); // returns a DOMNodeList of all entities
 ```
 ### ~GraphQL~ (coming soon)
-
-## The Serializer
-
-The serializer is responsible for encoding and decoding entities to and from XML format.
-
-The decoder supports a variety of input types:
-- string
-- DOMDocument
-- DOMNodeList
-- DOMElement
-
-```php
-// turn a DOMElement into an Entity object
-use EntityManagerTrait;
-$serializer = $this->getSerializer();
-$tagData = $serializer->decode($tag, \DOM\ORM\Serializer\Encoder\SchemaDecoder::FORMAT); // returns an array
-$tagEntity = $serializer->denormalize($tagData, Tag::class); // returns a Tag object
-```
