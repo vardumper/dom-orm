@@ -123,6 +123,8 @@ class SchemaDenormalizer implements DenormalizerInterface
         $reflection = new \ReflectionClass($entityClass);
         $params = $reflection->getConstructor()->getParameters();
         $constructoArgs = [];
+        // var_dump($data);
+        // exit;
         foreach ($params as $param) {
             // skip missing
             if (!isset($entityData[$param->getName()])) {
