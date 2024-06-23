@@ -16,4 +16,6 @@ interface EntityRepositoryInterface
     public function findOneBy(array $criteria): ?EntityInterface;
 
     public function findBy(array $criteria): ?Collection;
+
+    public function remove(string $id): void;
 }
