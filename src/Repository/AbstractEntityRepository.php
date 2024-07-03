@@ -76,7 +76,8 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
         }
 
         $query = sprintf('//item[@type="%s" %s]', $this->entityType, $additionalArgs);
-
+        var_dump($query);
+        exit;
         $node = $this->xpath->query($query);
         if ($node->length > 1) {
             throw new \Exception('Multiple entities found with the same ID.');
@@ -86,7 +87,7 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
             return null;
         }
 
-        var_dump($node->text());
+        var_dump($node->text);
         // $this->xpath->query('//item[@type="section"]');
 
         return null;
