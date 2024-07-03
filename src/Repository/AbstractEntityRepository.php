@@ -72,7 +72,7 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
 
         foreach ($criteria as $key => $value) {
             // ./book[./author/name = 'John']
-            $additionalArgs .= sprintf('and ./fragment[@name="%s"] = "%s"', $key, $value);
+            $additionalArgs .= sprintf(' and ./fragment[@name="%s"] = "%s"', $key, $value);
         }
 
         $query = sprintf('//item[@type="%s" %s]', $this->entityType, $additionalArgs);
