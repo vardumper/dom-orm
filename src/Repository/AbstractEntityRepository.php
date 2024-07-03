@@ -64,7 +64,30 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
 
     public function findOneBy(array $criteria, array $orderBy = null): ?EntityInterface
     {
-        $this->xpath->query('//item[@type="section"]');
+        $additionalArgs = '';
+        if (isset($criteria['id'])) {
+            $additionalArgs .= sprintf(' and @id="%s" ', $criteria['id']);
+            unset($criteria['id']);
+        }
+
+        foreach ($criteria as $key => $value) {
+            // ./book[./author/name = 'John']
+            $additionalArgs .= sprintf('and [./fragment[@name="%s"] = "%s"]', $key, $value);
+        }
+
+        $query = sprintf('//item[@type="%s" %s]', $this->entityType, $additionalArgs);
+
+        $node = $this->xpath->query($query);
+        if ($node->length > 1) {
+            throw new \Exception('Multiple entities found with the same ID.');
+        }
+
+        if ($node->length < 1) {
+            return null;
+        }
+
+        var_dump($node->text());
+        // $this->xpath->query('//item[@type="section"]');
 
         return null;
     }
