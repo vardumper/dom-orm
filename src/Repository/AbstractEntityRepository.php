@@ -79,7 +79,7 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
         $node = $this->xpath->query($query);
 
         if ($node->length > 1) {
-            throw new \Exception('Multiple entities found with the same ID.');
+            throw new \Exception(sprintf('Multiple entities found using %s', $query));
         }
 
         if ($node->length < 1) {
