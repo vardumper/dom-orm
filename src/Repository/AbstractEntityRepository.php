@@ -64,7 +64,7 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
 
     public function findOneBy(array $criteria, array $orderBy = null): ?EntityInterface
     {
-        $additionalArgs = ' and position() = 1'; // we want only one
+        $additionalArgs = ''; // we want only one
         if (isset($criteria['id'])) {
             $additionalArgs .= sprintf(' and @id="%s" ', $criteria['id']);
             unset($criteria['id']);
@@ -72,10 +72,10 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
 
         foreach ($criteria as $key => $value) {
             // ./book[./author/name = 'John']
-            $additionalArgs .= sprintf(' and ./fragment[@name="%s"] = "%s"', $key, $value);
+            $additionalArgs .= sprintf(' and ./fragment[@name="%s"] = "%s"', trim($key), trim($value));
         }
 
-        $query = sprintf('//item[@type="%s" %s]', $this->entityType, $additionalArgs);
+        $query = sprintf('//item[@type="%s" %s][1]', $this->entityType, $additionalArgs);
         $node = $this->xpath->query($query);
 
         if ($node->length > 1) {
