@@ -64,7 +64,7 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
 
     public function findOneBy(array $criteria, array $orderBy = null): ?EntityInterface
     {
-        $additionalArgs = '';
+        $additionalArgs = ' and position() = 1'; // we want only one
         if (isset($criteria['id'])) {
             $additionalArgs .= sprintf(' and @id="%s" ', $criteria['id']);
             unset($criteria['id']);
@@ -76,9 +76,8 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
         }
 
         $query = sprintf('//item[@type="%s" %s]', $this->entityType, $additionalArgs);
-        var_dump($query);
-        exit;
         $node = $this->xpath->query($query);
+
         if ($node->length > 1) {
             throw new \Exception('Multiple entities found with the same ID.');
         }
@@ -87,10 +86,9 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
             return null;
         }
 
-        var_dump($node->text);
-        // $this->xpath->query('//item[@type="section"]');
+        $array = $this->serializer->decode($node, SchemaEncoder::FORMAT);
 
-        return null;
+        return $this->serializer->denormalize($array, $this->entityClass);
     }
 
     public function remove(string $id): void
