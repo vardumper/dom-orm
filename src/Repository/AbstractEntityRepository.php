@@ -75,16 +75,8 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
             $additionalArgs .= sprintf(' and ./fragment[@name="%s"] = "%s"', trim($key), trim($value));
         }
 
-        $query = sprintf('//item[@type="%s" %s][1]', $this->entityType, $additionalArgs);
-        $node = $this->xpath->query($query);
-
-        if ($node->length > 1) {
-            throw new \Exception(sprintf('Multiple entities found using %s', $query));
-        }
-
-        if ($node->length < 1) {
-            return null;
-        }
+        $query = sprintf('//item[@type="%s" %s]', $this->entityType, $additionalArgs);
+        $node = $this->xpath->query($query)->item(0);
 
         $array = $this->serializer->decode($node, SchemaEncoder::FORMAT);
 
