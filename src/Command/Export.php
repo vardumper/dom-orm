@@ -7,7 +7,8 @@ class Export
 {
     protected static $defaultName = 'dom-orm:export';
 
-    public static function run(): void
+    public static function run(string $file, $xml, $yaml, $json, $php): void
     {
+
     }
 }

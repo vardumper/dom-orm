@@ -18,10 +18,10 @@ set_error_handler(static function ($severity, $message, $file, $line) {
     }
 });
 
-$possibleFiles = [__DIR__.'/../../autoload.php', __DIR__.'/../autoload.php', __DIR__.'/vendor/autoload.php'];
+$possibleFiles = [__DIR__ . '/../../autoload.php', __DIR__ . '/../autoload.php', __DIR__ . '/vendor/autoload.php'];
 $file = current(array_filter($possibleFiles, 'file_exists'));
 
-if (null === $file) {
+if ($file === null) {
     throw new RuntimeException('Unable to locate autoload.php file.');
 }
 
@@ -33,15 +33,14 @@ use DOM\ORM\Command\Export;
 use DOM\ORM\Command\Import;
 use DOM\ORM\Command\Init;
 use DOM\ORM\Command\Validate;
-
 use Silly\Application;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 
 $app = new Application('DOM-ORM CLI Tool', '0.1.0');
 
 $app->command('list', function (ConsoleOutputInterface $output) {
-    $output->writeln(sprintf("DOM-ORM <fg=green>%s</>",'1.0.0'));
-    $output->writeln("Available commands:");
+    $output->writeln(sprintf('DOM-ORM <fg=green>%s</>', '1.0.0'));
+    $output->writeln('Available commands:');
     $output->writeln('<fg=green>backup</>           Backup the database.');
     $output->writeln('<fg=green>diagnose</>         Diagnose the database.');
     $output->writeln('<fg=green>export</>           Export the database.');
@@ -69,7 +68,7 @@ $app->command('schema-validate', function (ConsoleOutputInterface $output) {
     $output->writeln('Done.');
 });
 
-$app->command('import [file]', function ( $file, ConsoleOutputInterface $output) {
+$app->command('import [file]', function ($file, ConsoleOutputInterface $output) {
     $output->writeln('Importing into database...');
     Import::run();
     $output->writeln('Done.');
