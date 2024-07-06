@@ -33,20 +33,26 @@ class SchemaDenormalizer implements DenormalizerInterface
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         /** @todo */
-        if (count($data['data']) > 1) {
-            // we need a collection
-            $ret = new Collection($type);
-            foreach ($data['data'] as $key => $data) {
-                $entity = $this->instantiateEntity($data);
-                $ret->add($entity);
+        if (isset($data['data'])) {
+            if (count($data['data']) > 1) {
+                // we need a collection
+                $ret = new Collection($type);
+                foreach ($data['data'] as $key => $data) {
+                    $entity = $this->instantiateEntity($data);
+                    $ret->add($entity);
+                }
+
+                return $ret;
             }
 
-            return $ret;
+            // we need a single entity
+            if (count($data['data']) === 1) {
+                return $this->instantiateEntity($data['data'][0]);
+            }
         }
 
-        // we need a single entity
-        if (count($data['data']) === 1) {
-            return $this->instantiateEntity($data['data'][0]);
+        if (count($data) === 1) {
+            return $this->instantiateEntity($data);
         }
 
         return null;
@@ -134,7 +140,8 @@ class SchemaDenormalizer implements DenormalizerInterface
             if (in_array($param->getName(), self::DATETIME_ATTRIBUTES, true)) {
                 $entityData[$param->getName()] = new \DateTimeImmutable($entityData[$param->getName()]);
             }
-
+            var_dump($param->getType());
+            exit;
             // dont set stuff twice
             if (!isset($constructoArgs[$param->getName()])) {
                 $constructoArgs[$param->getName()] = $entityData[$param->getName()];
