@@ -10,6 +10,7 @@ use DOM\ORM\Serializer\Normalizer\SchemaDenormalizer;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use DOM\ORM\Serializer\SchemaSerializer;
 use DOM\ORM\Storage\StorageService;
+use League\Flysystem\UnableToReadFile;
 
 trait EntityManagerTrait
 {
