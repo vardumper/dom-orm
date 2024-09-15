@@ -27,7 +27,13 @@ trait EntityManagerTrait
     {
         $this->storage = new StorageService();
         $xml = $this->getEmptyDom();
-        $xml->loadXML($this->storage->read());
+
+        try {
+            $xml->loadXML($this->storage->read());
+        } catch (UnableToReadFile $e) {
+            $this->storage->write('<data />');
+            $xml->loadXML($this->storage->read());
+        }
         $this->data = $xml;
         $this->xpath = new \DOMXPath($xml);
         $this->serializer = $this->getSerializer();
