@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: '/dom-orm/'
+  base: '/dom-orm/',
   title: "DOM-ORM",
   description: "Using a standardized XML tree structure to store data objects in a Doctrine-like ORM fashion. ",
   themeConfig: {
