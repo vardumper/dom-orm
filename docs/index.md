@@ -8,17 +8,24 @@ hero:
   tagline: Using a standardized XML tree structure to store data objects in a Doctrine-like fashion into an XML flatfile.
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Quickstart
+      link: /quickstart
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: Usage Examples
+      link: /usage-examples
 
 features:
-  - title: Feature A
+  - title: One-to-One Relationships
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
+  - title: One-to-many Relationships
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
+  - title: Many-to-one Relationships
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Many-to-Many Relationships
+    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+
 ---
+
+## Why?
+
+The DOM-ORM project was created to provide a simple, easy-to-use, and lightweight way to store data objects without the need to setup and configure a database, users. That said, the project is not meant to replace databases, but rather to provide an alternative with a focus on tree structures like navigations, translations, etc.
