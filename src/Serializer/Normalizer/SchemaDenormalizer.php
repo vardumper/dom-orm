@@ -128,7 +128,7 @@ class SchemaDenormalizer implements DenormalizerInterface
         // get entity constructor params
         $reflection = new \ReflectionClass($entityClass);
         $params = $reflection->getConstructor()->getParameters();
-        $constructoArgs = [];
+        $constructorArgs = [];
 
         foreach ($params as $param) {
             // skip missing
@@ -142,8 +142,8 @@ class SchemaDenormalizer implements DenormalizerInterface
             // var_dump($param->getType());
             // exit;
             // dont set stuff twice
-            if (!isset($constructoArgs[$param->getName()])) {
-                $constructoArgs[$param->getName()] = $entityData[$param->getName()];
+            if (!isset($constructorArgs[$param->getName()])) {
+                $constructorArgs[$param->getName()] = $entityData[$param->getName()];
             }
 
             // @todo how about groups, collections, arrays?
@@ -151,7 +151,7 @@ class SchemaDenormalizer implements DenormalizerInterface
 
         // @todo how to use php8.3 named arguments dynamically?
         /** @var EntityInterface $ret */
-        $ret = new $entityClass(...$constructoArgs);
+        $ret = new $entityClass(...$constructorArgs);
         $ret->setId($entityData['@id']);
         foreach ($entityData as $key => $value) {
             if (in_array($key, self::RESERVED_ATTRIBUTES, true)) {

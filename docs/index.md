@@ -4,8 +4,8 @@ layout: home
 
 hero:
   name: "DOM-ORM"
-  text: "Using a standardized XML tree structure to store data objects in a Doctrine-like ORM fashion. "
-  tagline: My great project tagline
+  text: ""
+  tagline: Using a standardized XML tree structure to store data objects in a Doctrine-like fashion into an XML flatfile.
   actions:
     - theme: brand
       text: Markdown Examples
@@ -22,4 +22,3 @@ features:
   - title: Feature C
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
-
