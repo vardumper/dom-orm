@@ -34,26 +34,26 @@ class SchemaDenormalizer implements DenormalizerInterface
     {
         /** @todo */
         if (isset($data['data'])) {
-            if (count($data['data']) > 1) {
-                // we need a collection
-                $ret = new Collection($type);
-                foreach ($data['data'] as $key => $data) {
-                    $entity = $this->instantiateEntity($data);
-                    $ret->add($entity);
-                }
-
-                return $ret;
+            // if (count($data['data']) > 1) {
+            // we need a collection
+            $ret = new Collection($type);
+            foreach ($data['data'] as $key => $data) {
+                $entity = $this->instantiateEntity($data);
+                $ret->add($entity);
             }
+
+            return $ret;
+            // }
 
             // we need a single entity
-            if (count($data['data']) === 1) {
-                return $this->instantiateEntity($data['data'][0]);
-            }
+            // if (count($data['data']) === 1) {
+            //     return $this->instantiateEntity($data['data'][0]);
+            // }
         }
 
-        if (count($data) === 1) {
-            return $this->instantiateEntity($data);
-        }
+        // if (count($data) === 1) {
+        //     return $this->instantiateEntity($data);
+        // }
 
         return null;
     }
@@ -129,8 +129,7 @@ class SchemaDenormalizer implements DenormalizerInterface
         $reflection = new \ReflectionClass($entityClass);
         $params = $reflection->getConstructor()->getParameters();
         $constructoArgs = [];
-        // var_dump($data);
-        // exit;
+
         foreach ($params as $param) {
             // skip missing
             if (!isset($entityData[$param->getName()])) {
@@ -140,8 +139,8 @@ class SchemaDenormalizer implements DenormalizerInterface
             if (in_array($param->getName(), self::DATETIME_ATTRIBUTES, true)) {
                 $entityData[$param->getName()] = new \DateTimeImmutable($entityData[$param->getName()]);
             }
-            var_dump($param->getType());
-            exit;
+            // var_dump($param->getType());
+            // exit;
             // dont set stuff twice
             if (!isset($constructoArgs[$param->getName()])) {
                 $constructoArgs[$param->getName()] = $entityData[$param->getName()];
