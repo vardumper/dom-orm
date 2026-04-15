@@ -34,6 +34,7 @@ use DOM\ORM\Command\Export;
 use DOM\ORM\Command\Import;
 use DOM\ORM\Command\Init;
 use DOM\ORM\Command\Migrate;
+use DOM\ORM\Command\Perf;
 use DOM\ORM\Command\Validate;
 use DOM\ORM\Storage\QueryCache;
 use Silly\Application;
@@ -54,6 +55,7 @@ $app->command('list', function (ConsoleOutputInterface $output) {
     $output->writeln('<fg=green>init</>             Initialize the database');
     $output->writeln('<fg=green>list</>             List commands');
     $output->writeln('<fg=green>migrate</>          Apply fragment rename/removal maps to XML.');
+    $output->writeln('<fg=green>perf</>             Run a performance benchmark (seed + query).');
     $output->writeln('<fg=green>schema-validate</>  Validate the database schema.');
 });
 
@@ -159,6 +161,80 @@ $app->command('diagnose', function (ConsoleOutputInterface $output) {
     $output->writeln('Diagnose database...');
     Diagnose::run();
 });
+
+$app->command(
+    'perf [--count=] [--sample=] [--keep]',
+    function (?int $count, ?int $sample, bool $keep, ConsoleOutputInterface $output): void {
+        $count  = $count  ?? 100_000;
+        $sample = $sample ?? 50;
+
+        $sep = \str_repeat('─', 54);
+
+        $output->writeln("\n<fg=cyan;options=bold>DOM-ORM Performance Report</>\n{$sep}");
+        $output->writeln(\sprintf(
+            '<fg=yellow>Entities : %s  |  One-by-one sample : %s</>',
+            \number_format($count),
+            \number_format($sample),
+        ));
+        $output->writeln('');
+        $output->writeln("<options=bold>Running… (this may take a minute)</>\n");
+
+        $s  = Perf::run($count, $sample, $keep);
+        $ms = static fn (float $v): string => \number_format($v, 2) . ' ms';
+
+        $output->writeln('<options=bold>[WRITE — one-by-one]</>');
+        $output->writeln(\sprintf(
+            '  Sample (%d entities)  : <fg=green>%s</> total  (<fg=green>%s</> each)',
+            $sample, $ms($s['one_by_one_sample_ms']),
+            \number_format($s['one_by_one_per_entity_ms'], 4) . ' ms',
+        ));
+        $output->writeln(\sprintf(
+            '  Extrapolated (%s) : ~<fg=yellow>%s</> total',
+            \number_format($count),
+            $ms($s['one_by_one_estimated_total_ms']),
+        ));
+        $output->writeln('  <fg=gray>Note: each persist() re-serialises the full growing XML document.</>');
+
+        $output->writeln('');
+        $output->writeln('<options=bold>[WRITE — batch (persistBatch → one save)]</>');
+        $output->writeln(\sprintf(
+            '  %s entities     : <fg=green>%s</> total  (<fg=green>%s</> each)',
+            \number_format($count), $ms($s['batch_total_ms']),
+            \number_format($s['batch_per_entity_ms'], 4) . ' ms',
+        ));
+        $output->writeln(\sprintf('  Resulting XML size  : <fg=green>%s KB</>', \number_format($s['batch_xml_kb'])));
+        $output->writeln(\sprintf(
+            '  Speedup vs one-by-one : ~<fg=cyan>%.0f×</>',
+            $s['one_by_one_estimated_total_ms'] / \max($s['batch_total_ms'], 0.001),
+        ));
+
+        $output->writeln('');
+        $output->writeln('<options=bold>[READ — XPath (no cache)]</>');
+        $output->writeln(\sprintf('  findAll()           : <fg=green>%s</>', $ms($s['find_all_ms'])));
+        $output->writeln(\sprintf('  find() by id        : <fg=green>%s</>', $ms($s['find_one_ms'])));
+        $output->writeln(\sprintf('  findOneBy() by name : <fg=green>%s</>', $ms($s['find_one_by_ms'])));
+
+        $output->writeln('');
+        $output->writeln('<options=bold>[READ — PHP query cache]</>');
+        $output->writeln(\sprintf('  Cache build         : <fg=green>%s</>', $ms($s['cache_build_ms'])));
+        $output->writeln(\sprintf(
+            '  findAll()           : <fg=green>%s</>  (<fg=cyan>%.1f×</> speedup)',
+            $ms($s['cache_find_all_ms']),
+            $s['find_all_ms'] / \max($s['cache_find_all_ms'], 0.001),
+        ));
+        $output->writeln(\sprintf(
+            '  find() by id        : <fg=green>%s</>  (<fg=cyan>%.1f×</> speedup)',
+            $ms($s['cache_find_one_ms']),
+            $s['find_one_ms'] / \max($s['cache_find_one_ms'], 0.001),
+        ));
+        $output->writeln(\sprintf(
+            '  findOneBy() by name : <fg=green>%s</>  (<fg=cyan>%.1f×</> speedup)',
+            $ms($s['cache_find_one_by_ms']),
+            $s['find_one_by_ms'] / \max($s['cache_find_one_by_ms'], 0.001),
+        ));
+        $output->writeln('');
+    },
+);
 
 // $app->setDefaultCommand('list');
 $app->run();

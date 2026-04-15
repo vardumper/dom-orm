@@ -52,6 +52,7 @@ trait EntityManagerTrait
             $this->storage->write('<data />');
             $xml->loadXML($this->storage->read());
         }
+
         $this->data = $xml;
         $this->xpath = new \DOMXPath($xml);
         $this->serializer = self::$sharedSerializer ??= $this->getSerializer();
@@ -97,6 +98,46 @@ trait EntityManagerTrait
         $tmp->loadXML($xml);
         $importedNode = $this->data->importNode($tmp->documentElement, true);
         $parent->appendChild($importedNode);
+
+        $this->save();
+    }
+
+    /**
+     * Persist multiple entities in a single write: appends all nodes to the DOM,
+     * then calls save() exactly once. Far more efficient than calling persist()
+     * in a loop when inserting large numbers of entities.
+     *
+     * @param iterable<EntityInterface> $entities
+     * @param \DOMNode|\DOMNodeList<\DOMNode>|null $parent
+     */
+    public function persistBatch(iterable $entities, \DOMNode|\DOMNodeList|null $parent = null): void
+    {
+        $this->init();
+
+        $resolvedParent = $parent ?? $this->data->documentElement;
+
+        foreach ($entities as $entity) {
+            $allowedParentPaths = $this->resolveAllowedParentPaths($entity);
+
+            $nodeParent = $resolvedParent;
+            if (\is_array($allowedParentPaths) && \count($allowedParentPaths) === 1) {
+                $nodes = $this->xpath->query($allowedParentPaths[0]);
+                $nodeParent = ($nodes === false) ? null : $nodes->item(0);
+                if ($nodeParent === null) {
+                    throw new \InvalidArgumentException(\sprintf('The parent node %s wasn\'t found.', $allowedParentPaths[0]));
+                }
+            }
+
+            if ($nodeParent === null) {
+                throw new \InvalidArgumentException('Invalid parent node. Allowed parents: ' . \implode(', ', $allowedParentPaths ?? []));
+            }
+
+            $array = $this->serializer->normalize($entity, SchemaNormalizer::FORMAT);
+            $xml = $this->serializer->encode($array, SchemaEncoder::FORMAT);
+            $tmp = $this->getEmptyDom();
+            $tmp->loadXML($xml);
+            $nodeParent->appendChild($this->data->importNode($tmp->documentElement, true));
+        }
 
         $this->save();
     }

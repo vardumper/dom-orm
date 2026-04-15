@@ -204,7 +204,7 @@ function resetEntityManagerStatics(string $class): void
 defined('BENCH_ITEM_COUNT') or define('BENCH_ITEM_COUNT', 500);
 defined('BENCH_ITERATIONS') or define('BENCH_ITERATIONS', 50);
 defined('BENCH_SPEEDUP_FIND') or define('BENCH_SPEEDUP_FIND', 3);    // find() / findBy(): O(1) vs O(n) scan
-defined('BENCH_SPEEDUP_ALL') or define('BENCH_SPEEDUP_ALL', 1.5);   // findAll(): decode savings only
+defined('BENCH_SPEEDUP_ALL') or define('BENCH_SPEEDUP_ALL', 1.2);   // findAll(): decode savings only (cache file is larger with field index)
 
 describe('query cache vs XPath', function (): void {
 

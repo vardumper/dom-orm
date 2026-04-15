@@ -13,10 +13,15 @@ use function DOM\ORM\getConfig;
  *
  *   <?php return [
  *       'user' => [
+ *           '__idx' => [
+ *               'name' => ['Alice' => ['uuid1'], 'Bob' => ['uuid2']],
+ *               'city' => ['Berlin' => ['uuid1', 'uuid3'], ...],
+ *           ],
  *           'uuid1' => ['@id' => 'uuid1', '@type' => 'user', 'name' => 'Alice', ...],
  *       ],
  *   ];
  *
+ * The '__idx' sub-key holds per-field inverted indexes (non-encrypted fields only).
  * The inner item arrays match the shape produced by SchemaDecoder::decodeItem(),
  * so they can be fed directly back into SchemaDenormalizer after wrapping:
  *   ['data' => [['item-{id}' => $itemData]]]
@@ -137,6 +142,18 @@ final class QueryCache
             }
 
             $cache[$type][$id] = $itemData;
+
+            // Build inverted index for every non-encrypted, non-reserved fragment.
+            foreach ($itemData as $field => $value) {
+                if ($field === '@id' || $field === '@type') {
+                    continue;
+                }
+                // Encrypted fields are arrays — skip them.
+                if (\is_array($value)) {
+                    continue;
+                }
+                $cache[$type]['__idx'][$field][(string)$value][] = $id;
+            }
         }
 
         $dir = \dirname($path);
@@ -166,12 +183,17 @@ final class QueryCache
     /**
      * Find a single item by entity type and ID.
      *
-     * @param array<string, array<string, array<string, mixed>>> $cache
+     * @param array<string, array<string, mixed>> $cache
      * @return array{data: list<array<string, array<string, mixed>>>}|null
      */
     public static function findById(array $cache, string $type, string $id): ?array
     {
-        $itemData = $cache[$type][$id] ?? null;
+        $typeData = $cache[$type] ?? null;
+        if ($typeData === null) {
+            return null;
+        }
+
+        $itemData = $typeData[$id] ?? null;
         if ($itemData === null) {
             return null;
         }
@@ -186,21 +208,29 @@ final class QueryCache
     /**
      * Return all items for an entity type.
      *
-     * @param array<string, array<string, array<string, mixed>>> $cache
+     * @param array<string, array<string, mixed>> $cache
      * @return array{data: list<array<string, array<string, mixed>>>}|null
      */
     public static function findAll(array $cache, string $type): ?array
     {
-        $items = $cache[$type] ?? null;
-        if ($items === null || \count($items) === 0) {
+        $typeData = $cache[$type] ?? null;
+        if ($typeData === null || \count($typeData) === 0) {
             return null;
         }
 
         $data = [];
-        foreach ($items as $id => $itemData) {
+        foreach ($typeData as $id => $itemData) {
+            // Skip the internal index bucket.
+            if ($id === '__idx') {
+                continue;
+            }
             $data[] = [
                 'item-' . $id => $itemData,
             ];
+        }
+
+        if (\count($data) === 0) {
+            return null;
         }
 
         return [
@@ -209,59 +239,127 @@ final class QueryCache
     }
 
     /**
-     * Find items matching all criteria (equality, non-sensitive fields only).
+     * Find items matching all criteria using the per-field inverted index where possible.
      *
-     * Criteria values are compared as strings against cached fragment values.
-     * If a criterion key maps to an encrypted fragment (array with 'searchable-hash'),
-     * this method falls back to returning null so the caller can use XPath instead.
+     * Strategy:
+     *  1. For each non-encrypted criterion, look up the '__idx' sub-key to get a candidate
+     *     set of IDs (O(1) hash lookup).  Intersect candidate sets across all criteria.
+     *  2. If any criterion maps to an encrypted field (array value), return null so the
+     *     caller falls back to XPath which can match on searchable-hash.
+     *  3. If a criterion field has no index entry at all (no matching value), return an
+     *     empty-result immediately without scanning any items.
      *
-     * @param array<string, array<string, array<string, mixed>>> $cache
+     * @param array<string, array<string, mixed>> $cache
      * @param array<string, scalar> $criteria
-     * @return array{data: list<array<string, array<string, mixed>>>}|null null = fall back to XML
+     * @return array{data: list<array<string, array<string, mixed>>>}|null  null = fall back to XML
      */
     public static function findBy(array $cache, string $type, array $criteria): ?array
     {
-        $items = $cache[$type] ?? null;
-        if ($items === null) {
+        $typeData = $cache[$type] ?? null;
+        if ($typeData === null) {
             return null;
         }
 
-        // Handle id as a special key (maps to @id in the item data)
+        // Handle id as a special key — direct hash lookup, no index needed.
         $idFilter = null;
         if (isset($criteria['id'])) {
             $idFilter = (string)$criteria['id'];
             unset($criteria['id']);
         }
 
-        $data = [];
-        foreach ($items as $id => $itemData) {
-            if ($idFilter !== null && $id !== $idFilter) {
-                continue;
-            }
+        // Determine the candidate ID set via the inverted index.
+        // Start with null = "all IDs" and narrow down with each criterion.
+        $candidateIds = null; // null means "not yet restricted"
 
-            $match = true;
-            foreach ($criteria as $key => $value) {
-                $cached = $itemData[$key] ?? null;
+        $idx = $typeData['__idx'] ?? [];
 
-                // If the value is an array it's an encrypted field — signal caller to fall back.
-                if (\is_array($cached)) {
-                    return null;
+        foreach ($criteria as $field => $value) {
+            $strValue = (string)$value;
+
+            // Check whether this field is indexed at all.
+            if (!isset($idx[$field])) {
+                // Field not in index — could be encrypted or simply missing.
+                // Peek at the first item to detect encrypted fields.
+                foreach ($typeData as $peekId => $peekData) {
+                    if ($peekId === '__idx') {
+                        continue;
+                    }
+                    $peekField = $peekData[$field] ?? null;
+                    if (\is_array($peekField)) {
+                        // Encrypted — signal caller to use XPath.
+                        return null;
+                    }
+
+                    // Non-encrypted but value not in index = no matches.
+                    return [
+                        'data' => [],
+                    ];
                 }
 
-                if ((string)$cached !== (string)$value) {
-                    $match = false;
-                    break;
+                // Empty type.
+                return [
+                    'data' => [],
+                ];
+            }
+
+            // O(1) value lookup in the inverted index.
+            $matchingIds = $idx[$field][$strValue] ?? [];
+            if (\count($matchingIds) === 0) {
+                return [
+                    'data' => [],
+                ];
+            }
+
+            // Intersect with the running candidate set.
+            if ($candidateIds === null) {
+                $candidateIds = \array_flip($matchingIds);
+            } else {
+                $candidateIds = \array_intersect_key($candidateIds, \array_flip($matchingIds));
+                if (\count($candidateIds) === 0) {
+                    return [
+                        'data' => [],
+                    ];
                 }
             }
-            if ($match) {
-                $data[] = [
-                    'item-' . $id => $itemData,
+        }
+
+        // Apply id filter.
+        if ($idFilter !== null) {
+            if ($candidateIds === null) {
+                $candidateIds = [
+                    $idFilter => true,
+                ];
+            } elseif (!isset($candidateIds[$idFilter])) {
+                return [
+                    'data' => [],
+                ];
+            } else {
+                $candidateIds = [
+                    $idFilter => true,
                 ];
             }
         }
 
+        // Materialise the result from the candidate set.
+        $data = [];
+        $source = ($candidateIds !== null) ? \array_keys($candidateIds) : \array_keys($typeData);
+        foreach ($source as $id) {
+            if ($id === '__idx') {
+                continue;
+            }
+            $itemData = $typeData[$id] ?? null;
+            if ($itemData === null) {
+                continue;
+            }
+            $data[] = [
+                'item-' . $id => $itemData,
+            ];
+        }
+
         if (\count($data) === 0) {
-            return null;
+            return [
+                'data' => [],
+            ];
         }
 
         return [
