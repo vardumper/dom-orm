@@ -11,11 +11,13 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
     use EntityManagerTrait;
 
     private string $entityType;
+    private string $entityTypeXPathLiteral;
     private string $entityClass;
 
     public function __construct(string $entityType)
     {
         $this->entityType = $entityType;
+        $this->entityTypeXPathLiteral = $this->toXPathValue($entityType);
         $this->entityClass = $this->getEntityByEntityType($entityType);
         $this->init();
     }
@@ -30,7 +32,11 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
      */
     public function findAll(): ?Collection
     {
-        $nodes = $this->xpath->query(\sprintf('//item[@type="%s"]', $this->entityType));
+        $nodes = $this->queryNodes(\sprintf('//item[@type=%s]', $this->entityTypeXPathLiteral));
+        if ($nodes === null) {
+            return null;
+        }
+
         if ($nodes->length < 1) {
             return null;
         }
@@ -42,16 +48,24 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
 
     public function find(string $id): ?EntityInterface
     {
-        $node = $this->xpath->query(\sprintf('//item[@type="%s" and @id="%s"]', $this->entityType, $id));
-        if ($node->length > 1) {
-            throw new \Exception('Multiple entities found with the same ID.');
-        }
-
-        if ($node->length < 1) {
+        $nodes = $this->queryNodes(\sprintf(
+            '//item[@type=%s and @id=%s]',
+            $this->entityTypeXPathLiteral,
+            $this->toXPathValue($id)
+        ));
+        if ($nodes === null) {
             return null;
         }
 
-        $array = $this->serializer->decode($node, SchemaEncoder::FORMAT);
+        if ($nodes->length > 1) {
+            throw new \Exception('Multiple entities found with the same ID.');
+        }
+
+        if ($nodes->length < 1) {
+            return null;
+        }
+
+        $array = $this->serializer->decode($nodes, SchemaEncoder::FORMAT);
 
         return $this->serializer->denormalize($array, $this->entityClass);
     }
@@ -72,18 +86,31 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
      */
     public function findOneBy(array $criteria, ?array $orderBy = null): ?EntityInterface
     {
-        $additionalArgs = '';
+        if (isset($criteria['id']) && \count($criteria) === 1) {
+            return $this->find((string)$criteria['id']);
+        }
+
+        $predicates = [\sprintf('@type=%s', $this->entityTypeXPathLiteral)];
         if (isset($criteria['id'])) {
-            $additionalArgs .= \sprintf(' and @id="%s" ', $criteria['id']);
+            $predicates[] = \sprintf('@id=%s', $this->toXPathValue((string)$criteria['id']));
             unset($criteria['id']);
         }
 
         foreach ($criteria as $key => $value) {
-            $additionalArgs .= \sprintf(' and ./fragment[@name="%s"] = "%s"', \trim($key), \trim((string)$value));
+            $predicates[] = \sprintf(
+                './fragment[@name=%s]=%s',
+                $this->toXPathValue($key),
+                $this->toXPathValue((string)$value)
+            );
         }
 
-        $query = \sprintf('//item[@type="%s" %s]', $this->entityType, $additionalArgs);
-        $node = $this->xpath->query($query)->item(0);
+        $query = '//item[' . \implode(' and ', $predicates) . ']';
+        $nodes = $this->queryNodes($query);
+        if ($nodes === null) {
+            return null;
+        }
+
+        $node = $nodes->item(0);
         if ($node === null) {
             return null;
         }
@@ -96,5 +123,40 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
     public function remove(string $id): void
     {
         $this->removeById($id);
+    }
+
+    /**
+     * @return \DOMNodeList<\DOMNode>|null
+     */
+    private function queryNodes(string $query): ?\DOMNodeList
+    {
+        $nodes = $this->xpath->query($query);
+
+        return ($nodes === false) ? null : $nodes;
+    }
+
+    private function xpathLiteral(string $value): string
+    {
+        if (!\str_contains($value, "'")) {
+            return "'{$value}'";
+        }
+
+        if (!\str_contains($value, '"')) {
+            return '"' . $value . '"';
+        }
+
+        $parts = \explode("'", $value);
+        $quotedParts = \array_map(static fn (string $part): string => "'{$part}'", $parts);
+
+        return 'concat(' . \implode(', "\'", ', $quotedParts) . ')';
+    }
+
+    private function toXPathValue(string $value): string
+    {
+        if (!\str_contains($value, "'") && !\str_contains($value, '"')) {
+            return '"' . $value . '"';
+        }
+
+        return $this->xpathLiteral($value);
     }
 }

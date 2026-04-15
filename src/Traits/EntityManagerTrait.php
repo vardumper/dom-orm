@@ -18,9 +18,21 @@ trait EntityManagerTrait
 
     protected SchemaSerializer $serializer;
 
+    private static ?StorageService $sharedStorage = null;
+
+    private static ?SchemaSerializer $sharedSerializer = null;
+
+    private bool $initialized = false;
+
     public function init(): void
     {
-        $this->storage = StorageService::fromConfig();
+        if ($this->initialized) {
+            return;
+        }
+
+        $this->storage = self::$sharedStorage ??= StorageService::fromConfig();
+        self::warmUpReflectionCache();
+
         $xml = $this->getEmptyDom();
 
         try {
@@ -31,7 +43,8 @@ trait EntityManagerTrait
         }
         $this->data = $xml;
         $this->xpath = new \DOMXPath($xml);
-        $this->serializer = $this->getSerializer();
+        $this->serializer = self::$sharedSerializer ??= $this->getSerializer();
+        $this->initialized = true;
     }
 
     /**

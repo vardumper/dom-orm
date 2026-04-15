@@ -17,28 +17,46 @@ trait AttributeResolverTrait
      */
     private static ?array $entityTypeToClassMap = null;
 
+    /**
+     * @var array<class-string<AbstractEntity>, string|null>
+     */
+    private static array $entityTypeByClass = [];
+
+    /**
+     * @var array<class-string<AbstractEntity>, list<string>|null>
+     */
+    private static array $allowedParentPathsByClass = [];
+
+    /**
+     * @var array<class-string<AbstractEntity>, list<array{0: string|null, 1: string, 2: string}>|null>
+     */
+    private static array $fragmentsByClass = [];
+
+    /**
+     * @var array<class-string<AbstractEntity>, list<array{0: class-string, 1: string|null, 2: string}>|null>
+     */
+    private static array $groupsByClass = [];
+
+    public static function warmUpReflectionCache(): void
+    {
+        foreach (\get_declared_classes() as $class) {
+            self::primeReflectionCacheForClass($class);
+        }
+    }
+
     public function getEntityByEntityType(string $entityType): ?string
     {
         if (self::$entityTypeToClassMap === null) {
             self::$entityTypeToClassMap = [];
-
-            foreach (\get_declared_classes() as $class) {
-                if (!\is_subclass_of($class, AbstractEntity::class)) {
-                    continue;
-                }
-
-                $reflectionClass = new \ReflectionClass($class);
-                $attributes = $reflectionClass->getAttributes(Item::class);
-                foreach ($attributes as $attribute) {
-                    $args = $attribute->getArguments();
-                    if (!\array_key_exists('entityType', $args)) {
-                        continue;
-                    }
-
-                    self::$entityTypeToClassMap[$args['entityType']] = $class;
-                }
-            }
+            self::warmUpReflectionCache();
         }
+
+        if (isset(self::$entityTypeToClassMap[$entityType])) {
+            return self::$entityTypeToClassMap[$entityType];
+        }
+
+        // Warmup again in case additional entity classes were autoloaded later.
+        self::warmUpReflectionCache();
 
         if (isset(self::$entityTypeToClassMap[$entityType])) {
             return self::$entityTypeToClassMap[$entityType];
@@ -49,31 +67,27 @@ trait AttributeResolverTrait
 
     protected function resolveEntityType(string|EntityInterface $entity): ?string
     {
-        $reflectionClass = new \ReflectionClass($entity);
-        foreach ($reflectionClass->getAttributes(Item::class) as $attribute) {
-            return $attribute->newInstance()->entityType;
+        $className = $this->resolveEntityClassName($entity);
+
+        if (!\array_key_exists($className, self::$entityTypeByClass)) {
+            self::primeReflectionCacheForClass($className);
         }
 
-        return null;
+        return self::$entityTypeByClass[$className] ?? null;
     }
 
-    /**
-     * figures out if the entity has fixed parent paths
-     */
     /**
      * @return list<string>|null
      */
     private function resolveAllowedParentPaths(string|EntityInterface $entity): ?array
     {
-        $reflectionClass = new \ReflectionClass($entity);
-        foreach ($reflectionClass->getAttributes(Item::class) as $attribute) {
-            $value = $attribute->newInstance()->allowedParentPaths;
-            if (\is_array($value)) {
-                return $value;
-            }
+        $className = $this->resolveEntityClassName($entity);
+
+        if (!\array_key_exists($className, self::$allowedParentPathsByClass)) {
+            self::primeReflectionCacheForClass($className);
         }
 
-        return null;
+        return self::$allowedParentPathsByClass[$className] ?? null;
     }
 
     /**
@@ -81,32 +95,13 @@ trait AttributeResolverTrait
      */
     private function resolveFragments(string|EntityInterface $entity): ?array
     {
-        $reflectionClass = new \ReflectionClass($entity);
+        $className = $this->resolveEntityClassName($entity);
 
-        $parentClass = $reflectionClass->getParentClass();
-        $parentProperties = ($parentClass === false) ? [] : $parentClass->getProperties();
-        $properties = \array_merge($reflectionClass->getProperties(), $parentProperties);
-
-        $fragments = [];
-        foreach ($properties as $property) {
-            $attributes = $property->getAttributes(Fragment::class);
-
-            foreach ($attributes as $attribute) {
-                $fragment = $attribute->newInstance();
-
-                $fragments[] = [
-                    $fragment->storageStrategy,
-                    $fragment->fragmentName ?? $property->getName(),
-                    $property->getName(),
-                ];
-            }
+        if (!\array_key_exists($className, self::$fragmentsByClass)) {
+            self::primeReflectionCacheForClass($className);
         }
 
-        if (empty($fragments)) {
-            return null;
-        }
-
-        return $fragments;
+        return self::$fragmentsByClass[$className] ?? null;
     }
 
     /**
@@ -114,22 +109,75 @@ trait AttributeResolverTrait
      */
     private function resolveGroups(string|EntityInterface $entity): ?array
     {
-        $reflectionClass = new \ReflectionClass($entity);
+        $className = $this->resolveEntityClassName($entity);
+
+        if (!\array_key_exists($className, self::$groupsByClass)) {
+            self::primeReflectionCacheForClass($className);
+        }
+
+        return self::$groupsByClass[$className] ?? null;
+    }
+
+    private function resolveEntityClassName(string|EntityInterface $entity): string
+    {
+        return \is_string($entity) ? $entity : $entity::class;
+    }
+
+    private static function primeReflectionCacheForClass(string $class): void
+    {
+        if (!\is_subclass_of($class, AbstractEntity::class)) {
+            return;
+        }
+
+        if (
+            \array_key_exists($class, self::$entityTypeByClass)
+            && \array_key_exists($class, self::$allowedParentPathsByClass)
+            && \array_key_exists($class, self::$fragmentsByClass)
+            && \array_key_exists($class, self::$groupsByClass)
+        ) {
+            return;
+        }
+
+        $reflectionClass = new \ReflectionClass($class);
+
+        $entityType = null;
+        $allowedParentPaths = null;
+        foreach ($reflectionClass->getAttributes(Item::class) as $attribute) {
+            $item = $attribute->newInstance();
+            $entityType = $item->entityType;
+            if (\is_array($item->allowedParentPaths)) {
+                $allowedParentPaths = $item->allowedParentPaths;
+            }
+            break;
+        }
+
+        self::$entityTypeByClass[$class] = $entityType;
+        self::$allowedParentPathsByClass[$class] = $allowedParentPaths;
+
+        if ($entityType !== null) {
+            self::$entityTypeToClassMap ??= [];
+            self::$entityTypeToClassMap[$entityType] = $class;
+        }
+
         $parentClass = $reflectionClass->getParentClass();
         $parentProperties = ($parentClass === false) ? [] : $parentClass->getProperties();
+        $properties = \array_merge($reflectionClass->getProperties(), $parentProperties);
 
-        $properties = \array_merge(
-            $reflectionClass->getProperties(),
-            $parentProperties
-        );
-
+        $fragments = [];
         $groups = [];
+
         foreach ($properties as $property) {
-            $attributes = $property->getAttributes(Group::class);
+            foreach ($property->getAttributes(Fragment::class) as $attribute) {
+                $fragment = $attribute->newInstance();
+                $fragments[] = [
+                    $fragment->storageStrategy,
+                    $fragment->fragmentName ?? $property->getName(),
+                    $property->getName(),
+                ];
+            }
 
-            foreach ($attributes as $attribute) {
+            foreach ($property->getAttributes(Group::class) as $attribute) {
                 $group = $attribute->newInstance();
-
                 $groups[] = [
                     $group->entity,
                     $group->groupType,
@@ -138,10 +186,7 @@ trait AttributeResolverTrait
             }
         }
 
-        if (empty($groups)) {
-            return null;
-        }
-
-        return $groups;
+        self::$fragmentsByClass[$class] = (empty($fragments)) ? null : $fragments;
+        self::$groupsByClass[$class] = (empty($groups)) ? null : $groups;
     }
 }

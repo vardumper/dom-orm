@@ -188,10 +188,14 @@ fi
 printf "${YELLOW}Pest Unit Tests${NC}\n"
 if $HAS_PEST; then
     if RUN $PEST --testdox --colors=always; then
-      # All good, also re-generate clover.xml
-        $PEST --coverage --coverage-clover clover.xml
-        git add clover.xml
-        printf "${GREEN}Pest tests passed${NC}\n"
+      # All good, also re-generate clover.xml and stage it
+        if RUN env XDEBUG_MODE=coverage $PEST --coverage --coverage-clover clover.xml; then
+            git add clover.xml
+            printf "${GREEN}Pest tests passed; clover.xml updated${NC}\n"
+        else
+            printf "${RED}Pest coverage generation failed${NC}\n"
+            PASS=false
+        fi
     else
       PASS=false
     fi
