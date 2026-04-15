@@ -1,12 +1,12 @@
 # DOM ORM
 
-This is a storage adapter for small web projects. Like any other ORM, it stores enitites (objects) into a flexible XML file. This is for developers who want to start a small project without having to spin up a database.
+DOM ORM is a lightweight XML-based persistence layer for small PHP projects. It stores entities in a single XML document, so you can start without a database server.
 
 ## Features
 
 - A very lightweight approach to persisting data into a single XML file.
-- Supports local and external file storage via Flysystem (S3,Azure,Google Cloud,(S)FTP,etc.)
-- Supports Many-to-one, One-to-many and Many-to-many relationships.
+- Supports local and remote storage via Flysystem (S3, Azure, Google Cloud, (S)FTP, etc.).
+- Supports one-to-one, one-to-many, many-to-one, and many-to-many patterns.
 
 ## Full Documentation
 
@@ -19,13 +19,16 @@ composer require vardumper/dom-orm
 ```
 
 By default, the XML file is stored on your local filesystem as `storage/data.xml` under the root of your project.
-You can change the storage location by changing the Flysystem adapter and configuring dom-orm to use it, like so:
+To change the location, configure a Flysystem adapter:
 
 ```php
 // config/dom-orm.php
 <?php return [
   'dom-orm' => [
-    'flysystem' => new LocalAdapter(__DIR__ . '/storage'),
+    'flysystem' => [
+      'adapter' => League\Flysystem\Local\LocalFilesystemAdapter::class,
+      'config' => [__DIR__ . '/storage'],
+    ],
     'filename' => 'data.xml',
   ],
 ];
@@ -34,7 +37,7 @@ You can change the storage location by changing the Flysystem adapter and config
 ## Basic Usage
 
 ### Entity
-By adding PHP8 Attributes to your entity class, DOM ORM knows how to persist it.
+Add PHP 8 attributes to describe how the entity is stored:
 
 ```php
 // src/Entity/Tag.php
@@ -46,58 +49,58 @@ class Tag extends AbstractEntity
 {
     public function __construct(
         #[ORM\Fragment]
-        private readonly string $name,
+        private string $name,
+        ?string $id = null,
+        ?\DateTimeInterface $createdAt = null,
     ) {
-        parent::__construct();
+        parent::__construct($id, $createdAt);
     }
 }
 ```
 
-### Persistance
+### Persistence
 
-An EntityManagerTrait can be used in controllers or services to persist entities to the XML file.
+Use EntityManagerTrait in services or controllers:
 ```php
 // src/Service/SomeService.php
 class SomeService {
     use DOM\ORM\Traits\EntityManagerTrait;
-    ...
+
     public function addTag(string $name) {
-      $tag = new Tag($name);
-      $this->persist($tag);
+        $this->persist(new Tag($name));
     }
 }
 ```
 
-When you want to update an existing Entity, you can use the `persist` method as well.
+Use `persist` for updates too:
 ```php
 // src/Service/SomeService.php
 class SomeService {
     use DOM\ORM\Traits\EntityManagerTrait;
-    ...
+
     public function updateTag(string $id, string $name) {
-      $tag = (new EntityRepository(Tag::class))->find($id);
-      $tag->setName($name);
-      $this->persist($tag);
+        $tag = (new EntityRepository(Tag::class))->find($id);
+        $tag->setName($name);
+        $this->persist($tag);
     }
 }
 ```
 
-When you want to remove an existing Entity, you can use the `remove` method.
+Use `remove` to delete:
 ```php
 // src/Service/SomeService.php
 class SomeService {
     use DOM\ORM\Traits\EntityManagerTrait;
-    ...
+
     public function removeTag(string $id) {
-      (new EntityRepository(Tag::class))->remove($id);
+        (new EntityRepository(Tag::class))->remove($id);
     }
 }
 ```
 
 ### Serialization
 
-When persisting the entity, DOM ORM automatically generates a UID and adds a creation date for the entity.
-The built-in normalizer and encoder transforms the object into a standardized XML format and saves it.
+DOM ORM generates an ID and `createdAt` automatically, then stores entities in a normalized XML shape.
 
 ```xml
 <!-- storage/data.xml -->
@@ -110,18 +113,124 @@ The built-in normalizer and encoder transforms the object into a standardized XM
 </data>
 ```
 
+## Relations (Basic Examples)
+
+### One-to-one
+
+```php
+#[ORM\Item(entityType: 'user')]
+class User extends AbstractEntity {
+  public function __construct(
+    #[ORM\Fragment] private string $name,
+    #[ORM\Group(entity: Profile::class, groupType: 'profile')] private array $profile = [],
+  ) { parent::__construct(); }
+}
+
+#[ORM\Item(entityType: 'profile')]
+class Profile extends AbstractEntity {
+  public function __construct(#[ORM\Fragment] private string $bio) { parent::__construct(); }
+}
+```
+
+Query example:
+
+```php
+// Via EntityRepository — returns the User with nested profile data
+$user = (new EntityRepository(User::class))->find('user-1');
+$profile = $user->getProfile()[0] ?? null;
+
+// Alternative: raw XPath
+$profileNodes = $xpath->query('//item[@type="user" and @id="user-1"]/group[@type="profile"]/item[@type="profile"]');
+$firstProfileNode = $profileNodes?->item(0); // DOMNode|null
+```
+
+### One-to-many
+
+```php
+#[ORM\Item(entityType: 'post')]
+class Post extends AbstractEntity {
+  public function __construct(
+    #[ORM\Fragment] private string $title,
+    #[ORM\Group(entity: Comment::class, groupType: 'comments')] private array $comments = [],
+  ) { parent::__construct(); }
+}
+```
+
+Query example:
+
+```php
+// Via EntityRepository — returns the Post with nested comments
+$post = (new EntityRepository(Post::class))->find('post-1');
+foreach ($post->getComments() as $comment) {
+  // each $comment is a Comment entity
+}
+
+// Alternative: raw XPath
+$commentNodes = $xpath->query('//item[@type="post" and @id="post-1"]/group[@type="comments"]/item[@type="comment"]');
+foreach ($commentNodes ?? [] as $commentNode) {
+  // each $commentNode is a DOMNode
+}
+```
+
+### Many-to-one
+
+```php
+#[ORM\Item(entityType: 'employee')]
+class Employee extends AbstractEntity {
+  public function __construct(
+    #[ORM\Fragment] private string $name,
+    #[ORM\Fragment] private string $companyId,
+  ) { parent::__construct(); }
+}
+// Many employees can reference the same companyId.
+```
+
+Query example:
+
+```php
+// Via EntityRepository — find all employees belonging to a company
+$employees = (new EntityRepository(Employee::class))->findBy(['companyId' => 'company-1']);
+
+// Alternative: raw XPath (returns DOMNodeList)
+$employeeNodes = $xpath->query('//item[@type="employee"][fragment[@name="companyId"]="company-1"]');
+```
+
+### Many-to-many
+
+```php
+#[ORM\Item(entityType: 'enrollment')]
+class Enrollment extends AbstractEntity {
+  public function __construct(
+    #[ORM\Fragment] private string $studentId,
+    #[ORM\Fragment] private string $courseId,
+  ) { parent::__construct(); }
+}
+// Use a join entity (Enrollment) to connect students and courses.
+```
+
+Query example:
+
+```php
+// Via EntityRepository — find all courses for a student (or all students in a course)
+$enrollments = (new EntityRepository(Enrollment::class))->findBy(['studentId' => 'student-1']);
+$enrollments = (new EntityRepository(Enrollment::class))->findBy(['courseId' => 'course-1']);
+
+// Alternative: raw XPath (returns DOMNodeList)
+$courseEnrollmentNodes = $xpath->query('//item[@type="enrollment"][fragment[@name="studentId"]="student-1"]');
+$studentEnrollmentNodes = $xpath->query('//item[@type="enrollment"][fragment[@name="courseId"]="course-1"]');
+```
+
 ## Querying data
 
-Just like persisting a PHP Object to a XML format, querying data is just as easy.
-When you query data, internally XPath is used to find the elements, the resulting DOMNodeList is then mapped back to its Entity class object(s).
+Querying uses XPath internally, then maps results back to entities.
 
 ### Querying data with an Entity Repository
 
-By using the EntityRepository class, you can query data in an object-oriented way, always retrieving instances of Entity object(s).
+Use EntityRepository for object-oriented reads:
 ```php
 $tagRepository = new EntityRepository(Tag::class);
 $tag = $tagRepository->findOneBy(['name' => 'Tagname']); // returns a single Tag object
-$tag = $tagRepository->find('fec69a494c3145f89af03ae3b3702e19'); // return a single Tag object
+$tag = $tagRepository->find('fec69a494c3145f89af03ae3b3702e19'); // returns a single Tag object
 $tags = $tagRepository->findAll(); // returns a Collection of Tag objects
 $tags = $tagRepository->findBy(['name' => 'Tagname']); // returns a Collection of Tag objects
 ```
@@ -130,24 +239,26 @@ $tags = $tagRepository->findBy(['name' => 'Tagname']); // returns a Collection o
 
 ```php
 $xml = DOM\ORM\Storage\StorageService::fromConfig()->read();
-$dom = (new DOMDocument())->loadXML($xml);
+$dom = new DOMDocument();
+$dom->loadXML($xml);
 $xpath = new DOMXPath($dom);
-$tags = $xpath->query('//item[@type="tag"]'); // eg: retrieve all tags at any depth
-$tag = $xpath->query('//item[@type="tag" and @id="fec69a494c3145f89af03ae3b3702e19"]'); // eg: retrieve a single tag with a specific ID
+$tags = $xpath->query('//item[@type="tag"]'); // retrieve all tags at any depth
+$tag = $xpath->query('//item[@type="tag" and @id="fec69a494c3145f89af03ae3b3702e19"]'); // retrieve one tag by ID
 ```
 
 ### Querying data using DOMDocument
 
 ```php
 $xml = DOM\ORM\Storage\StorageService::fromConfig()->read();
-$dom = (new DOMDocument())->loadXML($xml);
+$dom = new DOMDocument();
+$dom->loadXML($xml);
 $entities = $dom->getElementsByTagName('item'); // returns a DOMNodeList of all entities
 ```
 
 ## Templating
 
 ### Twig
-Probably the easiest way is to query for entities and pass them to your Twig templates:
+Query entities and pass them to Twig:
 ```php
 $twig->render('index.twig', [
     'title' => 'Hello there!',
@@ -155,11 +266,14 @@ $twig->render('index.twig', [
 ]);
 ```
 
-Or you could just decoded some DOMElements and pass an array to Twig templates (without instantiating the object):
+Or decode a DOM element to an array and pass that to Twig:
 ```php
-use EntityManagerTrait;
-$serializer = $this->getSerializer();
-$item = $serializer->decode($dom->getELementsByTagName('item')->item(0)); // example: decode the first item into an array
+$xml = DOM\ORM\Storage\StorageService::fromConfig()->read();
+$dom = new DOMDocument();
+$dom->loadXML($xml);
+
+$item = (new DOM\ORM\Serializer\Encoder\SchemaDecoder())
+  ->decode($dom->getElementsByTagName('item')->item(0), DOM\ORM\Serializer\Encoder\SchemaEncoder::FORMAT);
 
 echo $twig->render('index.twig', [
     'title' => 'Hello there!',
@@ -168,13 +282,19 @@ echo $twig->render('index.twig', [
 ```
 
 ### XSLT
-You can use the XML data to transform it into HTML using XSLT.
+Transform XML to HTML with XSLT:
 ```php
 $xml = DOM\ORM\Storage\StorageService::fromConfig()->read();
-$dom = (new DOMDocument())->loadXML($xml);
-$xslt = (new XSLTProcessor())->importStylesheet(DOMDocument::load('path/to/stylesheet.xsl'));
+$dom = new DOMDocument();
+$dom->loadXML($xml);
 
-echo $xslt->transformToXML($dom);
+$xsl = new DOMDocument();
+$xsl->load('path/to/stylesheet.xsl');
+
+$processor = new XSLTProcessor();
+$processor->importStylesheet($xsl);
+
+echo $processor->transformToXML($dom);
 ```
 
 ## Testing And Coverage
@@ -211,8 +331,8 @@ XDEBUG_MODE=coverage ./vendor/bin/pest --coverage-html build/coverage-html --cov
 
 ### Roadmap
 
-- [ ] Add support for Many-to-many relationships using hash maps.
+- [ ] Add first-class many-to-many support using hash maps.
 - [ ] Add ordering/sorting to the EntityRepository pattern.
-- [ ] By providing a GraphQL endpoint, you can interact with your DOM-ORM database in a more flexible, headless way.
-- [ ] Adding support for migrations (or rather a cleanup) so that removed fragments are removed from the XML file as well.
-- [ ] Add support to encrypt parts or the entire XML file for better security.
+- [ ] Add a GraphQL endpoint for flexible headless access.
+- [ ] Add migration/cleanup support to remove dropped fragments from XML.
+- [ ] Add support to encrypt parts of the XML document or the full file.
