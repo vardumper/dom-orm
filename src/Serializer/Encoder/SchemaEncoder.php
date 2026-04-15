@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Serializer\Encoder;
 
+use DOM\ORM\Encryption\EncryptedValue;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
 class SchemaEncoder implements EncoderInterface
@@ -64,6 +65,14 @@ class SchemaEncoder implements EncoderInterface
                         $this->encode($element, $format, $context);
                     }
                     $node->appendChild($group);
+                }
+
+                if ($value instanceof EncryptedValue) {
+                    $fragment = $this->dom->createElement('fragment');
+                    $fragment->setAttribute('name', $key);
+                    $fragment->setAttribute('searchable-hash', $value->searchHash);
+                    $fragment->appendChild($this->dom->createCDATASection($value->ciphertext));
+                    $node->appendChild($fragment);
                 }
 
                 if (\is_string($value)) {

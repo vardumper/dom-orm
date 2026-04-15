@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Repository;
 
+use DOM\ORM\Encryption\EncryptionService;
 use DOM\ORM\{Entity\EntityInterface, Serializer\Encoder\SchemaEncoder, Traits\EntityManagerTrait};
 use Ramsey\Collection\Collection;
 
@@ -13,6 +14,7 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
     private string $entityType;
     private string $entityTypeXPathLiteral;
     private string $entityClass;
+    private ?EncryptionService $encryption = null;
 
     public function __construct(string $entityType)
     {
@@ -20,6 +22,7 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
         $this->entityTypeXPathLiteral = $this->toXPathValue($entityType);
         $this->entityClass = $this->getEntityByEntityType($entityType);
         $this->init();
+        $this->encryption = $this->getEncryptionService();
     }
 
     public function getEntityType(): string
@@ -86,7 +89,29 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
      */
     public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): ?Collection
     {
-        return new Collection($this->entityClass);
+        if (empty($criteria)) {
+            return $this->findAll();
+        }
+
+        $predicates = [\sprintf('@type=%s', $this->entityTypeXPathLiteral)];
+        if (isset($criteria['id'])) {
+            $predicates[] = \sprintf('@id=%s', $this->toXPathValue((string)$criteria['id']));
+            unset($criteria['id']);
+        }
+
+        foreach ($criteria as $key => $value) {
+            $predicates[] = $this->buildFragmentPredicate($key, (string)$value);
+        }
+
+        $query = '//item[' . \implode(' and ', $predicates) . ']';
+        $nodes = $this->queryNodes($query);
+        if ($nodes === null || $nodes->length < 1) {
+            return null;
+        }
+
+        $array = $this->serializer->decode($nodes, SchemaEncoder::FORMAT);
+
+        return $this->serializer->denormalize($array, $this->entityClass);
     }
 
     /**
@@ -106,11 +131,7 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
         }
 
         foreach ($criteria as $key => $value) {
-            $predicates[] = \sprintf(
-                './fragment[@name=%s]=%s',
-                $this->toXPathValue($key),
-                $this->toXPathValue((string)$value)
-            );
+            $predicates[] = $this->buildFragmentPredicate($key, (string)$value);
         }
 
         $query = '//item[' . \implode(' and ', $predicates) . ']';
@@ -181,5 +202,34 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
         }
 
         return $this->xpathLiteral($value);
+    }
+
+    /**
+     * Builds an XPath predicate for a fragment field.
+     * When the field is sensitive, matches on the HMAC searchable-hash attribute
+     * instead of the (encrypted) text content.
+     */
+    private function buildFragmentPredicate(string $fieldName, string $plainValue): string
+    {
+        $nameExpr = $this->toXPathValue($fieldName);
+
+        if (
+            $this->encryption !== null
+            && \in_array($fieldName, $this->resolveSensitiveProperties($this->entityClass), true)
+        ) {
+            $hash = $this->encryption->searchHash($plainValue);
+
+            return \sprintf(
+                './fragment[@name=%s and @searchable-hash=%s]',
+                $nameExpr,
+                $this->toXPathValue($hash),
+            );
+        }
+
+        return \sprintf(
+            './fragment[@name=%s]=%s',
+            $nameExpr,
+            $this->toXPathValue($plainValue),
+        );
     }
 }

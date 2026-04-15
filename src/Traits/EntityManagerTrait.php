@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace DOM\ORM\Traits;
 
+use DOM\ORM\Encryption\EncryptionService;
 use DOM\ORM\{Entity\EntityInterface, Serializer\Encoder\SchemaDecoder, Serializer\Encoder\SchemaEncoder, Serializer\Normalizer\SchemaDenormalizer, Serializer\Normalizer\SchemaNormalizer, Serializer\SchemaSerializer, Storage\StorageService};
 use League\Flysystem\UnableToReadFile;
 
@@ -24,6 +26,8 @@ trait EntityManagerTrait
 
     private bool $initialized = false;
 
+    private ?EncryptionService $encryption = null;
+
     public function init(): void
     {
         if ($this->initialized) {
@@ -32,6 +36,12 @@ trait EntityManagerTrait
 
         $this->storage = self::$sharedStorage ??= StorageService::fromConfig();
         self::warmUpReflectionCache();
+
+        try {
+            $this->encryption = EncryptionService::fromConfig();
+        } catch (\RuntimeException) {
+            // No encryption_key configured — encryption silently disabled
+        }
 
         $xml = $this->getEmptyDom();
 
@@ -121,8 +131,18 @@ trait EntityManagerTrait
         return $dom;
     }
 
+    protected function getEncryptionService(): ?EncryptionService
+    {
+        return $this->encryption;
+    }
+
     private function getSerializer(): SchemaSerializer
     {
-        return new SchemaSerializer(new SchemaNormalizer(), new SchemaDenormalizer(), new SchemaEncoder(), new SchemaDecoder());
+        return new SchemaSerializer(
+            new SchemaNormalizer($this->encryption),
+            new SchemaDenormalizer($this->encryption),
+            new SchemaEncoder(),
+            new SchemaDecoder(),
+        );
     }
 }

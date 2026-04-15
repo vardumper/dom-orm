@@ -18,6 +18,7 @@ function getConfig(): Configuration
                 ]),
             ]),
             'filename' => Expect::string()->default('data.xml'),
+            'encryption_key' => Expect::string()->nullable()->default(null),
         ]),
     ]);
 
@@ -34,7 +35,7 @@ function getConfig(): Configuration
         return $config;
     }
 
-    $config->merge(require_once $file);
+    $config->merge(require $file);
 
     return $config;
 }

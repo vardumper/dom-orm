@@ -7,6 +7,7 @@ DOM ORM is a lightweight XML-based persistence layer for small PHP projects. It 
 - A very lightweight approach to persisting data into a single XML file.
 - Supports local and remote storage via Flysystem (S3, Azure, Google Cloud, (S)FTP, etc.).
 - Supports one-to-one, one-to-many, many-to-one, and many-to-many patterns.
+- Supports AES-256-GCM field-level encryption via `#[Sensitive]` with searchable HMAC hashes.
 
 ## Full Documentation
 
@@ -30,6 +31,7 @@ To change the location, configure a Flysystem adapter:
       'config' => [__DIR__ . '/storage'],
     ],
     'filename' => 'data.xml',
+    'encryption_key' => 'your-secret-key-32-bytes-minimum!', // optional, enables #[Sensitive]
   ],
 ];
 ```
@@ -136,12 +138,28 @@ Query example:
 
 ```php
 // Via EntityRepository — returns the User with nested profile data
-$user = (new EntityRepository(User::class))->find('user-1');
-$profile = $user->getProfile()[0] ?? null;
+$user = (new EntityRepository(User::class))->findOneBy(['id' => 'user-1']);
+$profiles = $user->getProfile(); // one-to-one is modeled as a group with max one item
+$profile = $profiles[0] ?? null;
 
 // Alternative: raw XPath
 $profileNodes = $xpath->query('//item[@type="user" and @id="user-1"]/group[@type="profile"]/item[@type="profile"]');
 $firstProfileNode = $profileNodes?->item(0); // DOMNode|null
+```
+
+Storage example:
+
+```xml
+<data>
+  <item type="user" id="user-1">
+    <fragment name="name"><![CDATA[John]]></fragment>
+    <group type="profile">
+      <item type="profile" id="profile-1">
+        <fragment name="bio"><![CDATA[PHP developer]]></fragment>
+      </item>
+    </group>
+  </item>
+</data>
 ```
 
 ### One-to-many
@@ -160,7 +178,7 @@ Query example:
 
 ```php
 // Via EntityRepository — returns the Post with nested comments
-$post = (new EntityRepository(Post::class))->find('post-1');
+$post = (new EntityRepository(Post::class))->findOneBy(['id' => 'post-1']);
 foreach ($post->getComments() as $comment) {
   // each $comment is a Comment entity
 }
@@ -170,6 +188,24 @@ $commentNodes = $xpath->query('//item[@type="post" and @id="post-1"]/group[@type
 foreach ($commentNodes ?? [] as $commentNode) {
   // each $commentNode is a DOMNode
 }
+```
+
+Storage example:
+
+```xml
+<data>
+  <item type="post" id="post-1">
+    <fragment name="title"><![CDATA[My first post]]></fragment>
+    <group type="comments">
+      <item type="comment" id="comment-1">
+        <fragment name="text"><![CDATA[Great post]]></fragment>
+      </item>
+      <item type="comment" id="comment-2">
+        <fragment name="text"><![CDATA[Thanks for sharing]]></fragment>
+      </item>
+    </group>
+  </item>
+</data>
 ```
 
 ### Many-to-one
@@ -193,6 +229,26 @@ $employees = (new EntityRepository(Employee::class))->findBy(['companyId' => 'co
 
 // Alternative: raw XPath (returns DOMNodeList)
 $employeeNodes = $xpath->query('//item[@type="employee"][fragment[@name="companyId"]="company-1"]');
+```
+
+Storage example:
+
+```xml
+<data>
+  <item type="company" id="company-1">
+    <fragment name="name"><![CDATA[ACME Inc.]]></fragment>
+  </item>
+
+  <item type="employee" id="employee-1">
+    <fragment name="name"><![CDATA[Alice]]></fragment>
+    <fragment name="companyId"><![CDATA[company-1]]></fragment>
+  </item>
+
+  <item type="employee" id="employee-2">
+    <fragment name="name"><![CDATA[Bob]]></fragment>
+    <fragment name="companyId"><![CDATA[company-1]]></fragment>
+  </item>
+</data>
 ```
 
 ### Many-to-many
@@ -219,6 +275,92 @@ $enrollments = (new EntityRepository(Enrollment::class))->findBy(['courseId' => 
 $courseEnrollmentNodes = $xpath->query('//item[@type="enrollment"][fragment[@name="studentId"]="student-1"]');
 $studentEnrollmentNodes = $xpath->query('//item[@type="enrollment"][fragment[@name="courseId"]="course-1"]');
 ```
+
+Storage example:
+
+```xml
+<data>
+  <item type="student" id="student-1">
+    <fragment name="name"><![CDATA[Alice]]></fragment>
+  </item>
+
+  <item type="course" id="course-1">
+    <fragment name="title"><![CDATA[Databases 101]]></fragment>
+  </item>
+
+  <item type="enrollment" id="enrollment-1">
+    <fragment name="studentId"><![CDATA[student-1]]></fragment>
+    <fragment name="courseId"><![CDATA[course-1]]></fragment>
+  </item>
+</data>
+```
+
+## Sensitive Data
+
+Mark any `#[Fragment]` property with `#[Sensitive]` to encrypt its value at rest using AES-256-GCM.
+Requires `encryption_key` in the config file.
+
+### Entity
+
+```php
+use DOM\ORM\Entity\AbstractEntity;
+use DOM\ORM\Mapping as ORM;
+
+#[ORM\Item(entityType: 'user')]
+class User extends AbstractEntity
+{
+    public function __construct(
+        #[ORM\Fragment]
+        private string $username,
+        #[ORM\Fragment]
+        #[ORM\Sensitive]                 // encrypted at rest
+        private string $email,
+        #[ORM\Fragment]
+        #[ORM\Sensitive]                 // encrypted at rest
+        private string $password,
+    ) {
+        parent::__construct();
+    }
+}
+```
+
+### Storage
+
+Sensitive fragments are stored as AES-256-GCM ciphertext. A deterministic HMAC-SHA256
+`searchable-hash` attribute is stored alongside the ciphertext so the field can be searched
+without decrypting the entire file:
+
+```xml
+<!-- storage/data.xml -->
+<data>
+  <item type="user" id="e34cbf80edaf490aa39113254b6cdfa9">
+    <fragment name="username"><![CDATA[alice]]></fragment>
+    <fragment name="email" searchable-hash="a3f9c2..."><![CDATA[base64EncodedCiphertext==]]></fragment>
+    <fragment name="password" searchable-hash="7e1d04..."><![CDATA[base64EncodedCiphertext==]]></fragment>
+    <fragment name="createdAt"><![CDATA[2024-06-17T06:30:37+00:00]]></fragment>
+  </item>
+</data>
+```
+
+### Querying encrypted fields
+
+`findBy` and `findOneBy` accept plaintext values — the ORM computes the HMAC and matches
+against `searchable-hash` transparently:
+
+```php
+$user  = (new EntityRepository(User::class))->findOneBy(['email' => 'alice@example.com']);
+$users = (new EntityRepository(User::class))->findBy(['email' => 'alice@example.com']);
+```
+
+Hydrated entities expose the **decrypted** plaintext value:
+
+```php
+$user = (new EntityRepository(User::class))->find('e34cbf80edaf490aa39113254b6cdfa9');
+echo $user->getEmail(); // alice@example.com
+```
+
+> **Note:** If `encryption_key` is absent from the config, `#[Sensitive]` is silently ignored
+> and fields are stored as plain fragments — no error is thrown.
 
 ## Querying data
 

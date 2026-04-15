@@ -9,6 +9,7 @@ use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Mapping\Fragment;
 use DOM\ORM\Mapping\Group;
 use DOM\ORM\Mapping\Item;
+use DOM\ORM\Mapping\Sensitive;
 
 trait AttributeResolverTrait
 {
@@ -36,6 +37,11 @@ trait AttributeResolverTrait
      * @var array<class-string<AbstractEntity>, list<array{0: class-string, 1: string|null, 2: string}>|null>
      */
     private static array $groupsByClass = [];
+
+    /**
+     * @var array<class-string<AbstractEntity>, list<string>>
+     */
+    private static array $sensitivePropertiesByClass = [];
 
     public static function warmUpReflectionCache(): void
     {
@@ -74,6 +80,22 @@ trait AttributeResolverTrait
         }
 
         return self::$entityTypeByClass[$className] ?? null;
+    }
+
+    /**
+     * Returns property names marked with both #[Fragment] and #[Sensitive].
+     *
+     * @return list<string>
+     */
+    protected function resolveSensitiveProperties(string|EntityInterface $entity): array
+    {
+        $className = $this->resolveEntityClassName($entity);
+
+        if (!\array_key_exists($className, self::$sensitivePropertiesByClass)) {
+            self::primeReflectionCacheForClass($className);
+        }
+
+        return self::$sensitivePropertiesByClass[$className] ?? [];
     }
 
     /**
@@ -165,6 +187,7 @@ trait AttributeResolverTrait
 
         $fragments = [];
         $groups = [];
+        $sensitiveProperties = [];
 
         foreach ($properties as $property) {
             foreach ($property->getAttributes(Fragment::class) as $attribute) {
@@ -174,6 +197,11 @@ trait AttributeResolverTrait
                     $fragment->fragmentName ?? $property->getName(),
                     $property->getName(),
                 ];
+
+                // Collect properties that are also marked #[Sensitive]
+                if (!empty($property->getAttributes(Sensitive::class))) {
+                    $sensitiveProperties[] = $property->getName();
+                }
             }
 
             foreach ($property->getAttributes(Group::class) as $attribute) {
@@ -188,5 +216,6 @@ trait AttributeResolverTrait
 
         self::$fragmentsByClass[$class] = (empty($fragments)) ? null : $fragments;
         self::$groupsByClass[$class] = (empty($groups)) ? null : $groups;
+        self::$sensitivePropertiesByClass[$class] = $sensitiveProperties;
     }
 }

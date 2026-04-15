@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Serializer\Normalizer;
 
+use DOM\ORM\Encryption\EncryptedValue;
+use DOM\ORM\Encryption\EncryptionService;
 use DOM\ORM\{Entity\AbstractEntity, Traits\AttributeResolverTrait};
 use Ramsey\Collection\Collection;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -13,6 +15,11 @@ class SchemaNormalizer implements NormalizerInterface
     use AttributeResolverTrait;
 
     public const FORMAT = 'dom_orm_schema';
+
+    public function __construct(
+        private readonly ?EncryptionService $encryption = null,
+    ) {
+    }
 
     /**
      * @param array<string, mixed> $context
@@ -45,6 +52,19 @@ class SchemaNormalizer implements NormalizerInterface
 
             if ($value instanceof \DateTimeInterface) {
                 $value = $value->format('c');
+            }
+
+            // Encrypt sensitive string properties when an EncryptionService is configured
+            if (
+                $this->encryption !== null
+                && \is_string($value)
+                && $value !== ''
+                && \in_array($propertyName, $this->resolveSensitiveProperties($object), true)
+            ) {
+                $value = new EncryptedValue(
+                    $this->encryption->encrypt($value),
+                    $this->encryption->searchHash($value),
+                );
             }
 
             $data['item-' . $object->getId()][$name] = $value;
