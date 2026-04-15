@@ -1,4 +1,9 @@
 #!/bin/bash
+START_TIME=$(date +%s)
+
+# Set to true to prepend `time` to each command for performance profiling
+TIME_COMMANDS=false
+RUN() { if $TIME_COMMANDS; then time "$@"; else "$@"; fi; }
 
 # Colors
 RED='\033[0;31m'
@@ -6,21 +11,58 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
-printf "Committing as ${YELLOW}$(git config user.name) ${NC}/ ${YELLOW}$(git config user.email)${NC}\n"
-
+# assume all checks will pass... until they don't
 PASS=true
+
+printf "Committing as ${YELLOW}$(git config user.name) ${NC}/ ${YELLOW}$(git config user.email)${NC}\n"
 
 CHANGED_FILES=$(git diff --cached --name-only --diff-filter=ACM -- '*.php')
 
-# early return
-if [[ -z "$CHANGED_FILES" ]]; then
-  # printf "${YELLOW}No .php files in this commit${NC}\n"
-  exit 0;
+# Swiss Knife
+PHP_SWISSKNIFE="./vendor/bin/swiss-knife"
+HAS_PHP_SWISSKNIFE=false
+if [ -x $PHP_SWISSKNIFE ]; then
+    HAS_PHP_SWISSKNIFE=true
 fi
 
-printf "Running pre commit hook\n"
+printf "${YELLOW}Rector Swiss Knife${NC}\n"
+if $HAS_PHP_SWISSKNIFE; then
+    # prevent committing unresolved conflicts or erroneous merges
+    RUN composer run swiss-knife-check-conflicts
+    ret_code=$?
 
-# ecs
+    if [[ $ret_code == 1 ]]; then
+        PASS=false
+    fi
+
+    RUN composer run swiss-knife-check-commented-code
+    ret_code=$?
+
+    if [[ $ret_code == 1 ]]; then
+        PASS=false
+    fi
+
+    RUN composer run swiss-knife-find-multi-classes
+    ret_code=$?
+    if [[ $ret_code == 1 ]]; then
+        PASS=false
+    fi
+
+    # RUN composer run swiss-knife-finalize-classes
+    # hasnt proven very reliable
+    RUN composer run swiss-knife-privatize-constants
+
+  else
+    printf "\nrector/swiss-knife is required. Install it:\n\n composer require --dev rector/swiss-knife\n\n"
+fi
+
+# if swiss knife doesn't pass, do not continue
+if ! $PASS; then
+  printf "pre commit hook ${RED}FAILED${NC}\n"
+  exit 1
+fi
+
+# Easy Coding Standard
 PHP_ECS="./vendor/bin/ecs"
 HAS_PHP_ECS=false
 
@@ -28,48 +70,143 @@ if [ -x $PHP_ECS ]; then
     HAS_PHP_ECS=true
 fi
 
+printf "${YELLOW}Easy Coding Standard${NC}\n"
 if $HAS_PHP_ECS; then
 # if ([ -x $PHP_ECS ] && [ -n "$CHANGED_FILES" ]); then
-    printf "Eeasy Coding Standards"
+    printf "ECS start"
     # Get a list of files in the staging area
     FILES=` git status --porcelain | grep -e '^[AM]\(.*\).php$' | cut -c 3- | tr '\n' ' '`
     if [ -z "$FILES" ]; then
-          echo "No PHP file changed in commit"
+          printf "\nNo PHP file in this commit. Skipping ECS.\n"
     else
-        $PHP_ECS check ${FILES} --fix
+        # Strip site/ prefix for ECS command
+        FILES_FOR_ECS=$(echo "$FILES" | sed 's|site/||g')
+        RUN composer run fix-cs ${FILES_FOR_ECS}
         ret_code=$?
         if [[ $ret_code == 0 ]]; then
-            git add $FILES
-            # Writes the list of files into .commit, which is then used in @see post-commit hook
+            # Trim whitespace and check if FILES is not empty
+            FILES_TRIMMED=$(echo "$FILES" | xargs)
+            if [ -n "$FILES_TRIMMED" ]; then
+                git add $FILES
+            fi
         else
             # Different code than 0 means that there were unresolved fixes
             PASS=false
         fi
     fi
 else
-    echo ""
-    echo "Both, easy-coding-standard & php-cs-fixer are required. Install them with:"
-    echo ""
-    echo "  composer require --dev symplify/easy-coding-standard friendsofphp/php-cs-fixer"
-    echo ""
+    printf "\neasy-coding-standard & php-cs-fixer are required. Install them:\n\n  composer require --dev symplify/easy-coding-standard friendsofphp/php-cs-fixer\n\n"
 fi
 
 # phpstan
-PHP_STAN="./vendor/bin/phpstan"
-if ([ -x $PHP_STAN ] && [ -n "$CHANGED_FILES" ]); then
-    printf "PHPStan start"
-    if $PHP_STAN analyse --no-progress --memory-limit=1G $CHANGED_FILES; then
+HAS_PHPSTAN=false
+PHPSTAN="./vendor/bin/phpstan"
+if [ -x $PHPSTAN ]; then
+    HAS_PHPSTAN=true
+fi
+
+printf "${YELLOW}PHPStan${NC}\n"
+# @todo consider having phpstan scan all the complete repo, instead of comitted php files
+if $HAS_PHPSTAN; then
+  if [ -z "$CHANGED_FILES" ]; then
+        printf "\nNo PHP file in this commit. Skipping PHPStan.\n"
+  else
+    # Filter out files excluded by phpstan.neon (vendor/, tests/, flex/)
+    PHPSTAN_FILES=$(echo "$CHANGED_FILES" | tr ' ' '\n' | grep -v '^vendor/' | grep -v '^tests/' | grep -v '^flex/' | tr '\n' ' ' | xargs)
+    if [ -z "$PHPSTAN_FILES" ]; then
+        printf "\nNo analysable PHP files in this commit. Skipping PHPStan.\n"
+    elif RUN $PHPSTAN analyse -c ./phpstan.neon --ansi --memory-limit=1G $PHPSTAN_FILES; then
       # All good
       printf "${GREEN}PHPStan passed${NC}\n"
     else
       PASS=false
     fi
+  fi
+else
+  printf "\nphpstan is required. Install it with:\n\n composer req --dev phpstan/phpstan\n\n"
 fi
 
+HAS_PHPMD=false
+PHPMD="./vendor/bin/phpmd"
+if [ -x $PHPMD ]; then
+    HAS_PHPMD=true
+fi
+
+run_phpmd() {
+  RUN "$PHPMD" "$1" text phpmd.xml
+}
+
+if $HAS_PHPMD; then
+  STAGED_PHP_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.php$' | tr '\n' ',')
+
+  if [ -z "$STAGED_PHP_FILES" ]; then
+    printf "${YELLOW}PHP Mess Detector${NC} — no PHP files staged, skipping.\n"
+  else
+    STAGED_PHP_FILES="${STAGED_PHP_FILES%,}"
+    printf "${YELLOW}PHP Mess Detector${NC}\n"
+
+    run_phpmd "$STAGED_PHP_FILES"
+    if [ $? -eq 0 ]; then
+      printf "${GREEN}PASSED${NC}\n"
+    else
+      printf "${RED}FAILED${NC}\n"
+      PASS=false
+    fi
+  fi
+else
+  printf "\nphpmd is required. Install it with:\n\n  composer require --dev phpmd/phpmd\n\n"
+fi
+
+
+# you shouldn't be able to commit if composer.lock and composer.json are out of sync
+printf "${YELLOW}Composer Lockfile${NC}\n"
+RUN composer validate --no-check-all --no-check-publish
+ret_code=$?
+if [[ $ret_code == 0 ]]; then
+    printf "${GREEN}Composer validation passed${NC}\n"
+else
+    printf "${RED}Composer validation failed${NC}\n"
+    PASS=false
+fi
+
+# you should still be able to commit if there are CVE vulnerabilities - information only
+printf "${YELLOW}Composer Audit${NC}\n"
+RUN composer audit --abandoned=report
+ret_code=$?
+if [[ $ret_code == 0 ]]; then
+    printf "${GREEN}Composer audit passed${NC}\n"
+else
+    printf "${RED}Composer audit failed${NC}\n"
+fi
+
+# add pest unit tests. stopping the commit if they fail
+HAS_PEST=false
+PEST="./vendor/bin/pest"
+if [ -x $PEST ]; then
+    HAS_PEST=true
+fi
+printf "${YELLOW}Pest Unit Tests${NC}\n"
+if $HAS_PEST; then
+    if RUN $PEST --testdox --colors=always; then
+      # All good, also re-generate clover.xml
+        $PEST --coverage --coverage-clover clover.xml
+        git add clover.xml
+        printf "${GREEN}Pest tests passed${NC}\n"
+    else
+      PASS=false
+    fi
+else
+  printf "\npest is required. Install it with:\n\n composer require --dev pestphp/pest\n\n"
+fi
+
+END_TIME=$(date +%s) # Record the end time
+DURATION=$((END_TIME - START_TIME)) # Calculate the duration
+
 if ! $PASS; then
-  printf "pre commit hook ${RED}FAILED${NC}\n"
+  printf "pre commit hook ${RED}FAILED${NC}. Took ${YELLOW}${DURATION}${NC} seconds\n"
   exit 1
 else
-  printf "pre commit hook ${GREEN}SUCCEEDED${NC}\n"
+  printf "pre commit hook ${GREEN}SUCCEEDED${NC}. Took ${YELLOW}${DURATION}${NC} seconds\n"
+  git add $CHANGED_FILES
   exit 0
 fi
