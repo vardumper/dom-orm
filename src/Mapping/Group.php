@@ -9,6 +9,9 @@ final class Group
 {
     private const FETCH_EAGER = 'EAGER';
 
+    /**
+     * @param list<string>|null $allowedParentPaths
+     */
     public function __construct(
         public string $entity,
         public ?string $groupType = null,

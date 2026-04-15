@@ -24,6 +24,9 @@ class SchemaEncoder implements EncoderInterface
         return $format === self::FORMAT;
     }
 
+    /**
+     * @param array<string, mixed> $context
+     */
     public function encode(mixed $data, ?string $format = null, array $context = []): string
     {
         if (!\is_array($data)) {
@@ -70,6 +73,10 @@ class SchemaEncoder implements EncoderInterface
         return $this->dom->saveXML();
     }
 
+    /**
+     * @param array<string, mixed> $context
+     * @return array<string, mixed>
+     */
     public function decode(string|\DOMDocument|\DOMElement|\DOMNode $data, string $format, array $context = []): mixed
     {
         $return = null;
@@ -82,10 +89,6 @@ class SchemaEncoder implements EncoderInterface
             $xml = $data;
             $data = new \DOMDocument();
             $data->loadXML($xml);
-        }
-
-        if (!$data instanceof \DOMDocument && !$data instanceof \DOMElement && !$data instanceof \DOMNode) {
-            throw new \InvalidArgumentException('Only an XML string, a DOMElement or a DOMDocument is supported.');
         }
 
         if ($data instanceof \DOMDocument) {
@@ -114,7 +117,11 @@ class SchemaEncoder implements EncoderInterface
         return $return;
     }
 
-    private function decodeData(\DOMDocument $data, string $format, array $context): ?array
+    /**
+     * @param array<string, mixed> $context
+     * @return array{data: list<array<string, mixed>|null>}
+     */
+    private function decodeData(\DOMDocument $data, string $format, array $context): array
     {
         $tmp = [];
         foreach ($data->documentElement->childNodes as $child) {
@@ -126,7 +133,11 @@ class SchemaEncoder implements EncoderInterface
         ];
     }
 
-    private function decodeGroup(\DOMDocument $data, string $format, array $context): ?array
+    /**
+     * @param array<string, mixed> $context
+     * @return array<string, list<array<string, mixed>>>
+     */
+    private function decodeGroup(\DOMDocument $data, string $format, array $context): array
     {
         $groupType = $data->documentElement->getAttribute('type');
         $groupItems = [];
@@ -142,7 +153,11 @@ class SchemaEncoder implements EncoderInterface
         ];
     }
 
-    private function decodeItem(\DOMDocument $data, string $format, array $context): ?array
+    /**
+     * @param array<string, mixed> $context
+     * @return array<string, array<string, mixed>>
+     */
+    private function decodeItem(\DOMDocument $data, string $format, array $context): array
     {
         $id = $data->documentElement->getAttribute('id');
 
@@ -163,7 +178,11 @@ class SchemaEncoder implements EncoderInterface
         ];
     }
 
-    private function decodeFragment(\DOMDocument $data, string $format, array $context): ?array
+    /**
+     * @param array<string, mixed> $context
+     * @return array<string, string>
+     */
+    private function decodeFragment(\DOMDocument $data, string $format, array $context): array
     {
         $name = $data->documentElement->getAttribute('name');
         $value = $data->documentElement->nodeValue;

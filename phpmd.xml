@@ -13,6 +13,12 @@
         <exclude name="StaticAccess" />
         <!-- Early-return refactors are tracked separately; not a pre-commit blocker -->
         <exclude name="ElseExpression" />
+        <!-- This codebase intentionally uses fully-qualified names in many hotspots -->
+        <exclude name="MissingImport" />
+        <!-- Mapping attributes intentionally expose simple boolean constructor flags -->
+        <exclude name="BooleanArgumentFlag" />
+        <!-- supportsDenormalization probes multiple formats; parse exceptions are intentionally ignored -->
+        <exclude name="EmptyCatchBlock" />
     </rule>
 
     <!-- ── Code Size ──────────────────────────────────────────────────────── -->
@@ -34,6 +40,8 @@
         <!-- Ibexa integration requires many typed service dependencies; coupling cannot
              be reduced without breaking the DI contract -->
         <exclude name="CouplingBetweenObjects" />
+        <!-- parse probes in denormalization intentionally swallow parse exceptions -->
+        <exclude name="EmptyCatchBlock" />
     </rule>
 
     <!-- ── Naming ─────────────────────────────────────────────────────────── -->

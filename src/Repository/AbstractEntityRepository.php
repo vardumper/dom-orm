@@ -25,6 +25,9 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
         return $this->entityType;
     }
 
+    /**
+     * @return Collection<EntityInterface>|null
+     */
     public function findAll(): ?Collection
     {
         $nodes = $this->xpath->query(\sprintf('//item[@type="%s"]', $this->entityType));
@@ -53,11 +56,20 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
         return $this->serializer->denormalize($array, $this->entityClass);
     }
 
+    /**
+     * @param array<string, scalar> $criteria
+     * @param array<string, 'ASC'|'DESC'>|null $orderBy
+     * @return Collection<EntityInterface>|null
+     */
     public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): ?Collection
     {
         return new Collection($this->entityClass);
     }
 
+    /**
+     * @param array<string, scalar> $criteria
+     * @param array<string, 'ASC'|'DESC'>|null $orderBy
+     */
     public function findOneBy(array $criteria, ?array $orderBy = null): ?EntityInterface
     {
         $additionalArgs = '';

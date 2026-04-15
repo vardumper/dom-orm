@@ -34,6 +34,9 @@ trait EntityManagerTrait
         $this->serializer = $this->getSerializer();
     }
 
+    /**
+     * @param \DOMNode|\DOMNodeList<\DOMNode>|null $parent
+     */
     public function persist(EntityInterface $entity, \DOMNode|\DOMNodeList|null $parent = null): void
     {
         $this->init();
@@ -49,7 +52,8 @@ trait EntityManagerTrait
         }
 
         if (\is_array($allowedParentPaths) && \count($allowedParentPaths) === 1) {
-            $parent = $this->xpath->query($allowedParentPaths[0])?->item(0);
+            $nodes = $this->xpath->query($allowedParentPaths[0]);
+            $parent = ($nodes === false) ? null : $nodes->item(0);
             if ($parent === null) {
                 throw new \InvalidArgumentException(\sprintf('The parent node %s wasn\'t found.', $allowedParentPaths[0]));
             }
@@ -68,9 +72,7 @@ trait EntityManagerTrait
         $tmp = $this->getEmptyDom();
         $tmp->loadXML($xml);
         $importedNode = $this->data->importNode($tmp->documentElement, true);
-        if ($importedNode) {
-            $parent->appendChild($importedNode);
-        }
+        $parent->appendChild($importedNode);
 
         $this->save();
     }
@@ -85,7 +87,11 @@ trait EntityManagerTrait
     {
         $this->init();
 
-        $node = $this->xpath->query("//*[@id='{$id}']")?->item(0);
+        $nodes = $this->xpath->query("//*[@id='{$id}']");
+        $node = ($nodes === false) ? null : $nodes->item(0);
+        if ($node === null || $node->parentNode === null) {
+            return;
+        }
         $node->parentNode->removeChild($node);
 
         $this->save();

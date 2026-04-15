@@ -7,7 +7,7 @@ namespace DOM\ORM\Mapping;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 final class Fragment
 {
-    private const STORAGE_STRATEGY_INLINE = 'inline';
+    public const STORAGE_STRATEGY_INLINE = 'inline';
     private const STORAGE_STRATEGY_STANDALONE = 'standalone';
 
     public function __construct(

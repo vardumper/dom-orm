@@ -15,6 +15,9 @@ abstract class AbstractEntity implements EntityInterface
     #[Fragment]
     private \DateTimeInterface $createdAt;
 
+    /**
+     * @var list<string>|null
+     */
     private ?array $allowedParentPaths = null;
 
     #[Fragment]

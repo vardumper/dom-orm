@@ -5,5 +5,8 @@ namespace DOM\ORM\Serializer\Encoder;
 
 interface SchemaEncoderInterface
 {
+    /**
+     * @param array<string, mixed> $data
+     */
     public function encode(array $data, string $format): string;
 }

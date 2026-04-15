@@ -12,6 +12,9 @@ use DOM\ORM\Mapping\Item;
 
 trait AttributeResolverTrait
 {
+    /**
+     * @var array<string, class-string<AbstractEntity>>|null
+     */
     private static ?array $entityTypeToClassMap = null;
 
     public function getEntityByEntityType(string $entityType): ?string
@@ -57,6 +60,9 @@ trait AttributeResolverTrait
     /**
      * figures out if the entity has fixed parent paths
      */
+    /**
+     * @return list<string>|null
+     */
     private function resolveAllowedParentPaths(string|EntityInterface $entity): ?array
     {
         $reflectionClass = new \ReflectionClass($entity);
@@ -70,6 +76,9 @@ trait AttributeResolverTrait
         return null;
     }
 
+    /**
+     * @return list<array{0: string|null, 1: string, 2: string}>|null
+     */
     private function resolveFragments(string|EntityInterface $entity): ?array
     {
         $reflectionClass = new \ReflectionClass($entity);
@@ -100,6 +109,9 @@ trait AttributeResolverTrait
         return $fragments;
     }
 
+    /**
+     * @return list<array{0: class-string, 1: string|null, 2: string}>|null
+     */
     private function resolveGroups(string|EntityInterface $entity): ?array
     {
         $reflectionClass = new \ReflectionClass($entity);

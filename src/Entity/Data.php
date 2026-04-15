@@ -13,7 +13,13 @@ use Ramsey\Collection\Collection;
 #[Root]
 final class Data extends AbstractEntity
 {
+    /**
+     * @var Collection<AbstractEntity>|null
+     */
     protected ?Collection $items = null;
 
+    /**
+     * @var Collection<AbstractEntity>|null
+     */
     protected ?Collection $groups = null;
 }

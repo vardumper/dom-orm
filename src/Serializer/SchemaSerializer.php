@@ -26,6 +26,10 @@ class SchemaSerializer implements NormalizerInterface, DenormalizerInterface
         ];
     }
 
+    /**
+     * @param array<string, mixed> $context
+     * @return array<string, mixed>|string|int|float|bool|\ArrayObject<int, mixed>|null
+     */
     public function normalize(mixed $data, ?string $format = null, array $context = []): \ArrayObject|array|string|int|float|bool|null
     {
         return $this->normalizer->normalize($data, $format, $context);
@@ -36,11 +40,18 @@ class SchemaSerializer implements NormalizerInterface, DenormalizerInterface
         return $this->denormalizer->denormalize($data, $type, $format, $context);
     }
 
+    /**
+     * @param array<string, mixed> $context
+     */
     public function encode(mixed $data, string $format, array $context = []): string
     {
         return $this->encoder->encode($data, $format, $context);
     }
 
+    /**
+     * @param array<string, mixed> $context
+     * @return array<string, mixed>
+     */
     public function decode(mixed $data, string $format, array $context = []): ?array
     {
         return $this->decoder->decode($data, $format, $context);

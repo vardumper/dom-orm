@@ -24,6 +24,11 @@ class SchemaDecoder implements DecoderInterface
         return $format === self::FORMAT;
     }
 
+    /**
+     * @param string|\DOMDocument|\DOMNodeList<\DOMNode>|\DOMElement|\DOMNode $data
+     * @param array<string, mixed> $context
+     * @return array<string, mixed>
+     */
     public function decode(string|\DOMDocument|\DOMNodeList|\DOMElement|\DOMNode $data, string $format, array $context = []): ?array
     {
         $return = null;
@@ -44,7 +49,7 @@ class SchemaDecoder implements DecoderInterface
             }
         }
 
-        if ($data instanceof \DOMElement || $data instanceof \DOMNode) {
+        if ($data instanceof \DOMElement || ($data instanceof \DOMNode && !$data instanceof \DOMDocument)) {
             $xml = $data;
             $data = new \DOMDocument();
             $importedNode = $data->importNode($xml, true);
@@ -73,7 +78,11 @@ class SchemaDecoder implements DecoderInterface
         return $return;
     }
 
-    private function decodeData(\DOMDocument $data, string $format, array $context): ?array
+    /**
+     * @param array<string, mixed> $context
+     * @return array{data: list<array<string, mixed>|null>}
+     */
+    private function decodeData(\DOMDocument $data, string $format, array $context): array
     {
         $tmp = [];
         foreach ($data->documentElement->childNodes as $child) {
@@ -85,7 +94,11 @@ class SchemaDecoder implements DecoderInterface
         ];
     }
 
-    private function decodeGroup(\DOMDocument $data, string $format, array $context): ?array
+    /**
+     * @param array<string, mixed> $context
+     * @return array<string, list<array<string, mixed>>>
+     */
+    private function decodeGroup(\DOMDocument $data, string $format, array $context): array
     {
         $groupType = $data->documentElement->getAttribute('type');
         $groupItems = [];
@@ -101,7 +114,11 @@ class SchemaDecoder implements DecoderInterface
         ];
     }
 
-    private function decodeItem(\DOMDocument $data, string $format, array $context): ?array
+    /**
+     * @param array<string, mixed> $context
+     * @return array<string, array<string, mixed>>
+     */
+    private function decodeItem(\DOMDocument $data, string $format, array $context): array
     {
         $id = $data->documentElement->getAttribute('id');
 
@@ -122,7 +139,11 @@ class SchemaDecoder implements DecoderInterface
         ];
     }
 
-    private function decodeFragment(\DOMDocument $data, string $format, array $context): ?array
+    /**
+     * @param array<string, mixed> $context
+     * @return array<string, string>
+     */
+    private function decodeFragment(\DOMDocument $data, string $format, array $context): array
     {
         $name = $data->documentElement->getAttribute('name');
         $value = $data->documentElement->nodeValue;

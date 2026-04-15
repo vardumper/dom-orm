@@ -14,8 +14,10 @@ class SchemaNormalizer implements NormalizerInterface
 
     public const FORMAT = 'dom_orm_schema';
 
-    private const TYPE = 'array';
-
+    /**
+     * @param array<string, mixed> $context
+     * @return array<string, mixed>|string|int|float|bool|\ArrayObject<int, mixed>|null
+     */
     public function normalize(mixed $object, string|null $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         if (!$object instanceof AbstractEntity) {
@@ -83,6 +85,9 @@ class SchemaNormalizer implements NormalizerInterface
         return $data;
     }
 
+    /**
+     * @param array<string, mixed> $context
+     */
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         /** @todo */

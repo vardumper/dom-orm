@@ -67,7 +67,7 @@ class SchemaDenormalizer implements DenormalizerInterface
             return true;
         }
 
-        return $type === static::TYPE && $format === static::FORMAT;
+        return $type === self::TYPE && $format === self::FORMAT;
     }
 
     public function getSupportedTypes(?string $format): array
@@ -85,6 +85,9 @@ class SchemaDenormalizer implements DenormalizerInterface
         return true;
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $data
+     */
     private function instantiateEntity(array $data): EntityInterface
     {
         $entityData = $data[\array_key_first($data)];
