@@ -3,13 +3,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Traits;
 
-use DOM\ORM\Entity\EntityInterface;
-use DOM\ORM\Serializer\Encoder\SchemaDecoder;
-use DOM\ORM\Serializer\Encoder\SchemaEncoder;
-use DOM\ORM\Serializer\Normalizer\SchemaDenormalizer;
-use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
-use DOM\ORM\Serializer\SchemaSerializer;
-use DOM\ORM\Storage\StorageService;
+use DOM\ORM\{Entity\EntityInterface, Serializer\Encoder\SchemaDecoder, Serializer\Encoder\SchemaEncoder, Serializer\Normalizer\SchemaDenormalizer, Serializer\Normalizer\SchemaNormalizer, Serializer\SchemaSerializer, Storage\StorageService};
 use League\Flysystem\UnableToReadFile;
 
 trait EntityManagerTrait
@@ -26,7 +20,7 @@ trait EntityManagerTrait
 
     public function init(): void
     {
-        $this->storage = new StorageService();
+        $this->storage = StorageService::fromConfig();
         $xml = $this->getEmptyDom();
 
         try {
@@ -40,10 +34,7 @@ trait EntityManagerTrait
         $this->serializer = $this->getSerializer();
     }
 
-    /**
-     * @param \DOMNode|\DOMNodeList $parent if a Nodelist is provided, the item will be duplicated to multiple locations
-     */
-    public function persist(EntityInterface $entity, \DOMNode|\DOMNodeList $parent = null): void
+    public function persist(EntityInterface $entity, \DOMNode|\DOMNodeList|null $parent = null): void
     {
         $this->init();
 
@@ -57,29 +48,26 @@ trait EntityManagerTrait
             throw new \InvalidArgumentException('To store an entity a parent node is required.');
         }
 
-        /** we will ignore a parent node given via parameter if the entity dictates one specific parent */
-        if (count($allowedParentPaths) === 1) {
+        if (\is_array($allowedParentPaths) && \count($allowedParentPaths) === 1) {
             $parent = $this->xpath->query($allowedParentPaths[0])?->item(0);
             if ($parent === null) {
-                throw new \InvalidArgumentException(sprintf('The parent node %s wasn\'t found.', $allowedParentPaths[0]));
+                throw new \InvalidArgumentException(\sprintf('The parent node %s wasn\'t found.', $allowedParentPaths[0]));
             }
         }
 
-        /** if more than one are given, the parent parameter is required, and we can validate its path against the ones defined in the entity */
-        if (count($allowedParentPaths) > 1 && $parent === null) {
+        if (\is_array($allowedParentPaths) && \count($allowedParentPaths) > 1 && $parent === null) {
             throw new \InvalidArgumentException('This entity has several possible parent locations. To store it please provide a valid parent Node.');
         }
 
-        /** if the parent is still null, we give feedback */
         if ($parent === null) {
-            throw new \InvalidArgumentException('Invalid parent node given. Allowed parents are: ' . implode(', ', $allowedParentPaths));
+            throw new \InvalidArgumentException('Invalid parent node given. Allowed parents are: ' . \implode(', ', $allowedParentPaths ?? []));
         }
 
         $array = $this->serializer->normalize($entity, SchemaNormalizer::FORMAT);
         $xml = $this->serializer->encode($array, SchemaEncoder::FORMAT);
         $tmp = $this->getEmptyDom();
         $tmp->loadXML($xml);
-        $importedNode = $this->data->importNode($tmp->documentElement, true); // @todo hanlde false on error
+        $importedNode = $this->data->importNode($tmp->documentElement, true);
         if ($importedNode) {
             $parent->appendChild($importedNode);
         }

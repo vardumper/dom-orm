@@ -8,18 +8,20 @@ use function DOM\ORM\getConfig;
 
 class StorageService
 {
-    protected readonly Filesystem $filesystem;
+    public function __construct(
+        private readonly Filesystem $filesystem,
+        private readonly string $filename
+    ) {
+    }
 
-    protected readonly string $filename;
-
-    public function __construct()
+    public static function fromConfig(): self
     {
         $config = getConfig();
         $adapterClass = $config->get('dom-orm.flysystem.adapter');
         $options = $config->get('dom-orm.flysystem.config');
         $adapter = new $adapterClass(...$options);
-        $this->filename = $config->get('dom-orm.filename');
-        $this->filesystem = new Filesystem($adapter);
+
+        return new self(new Filesystem($adapter), $config->get('dom-orm.filename'));
     }
 
     public function read(): string
@@ -27,7 +29,7 @@ class StorageService
         return $this->filesystem->read($this->filename);
     }
 
-    public function write($contents): void
+    public function write(string $contents): void
     {
         $this->filesystem->write($this->filename, $contents);
     }

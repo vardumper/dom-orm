@@ -12,31 +12,46 @@ use DOM\ORM\Mapping\Item;
 
 trait AttributeResolverTrait
 {
+    private static ?array $entityTypeToClassMap = null;
+
     public function getEntityByEntityType(string $entityType): ?string
     {
-        // get Entity classes only
-        $entityClasses = [];
-        foreach (get_declared_classes() as $class) {
-            if (is_subclass_of($class, AbstractEntity::class)) {
-                $entityClasses[] = $class;
-            }
-        }
+        if (self::$entityTypeToClassMap === null) {
+            self::$entityTypeToClassMap = [];
 
-        foreach ($entityClasses as $className) {
-            $reflectionClass = new \ReflectionClass($className);
-            $attributes = $reflectionClass->getAttributes(Item::class);
-            foreach ($attributes as $attribute) {
-                $args = $attribute->getArguments();
-                if (!array_key_exists('entityType', $args)) {
+            foreach (\get_declared_classes() as $class) {
+                if (!\is_subclass_of($class, AbstractEntity::class)) {
                     continue;
                 }
-                if ($args['entityType'] === $entityType) {
-                    return $className;
+
+                $reflectionClass = new \ReflectionClass($class);
+                $attributes = $reflectionClass->getAttributes(Item::class);
+                foreach ($attributes as $attribute) {
+                    $args = $attribute->getArguments();
+                    if (!\array_key_exists('entityType', $args)) {
+                        continue;
+                    }
+
+                    self::$entityTypeToClassMap[$args['entityType']] = $class;
                 }
             }
         }
 
-        throw new \Exception(sprintf('Entity type %s not implemented yet.', $entityType));
+        if (isset(self::$entityTypeToClassMap[$entityType])) {
+            return self::$entityTypeToClassMap[$entityType];
+        }
+
+        throw new \Exception(\sprintf('Entity type %s not implemented yet.', $entityType));
+    }
+
+    protected function resolveEntityType(string|EntityInterface $entity): ?string
+    {
+        $reflectionClass = new \ReflectionClass($entity);
+        foreach ($reflectionClass->getAttributes(Item::class) as $attribute) {
+            return $attribute->newInstance()->entityType;
+        }
+
+        return null;
     }
 
     /**
@@ -47,19 +62,9 @@ trait AttributeResolverTrait
         $reflectionClass = new \ReflectionClass($entity);
         foreach ($reflectionClass->getAttributes(Item::class) as $attribute) {
             $value = $attribute->newInstance()->allowedParentPaths;
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 return $value;
             }
-        }
-
-        return null;
-    }
-
-    private function resolveEntityType(string|EntityInterface $entity): ?string
-    {
-        $reflectionClass = new \ReflectionClass($entity);
-        foreach ($reflectionClass->getAttributes(Item::class) as $attribute) {
-            return $attribute->newInstance()->entityType;
         }
 
         return null;
@@ -69,18 +74,18 @@ trait AttributeResolverTrait
     {
         $reflectionClass = new \ReflectionClass($entity);
 
-        $properties = array_merge($reflectionClass->getProperties(), $reflectionClass->getParentClass()->getProperties());
+        $parentClass = $reflectionClass->getParentClass();
+        $parentProperties = ($parentClass === false) ? [] : $parentClass->getProperties();
+        $properties = \array_merge($reflectionClass->getProperties(), $parentProperties);
 
         $fragments = [];
         foreach ($properties as $property) {
-            // var_dump(get_class_methods($property));
             $attributes = $property->getAttributes(Fragment::class);
 
             foreach ($attributes as $attribute) {
                 $fragment = $attribute->newInstance();
 
                 $fragments[] = [
-                    // The event that's configured on the attribute
                     $fragment->storageStrategy,
                     $fragment->fragmentName ?? $property->getName(),
                     $property->getName(),
@@ -98,10 +103,12 @@ trait AttributeResolverTrait
     private function resolveGroups(string|EntityInterface $entity): ?array
     {
         $reflectionClass = new \ReflectionClass($entity);
+        $parentClass = $reflectionClass->getParentClass();
+        $parentProperties = ($parentClass === false) ? [] : $parentClass->getProperties();
 
-        $properties = array_merge(
+        $properties = \array_merge(
             $reflectionClass->getProperties(),
-            $reflectionClass->getParentClass()->getProperties()
+            $parentProperties
         );
 
         $groups = [];
@@ -112,9 +119,9 @@ trait AttributeResolverTrait
                 $group = $attribute->newInstance();
 
                 $groups[] = [
-                    $group->entity, // eg: App\Entity\UserRole
-                    $group->groupType, // eg: 'user_roles'
-                    $property->getName(), // eg: 'roles'
+                    $group->entity,
+                    $group->groupType,
+                    $property->getName(),
                 ];
             }
         }

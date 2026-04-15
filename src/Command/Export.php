@@ -5,9 +5,7 @@ namespace DOM\ORM\Command;
 
 class Export
 {
-    protected static $defaultName = 'dom-orm:export';
-
-    public static function run(string $file, $xml, $yaml, $json, $php): void
+    public static function run(string $file, bool|string $xml, bool|string $yaml, bool|string $json, bool|string $php): void
     {
 
     }

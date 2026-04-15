@@ -15,7 +15,7 @@ abstract class AbstractEntity implements EntityInterface
     #[Fragment]
     private \DateTimeInterface $createdAt;
 
-    private array $allowedParentPaths;
+    private ?array $allowedParentPaths = null;
 
     #[Fragment]
     private ?\DateTimeInterface $updatedAt = null;
@@ -34,9 +34,11 @@ abstract class AbstractEntity implements EntityInterface
         return $this->id;
     }
 
-    public function setId(string $id): void
+    public function setId(string $id): static
     {
         $this->id = $id;
+
+        return $this;
     }
 
     public function getDeletedAt(): ?\DateTimeInterface
@@ -56,9 +58,11 @@ abstract class AbstractEntity implements EntityInterface
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): void
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface

@@ -37,7 +37,6 @@ ${YELLOW}<type>${NC}(${YELLOW}<scope>${NC}): ${YELLOW}<subject>${NC}
     Find more on this topic here:
     - ${GREEN}https://semver.org/${NC}
     - ${GREEN}https://www.conventionalcommits.org/${NC}
-    - ${GREEN}https://youtu.be/nOVZxZX5dx8${NC}
 "
     exit 1
 fi

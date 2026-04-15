@@ -8,7 +8,7 @@ interface EntityInterface
 {
     public function getId(): string;
 
-    public function setId(string $id): void;
+    public function setId(string $id): static;
 
     public function getDeletedAt(): ?\DateTimeInterface;
 
@@ -16,7 +16,7 @@ interface EntityInterface
 
     public function getCreatedAt(): \DateTimeInterface;
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): void;
+    public function setCreatedAt(\DateTimeInterface $createdAt): static;
 
     public function getUpdatedAt(): ?\DateTimeInterface;
 

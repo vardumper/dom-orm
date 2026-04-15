@@ -7,13 +7,11 @@ use DOM\ORM\Entity\EntityInterface;
 
 class EntityRepository extends AbstractEntityRepository
 {
-    use \DOM\ORM\Traits\AttributeResolverTrait;
-
     public function __construct(EntityInterface|string $class)
     {
         $type = $this->resolveEntityType($class);
         if ($type === null) {
-            throw new \Exception(sprintf('Entity type %s not found.', $class));
+            throw new \Exception(\sprintf('Entity type %s not found.', (string)$class));
         }
         parent::__construct($type);
     }

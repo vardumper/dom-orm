@@ -5,11 +5,9 @@ namespace DOM\ORM\Command;
 
 class Init
 {
-    protected static $defaultName = 'dom-orm:init';
-
     public static function run(): ?string
     {
-        $storage = getcwd() . '/storage/data.xml';
+        $storage = \getcwd() . '/storage/data.xml';
 
         try {
             if (!\is_dir(\dirname($storage))) {
@@ -20,7 +18,7 @@ class Init
                 \chmod(\dirname($storage), 0755);
             }
         } catch (\Throwable) {
-            return sprintf('Unable to create storage directory %s or directory isn`t writable. Check your configuration and permissions. Exiting.', \dirname($storage));
+            return \sprintf('Unable to create storage directory %s or directory isn`t writable. Check your configuration and permissions. Exiting.', \dirname($storage));
         }
 
         if (\file_exists($storage)) {

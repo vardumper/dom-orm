@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Serializer\Normalizer;
 
-use DOM\ORM\Entity\AbstractEntity;
-use DOM\ORM\Entity\EntityInterface;
-use DOM\ORM\Serializer\Encoder\SchemaEncoder;
-use DOM\ORM\Traits\AttributeResolverTrait;
+use DOM\ORM\{Entity\AbstractEntity, Entity\EntityInterface, Serializer\Encoder\SchemaEncoder, Traits\AttributeResolverTrait};
 use Ramsey\Collection\Collection;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -16,14 +13,9 @@ use Symfony\Component\Yaml\Yaml;
 class SchemaDenormalizer implements DenormalizerInterface
 {
     use AttributeResolverTrait;
-    /**
-     * The supported format.
-     */
+
     private const FORMAT = 'dom_orm_schema';
 
-    /**
-     * The supported type to denormalize to.
-     */
     private const TYPE = 'array';
 
     private const RESERVED_ATTRIBUTES = ['@id', '@type'];
@@ -32,25 +24,15 @@ class SchemaDenormalizer implements DenormalizerInterface
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
-        /** @todo */
         if (isset($data['data'])) {
-            // if (count($data['data']) > 1) {
-            // we need a collection
             $ret = new Collection($type);
-            foreach ($data['data'] as $key => $data) {
-                $entity = $this->instantiateEntity($data);
+            foreach ($data['data'] as $row) {
+                $entity = $this->instantiateEntity($row);
                 $ret->add($entity);
             }
 
             return $ret;
-            /** }
-                 return $this->instantiateEntity($data['data'][0]);
-             } */
         }
-
-        /** if (count($data) === 1) {
-            return $this->instantiateEntity($data);
-        } */
 
         return null;
     }
@@ -66,20 +48,18 @@ class SchemaDenormalizer implements DenormalizerInterface
             throw new \InvalidArgumentException(sprintf('You don\'t need to pass XML directly to the denormalize() method. Please use the decode() method of %s instead.', SchemaEncoder::class));
         }
 
-        $valid = false; // default
+        $valid = false;
 
-        // Look into the $data passed: if a string, check if we can transform it to an array
         if (\is_string($data)) {
             $isJson = (\json_decode($data) !== null);
             if ($isJson) {
-                $valid = true; // string is valid JSON
+                $valid = true;
             }
 
             try {
                 Yaml::parse($data);
-                $valid = true; // string is valid YAML
+                $valid = true;
             } catch (ParseException) {
-                // Catch exception and continue execution if not valid YAML
             }
         }
 
@@ -87,7 +67,6 @@ class SchemaDenormalizer implements DenormalizerInterface
             return true;
         }
 
-        // otherwise: neither json nor yaml, cheack params
         return $type === static::TYPE && $format === static::FORMAT;
     }
 
@@ -99,14 +78,6 @@ class SchemaDenormalizer implements DenormalizerInterface
         $children[AbstractEntity::class] = $isCacheable;
 
         return $children;
-        foreach (get_declared_classes() as $class) {
-            $reflected = new \ReflectionClass($class);
-            if ($reflected->isSubclassOf(AbstractEntity::class)) {
-                $children[$class] = $isCacheable;
-            }
-        }
-
-        return $children;
     }
 
     public function hasCacheableSupportsMethod(): bool
@@ -114,51 +85,39 @@ class SchemaDenormalizer implements DenormalizerInterface
         return true;
     }
 
-    /**
-     * Instantiate an entity from stored values
-     */
     private function instantiateEntity(array $data): EntityInterface
     {
-        $entityData = $data[array_key_first($data)];
+        $entityData = $data[\array_key_first($data)];
         $entityClass = $this->getEntityByEntityType($entityData['@type']);
 
-        // get entity constructor params
         $reflection = new \ReflectionClass($entityClass);
         $params = $reflection->getConstructor()->getParameters();
         $constructorArgs = [];
 
         foreach ($params as $param) {
-            // skip missing
             if (!isset($entityData[$param->getName()])) {
                 continue;
             }
-            // convert datetime strings to objects
-            if (in_array($param->getName(), self::DATETIME_ATTRIBUTES, true)) {
+            if (\in_array($param->getName(), self::DATETIME_ATTRIBUTES, true)) {
                 $entityData[$param->getName()] = new \DateTimeImmutable($entityData[$param->getName()]);
             }
-            // var_dump($param->getType());
-            // exit;
-            // dont set stuff twice
+
             if (!isset($constructorArgs[$param->getName()])) {
                 $constructorArgs[$param->getName()] = $entityData[$param->getName()];
             }
-
-            // @todo how about groups, collections, arrays?
         }
 
-        // @todo how to use php8.3 named arguments dynamically?
         /** @var EntityInterface $ret */
         $ret = new $entityClass(...$constructorArgs);
         $ret->setId($entityData['@id']);
         foreach ($entityData as $key => $value) {
-            if (in_array($key, self::RESERVED_ATTRIBUTES, true)) {
+            if (\in_array($key, self::RESERVED_ATTRIBUTES, true)) {
                 continue;
             }
-            // convert datetime strings to objects
-            if (in_array($key, self::DATETIME_ATTRIBUTES, true)) {
+            if (\in_array($key, self::DATETIME_ATTRIBUTES, true)) {
                 $value = new \DateTimeImmutable($value);
             }
-            $method = 'set' . ucfirst($key);
+            $method = 'set' . \ucfirst($key);
             $ret->{$method}($value);
         }
 

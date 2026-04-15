@@ -24,16 +24,10 @@ class SchemaDecoder implements DecoderInterface
         return $format === self::FORMAT;
     }
 
-    /**
-     * Decodes an entire XML Document or single DOMElement nodes into an array in a format that can be used for serialization.
-     * @throws \InvalidArgumentException
-     */
-    public function decode(string|\DOMDocument|\DOMNodeList|\DOMElement $data, string $format, array $context = []): ?array
+    public function decode(string|\DOMDocument|\DOMNodeList|\DOMElement|\DOMNode $data, string $format, array $context = []): ?array
     {
-        // die('whatthefuck');
         $return = null;
 
-        // if a XML string is passed, load it into an empty DOM
         if (\is_string($data)) {
             $isXml = (\simplexml_load_string($data) !== false);
             if (!$isXml) {
@@ -44,29 +38,19 @@ class SchemaDecoder implements DecoderInterface
             $data->loadXML($xml);
         }
 
-        // Make sure that $data is DOMDocument, DOMNodeList or DOMElement
-        if (!$data instanceof \DOMDocument && !$data instanceof \DOMElement && !$data instanceof \DOMNodeList) {
-            throw new \InvalidArgumentException('Only an XML string, a DOMNodeList, DOMElement or DOMDocument is supported.');
-        }
-
-        // If a DOMDocument is passed, validate against XSD
         if ($data instanceof \DOMDocument) {
-            // only run schea validation against DOMDocument
             if (!$data->schemaValidate(__DIR__ . '/../../Resources/schema/schema.xsd')) {
                 throw new \InvalidArgumentException('The XML document does not comply to the schema.xsd');
             }
         }
 
-        // If a DOMElement is passed, load into empty DOM
-        if ($data instanceof \DOMElement) {
-            // die('wtf');
+        if ($data instanceof \DOMElement || $data instanceof \DOMNode) {
             $xml = $data;
             $data = new \DOMDocument();
             $importedNode = $data->importNode($xml, true);
             $data->appendChild($importedNode);
         }
 
-        // If a DOMNodelist is passed, load them into empty DOM
         if ($data instanceof \DOMNodeList) {
             $nodes = $data;
             $data = new \DOMDocument();
@@ -78,21 +62,18 @@ class SchemaDecoder implements DecoderInterface
         }
 
         $rootNodeName = $data->documentElement->nodeName;
-        // var_dump($rootNodeName);
-        // var_dump($data->saveXML());
-        // exit;
         $return = match ($rootNodeName) {
             'data' => $this->decodeData($data, $format, $context),
             'group' => $this->decodeGroup($data, $format, $context),
             'item' => $this->decodeItem($data, $format, $context),
             'fragment' => $this->decodeFragment($data, $format, $context),
-            default => throw new \InvalidArgumentException(sprintf('Unsopperted element %s given. Supported elements are data, group, item and fragment.', $rootNodeName)),
+            default => throw new \InvalidArgumentException(\sprintf('Unsopperted element %s given. Supported elements are data, group, item and fragment.', $rootNodeName)),
         };
 
         return $return;
     }
 
-    private function decodeData($data, $format, $context): ?array
+    private function decodeData(\DOMDocument $data, string $format, array $context): ?array
     {
         $tmp = [];
         foreach ($data->documentElement->childNodes as $child) {
@@ -104,12 +85,15 @@ class SchemaDecoder implements DecoderInterface
         ];
     }
 
-    private function decodeGroup($data, $format, $context): ?array
+    private function decodeGroup(\DOMDocument $data, string $format, array $context): ?array
     {
         $groupType = $data->documentElement->getAttribute('type');
         $groupItems = [];
         foreach ($data->documentElement->childNodes as $child) {
-            $groupItems = $this->decode($child, $format, $context);
+            $decoded = $this->decode($child, $format, $context);
+            if (\is_array($decoded)) {
+                $groupItems[] = $decoded;
+            }
         }
 
         return [
@@ -117,19 +101,20 @@ class SchemaDecoder implements DecoderInterface
         ];
     }
 
-    private function decodeItem($data, $format, $context): ?array
+    private function decodeItem(\DOMDocument $data, string $format, array $context): ?array
     {
         $id = $data->documentElement->getAttribute('id');
 
         $itemData = [
             '@id' => $id,
             '@type' => $data->documentElement->getAttribute('type'),
-            // '@class' => $data->documentElement->getAttribute('class'), not really needed, we find the class by its attribute
         ];
 
-        // merge each child node into itemData
         foreach ($data->documentElement->childNodes as $child) {
-            $itemData = array_merge($itemData, $this->decode($child, $format, $context));
+            $decoded = $this->decode($child, $format, $context);
+            if (\is_array($decoded)) {
+                $itemData = \array_merge($itemData, $decoded);
+            }
         }
 
         return [
@@ -137,7 +122,7 @@ class SchemaDecoder implements DecoderInterface
         ];
     }
 
-    private function decodeFragment($data, $format, $context): ?array
+    private function decodeFragment(\DOMDocument $data, string $format, array $context): ?array
     {
         $name = $data->documentElement->getAttribute('name');
         $value = $data->documentElement->nodeValue;

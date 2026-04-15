@@ -5,8 +5,6 @@ namespace DOM\ORM\Command;
 
 class Validate
 {
-    protected static $defaultName = 'dom-orm:validate';
-
     public static function run(): void
     {
     }

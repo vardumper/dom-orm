@@ -129,7 +129,7 @@ $tags = $tagRepository->findBy(['name' => 'Tagname']); // returns a Collection o
 ### Querying data using DOMXPath
 
 ```php
-$xml = (new DOM\ORM\Storage\StorageService())->read();
+$xml = DOM\ORM\Storage\StorageService::fromConfig()->read();
 $dom = (new DOMDocument())->loadXML($xml);
 $xpath = new DOMXPath($dom);
 $tags = $xpath->query('//item[@type="tag"]'); // eg: retrieve all tags at any depth
@@ -139,7 +139,7 @@ $tag = $xpath->query('//item[@type="tag" and @id="fec69a494c3145f89af03ae3b3702e
 ### Querying data using DOMDocument
 
 ```php
-$xml = (new DOM\ORM\Storage\StorageService())->read();
+$xml = DOM\ORM\Storage\StorageService::fromConfig()->read();
 $dom = (new DOMDocument())->loadXML($xml);
 $entities = $dom->getElementsByTagName('item'); // returns a DOMNodeList of all entities
 ```
