@@ -16,12 +16,12 @@ class SchemaNormalizer implements NormalizerInterface
     /**
      * The supported format.
      */
-    public const FORMAT = 'dom_orm_schema';
+    private const FORMAT = 'dom_orm_schema';
 
     /**
      * The supported type to denormalize to.
      */
-    public const TYPE = 'array';
+    private const TYPE = 'array';
 
     public function normalize(mixed $object, string|null $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {

@@ -7,9 +7,9 @@ namespace DOM\ORM\Mapping;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 final class Group
 {
-    public const ELEMENT_NAME = 'group';
-    public const FETCH_EAGER = 'EAGER';
-    public const FETCH_LAZY = 'LAZY';
+    private const ELEMENT_NAME = 'group';
+    private const FETCH_EAGER = 'EAGER';
+    private const FETCH_LAZY = 'LAZY';
 
     public function __construct(
         public string $entity,

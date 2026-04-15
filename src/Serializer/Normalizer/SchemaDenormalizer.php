@@ -19,12 +19,12 @@ class SchemaDenormalizer implements DenormalizerInterface
     /**
      * The supported format.
      */
-    public const FORMAT = 'dom_orm_schema';
+    private const FORMAT = 'dom_orm_schema';
 
     /**
      * The supported type to denormalize to.
      */
-    public const TYPE = 'array';
+    private const TYPE = 'array';
 
     private const RESERVED_ATTRIBUTES = ['@id', '@type'];
 
@@ -43,17 +43,14 @@ class SchemaDenormalizer implements DenormalizerInterface
             }
 
             return $ret;
-            // }
-
-            // we need a single entity
-            // if (count($data['data']) === 1) {
-            //     return $this->instantiateEntity($data['data'][0]);
-            // }
+            /** }
+                 return $this->instantiateEntity($data['data'][0]);
+             } */
         }
 
-        // if (count($data) === 1) {
-        //     return $this->instantiateEntity($data);
-        // }
+        /** if (count($data) === 1) {
+            return $this->instantiateEntity($data);
+        } */
 
         return null;
     }

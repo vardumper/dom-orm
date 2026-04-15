@@ -7,9 +7,9 @@ namespace DOM\ORM\Mapping;
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 final class Fragment
 {
-    public const ELEMENT_NAME = 'fragment';
-    public const STORAGE_STRATEGY_INLINE = 'inline';
-    public const STORAGE_STRATEGY_STANDALONE = 'standalone';
+    private const ELEMENT_NAME = 'fragment';
+    private const STORAGE_STRATEGY_INLINE = 'inline';
+    private const STORAGE_STRATEGY_STANDALONE = 'standalone';
 
     public function __construct(
         public ?string $fragmentName = null,

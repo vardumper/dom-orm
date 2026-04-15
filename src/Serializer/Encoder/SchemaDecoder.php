@@ -8,7 +8,7 @@ use Symfony\Component\Serializer\Encoder\DecoderInterface;
 
 class SchemaDecoder implements DecoderInterface
 {
-    public const FORMAT = 'dom_orm_schema';
+    private const FORMAT = 'dom_orm_schema';
 
     protected \DOMDocument $dom;
 

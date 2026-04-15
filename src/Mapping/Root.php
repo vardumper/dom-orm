@@ -7,6 +7,6 @@ namespace DOM\ORM\Mapping;
 #[\Attribute(\Attribute::TARGET_CLASS)]
 final class Root
 {
-    public const ELEMENT_NAME = 'data';
+    private const ELEMENT_NAME = 'data';
     public string $allowedParentPath = '/';
 }
