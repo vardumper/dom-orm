@@ -35,6 +35,11 @@
       "src/helpers.php"
     ]
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
   "bin": [
     "dom-orm"
   ],
@@ -55,19 +60,19 @@
     }
   },
   "scripts": {
-        "check-cs": "vendor/bin/ecs check --ansi",
-        "fix-cs": "vendor/bin/ecs check --no-ansi --fix",
-        "phpstan": "phpstan --memory-limit=1G",
-        "phpmd": "@php -d memory_limit=1G vendor/bin/phpmd ./src text phpmd.xml",
-        "post-install-cmd": "@git-hooks-init",
-        "post-update-cmd": "@git-hooks-update",
-        "swiss-knife-check-conflicts": "vendor/bin/swiss-knife check-conflicts ./src --ansi",
-        "swiss-knife-check-commented-code": "vendor/bin/swiss-knife check-commented-code ./src --line-limit 4 --no-ansi",
-        "swiss-knife-find-multi-classes": "vendor/bin/swiss-knife find-multi-classes ./src --ansi",
-        "swiss-knife-finalize-classes": "vendor/bin/swiss-knife finalize-classes ./src --ansi",
-        "swiss-knife-privatize-constants": "vendor/bin/swiss-knife privatize-constants ./src --ansi",
-        "git-hooks-init": "vendor/bin/cghooks add --ignore-lock",
-        "git-hooks-update": "vendor/bin/cghooks update"
+    "check-cs": "vendor/bin/ecs check --ansi",
+    "fix-cs": "vendor/bin/ecs check --no-ansi --fix",
+    "phpstan": "phpstan --memory-limit=1G",
+    "phpmd": "@php -d memory_limit=1G vendor/bin/phpmd ./src text phpmd.xml",
+    "post-install-cmd": "@git-hooks-init",
+    "post-update-cmd": "@git-hooks-update",
+    "swiss-knife-check-conflicts": "vendor/bin/swiss-knife check-conflicts ./src --ansi",
+    "swiss-knife-check-commented-code": "vendor/bin/swiss-knife check-commented-code ./src --line-limit 4 --no-ansi",
+    "swiss-knife-find-multi-classes": "vendor/bin/swiss-knife find-multi-classes ./src --ansi",
+    "swiss-knife-finalize-classes": "vendor/bin/swiss-knife finalize-classes ./src --ansi",
+    "swiss-knife-privatize-constants": "vendor/bin/swiss-knife privatize-constants ./src --ansi",
+    "git-hooks-init": "vendor/bin/cghooks add --ignore-lock",
+    "git-hooks-update": "vendor/bin/cghooks update"
   },
   "minimum-stability": "stable",
   "config": {
