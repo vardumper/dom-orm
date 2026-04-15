@@ -1,5 +1,6 @@
 # Package Manager-related
 /vendor/
+/node_modules/
 # IDE-related
 /.history/
 # OS related
