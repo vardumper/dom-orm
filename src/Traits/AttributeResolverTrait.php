@@ -7,6 +7,7 @@ namespace DOM\ORM\Traits;
 use DOM\ORM\Entity\AbstractEntity;
 use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Mapping\Fragment;
+use DOM\ORM\Mapping\FragmentMap;
 use DOM\ORM\Mapping\Group;
 use DOM\ORM\Mapping\Item;
 use DOM\ORM\Mapping\Sensitive;
@@ -42,6 +43,14 @@ trait AttributeResolverTrait
      * @var array<class-string<AbstractEntity>, list<string>>
      */
     private static array $sensitivePropertiesByClass = [];
+
+    /**
+     * Merged fragment rename/removal map from all #[FragmentMap] attributes on a class.
+     * Keys are legacy XML fragment names; values are new fragment names or null (removed).
+     *
+     * @var array<class-string<AbstractEntity>, array<string, string|null>>
+     */
+    private static array $fragmentMapByClass = [];
 
     public static function warmUpReflectionCache(): void
     {
@@ -80,6 +89,23 @@ trait AttributeResolverTrait
         }
 
         return self::$entityTypeByClass[$className] ?? null;
+    }
+
+    /**
+     * Returns the merged fragment rename/removal map declared via #[FragmentMap] on this class.
+     * Keys are legacy XML fragment names; values are new names (string) or null (removed).
+     *
+     * @return array<string, string|null>
+     */
+    protected function resolveFragmentMap(string|EntityInterface $entity): array
+    {
+        $className = $this->resolveEntityClassName($entity);
+
+        if (!\array_key_exists($className, self::$fragmentMapByClass)) {
+            self::primeReflectionCacheForClass($className);
+        }
+
+        return self::$fragmentMapByClass[$className] ?? [];
     }
 
     /**
@@ -156,6 +182,7 @@ trait AttributeResolverTrait
             && \array_key_exists($class, self::$allowedParentPathsByClass)
             && \array_key_exists($class, self::$fragmentsByClass)
             && \array_key_exists($class, self::$groupsByClass)
+            && \array_key_exists($class, self::$fragmentMapByClass)
         ) {
             return;
         }
@@ -217,5 +244,12 @@ trait AttributeResolverTrait
         self::$fragmentsByClass[$class] = (empty($fragments)) ? null : $fragments;
         self::$groupsByClass[$class] = (empty($groups)) ? null : $groups;
         self::$sensitivePropertiesByClass[$class] = $sensitiveProperties;
+
+        // Collect fragment rename/removal map from all #[FragmentMap] attributes (supports IS_REPEATABLE).
+        $fragmentMap = [];
+        foreach ($reflectionClass->getAttributes(FragmentMap::class) as $attr) {
+            $fragmentMap = \array_merge($fragmentMap, $attr->newInstance()->map);
+        }
+        self::$fragmentMapByClass[$class] = $fragmentMap;
     }
 }

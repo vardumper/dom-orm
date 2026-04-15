@@ -99,6 +99,22 @@ class SchemaDenormalizer implements DenormalizerInterface
         $entityData = $data[\array_key_first($data)];
         $entityClass = $this->getEntityByEntityType($entityData['@type']);
 
+        // Apply FragmentMap: rename keys and drop nulls before any hydration.
+        $fragmentMap = $this->resolveFragmentMap($entityClass);
+        if ($fragmentMap !== []) {
+            foreach ($fragmentMap as $oldName => $newName) {
+                if (!\array_key_exists($oldName, $entityData)) {
+                    continue;
+                }
+                if ($newName !== null && !\array_key_exists($newName, $entityData)) {
+                    // Rename: move value to new key so existing hydration logic handles it.
+                    $entityData[$newName] = $entityData[$oldName];
+                }
+                // Drop the legacy key in both rename and removal cases.
+                unset($entityData[$oldName]);
+            }
+        }
+
         $reflection = new \ReflectionClass($entityClass);
         $params = $reflection->getConstructor()->getParameters();
         $constructorArgs = [];
@@ -160,6 +176,10 @@ class SchemaDenormalizer implements DenormalizerInterface
             }
 
             $method = 'set' . \ucfirst($key);
+            // Guard against orphaned fragments whose setter no longer exists.
+            if (!\method_exists($ret, $method)) {
+                continue;
+            }
             $ret->{$method}($value);
         }
 
