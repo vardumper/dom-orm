@@ -32,6 +32,15 @@ class SchemaEncoder implements EncoderInterface
         if (!\is_array($data)) {
             throw new \InvalidArgumentException('Only arrays are supported.');
         }
+
+        // Reset encoder document for each top-level encode call so state does not leak
+        // between successive persist() operations that share one serializer instance.
+        if (!isset($context['parentNode'])) {
+            $dom = new \DOMDocument('1.0', 'UTF-8');
+            $dom->formatOutput = true;
+            $this->dom = $dom;
+        }
+
         $elementName = 'item';
         $elementKey = \array_keys($data)[0];
 
@@ -125,6 +134,9 @@ class SchemaEncoder implements EncoderInterface
     {
         $tmp = [];
         foreach ($data->documentElement->childNodes as $child) {
+            if (!$child instanceof \DOMElement) {
+                continue;
+            }
             $tmp[] = $this->decode($child, $format, $context);
         }
 
@@ -142,6 +154,9 @@ class SchemaEncoder implements EncoderInterface
         $groupType = $data->documentElement->getAttribute('type');
         $groupItems = [];
         foreach ($data->documentElement->childNodes as $child) {
+            if (!$child instanceof \DOMElement) {
+                continue;
+            }
             $decoded = $this->decode($child, $format, $context);
             if (\is_array($decoded)) {
                 $groupItems[] = $decoded;
@@ -167,6 +182,9 @@ class SchemaEncoder implements EncoderInterface
         ];
 
         foreach ($data->documentElement->childNodes as $child) {
+            if (!$child instanceof \DOMElement) {
+                continue;
+            }
             $decoded = $this->decode($child, $format, $context);
             if (\is_array($decoded)) {
                 $itemData = \array_merge($itemData, $decoded);

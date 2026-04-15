@@ -86,6 +86,9 @@ class SchemaDecoder implements DecoderInterface
     {
         $tmp = [];
         foreach ($data->documentElement->childNodes as $child) {
+            if (!$child instanceof \DOMElement) {
+                continue;
+            }
             $tmp[] = $this->decode($child, $format, $context);
         }
 
@@ -103,6 +106,9 @@ class SchemaDecoder implements DecoderInterface
         $groupType = $data->documentElement->getAttribute('type');
         $groupItems = [];
         foreach ($data->documentElement->childNodes as $child) {
+            if (!$child instanceof \DOMElement) {
+                continue;
+            }
             $decoded = $this->decode($child, $format, $context);
             if (\is_array($decoded)) {
                 $groupItems[] = $decoded;
@@ -128,6 +134,9 @@ class SchemaDecoder implements DecoderInterface
         ];
 
         foreach ($data->documentElement->childNodes as $child) {
+            if (!$child instanceof \DOMElement) {
+                continue;
+            }
             $decoded = $this->decode($child, $format, $context);
             if (\is_array($decoded)) {
                 $itemData = \array_merge($itemData, $decoded);

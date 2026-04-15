@@ -7,3 +7,7 @@ uses()
 uses()
     ->group('benchmark')
     ->in('Benchmark');
+
+uses()
+    ->group('integration')
+    ->in('Integration');

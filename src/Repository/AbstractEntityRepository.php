@@ -66,8 +66,17 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
         }
 
         $array = $this->serializer->decode($nodes, SchemaEncoder::FORMAT);
+        /** @var Collection<EntityInterface>|null $collection */
+        $collection = $this->serializer->denormalize($array, $this->entityClass);
 
-        return $this->serializer->denormalize($array, $this->entityClass);
+        if ($collection === null || $collection->count() < 1) {
+            return null;
+        }
+
+        /** @var EntityInterface $entity */
+        $entity = $collection->first();
+
+        return $entity;
     }
 
     /**
@@ -116,8 +125,22 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
         }
 
         $array = $this->serializer->decode($node, SchemaEncoder::FORMAT);
+        if ($array === null) {
+            return null;
+        }
 
-        return $this->serializer->denormalize($array, $this->entityClass);
+        /** @var Collection<EntityInterface>|null $collection */
+        $collection = $this->serializer->denormalize([
+            'data' => [$array],
+        ], $this->entityClass);
+        if ($collection === null || $collection->count() < 1) {
+            return null;
+        }
+
+        /** @var EntityInterface $entity */
+        $entity = $collection->first();
+
+        return $entity;
     }
 
     public function remove(string $id): void
