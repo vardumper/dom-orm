@@ -12,7 +12,7 @@ class SchemaNormalizer implements NormalizerInterface
 {
     use AttributeResolverTrait;
 
-    private const FORMAT = 'dom_orm_schema';
+    public const FORMAT = 'dom_orm_schema';
 
     private const TYPE = 'array';
 
@@ -33,12 +33,12 @@ class SchemaNormalizer implements NormalizerInterface
         $fragments = $this->resolveFragments($object);
         foreach ($fragments as [$storageStrategy, $fragmentName, $propertyName]) {
             $name = ($storageStrategy === 'inline') ? '@' . $fragmentName : $fragmentName;
+            $methodName = 'get' . \ucfirst($propertyName);
 
-            try {
-                $value = $object->{$propertyName};
-            } catch (\Throwable) {
-                $methodName = 'get' . ucfirst($propertyName);
+            if (\method_exists($object, $methodName)) {
                 $value = $object->{$methodName}();
+            } else {
+                $value = $object->{$propertyName};
             }
 
             if ($value instanceof \DateTimeInterface) {
@@ -56,16 +56,12 @@ class SchemaNormalizer implements NormalizerInterface
 
         foreach ($groups as [$entity, $groupType, $propertyName]) {
             $name = $groupType ?? $propertyName;
-            $value = null;
+            $methodName = 'get' . \ucfirst($propertyName);
 
-            try {
-                $value = $object->{$propertyName};
-            } catch (\Throwable) {
-                $methodName = 'get' . \ucfirst($propertyName);
-                if (!\method_exists($object, $methodName)) {
-                    throw new \InvalidArgumentException(\sprintf('Error getting %s value. Make the property public or add a %s() getter method.', $propertyName, $methodName));
-                }
+            if (\method_exists($object, $methodName)) {
                 $value = $object->{$methodName}();
+            } else {
+                $value = $object->{$propertyName};
             }
 
             if ($value === null) {

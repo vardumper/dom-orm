@@ -94,7 +94,7 @@ class SchemaEncoder implements EncoderInterface
             }
         }
 
-        if ($data instanceof \DOMElement || $data instanceof \DOMNode) {
+        if ($data instanceof \DOMElement || ($data instanceof \DOMNode && !$data instanceof \DOMDocument)) {
             $xml = $data;
             $data = new \DOMDocument();
             $importedNode = $data->importNode($xml, true);

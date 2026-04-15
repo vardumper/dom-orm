@@ -50,7 +50,7 @@ if $HAS_PHP_SWISSKNIFE; then
 
     # RUN composer run swiss-knife-finalize-classes
     # hasnt proven very reliable
-    RUN composer run swiss-knife-privatize-constants
+    # RUN composer run swiss-knife-privatize-constants
 
   else
     printf "\nrector/swiss-knife is required. Install it:\n\n composer require --dev rector/swiss-knife\n\n"

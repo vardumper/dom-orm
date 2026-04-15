@@ -72,6 +72,9 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
 
         $query = \sprintf('//item[@type="%s" %s]', $this->entityType, $additionalArgs);
         $node = $this->xpath->query($query)->item(0);
+        if ($node === null) {
+            return null;
+        }
 
         $array = $this->serializer->decode($node, SchemaEncoder::FORMAT);
 

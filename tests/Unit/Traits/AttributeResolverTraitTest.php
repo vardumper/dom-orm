@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Traits\AttributeResolverTrait;
 use Tests\Fixtures\Tag;
 
@@ -10,22 +11,22 @@ class AttributeResolverTestHelper
 {
     use AttributeResolverTrait;
 
-    public function exposeResolveEntityType(object|string $entity): ?string
+    public function exposeResolveEntityType(EntityInterface|string $entity): ?string
     {
         return $this->resolveEntityType($entity);
     }
 
-    public function exposeResolveFragments(object|string $entity): ?array
+    public function exposeResolveFragments(EntityInterface|string $entity): ?array
     {
         return $this->resolveFragments($entity);
     }
 
-    public function exposeResolveGroups(object|string $entity): ?array
+    public function exposeResolveGroups(EntityInterface|string $entity): ?array
     {
         return $this->resolveGroups($entity);
     }
 
-    public function exposeResolveAllowedParentPaths(object|string $entity): ?array
+    public function exposeResolveAllowedParentPaths(EntityInterface|string $entity): ?array
     {
         return $this->resolveAllowedParentPaths($entity);
     }
@@ -42,9 +43,9 @@ it('resolveEntityType returns entity type from a class string', function (): voi
     expect($resolver->exposeResolveEntityType(Tag::class))->toBe('tag');
 });
 
-it('resolveEntityType returns null for a class without Item attribute', function (): void {
+it('resolveEntityType throws TypeError for unsupported input type', function (): void {
     $resolver = new AttributeResolverTestHelper();
-    expect($resolver->exposeResolveEntityType(new \stdClass()))->toBeNull();
+    expect(fn () => $resolver->exposeResolveEntityType(new \stdClass()))->toThrow(\TypeError::class);
 });
 
 it('resolveFragments includes Tag-specific and AbstractEntity base fragments', function (): void {

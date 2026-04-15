@@ -98,7 +98,8 @@ class SchemaDenormalizer implements DenormalizerInterface
             if (!isset($entityData[$param->getName()])) {
                 continue;
             }
-            if (\in_array($param->getName(), self::DATETIME_ATTRIBUTES, true)) {
+            if (\in_array($param->getName(), self::DATETIME_ATTRIBUTES, true)
+                && \is_string($entityData[$param->getName()])) {
                 $entityData[$param->getName()] = new \DateTimeImmutable($entityData[$param->getName()]);
             }
 
@@ -114,7 +115,7 @@ class SchemaDenormalizer implements DenormalizerInterface
             if (\in_array($key, self::RESERVED_ATTRIBUTES, true)) {
                 continue;
             }
-            if (\in_array($key, self::DATETIME_ATTRIBUTES, true)) {
+            if (\in_array($key, self::DATETIME_ATTRIBUTES, true) && \is_string($value)) {
                 $value = new \DateTimeImmutable($value);
             }
             $method = 'set' . \ucfirst($key);
