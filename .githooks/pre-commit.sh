@@ -39,7 +39,7 @@ if $HAS_PHP_ECS; then
         $PHP_ECS check ${FILES} --fix
         ret_code=$?
         if [[ $ret_code == 0 ]]; then
-            echo $FILES > .commit
+            git add $FILES
             # Writes the list of files into .commit, which is then used in @see post-commit hook
         else
             # Different code than 0 means that there were unresolved fixes

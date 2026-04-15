@@ -23,10 +23,6 @@
         </include>
     </coverage>
 
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-    </listeners>
-
     <!-- Run `composer require symfony/panther` before enabling this extension -->
     <!--
     <extensions>
