@@ -52,6 +52,20 @@ trait AttributeResolverTrait
      */
     private static array $fragmentMapByClass = [];
 
+    /**
+     * Cached ReflectionClass instances, keyed by class name.
+     *
+     * @var array<class-string<AbstractEntity>, \ReflectionClass<AbstractEntity>>
+     */
+    private static array $reflectionByClass = [];
+
+    /**
+     * Cached constructor parameter lists, keyed by class name.
+     *
+     * @var array<class-string<AbstractEntity>, list<\ReflectionParameter>>
+     */
+    private static array $constructorParamsByClass = [];
+
     public static function warmUpReflectionCache(): void
     {
         foreach (\get_declared_classes() as $class) {
@@ -125,6 +139,40 @@ trait AttributeResolverTrait
     }
 
     /**
+     * Returns a memoised ReflectionClass for the given entity class.
+     *
+     * @template T of AbstractEntity
+     * @param class-string<T> $class
+     * @return \ReflectionClass<T>
+     */
+    protected function resolveReflectionClass(string $class): \ReflectionClass
+    {
+        if (!isset(self::$reflectionByClass[$class])) {
+            self::primeReflectionCacheForClass($class);
+            // primeReflectionCacheForClass stores the instance; guard for non-entity classes.
+            self::$reflectionByClass[$class] ??= new \ReflectionClass($class);
+        }
+
+        return self::$reflectionByClass[$class];
+    }
+
+    /**
+     * Returns a memoised list of constructor parameters for the given entity class.
+     *
+     * @param class-string<AbstractEntity> $class
+     * @return list<\ReflectionParameter>
+     */
+    protected function resolveConstructorParams(string $class): array
+    {
+        if (!isset(self::$constructorParamsByClass[$class])) {
+            $constructor = $this->resolveReflectionClass($class)->getConstructor();
+            self::$constructorParamsByClass[$class] = $constructor !== null ? $constructor->getParameters() : [];
+        }
+
+        return self::$constructorParamsByClass[$class];
+    }
+
+    /**
      * @return list<string>|null
      */
     private function resolveAllowedParentPaths(string|EntityInterface $entity): ?array
@@ -187,7 +235,7 @@ trait AttributeResolverTrait
             return;
         }
 
-        $reflectionClass = new \ReflectionClass($class);
+        $reflectionClass = self::$reflectionByClass[$class] = new \ReflectionClass($class);
 
         $entityType = null;
         $allowedParentPaths = null;

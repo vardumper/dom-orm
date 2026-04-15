@@ -19,6 +19,8 @@ function getConfig(): Configuration
             ]),
             'filename' => Expect::string()->default('data.xml'),
             'encryption_key' => Expect::string()->nullable()->default(null),
+            'cache_path' => Expect::string()->nullable()->default(null),
+            'cache_strategy' => Expect::anyOf('manual', 'on_persist')->default('manual'),
         ]),
     ]);
 

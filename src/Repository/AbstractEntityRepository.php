@@ -5,6 +5,7 @@ namespace DOM\ORM\Repository;
 
 use DOM\ORM\Encryption\EncryptionService;
 use DOM\ORM\{Entity\EntityInterface, Serializer\Encoder\SchemaEncoder, Traits\EntityManagerTrait};
+use DOM\ORM\Storage\QueryCache;
 use Ramsey\Collection\Collection;
 
 abstract class AbstractEntityRepository implements EntityRepositoryInterface
@@ -15,6 +16,12 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
     private string $entityTypeXPathLiteral;
     private string $entityClass;
     private ?EncryptionService $encryption = null;
+
+    /**
+     * @var array<string, array<string, array<string, mixed>>>|null
+     */
+    private ?array $queryCache = null;
+    private bool $queryCacheLoaded = false;
 
     public function __construct(string $entityType)
     {
@@ -35,6 +42,16 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
      */
     public function findAll(): ?Collection
     {
+        $cache = $this->getQueryCache();
+        if ($cache !== null) {
+            $array = QueryCache::findAll($cache, $this->entityType);
+            if ($array !== null) {
+                return $this->serializer->denormalize($array, $this->entityClass);
+            }
+
+            return null;
+        }
+
         $nodes = $this->queryNodes(\sprintf('//item[@type=%s]', $this->entityTypeXPathLiteral));
         if ($nodes === null) {
             return null;
@@ -51,6 +68,18 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
 
     public function find(string $id): ?EntityInterface
     {
+        $cache = $this->getQueryCache();
+        if ($cache !== null) {
+            $array = QueryCache::findById($cache, $this->entityType, $id);
+            if ($array === null) {
+                return null;
+            }
+            /** @var Collection<EntityInterface>|null $collection */
+            $collection = $this->serializer->denormalize($array, $this->entityClass);
+
+            return ($collection === null || $collection->count() < 1) ? null : $collection->first();
+        }
+
         $nodes = $this->queryNodes(\sprintf(
             '//item[@type=%s and @id=%s]',
             $this->entityTypeXPathLiteral,
@@ -93,6 +122,16 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
             return $this->findAll();
         }
 
+        // Check query cache before paying for XPath predicate construction.
+        $cache = $this->getQueryCache();
+        if ($cache !== null) {
+            // QueryCache::findBy returns null when it detects encrypted criteria — fall through to XPath.
+            $array = QueryCache::findBy($cache, $this->entityType, $criteria);
+            if ($array !== null) {
+                return $this->serializer->denormalize($array, $this->entityClass);
+            }
+        }
+
         $predicates = [\sprintf('@type=%s', $this->entityTypeXPathLiteral)];
         if (isset($criteria['id'])) {
             $predicates[] = \sprintf('@id=%s', $this->toXPathValue((string)$criteria['id']));
@@ -122,6 +161,18 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
     {
         if (isset($criteria['id']) && \count($criteria) === 1) {
             return $this->find((string)$criteria['id']);
+        }
+
+        // Check query cache before XPath predicate construction.
+        $cache = $this->getQueryCache();
+        if ($cache !== null) {
+            $array = QueryCache::findBy($cache, $this->entityType, $criteria);
+            if ($array !== null) {
+                /** @var Collection<EntityInterface>|null $collection */
+                $collection = $this->serializer->denormalize($array, $this->entityClass);
+
+                return ($collection === null || $collection->count() < 1) ? null : $collection->first();
+            }
         }
 
         $predicates = [\sprintf('@type=%s', $this->entityTypeXPathLiteral)];
@@ -167,6 +218,23 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
     public function remove(string $id): void
     {
         $this->removeById($id);
+    }
+
+    /**
+     * Returns the loaded query cache array, or null if cache is not enabled/available.
+     * The result is memoised for the lifetime of this repository instance.
+     *
+     * @return array<string, array<string, array<string, mixed>>>|null
+     */
+    private function getQueryCache(): ?array
+    {
+        if ($this->queryCacheLoaded) {
+            return $this->queryCache;
+        }
+        $this->queryCacheLoaded = true;
+        $this->queryCache = (QueryCache::isEnabled() && QueryCache::exists()) ? QueryCache::load() : null;
+
+        return $this->queryCache;
     }
 
     /**

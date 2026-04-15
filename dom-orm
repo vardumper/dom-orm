@@ -35,6 +35,7 @@ use DOM\ORM\Command\Import;
 use DOM\ORM\Command\Init;
 use DOM\ORM\Command\Migrate;
 use DOM\ORM\Command\Validate;
+use DOM\ORM\Storage\QueryCache;
 use Silly\Application;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 
@@ -44,9 +45,11 @@ $app->command('list', function (ConsoleOutputInterface $output) {
     $output->writeln(sprintf('DOM-ORM <fg=green>%s</>', '1.0.0'));
     $output->writeln('Available commands:');
     $output->writeln('<fg=green>backup</>           Backup the database.');
+    $output->writeln('<fg=green>build-cache</>      Build the read-only PHP query cache from XML.');
     $output->writeln('<fg=green>cleanup</>          Remove orphaned fragments from XML.');
     $output->writeln('<fg=green>diagnose</>         Diagnose the database.');
-    $output->writeln('<fg=green>export</>           Export the database.');
+    $output->writeln('<fg=green>export</>           Export the database to JSON, YAML, or PHP array.');
+    $output->writeln('<fg=green>flush-cache</>      Delete the query cache file.');
     $output->writeln('<fg=green>import</>           Import into the database.');
     $output->writeln('<fg=green>init</>             Initialize the database');
     $output->writeln('<fg=green>list</>             List commands');
@@ -124,7 +127,31 @@ $app->command('import [file]', function ($file, ConsoleOutputInterface $output) 
 
 $app->command('export [file] [--xml] [--yaml] [--json] [--php]', function ($file, $xml, $yaml, $json, $php, ConsoleOutputInterface $output) {
     $output->writeln('Exporting database...');
-    Export::run($file, $xml, $yaml, $json, $php);
+    Export::run($file, $xml ?? false, $yaml ?? false, $json ?? false, $php ?? false);
+    $output->writeln('Done.');
+});
+
+$app->command('build-cache', function (ConsoleOutputInterface $output) {
+    if (!QueryCache::isEnabled()) {
+        $output->writeln('<fg=yellow>cache_path is not set in dom-orm.php — nothing to do.</>\nAdd <fg=green>\'cache_path\' => \'/path/to/cache.php\'</> to your dom-orm.php to enable the query cache.');
+
+        return;
+    }
+    $output->writeln('Building query cache...');
+    QueryCache::build();
+    $output->writeln(\sprintf('Cache written to <fg=green>%s</>.', QueryCache::getCachePath()));
+    $output->writeln('Done.');
+});
+
+$app->command('flush-cache', function (ConsoleOutputInterface $output) {
+    if (!QueryCache::exists()) {
+        $output->writeln('No cache file found — nothing to flush.');
+
+        return;
+    }
+    $path = QueryCache::getCachePath();
+    QueryCache::flush();
+    $output->writeln(\sprintf('Flushed cache at <fg=green>%s</>.', $path));
     $output->writeln('Done.');
 });
 

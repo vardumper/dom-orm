@@ -115,8 +115,7 @@ class SchemaDenormalizer implements DenormalizerInterface
             }
         }
 
-        $reflection = new \ReflectionClass($entityClass);
-        $params = $reflection->getConstructor()->getParameters();
+        $params = $this->resolveConstructorParams($entityClass);
         $constructorArgs = [];
 
         $sensitiveProps = $this->resolveSensitiveProperties($entityClass);

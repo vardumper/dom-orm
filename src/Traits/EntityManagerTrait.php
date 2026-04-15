@@ -6,6 +6,7 @@ namespace DOM\ORM\Traits;
 
 use DOM\ORM\Encryption\EncryptionService;
 use DOM\ORM\{Entity\EntityInterface, Serializer\Encoder\SchemaDecoder, Serializer\Encoder\SchemaEncoder, Serializer\Normalizer\SchemaDenormalizer, Serializer\Normalizer\SchemaNormalizer, Serializer\SchemaSerializer, Storage\StorageService};
+use DOM\ORM\Storage\QueryCache;
 use League\Flysystem\UnableToReadFile;
 
 trait EntityManagerTrait
@@ -104,6 +105,10 @@ trait EntityManagerTrait
     {
         $contents = $this->data->saveXML($this->data->documentElement, LIBXML_NOXMLDECL);
         $this->storage->write($contents);
+
+        if (QueryCache::isEnabled() && QueryCache::getStrategy() === 'on_persist') {
+            QueryCache::build();
+        }
     }
 
     public function removeById(string $id): void
