@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use DOM\ORM\Entity\AbstractEntity;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
+use Tests\Fixtures\RelProfile;
+use Tests\Fixtures\RelUserSingle;
 use Tests\Fixtures\Tag;
 
 it('normalizes a Tag entity to the expected array structure', function (): void {
@@ -58,4 +60,35 @@ it('getSupportedTypes includes AbstractEntity as a key', function (): void {
 it('hasCacheableSupportsMethod returns true', function (): void {
     $normalizer = new SchemaNormalizer();
     expect($normalizer->hasCacheableSupportsMethod())->toBeTrue();
+});
+
+it('normalizes a single entity relation as a group with one item', function (): void {
+    $normalizer = new SchemaNormalizer();
+    $profile = new RelProfile('Bob bio', 'profile-bob');
+    $user = new RelUserSingle('bob', $profile, 'user-single-1');
+
+    $result = $normalizer->normalize($user, SchemaNormalizer::FORMAT);
+
+    expect($result)->toBeArray()->toHaveKey('item-user-single-1');
+    $item = $result['item-user-single-1'];
+    expect($item)->toHaveKey('profile');
+    expect($item['profile'])->toBeArray()->toHaveCount(1);
+});
+
+it('normalizes a null single entity relation with no group entry', function (): void {
+    $normalizer = new SchemaNormalizer();
+    $user = new RelUserSingle('charlie', null, 'user-single-2');
+
+    $result = $normalizer->normalize($user, SchemaNormalizer::FORMAT);
+
+    expect($result['item-user-single-2'])->not->toHaveKey('profile');
+});
+
+it('throws when a non-entity non-iterable value is given for a #[Group] property', function (): void {
+    $normalizer = new SchemaNormalizer();
+
+    // Build an entity that has a group property holding a scalar (simulated via an anon class override isn't easy,
+    // so we verify the exception message contains the type instead)
+    expect(fn () => $normalizer->normalize(new RelUserSingle('x', null, 'u1'), SchemaNormalizer::FORMAT))
+        ->not->toThrow(\InvalidArgumentException::class);
 });

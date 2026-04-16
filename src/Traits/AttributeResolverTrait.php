@@ -35,7 +35,7 @@ trait AttributeResolverTrait
     private static array $fragmentsByClass = [];
 
     /**
-     * @var array<class-string<AbstractEntity>, list<array{0: class-string, 1: string|null, 2: string}>|null>
+     * @var array<class-string<AbstractEntity>, list<array{0: class-string, 1: string|null, 2: string, 3: bool}>|null>
      */
     private static array $groupsByClass = [];
 
@@ -201,7 +201,7 @@ trait AttributeResolverTrait
     }
 
     /**
-     * @return list<array{0: class-string, 1: string|null, 2: string}>|null
+     * @return list<array{0: class-string, 1: string|null, 2: string, 3: bool}>|null
      */
     private function resolveGroups(string|EntityInterface $entity): ?array
     {
@@ -281,10 +281,15 @@ trait AttributeResolverTrait
 
             foreach ($property->getAttributes(Group::class) as $attribute) {
                 $group = $attribute->newInstance();
+                $propType = $property->getType();
+                $isSingle = $propType instanceof \ReflectionNamedType
+                    && !$propType->isBuiltin()
+                    && \is_subclass_of($propType->getName(), AbstractEntity::class);
                 $groups[] = [
                     $group->entity,
                     $group->groupType,
                     $property->getName(),
+                    $isSingle,
                 ];
             }
         }

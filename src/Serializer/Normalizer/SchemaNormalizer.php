@@ -90,15 +90,21 @@ class SchemaNormalizer implements NormalizerInterface
                 continue;
             }
 
-            if (!\is_array($value) && !$value instanceof Collection && !\is_iterable($value)) {
-                throw new \InvalidArgumentException(\sprintf('Groups must be of type Ramsey\Collection, an Array of EntityInterface objects or an Iterable. %s given', \gettype($value)));
-            }
-
-            foreach ($value as $item) {
-                if (\get_class($item) !== $entity) {
-                    throw new \InvalidArgumentException(\sprintf('Wrong EntityInterface type given. Expected type was %s', $entity));
+            if ($value instanceof AbstractEntity) {
+                // Single entity relation — store as a group with one item
+                $data['item-' . $object->getId()][$name][] = $this->normalize($value);
+            } elseif (\is_array($value) || $value instanceof Collection || \is_iterable($value)) {
+                foreach ($value as $item) {
+                    if (\get_class($item) !== $entity) {
+                        throw new \InvalidArgumentException(\sprintf('Wrong EntityInterface type given. Expected type was %s', $entity));
+                    }
+                    $data['item-' . $object->getId()][$name][] = $this->normalize($item);
                 }
-                $data['item-' . $object->getId()][$name][] = $this->normalize($item);
+            } else {
+                throw new \InvalidArgumentException(\sprintf(
+                    'Groups must be of type Ramsey\Collection, an Array of EntityInterface objects, an Iterable, or a single EntityInterface. %s given',
+                    \gettype($value)
+                ));
             }
         }
 

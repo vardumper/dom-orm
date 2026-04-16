@@ -117,6 +117,10 @@ DOM ORM generates an ID and `createdAt` automatically, then stores entities in a
 
 ### One-to-one
 
+You can model a one-to-one relation in two styles. Both produce the same XML — choose whichever suits your type system.
+
+#### Array style (classic)
+
 ```php
 #[ORM\Item(entityType: 'user')]
 class User extends AbstractEntity {
@@ -137,7 +141,7 @@ Query example:
 ```php
 // Via EntityRepository — returns the User with nested profile data
 $user = (new EntityRepository(User::class))->findOneBy(['id' => 'user-1']);
-$profiles = $user->getProfile(); // one-to-one is modeled as a group with max one item
+$profiles = $user->getProfile(); // array — one-to-one is modeled as a group with max one item
 $profile = $profiles[0] ?? null;
 
 // Alternative: raw XPath
@@ -145,7 +149,33 @@ $profileNodes = $xpath->query('//item[@type="user" and @id="user-1"]/group[@type
 $firstProfileNode = $profileNodes?->item(0); // DOMNode|null
 ```
 
-Storage example:
+#### Typed nullable style
+
+If you prefer stricter types, declare the property as `?Profile` instead of `array`. The ORM detects the PHP type automatically — no extra attribute needed:
+
+```php
+#[ORM\Item(entityType: 'user')]
+class User extends AbstractEntity {
+  public function __construct(
+    #[ORM\Fragment] private string $name,
+    #[ORM\Group(entity: Profile::class, groupType: 'profile')] private ?Profile $profile = null,
+  ) { parent::__construct(); }
+}
+```
+
+Query example:
+
+```php
+// Via EntityRepository — $profile is a Profile instance or null, never an array
+$user = (new EntityRepository(User::class))->findOneBy(['id' => 'user-1']);
+$profile = $user->getProfile(); // ?Profile
+
+// Alternative: raw XPath (XML shape is identical to the array style)
+$profileNodes = $xpath->query('//item[@type="user" and @id="user-1"]/group[@type="profile"]/item[@type="profile"]');
+$firstProfileNode = $profileNodes?->item(0); // DOMNode|null
+```
+
+Storage example (identical XML for both styles):
 
 ```xml
 <data>
@@ -156,6 +186,16 @@ Storage example:
         <fragment name="bio"><![CDATA[PHP developer]]></fragment>
       </item>
     </group>
+  </item>
+</data>
+```
+
+When `$profile` is `null`, no `<group>` element is written:
+
+```xml
+<data>
+  <item type="user" id="user-2">
+    <fragment name="name"><![CDATA[Jane]]></fragment>
   </item>
 </data>
 ```

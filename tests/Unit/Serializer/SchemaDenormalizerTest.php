@@ -6,6 +6,8 @@ use DOM\ORM\Entity\AbstractEntity;
 use DOM\ORM\Serializer\Normalizer\SchemaDenormalizer;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use Ramsey\Collection\Collection;
+use Tests\Fixtures\RelProfile;
+use Tests\Fixtures\RelUserSingle;
 use Tests\Fixtures\Tag;
 
 // Canonical decoded array structure produced by SchemaDecoder/SchemaEncoder::decode
@@ -80,4 +82,57 @@ it('getSupportedTypes includes AbstractEntity key', function (): void {
 it('hasCacheableSupportsMethod returns true', function (): void {
     $denormalizer = new SchemaDenormalizer();
     expect($denormalizer->hasCacheableSupportsMethod())->toBeTrue();
+});
+
+it('denormalizes a single-entity group into an entity instance', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    $data = [
+        'data' => [
+            [
+                'item-user-single-1' => [
+                    '@id' => 'user-single-1',
+                    '@type' => 'rel_user_single',
+                    'username' => 'bob',
+                    'profile' => [
+                        [
+                            'item-profile-bob' => [
+                                '@id' => 'profile-bob',
+                                '@type' => 'rel_profile',
+                                'bio' => 'Bob bio',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ];
+
+    $collection = $denormalizer->denormalize($data, RelUserSingle::class, SchemaNormalizer::FORMAT);
+    expect($collection)->toBeInstanceOf(Collection::class);
+    /** @var RelUserSingle $user */
+    $user = $collection->first();
+    expect($user)->toBeInstanceOf(RelUserSingle::class);
+    expect($user->getProfile())->toBeInstanceOf(RelProfile::class);
+    expect($user->getProfile()->getBio())->toBe('Bob bio');
+});
+
+it('denormalizes a missing single-entity group key as null', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    $data = [
+        'data' => [
+            [
+                'item-user-single-2' => [
+                    '@id' => 'user-single-2',
+                    '@type' => 'rel_user_single',
+                    'username' => 'charlie',
+                ],
+            ],
+        ],
+    ];
+
+    $collection = $denormalizer->denormalize($data, RelUserSingle::class, SchemaNormalizer::FORMAT);
+    /** @var RelUserSingle $user */
+    $user = $collection->first();
+    expect($user)->toBeInstanceOf(RelUserSingle::class);
+    expect($user->getProfile())->toBeNull();
 });

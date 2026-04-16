@@ -14,6 +14,7 @@ use Tests\Fixtures\RelPost;
 use Tests\Fixtures\RelProfile;
 use Tests\Fixtures\RelStudent;
 use Tests\Fixtures\RelUser;
+use Tests\Fixtures\RelUserSingle;
 
 final class RelationTestEntityManager
 {
@@ -179,4 +180,44 @@ it('persists many-to-many relation through enrollment join entities', function (
     $courseOneStudents = $xpath->query('//item[@type="rel_enrollment"][fragment[@name="courseId"]="course-1"]');
     expect($courseOneStudents)->not->toBeFalse();
     expect($courseOneStudents?->length)->toBe(2);
+})->group('integration');
+
+it('persists and retrieves a typed nullable single entity relation (?RelProfile)', function (): void {
+    $manager = new RelationTestEntityManager();
+    $manager->persist(new RelUserSingle(
+        username: 'bob',
+        profile: new RelProfile('Bob profile', 'profile-bob'),
+        id: 'user-single-1',
+    ));
+
+    $userRepository = new EntityRepository(RelUserSingle::class);
+    $user = $userRepository->find('user-single-1');
+    expect($user)->toBeInstanceOf(RelUserSingle::class);
+    /** @var RelUserSingle $user */
+    expect($user->getUsername())->toBe('bob');
+
+    $profile = $user->getProfile();
+    expect($profile)->toBeInstanceOf(RelProfile::class);
+    expect($profile->getBio())->toBe('Bob profile');
+
+    $xpath = relationXPath();
+    $profileItems = $xpath->query('//item[@type="rel_user_single" and @id="user-single-1"]/group[@type="profile"]/item[@type="rel_profile"]');
+    expect($profileItems)->not->toBeFalse();
+    expect($profileItems?->length)->toBe(1);
+})->group('integration');
+
+it('persists and retrieves a null typed single entity relation (?RelProfile)', function (): void {
+    $manager = new RelationTestEntityManager();
+    $manager->persist(new RelUserSingle(
+        username: 'charlie',
+        profile: null,
+        id: 'user-single-2',
+    ));
+
+    $userRepository = new EntityRepository(RelUserSingle::class);
+    $user = $userRepository->find('user-single-2');
+    expect($user)->toBeInstanceOf(RelUserSingle::class);
+    /** @var RelUserSingle $user */
+    expect($user->getUsername())->toBe('charlie');
+    expect($user->getProfile())->toBeNull();
 })->group('integration');

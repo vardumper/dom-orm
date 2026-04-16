@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Traits\AttributeResolverTrait;
+use Tests\Fixtures\RelProfile;
+use Tests\Fixtures\RelUser;
+use Tests\Fixtures\RelUserSingle;
 use Tests\Fixtures\Tag;
 
 // Expose private/protected trait methods for testing
@@ -77,6 +80,24 @@ it('resolveFragments returns storage strategy per fragment', function (): void {
 it('resolveGroups returns null for entity without group relations', function (): void {
     $resolver = new AttributeResolverTestHelper();
     expect($resolver->exposeResolveGroups(new Tag('test')))->toBeNull();
+});
+
+it('resolveGroups marks array-typed group property as isSingle=false', function (): void {
+    $resolver = new AttributeResolverTestHelper();
+    $groups = $resolver->exposeResolveGroups(new RelUser('alice'));
+    expect($groups)->toBeArray()->not->toBeEmpty();
+    [$entity, $groupType, $propName, $isSingle] = $groups[0];
+    expect($isSingle)->toBeFalse();
+    expect($entity)->toBe(RelProfile::class);
+});
+
+it('resolveGroups marks nullable entity-typed group property as isSingle=true', function (): void {
+    $resolver = new AttributeResolverTestHelper();
+    $groups = $resolver->exposeResolveGroups(new RelUserSingle('bob'));
+    expect($groups)->toBeArray()->not->toBeEmpty();
+    [$entity, $groupType, $propName, $isSingle] = $groups[0];
+    expect($isSingle)->toBeTrue();
+    expect($entity)->toBe(RelProfile::class);
 });
 
 it('resolveAllowedParentPaths returns null for entity without path constraints', function (): void {

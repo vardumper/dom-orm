@@ -115,6 +115,22 @@ class SchemaDenormalizer implements DenormalizerInterface
             }
         }
 
+        // Unwrap single-entity groups: transform decoded group arrays into entity instances.
+        $groups = $this->resolveGroups($entityClass);
+        if ($groups !== null) {
+            foreach ($groups as [$groupEntity, $groupType, $propName, $isSingle]) {
+                if (!$isSingle) {
+                    continue;
+                }
+                $key = $groupType ?? $propName;
+                if (!\array_key_exists($key, $entityData)) {
+                    continue;
+                }
+                $items = $entityData[$key];
+                $entityData[$key] = !empty($items) ? $this->instantiateEntity($items[0]) : null;
+            }
+        }
+
         $params = $this->resolveConstructorParams($entityClass);
         $constructorArgs = [];
 
