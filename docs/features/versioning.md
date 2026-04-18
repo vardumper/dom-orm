@@ -1,7 +1,4 @@
-# Versioning
-
-## Built-in Versioning
-
+# Built-in Versioning
 DOM ORM can automatically commit your XML data file to a Git or Mercurial repository after
 every write. This gives you a full audit trail and an off-site backup without any extra
 infrastructure.
@@ -15,7 +12,7 @@ DOM ORM supports [Git](https://git-scm.com/) and [Mercurial](https://www.mercuri
 - For push to work, a remote must be configured and any required credentials (SSH key or credential helper) must be available to the PHP process.
 
 ### Configuration
-In your `config/dom-orm.php` file, there are three settings for this feature:
+In your `config/dom-orm.php` file, there are three settings used for this feature:
 ```php
 <?php return [
   'dom-orm' => [

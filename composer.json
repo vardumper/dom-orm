@@ -11,23 +11,23 @@
     "ext-xml": "*",
     "ramsey/uuid": "^4.9.2",
     "ramsey/collection": "^2.1.1",
-    "symfony/serializer": "^5.4 || ^6.4 || ^7.4 || ^8.0",
+    "symfony/serializer": "^5.4 || ^6.4 || ^7.4 || ^8.0.8",
     "league/flysystem": "^3.33.0",
-    "symfony/yaml": "^5.4 || ^6.4 || ^7.4 || ^8.0",
+    "symfony/yaml": "^5.4 || ^6.4 || ^7.4 || ^8.0.8",
     "mnapoli/silly": "^1.9.1",
     "league/config": "^1.2",
     "czproject/git-php": "^4.6"
   },
   "require-dev": {
-    "pestphp/pest": "^4.0",
-    "phpunit/phpunit": "^12.5.16",
+    "pestphp/pest": "^4.6.2",
+    "phpunit/phpunit": "^12.5.22",
     "phpstan/phpstan": "^1.12.33",
     "friendsofphp/php-cs-fixer": "^3.95.1",
     "symplify/easy-coding-standard": "^12.6.2",
     "brainmaestro/composer-git-hooks": "@dev",
-    "rector/swiss-knife": "^2.3",
+    "rector/swiss-knife": "^2.3.5",
     "phpmd/phpmd": "^2.15",
-    "fakerphp/faker": "^1.24"
+    "fakerphp/faker": "^1.24.1"
   },
   "autoload": {
     "psr-4": {

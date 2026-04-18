@@ -24,9 +24,11 @@ export default defineConfig({
         text: 'Features',
         items: [
           { text: 'Versioning', link: '/features/versioning' },
+          { text: 'Schema Evolution', link: '/features/schema-evolution' },
           { text: 'Headless DB', link: '/features#headless-db' },
           { text: 'Concurrency', link: '/features#concurrency' },
           { text: 'XSLT & XPath', link: '/features#xslt-xpath' },
+          { text: 'Unit Tests', link: '/features/tests' },
         ]
       },
       {
