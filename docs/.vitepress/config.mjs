@@ -8,22 +8,40 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: 'Get Started', link: '/get-started' },
+      { text: 'Examples', link: '/usage-examples' }
     ],
 
     sidebar: [
       {
-        text: 'Examples',
+        text: 'Concept',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: 'Headless DB', link: '/features#headless-db' },
+          { text: 'Concurrency', link: '/features#concurrency' },
+        ]
+      },
+      {
+        text: 'Features',
+        items: [
+          { text: 'Versioning', link: '/features/versioning' },
+          { text: 'Headless DB', link: '/features#headless-db' },
+          { text: 'Concurrency', link: '/features#concurrency' },
+          { text: 'XSLT & XPath', link: '/features#xslt-xpath' },
+        ]
+      },
+      {
+        text: 'Performance',
+        items: [
+          { text: 'No overhead', link: '/performance#no-overhead' },
+          { text: 'Hash Maps & Cache', link: '/performance/#hash-maps-and-query-cache' },
+          { text: 'Batch Inserts', link: '/performance#batch-inserts' },
         ]
       }
+
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/vardumper/dom-orm' }
     ]
   }
 })

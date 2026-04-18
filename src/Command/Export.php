@@ -6,6 +6,7 @@ namespace DOM\ORM\Command;
 
 use DOM\ORM\Storage\StorageService;
 use Symfony\Component\Yaml\Yaml;
+use function DOM\ORM\getConfig;
 
 class Export
 {
@@ -37,29 +38,67 @@ class Export
             throw new \RuntimeException('Failed to parse the XML data file.');
         }
 
+        self::write($file, $xml, $yaml, $json, $php, $dom, $rawXml);
+    }
+
+    public static function runConfigured(\DOMDocument $dom, string $rawXml): void
+    {
+        /** @var array{file:?string, xml:bool|string, yaml:bool|string, json:bool|string, php:bool|string} $options */
+        $options = getConfig()->get('dom-orm.export_on_persist');
+
+        if (
+            $options['xml'] === false
+            && $options['yaml'] === false
+            && $options['json'] === false
+            && $options['php'] === false
+        ) {
+            return;
+        }
+
+        self::write(
+            $options['file'],
+            $options['xml'],
+            $options['yaml'],
+            $options['json'],
+            $options['php'],
+            $dom,
+            $rawXml,
+        );
+    }
+
+    public static function write(
+        ?string $file,
+        bool|string $xml,
+        bool|string $yaml,
+        bool|string $json,
+        bool|string $php,
+        \DOMDocument $dom,
+        string $rawXml,
+    ): void {
+
         $data = self::buildExportArray($dom);
 
         $basePath = $file ?? self::defaultBasePath();
 
         if ($json !== false) {
             $dest = \is_string($json) ? $json : $basePath . '.json';
-            \file_put_contents($dest, \json_encode($data, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE | \JSON_THROW_ON_ERROR));
+            self::writeFile($dest, \json_encode($data, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE | \JSON_THROW_ON_ERROR));
         }
 
         if ($yaml !== false) {
             $dest = \is_string($yaml) ? $yaml : $basePath . '.yaml';
-            \file_put_contents($dest, Yaml::dump($data, 4, 2));
+            self::writeFile($dest, Yaml::dump($data, 4, 2));
         }
 
         if ($php !== false) {
             $dest = \is_string($php) ? $php : $basePath . '.php';
             $exported = \var_export($data, true);
-            \file_put_contents($dest, "<?php\n\nreturn {$exported};\n");
+            self::writeFile($dest, "<?php\n\nreturn {$exported};\n");
         }
 
         if ($xml !== false) {
             $dest = \is_string($xml) ? $xml : $basePath . '.xml';
-            \file_put_contents($dest, $rawXml);
+            self::writeFile($dest, $rawXml);
         }
     }
 
@@ -110,5 +149,15 @@ class Export
     private static function defaultBasePath(): string
     {
         return \getcwd() . '/storage/export';
+    }
+
+    private static function writeFile(string $path, string $contents): void
+    {
+        $dir = \dirname($path);
+        if (!\is_dir($dir)) {
+            \mkdir($dir, 0755, true);
+        }
+
+        \file_put_contents($path, $contents);
     }
 }

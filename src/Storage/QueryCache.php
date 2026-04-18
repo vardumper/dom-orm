@@ -86,11 +86,6 @@ final class QueryCache
      */
     public static function build(): void
     {
-        $path = self::getCachePath();
-        if ($path === null) {
-            throw new \RuntimeException('cache_path is not configured. Set it in dom-orm.php to use the query cache.');
-        }
-
         $storage = StorageService::fromConfig();
 
         $xml = $storage->read();
@@ -99,62 +94,13 @@ final class QueryCache
             throw new \RuntimeException('Failed to parse the XML data file.');
         }
 
-        $cache = [];
-        $xpath = new \DOMXPath($dom);
-        /** @var \DOMNodeList<\DOMNode> $items */
-        $items = $xpath->query('//item') ?: new \DOMNodeList();
+        self::buildFromDom($dom);
+    }
 
-        foreach ($items as $item) {
-            if (!$item instanceof \DOMElement) {
-                continue;
-            }
-
-            $id = $item->getAttribute('id');
-            $type = $item->getAttribute('type');
-
-            if ($id === '' || $type === '') {
-                continue;
-            }
-
-            $itemData = [
-                '@id' => $id,
-                '@type' => $type,
-            ];
-
-            foreach ($item->childNodes as $child) {
-                if (!$child instanceof \DOMElement) {
-                    continue;
-                }
-                if ($child->nodeName === 'fragment') {
-                    $name = $child->getAttribute('name');
-                    // Preserve searchable-hash attribute when present (encrypted fields)
-                    $hash = $child->getAttribute('searchable-hash');
-                    $value = $child->nodeValue;
-                    if ($hash !== '') {
-                        $itemData[$name] = [
-                            'value' => $value,
-                            'searchable-hash' => $hash,
-                        ];
-                    } else {
-                        $itemData[$name] = $value;
-                    }
-                }
-            }
-
-            $cache[$type][$id] = $itemData;
-
-            // Build inverted index for every non-encrypted, non-reserved fragment.
-            foreach ($itemData as $field => $value) {
-                if ($field === '@id' || $field === '@type') {
-                    continue;
-                }
-                // Encrypted fields are arrays — skip them.
-                if (\is_array($value)) {
-                    continue;
-                }
-                $cache[$type]['__idx'][$field][(string)$value][] = $id;
-            }
-        }
+    public static function buildFromDom(\DOMDocument $dom): void
+    {
+        $path = self::requireCachePath();
+        $cache = self::buildCacheArray($dom);
 
         $dir = \dirname($path);
         if (!\is_dir($dir)) {
@@ -365,5 +311,81 @@ final class QueryCache
         return [
             'data' => $data,
         ];
+    }
+
+    /**
+     * @return array<string, array<string, array<string, mixed>>>
+     */
+    private static function buildCacheArray(\DOMDocument $dom): array
+    {
+
+        $cache = [];
+        $xpath = new \DOMXPath($dom);
+        /** @var \DOMNodeList<\DOMNode> $items */
+        $items = $xpath->query('//item') ?: new \DOMNodeList();
+
+        foreach ($items as $item) {
+            if (!$item instanceof \DOMElement) {
+                continue;
+            }
+
+            $id = $item->getAttribute('id');
+            $type = $item->getAttribute('type');
+
+            if ($id === '' || $type === '') {
+                continue;
+            }
+
+            $itemData = [
+                '@id' => $id,
+                '@type' => $type,
+            ];
+
+            foreach ($item->childNodes as $child) {
+                if (!$child instanceof \DOMElement) {
+                    continue;
+                }
+                if ($child->nodeName === 'fragment') {
+                    $name = $child->getAttribute('name');
+                    // Preserve searchable-hash attribute when present (encrypted fields)
+                    $hash = $child->getAttribute('searchable-hash');
+                    $value = $child->nodeValue;
+                    if ($hash !== '') {
+                        $itemData[$name] = [
+                            'value' => $value,
+                            'searchable-hash' => $hash,
+                        ];
+                    } else {
+                        $itemData[$name] = $value;
+                    }
+                }
+            }
+
+            $cache[$type][$id] = $itemData;
+
+            // Build inverted index for every non-encrypted, non-reserved fragment.
+            foreach ($itemData as $field => $value) {
+                if ($field === '@id' || $field === '@type') {
+                    continue;
+                }
+                // Encrypted fields are arrays — skip them.
+                if (\is_array($value)) {
+                    continue;
+                }
+                $cache[$type]['__idx'][$field][(string)$value][] = $id;
+            }
+        }
+
+        return $cache;
+    }
+
+    private static function requireCachePath(): string
+    {
+        $path = self::getCachePath();
+        if ($path === null) {
+            throw new \RuntimeException('cache_path is not configured. Set it in dom-orm.php to use the query cache.');
+        }
+
+        return $path;
     }
 }

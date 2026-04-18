@@ -4,45 +4,33 @@ layout: home
 
 hero:
   name: "DOM-ORM"
-  text: "Document Object Model Object Relational Mapping"
-  tagline: Using a standardized XML tree structure to store data objects in a Doctrine-like fashion into an XML flatfile.
+  text: "XML-based Object Relational Mapping"
+  tagline: Using a standardized XML tree structure to store data objects in a Doctrine-like fashion into an XML file.
   actions:
     - theme: brand
-      text: Quickstart
-      link: /quickstart
+      text: Getting started
+      link: /get-started
     - theme: alt
       text: Usage Examples
       link: /usage-examples
-
-features:
-  - title: One-to-One Relationships
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: One-to-many Relationships
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Many-to-one Relationships
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Many-to-Many Relationships
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 
 ---
 
 ## Why?
 
-The DOM-ORM project was created to provide a simple, easy-to-use, and lightweight way to store data objects without the need to setup and configure a database, users. That said, the project is not meant to replace databases, but rather to provide an alternative with a focus on tree structures like navigations, categories, tag trees, translations, etc. things that dont necessarily need to be stored in a database.
+The DOM-ORM project was created to provide a simple, easy-to-use way to store data objects without the need to install and configure a database, access roles and users.
 
-## Querying Data
+## Who is it for?
+DOM-ORM is not meant to replace relational databases. Finding nodes in an XML file, requires PHP to load the entire XML file into memory. 100.000 records will take up 30MB. That said, it ideal for smaller datasets such as tree structures like navigations, catgeories, virtual filesystems, taxonomies, etc.   
 
-XPath is the query language used to query the XML tree structure. So unlike writing SQL queries as you would when using a database, you write XPath queries to query the XML tree structure. But just like Doctrine ORM, that returns an entity object, DOM-ORM does the same and instantiates the object from the node(s) found in the XML file.
-
-## Caveats
-
-In order to have XPath make a query against your data file, PHP needs to read the entire file into memory. This is not a problem for small to medium-sized files. This is something to keep in mind when working with large files.
-
-## Relationships
-
-A standard XML tree structure already allows to represent relationships between nodes by where they are in the tree. For example, a category tree where a category can have subcategories. This is a one-to-many relationship. The parent category has many subcategories. The subcategories have one parent category. This is represented by the parent node having child nodes.
-Or similarly, think of an author, that wrote n articles. The author node has n article nodes as children. The article nodes have one author node as parent. This is a many-to-one relationship.
-
+## Performance
+### Hash Maps
+Under the hood, DOM-ORM makes use of in-memory PHP hash maps. These arrays are serialized to a .php file that PHP's opcache can precompile. 
+This greatly improves lookup performance because costly XPath queries are highly reduced. 
+### Batch Inserts
+Persisting many entities can be slow, as the XML file has to be rewritten each time `persist($entity)` is called. To address this, there is a `persistBatch($entities)` method, which writes to the XML file only once.
+### No overhead
+DOM-ORM can actually be faster than a regular database because it operates as an in-memory data structure for read operations. We are talking microseconds instead of milliseconds. This is achieved by eliminating network latency and disk I/O.
 
 ## Installation
 

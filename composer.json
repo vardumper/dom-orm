@@ -15,7 +15,8 @@
     "league/flysystem": "^3.33.0",
     "symfony/yaml": "^5.4 || ^6.4 || ^7.4 || ^8.0",
     "mnapoli/silly": "^1.9.1",
-    "league/config": "^1.2"
+    "league/config": "^1.2",
+    "czproject/git-php": "^4.6"
   },
   "require-dev": {
     "pestphp/pest": "^4.0",

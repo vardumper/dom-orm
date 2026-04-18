@@ -18,9 +18,20 @@ function getConfig(): Configuration
                 ]),
             ]),
             'filename' => Expect::string()->default('data.xml'),
+            'lock_file' => Expect::string()->nullable()->default(null),
             'encryption_key' => Expect::string()->nullable()->default(null),
             'cache_path' => Expect::string()->nullable()->default(null),
             'cache_strategy' => Expect::anyOf('manual', 'on_persist')->default('manual'),
+            'versioning' => Expect::bool()->default(false),
+            'version_control' => Expect::anyOf('git', 'hg')->default('git'),
+            'version_control_push' => Expect::anyOf('manual', 'on_persist')->default('manual'),
+            'export_on_persist' => Expect::structure([
+                'file' => Expect::string()->nullable()->default(null),
+                'xml' => Expect::anyOf(true, false, Expect::string())->default(false),
+                'yaml' => Expect::anyOf(true, false, Expect::string())->default(false),
+                'json' => Expect::anyOf(true, false, Expect::string())->default(false),
+                'php' => Expect::anyOf(true, false, Expect::string())->default(false),
+            ]),
         ]),
     ]);
 
