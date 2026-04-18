@@ -1,6 +1,6 @@
 # DOM ORM
 
-DOM ORM is a lightweight XML-based persistence layer for small PHP projects. It stores entities in a single XML document, so you can start without a database server.
+DOM ORM is a lightweight, zero-setup, XML-based persistence layer for small datasets in PHP projects. It stores entities in a single XML document, so you can start without a database server.
 
 ## Features
 
