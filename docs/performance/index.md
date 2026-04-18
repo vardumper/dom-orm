@@ -1,12 +1,12 @@
 # Performance
 
 ## No overhead
-DOM-ORM can actually be faster than a regular database because it operates as an in-memory data structure for read operations. We are talking microseconds instead of milliseconds. This is achieved by eliminating network latency and disk I/O.
+DOM-ORM can actually be faster than a regular database because it operates as an in-memory data structure for read operations. We are talking microseconds instead of milliseconds. This is achieved by eliminating network latency and disk I/O. On the downside, a large XML file (a large databse) also leads to increased memory consumption, and slower write/pre-compile operations.
 
 ## Hash Maps and Query Cache
 Under the hood, every DOM-ORM Repository method makes use of a pre-compiled in-memory PHP hash map. 
-This array is serialized to a .php file that PHP's opcache can precompile. 
-This greatly improves lookup performance because costly XPath queries are highly reduced. 
+The PHP array cache generates a PHP file that PHP's opcache can pre-compile, giving O(1) ID
+lookups and fast in-memory scans without XPath overhead. 
 
 The file format (written to cache_path):
 
@@ -26,17 +26,66 @@ The `'__idx'` sub-key holds per-field inverted indexes (non-encrypted fields onl
 The inner item arrays match the shape produced by `SchemaDecoder::decodeItem()`, so 
 they can be fed directly back into `SchemaDenormalizer` which speeds up lookups as it allows us to bypass costly XPath queries.
 
-### Configuration
-In your `config/dom-orm.php` file, there are two settings to control this feature:
+#### Configuration
+Add `cache_path` to your `dom-orm.php`:
+
 ```php
 <?php return [
-  'dom-orm' => [
-    'cache_path' => null, # 'path/to/file.php' or null to use default location.
-    'cache_strategy' => 'on_persist', # on_persist: automatically or manual: requires you to use the below CLI commands.
-  ];
+    'dom-orm' => [
+        // … existing config …
+        'cache_path'     => __DIR__ . '/storage/cache.php',
+        'cache_strategy' => 'manual',   // 'manual' (default) or 'on_persist'
+    ],
+];
 ```
-If you are writing a lot of data to the database (XML file), it can be beneficial not to write the file on every insert. That's why this setting exists.
-You can also trigger a cache rebuild programmatically via `QueryCache::build()` if needed. When cache and XML are not in sync, you will get different results if the cache file is stale. Nonetheless, you are in control.  
+
+| Option | Values | Description |
+|--------|--------|-------------|
+| `cache_path` | file path | Where the PHP cache file is written. `null` disables the cache entirely. |
+| `cache_strategy` | `manual` | Cache is only rebuilt when you run `build-cache`. Recommended for write-heavy workloads. |
+| | `on_persist` | Cache is rebuilt automatically after every `persist()` / `remove()`. Convenient for small datasets. |
+
+#### 2. Build the cache
+
+```bash
+./vendor/bin/dom-orm build-cache
+# → Cache written to /path/to/storage/cache.php.
+```
+
+Re-run any time after modifying the XML directly (persisting data, import, migrate, cleanup, etc.).
+
+When `cache_strategy` is `on_persist`, DOM ORM can also emit one or several export formats in
+the same save cycle. That keeps the XML source, the PHP query cache, and any derived read-only
+snapshots in sync automatically.
+
+#### 3. Reads are served from cache automatically
+
+Once the cache file exists, `EntityRepository::find()`, `findAll()`, `findBy()`, and
+`findOneBy()` use the cache instead of XPath — no code changes needed:
+
+```php
+$repo = new EntityRepository(User::class);
+$user = $repo->find('uuid1');        // reads from cache.php
+$users = $repo->findBy(['name' => 'Alice']);  // in-memory filter over cache
+```
+
+Queries involving encrypted sensitive fields fall back to XPath automatically (the cache
+stores ciphertext, which cannot be matched without knowing the plaintext).
+
+#### 4. Flush the cache
+
+```bash
+./vendor/bin/dom-orm flush-cache
+```
+
+XML remains the source of truth at all times. The cache is a derivative artifact that can be
+rebuilt or deleted at any point.
+
+> **Tip:** Add `build-cache` to your deployment script after running `migrate` and `cleanup`
+> to keep reads fast after a schema change:
+> ```bash
+> ./vendor/bin/dom-orm migrate && ./vendor/bin/dom-orm cleanup && ./vendor/bin/dom-orm build-cache
+> ```
 
 ### CLI Command
 ```bash

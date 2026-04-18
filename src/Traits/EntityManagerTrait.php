@@ -40,33 +40,49 @@ trait EntityManagerTrait
     /**
      * @param \DOMNode|\DOMNodeList<\DOMNode>|null $parent
      */
-    public function persist(EntityInterface $entity, \DOMNode|\DOMNodeList|null $parent = null): void
+    /**
+     * @param \DOMNode|\DOMNodeList<\DOMNode>|string|null $parent  A DOMNode, an XPath string, or null.
+     *   - null + single allowedParentPath: group is auto-resolved and created when missing.
+     *   - null + multiple allowedParentPaths: throws — caller must provide an explicit parent.
+     *   - XPath string: resolved against the freshly-loaded DOM inside the lock cycle,
+     *     so it always works correctly regardless of when the string was prepared.
+     */
+    public function persist(EntityInterface $entity, \DOMNode|\DOMNodeList|string|null $parent = null): void
     {
         $this->withWriteLock(function () use ($entity, $parent): void {
-            if ($parent === null) {
-                $parent = $this->data->documentElement;
-            }
-
             $allowedParentPaths = $this->resolveAllowedParentPaths($entity);
 
-            if ($allowedParentPaths === null && $parent === null) {
-                throw new \InvalidArgumentException('To store an entity a parent node is required.');
+            // Resolve an XPath string to a node inside the current (freshly loaded) DOM.
+            if (\is_string($parent)) {
+                $nodes = $this->xpath->query($parent);
+                $resolved = ($nodes !== false) ? $nodes->item(0) : null;
+                if ($resolved === null) {
+                    throw new \InvalidArgumentException(\sprintf('The specified parent XPath "%s" did not match any node.', $parent));
+                }
+                $parent = $resolved;
             }
 
+            // Single allowedParentPath: auto-resolve; auto-create the group when missing.
             if (\is_array($allowedParentPaths) && \count($allowedParentPaths) === 1) {
                 $nodes = $this->xpath->query($allowedParentPaths[0]);
-                $parent = ($nodes === false) ? null : $nodes->item(0);
-                if ($parent === null) {
-                    throw new \InvalidArgumentException(\sprintf('The parent node %s wasn\'t found.', $allowedParentPaths[0]));
+                $resolved = ($nodes === false) ? null : $nodes->item(0);
+                if ($resolved === null) {
+                    $resolved = $this->createGroupFromXPath($allowedParentPaths[0]);
                 }
+                if ($resolved === null) {
+                    throw new \InvalidArgumentException(\sprintf('The parent node "%s" was not found and could not be auto-created.', $allowedParentPaths[0]));
+                }
+                $parent = $resolved;
             }
 
+            // Multiple allowedParentPaths with no explicit parent: caller must decide.
             if (\is_array($allowedParentPaths) && \count($allowedParentPaths) > 1 && $parent === null) {
-                throw new \InvalidArgumentException('This entity has several possible parent locations. To store it please provide a valid parent Node.');
+                throw new \InvalidArgumentException('This entity has several possible parent locations. Please provide a valid parent node or XPath string.');
             }
 
+            // No allowedParentPaths and no explicit parent: fall back to document root.
             if ($parent === null) {
-                throw new \InvalidArgumentException('Invalid parent node given. Allowed parents are: ' . \implode(', ', $allowedParentPaths ?? []));
+                $parent = $this->data->documentElement;
             }
 
             $array = $this->serializer->normalize($entity, SchemaNormalizer::FORMAT);
@@ -246,5 +262,22 @@ trait EntityManagerTrait
             new SchemaEncoder(),
             new SchemaDecoder(),
         );
+    }
+
+    /**
+     * Attempts to create a parent group node from a simple XPath pattern.
+     * Supports the common form: //group[@type="VALUE"] or //group[@type='VALUE']
+     */
+    private function createGroupFromXPath(string $xpath): ?\DOMElement
+    {
+        if (\preg_match('#^//group\[@type=["\']([^"\']+)["\']\]$#', $xpath, $m)) {
+            $group = $this->data->createElement('group');
+            $group->setAttribute('type', $m[1]);
+            $this->data->documentElement->appendChild($group);
+
+            return $group;
+        }
+
+        return null;
     }
 }

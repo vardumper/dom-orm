@@ -13,11 +13,14 @@ export default defineConfig({
     ],
 
     sidebar: [
+      { text: 'Get started', link: '/get-started' },
       {
-        text: 'Concept',
+        text: 'Relationships',
         items: [
-          { text: 'Headless DB', link: '/features#headless-db' },
-          { text: 'Concurrency', link: '/features#concurrency' },
+          { text: 'One-to-One', link: '/relationships#one-to-one' },
+          { text: 'One-to-Many', link: '/relationships#one-to-many' },
+          { text: 'Many-to-One', link: '/relationships#many-to-one' },
+          { text: 'Many-to-Many', link: '/relationships#many-to-many' },
         ]
       },
       {

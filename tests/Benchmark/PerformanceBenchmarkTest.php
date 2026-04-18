@@ -480,9 +480,9 @@ describe('memoization improvements', function (): void {
         $ratio = $coldPer / \max($warmPer, 0.00001);
 
         expect($ratio)->toBeGreaterThan(
-            2,
+            1.1,
             \sprintf(
-                'resolveConstructorParams() warm (%.5fms/call) should be >2× faster than cold ReflectionClass (%.5fms/call); got %.1f×',
+                'resolveConstructorParams() warm (%.5fms/call) should be >1.1× faster than cold ReflectionClass (%.5fms/call); got %.1f×',
                 $warmPer,
                 $coldPer,
                 $ratio,

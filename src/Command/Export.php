@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Command;
 
+use DOM\ORM\Entity\AbstractEntity;
+use DOM\ORM\Mapping\Exclude;
+use DOM\ORM\Mapping\Fragment;
+use DOM\ORM\Mapping\Item;
 use DOM\ORM\Storage\StorageService;
 use Symfony\Component\Yaml\Yaml;
 use function DOM\ORM\getConfig;
@@ -131,11 +135,16 @@ class Export
                 'type' => $type,
             ];
 
+            $excluded = self::buildExclusionMap()[$type] ?? [];
+
             foreach ($item->childNodes as $child) {
                 if (!$child instanceof \DOMElement || $child->nodeName !== 'fragment') {
                     continue;
                 }
                 $name = $child->getAttribute('name');
+                if (\in_array($name, $excluded, true)) {
+                    continue;
+                }
                 // Omit internal searchable-hash meta — export only the (possibly encrypted) value.
                 $row[$name] = $child->nodeValue;
             }
@@ -144,6 +153,59 @@ class Export
         }
 
         return $result;
+    }
+
+    /**
+     * Builds a map of entity-type → list of fragment names tagged with #[Exclude].
+     * Result is memoised for the lifetime of the process.
+     *
+     * @return array<string, list<string>>
+     */
+    private static function buildExclusionMap(): array
+    {
+        /** @var array<string, list<string>>|null $cache */
+        static $cache = null;
+        if ($cache !== null) {
+            return $cache;
+        }
+
+        $cache = [];
+        foreach (\get_declared_classes() as $class) {
+            if (!\is_subclass_of($class, AbstractEntity::class)) {
+                continue;
+            }
+
+            $ref = new \ReflectionClass($class);
+            $itemAttrs = $ref->getAttributes(Item::class);
+            if (empty($itemAttrs)) {
+                continue;
+            }
+
+            /** @var Item $itemInstance */
+            $itemInstance = $itemAttrs[0]->newInstance();
+            $entityType = $itemInstance->entityType;
+            $excluded = [];
+
+            $parentClass = $ref->getParentClass();
+            $properties = \array_merge($ref->getProperties(), $parentClass !== false ? $parentClass->getProperties() : []);
+
+            foreach ($properties as $property) {
+                if (empty($property->getAttributes(Exclude::class))) {
+                    continue;
+                }
+                foreach ($property->getAttributes(Fragment::class) as $fragmentAttr) {
+                    /** @var Fragment $fragment */
+                    $fragment = $fragmentAttr->newInstance();
+                    $excluded[] = $fragment->fragmentName ?? $property->getName();
+                }
+            }
+
+            if (!empty($excluded)) {
+                $cache[$entityType] = $excluded;
+            }
+        }
+
+        return $cache;
     }
 
     private static function defaultBasePath(): string

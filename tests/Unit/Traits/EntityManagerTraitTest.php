@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use DOM\ORM\Traits\EntityManagerTrait;
+use Tests\Fixtures\ScopedArticle;
+use Tests\Fixtures\ScopedComment;
 use Tests\Fixtures\Tag;
 
 // Minimal concrete class that exposes EntityManagerTrait for testing
@@ -175,4 +177,96 @@ it('save-time cache rebuilds can export configured formats', function () use (&$
     expect(\getcwd() . '/storage/export.json')->toBeFile();
     expect(\getcwd() . '/storage/export.php')->toBeFile();
     expect((string)\file_get_contents(\getcwd() . '/storage/export.json'))->toContain('export-id');
+});
+
+// ---------------------------------------------------------------------------
+// allowedParentPaths
+// ---------------------------------------------------------------------------
+
+it('persist creates the group when the single allowedParentPath resolves to a missing group', function () use (&$storageFile, &$manager): void {
+    if (!\is_string($storageFile) || !$manager instanceof TestEntityManager) {
+        throw new \RuntimeException('Entity manager test fixture was not initialized.');
+    }
+
+    // Storage starts as plain <data /> — no <group type="articles"> exists yet.
+    $manager->persist(new ScopedArticle('Hello World', 'art-1'));
+
+    $xml = (string)\file_get_contents($storageFile);
+    $dom = new \DOMDocument();
+    $dom->loadXML($xml);
+    $xpath = new \DOMXPath($dom);
+
+    // The group must have been auto-created.
+    $groups = $xpath->query('//group[@type="articles"]');
+    expect($groups)->not->toBeFalse();
+    expect((int)$groups->length)->toBe(1);
+
+    // The entity must be nested inside the auto-created group.
+    $items = $xpath->query('//group[@type="articles"]/item[@type="scoped_article" and @id="art-1"]');
+    expect($items)->not->toBeFalse();
+    expect((int)$items->length)->toBe(1);
+    expect($xml)->toContain('Hello World');
+});
+
+it('persist places the entity under the correct group', function () use (&$storageFile, &$manager): void {
+    if (!\is_string($storageFile) || !$manager instanceof TestEntityManager) {
+        throw new \RuntimeException('Entity manager test fixture was not initialized.');
+    }
+
+    // Pre-create the group: verifies that persist() uses the existing node rather
+    // than creating a duplicate when the group is already present.
+    \file_put_contents($storageFile, '<data><group type="articles"/></data>');
+
+    $manager->persist(new ScopedArticle('Hello World', 'art-1'));
+
+    $xml = (string)\file_get_contents($storageFile);
+    $dom = new \DOMDocument();
+    $dom->loadXML($xml);
+    $xpath = new \DOMXPath($dom);
+
+    // Only one group must exist (no duplicate created).
+    expect((int)$xpath->query('//group[@type="articles"]')->length)->toBe(1);
+
+    $items = $xpath->query('//group[@type="articles"]/item[@type="scoped_article" and @id="art-1"]');
+    expect($items)->not->toBeFalse();
+    expect((int)$items->length)->toBe(1);
+    expect($xml)->toContain('Hello World');
+});
+
+it('persist throws when multiple allowedParentPaths are defined and no explicit parent is provided', function () use (&$manager): void {
+    if (!$manager instanceof TestEntityManager) {
+        throw new \RuntimeException('Entity manager test fixture was not initialized.');
+    }
+
+    // ScopedComment defines two possible parent paths — persist() cannot auto-resolve
+    // the ambiguity and must throw so the caller provides an explicit parent.
+    expect(fn () => $manager->persist(new ScopedComment('Great post!', 'com-1')))
+        ->toThrow(\InvalidArgumentException::class);
+});
+
+it('persist places entity under the explicit parent node when multiple allowedParentPaths are defined', function () use (&$storageFile, &$manager): void {
+    if (!\is_string($storageFile) || !$manager instanceof TestEntityManager) {
+        throw new \RuntimeException('Entity manager test fixture was not initialized.');
+    }
+
+    \file_put_contents($storageFile, <<<XML
+        <data><group type="articles"><item type="scoped_article" id="art-1"><fragment name="title"><![CDATA[Hello World]]></fragment></item></group></data>
+        XML);
+
+    // Pass the parent as an XPath string — persist() resolves it against the freshly
+    // loaded DOM inside its own write-lock cycle, so it always works correctly.
+    $manager->persist(
+        new ScopedComment('Great post!', 'com-1'),
+        '//group[@type="articles"]/item[@type="scoped_article" and @id="art-1"]'
+    );
+
+    $result = (string)\file_get_contents($storageFile);
+    $resultDom = new \DOMDocument();
+    $resultDom->loadXML($result);
+    $resultXpath = new \DOMXPath($resultDom);
+
+    $comments = $resultXpath->query('//group[@type="articles"]/item[@type="scoped_article" and @id="art-1"]/item[@type="scoped_comment" and @id="com-1"]');
+    expect($comments)->not->toBeFalse();
+    expect((int)$comments->length)->toBe(1);
+    expect($result)->toContain('Great post!');
 });
