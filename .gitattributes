@@ -1,0 +1,9 @@
+docs/ export-ignore
+examples/ export-ignore
+tests/ export-ignore
+.gitignore export-ignore
+.yarnrc export-ignore
+.githooks export-ignore
+package.json export-ignore
+package-lock.json export-ignore
+yarn.lock export-ignore

@@ -62,6 +62,8 @@
     }
   },
   "scripts": {
+    "test": "XDEBUG_MODE=off vendor/bin/pest --exclude-group=benchmark",
+    "test:coverage": "XDEBUG_MODE=coverage vendor/bin/pest --coverage-clover clover.xml --exclude-group=benchmark",
     "check-cs": "vendor/bin/ecs check --ansi",
     "fix-cs": "vendor/bin/ecs check --no-ansi --fix",
     "phpstan": "phpstan --memory-limit=1G",
