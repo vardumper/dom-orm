@@ -1,4 +1,8 @@
 # Get started
+
+## DOM-ORM? Why?
+The DOM-ORM project was created to provide a simple, easy-to-use way to store data objects without the need to install and configure a database, access roles and users. Since it stores a plaintext XML file, there's no SQL Client required, and no binary files involved like in SQLite.
+
 ## Assumptions
 You already know what an ORM is. You have worked with Eloquent or Doctrine.
 

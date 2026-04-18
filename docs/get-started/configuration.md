@@ -1,4 +1,0 @@
-# Configuration 
-
-## Available Options
-
