@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-use Composer\InstalledVersions;
 use DOM\ORM\Storage\StorageService;
 
 require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/VirtualFile.php';
-require __DIR__ . '/VirtualFolder.php';
-require __DIR__ . '/VirtualFilesystemManager.php';
+require __DIR__ . '/models/VirtualFile.php';
+require __DIR__ . '/models/VirtualFolder.php';
+require __DIR__ . '/service/VirtualFilesystemManager.php';
 
 \putenv('DOM_ORM_FLYSYSTEM_LOCATION=' . __DIR__ . '/storage');
 \putenv('DOM_ORM_FILENAME=data.xml');
@@ -18,52 +17,201 @@ if (!\is_dir($storageDir) && !\mkdir($storageDir, 0755, true) && !\is_dir($stora
     throw new \RuntimeException('Unable to create storage directory: ' . $storageDir);
 }
 
-$dataFile = $storageDir . '/data.xml';
-if (\is_file($dataFile)) {
-    \unlink($dataFile);
+// Seed only when no data file exists yet.
+if (!\is_file($storageDir . '/data.xml')) {
+    $seed = new VirtualFilesystemManager();
+    $seed->addFile('readme.txt', 'text/plain', 'This is the virtual filesystem root.');
+    $seed->addFolder('documents');
+    $seed->addFileToFolder('documents', 'notes.txt', 'text/plain', 'Meeting notes go here.');
+    $seed->addFolderToFolder('documents', 'work');
+    $seed->addFileToFolder('work', 'report.json', 'application/json', '{"status":"done","progress":100}');
 }
 
-// Expected XML tree:
-//
-// <data>
-//   <item type="file" id="...">           <!-- root-level file -->
-//     <fragment name="name">readme.txt</fragment>
-//     ...
-//   </item>
-//   <item type="folder" id="...">         <!-- /documents/ -->
-//     <fragment name="name">documents</fragment>
-//     <group type="files">
-//       <item type="file" id="...">       <!-- documents/notes.txt -->
-//         ...
-//       </item>
-//     </group>
-//     <group type="folders">
-//       <item type="folder" id="...">     <!-- documents/work/ -->
-//         <fragment name="name">work</fragment>
-//         <group type="files">
-//           <item type="file" id="...">   <!-- documents/work/report.json -->
-//             ...
-//           </item>
-//         </group>
-//       </item>
-//     </group>
-//   </item>
-// </data>
+function renderHtml(): string
+{
+    $xml = StorageService::fromConfig()->read();
+    $doc = new DOMDocument();
+    $doc->loadXML($xml);
 
-$manager = new VirtualFilesystemManager();
+    $xsl = new DOMDocument();
+    $xsl->load(__DIR__ . '/filesystem.xsl');
 
-// Root-level file
-$manager->addFile('readme.txt', 'text/plain', 'This is the virtual filesystem root.');
+    $proc = new XSLTProcessor();
+    $proc->importStylesheet($xsl);
+    $proc->setParameter('', 'raw-xml', $xml);
 
-// /documents/ folder with one file and one sub-folder
-$manager->addFolder('documents');
-$manager->addFileToFolder('documents', 'notes.txt', 'text/plain', 'Meeting notes go here.');
-$manager->addFolderToFolder('documents', 'work');
-$manager->addFileToFolder('work', 'report.json', 'application/json', '{"status":"done","progress":100}');
+    return (string)$proc->transformToXML($doc);
+}
 
-$xml = StorageService::fromConfig()->read();
+function jsonOk(array $data, int $status = 200): never
+{
+    http_response_code($status);
+    header('Content-Type: application/json');
+    echo json_encode($data);
+    exit;
+}
 
-echo 'Leaf installed: ' . (InstalledVersions::isInstalled('leafs/leaf') ? 'yes' : 'no') . PHP_EOL;
-echo 'XML file: ' . $dataFile . PHP_EOL;
-echo PHP_EOL;
-echo $xml . PHP_EOL;
+function jsonError(string $message, int $status = 400): never
+{
+    http_response_code($status);
+    header('Content-Type: application/json');
+    echo json_encode([
+        'error' => $message,
+    ]);
+    exit;
+}
+
+// ── Routes ───────────────────────────────────────────────────────────────────
+
+app()->get('/', function () {
+    echo renderHtml();
+});
+
+// Folder endpoints ────────────────────────────────────────────────────────────
+
+app()->post('/api/folder/add', function () {
+    $name = trim((string)(request()->get('name') ?? ''));
+    $parentId = trim((string)(request()->get('parentId') ?? ''));
+
+    if ($name === '') {
+        jsonError('name is required');
+    }
+
+    try {
+        $manager = new VirtualFilesystemManager();
+        $id = $manager->addFolderById($parentId !== '' ? $parentId : null, $name);
+        jsonOk([
+            'success' => true,
+            'id' => $id,
+        ], 201);
+    } catch (\Throwable $e) {
+        jsonError($e->getMessage());
+    }
+});
+
+app()->post('/api/folder/rename', function () {
+    $id = trim((string)(request()->get('id') ?? ''));
+    $name = trim((string)(request()->get('name') ?? ''));
+
+    if ($id === '' || $name === '') {
+        jsonError('id and name are required');
+    }
+
+    try {
+        $manager = new VirtualFilesystemManager();
+        $manager->renameFolder($id, $name);
+        jsonOk([
+            'success' => true,
+        ]);
+    } catch (\Throwable $e) {
+        jsonError($e->getMessage());
+    }
+});
+
+app()->post('/api/folder/remove', function () {
+    $id = trim((string)(request()->get('id') ?? ''));
+
+    if ($id === '') {
+        jsonError('id is required');
+    }
+
+    try {
+        $manager = new VirtualFilesystemManager();
+        $manager->removeById($id);
+        jsonOk([
+            'success' => true,
+        ]);
+    } catch (\Throwable $e) {
+        jsonError($e->getMessage());
+    }
+});
+
+// File endpoints ──────────────────────────────────────────────────────────────
+
+app()->post('/api/file/add', function () {
+    $parentId = trim((string)(request()->get('parentId') ?? ''));
+    $name = trim((string)(request()->get('name') ?? ''));
+    $mimeType = trim((string)(request()->get('mimeType') ?? 'application/octet-stream'));
+    $content = (string)(request()->get('content') ?? '');
+
+    if ($parentId === '' || $name === '') {
+        jsonError('parentId and name are required');
+    }
+
+    try {
+        $manager = new VirtualFilesystemManager();
+        $id = $manager->addFileById($parentId, $name, $mimeType, $content);
+        jsonOk([
+            'success' => true,
+            'id' => $id,
+        ], 201);
+    } catch (\Throwable $e) {
+        jsonError($e->getMessage());
+    }
+});
+
+app()->post('/api/file/rename', function () {
+    $id = trim((string)(request()->get('id') ?? ''));
+    $name = trim((string)(request()->get('name') ?? ''));
+
+    if ($id === '' || $name === '') {
+        jsonError('id and name are required');
+    }
+
+    try {
+        $manager = new VirtualFilesystemManager();
+        $manager->renameFile($id, $name);
+        jsonOk([
+            'success' => true,
+        ]);
+    } catch (\Throwable $e) {
+        jsonError($e->getMessage());
+    }
+});
+
+app()->get('/api/xml', function () {
+    header('Content-Type: application/xml');
+    echo StorageService::fromConfig()->read();
+});
+
+app()->post('/api/file/upload', function () {
+    $parentId = trim((string)(request()->get('parentId') ?? ''));
+    $name = trim((string)(request()->get('name') ?? ''));
+    $mimeType = trim((string)(request()->get('mimeType') ?? 'application/octet-stream'));
+    $content = (string)(request()->get('content') ?? '');
+
+    if ($parentId === '' || $name === '') {
+        jsonError('parentId and name are required');
+    }
+
+    try {
+        $manager = new VirtualFilesystemManager();
+        $id = $manager->addFileById($parentId, $name, $mimeType, $content);
+        jsonOk([
+            'success' => true,
+            'id' => $id,
+        ], 201);
+    } catch (\Throwable $e) {
+        jsonError($e->getMessage());
+    }
+});
+
+app()->post('/api/file/remove', function () {
+    $id = trim((string)(request()->get('id') ?? ''));
+
+    if ($id === '') {
+        jsonError('id is required');
+    }
+
+    try {
+        $manager = new VirtualFilesystemManager();
+        $manager->removeById($id);
+        jsonOk([
+            'success' => true,
+        ]);
+    } catch (\Throwable $e) {
+        jsonError($e->getMessage());
+    }
+});
+
+app()->run();
