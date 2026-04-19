@@ -119,15 +119,19 @@ class SchemaDenormalizer implements DenormalizerInterface
         $groups = $this->resolveGroups($entityClass);
         if ($groups !== null) {
             foreach ($groups as [$groupEntity, $groupType, $propName, $isSingle]) {
-                if (!$isSingle) {
-                    continue;
-                }
                 $key = $groupType ?? $propName;
                 if (!\array_key_exists($key, $entityData)) {
                     continue;
                 }
                 $items = $entityData[$key];
-                $entityData[$key] = !empty($items) ? $this->instantiateEntity($items[0]) : null;
+                if ($isSingle) {
+                    $entityData[$key] = !empty($items) ? $this->instantiateEntity($items[0]) : null;
+                } else {
+                    $entityData[$key] = \array_map(
+                        fn (array $item): EntityInterface => $this->instantiateEntity($item),
+                        $items,
+                    );
+                }
             }
         }
 
