@@ -90,7 +90,14 @@ trait EntityManagerTrait
             $tmp = $this->getEmptyDom();
             $tmp->loadXML($xml);
             $importedNode = $this->data->importNode($tmp->documentElement, true);
-            $parent->appendChild($importedNode);
+
+            // Upsert: replace the existing node if one with the same id already exists.
+            $existing = $this->xpath->query(\sprintf('//*[@id="%s"]', $entity->getId()));
+            if ($existing !== false && $existing->length > 0 && ($existingNode = $existing->item(0)) !== null) {
+                $existingNode->parentNode?->replaceChild($importedNode, $existingNode);
+            } else {
+                $parent->appendChild($importedNode);
+            }
         });
     }
 
