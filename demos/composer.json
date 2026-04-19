@@ -17,7 +17,7 @@
     }
   ],
   "scripts": {
-    "demo:virtual-filesystem": "@php virtual-filesystem/example.php"
+    "demo:virtual-filesystem": "@php virtual-filesystem/index.php"
   },
   "minimum-stability": "dev",
   "prefer-stable": true

@@ -11,6 +11,9 @@ use DOM\ORM\Traits\EntityManagerTrait;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+\putenv('DOM_ORM_FLYSYSTEM_LOCATION=' . __DIR__ . '/storage');
+\putenv('DOM_ORM_FILENAME=data.xml');
+
 #[ORM\Item(entityType: 'virtual_note')]
 final class VirtualFilesystemNote extends AbstractEntity
 {

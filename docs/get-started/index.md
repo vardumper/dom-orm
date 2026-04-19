@@ -39,6 +39,38 @@ To change the location, configure a Flysystem adapter. Be aware that concurrency
 ];
 ```
 
+You can also configure DOM ORM with environment variables instead of a config file.
+This is useful for containers, CI, and 12-factor style deployments.
+
+```bash
+DOM_ORM_FLYSYSTEM_LOCATION=/app/storage
+DOM_ORM_FILENAME=data.xml
+DOM_ORM_ENCRYPTION_KEY=your-secret-key-32-bytes-minimum!
+DOM_ORM_VERSIONING=true
+DOM_ORM_VERSION_CONTROL=git
+DOM_ORM_VERSION_CONTROL_PUSH=manual
+```
+
+Supported environment variables:
+
+- `DOM_ORM_FLYSYSTEM_ADAPTER`
+- `DOM_ORM_FLYSYSTEM_LOCATION`
+- `DOM_ORM_FILENAME`
+- `DOM_ORM_LOCK_FILE`
+- `DOM_ORM_ENCRYPTION_KEY`
+- `DOM_ORM_CACHE_PATH`
+- `DOM_ORM_CACHE_STRATEGY` (`manual` or `on_persist`)
+- `DOM_ORM_VERSIONING` (`true/false`, `1/0`, `yes/no`, `on/off`)
+- `DOM_ORM_VERSION_CONTROL` (`git` or `hg`)
+- `DOM_ORM_VERSION_CONTROL_PUSH` (`manual` or `on_persist`)
+- `DOM_ORM_EXPORT_ON_PERSIST_FILE`
+- `DOM_ORM_EXPORT_ON_PERSIST_XML`
+- `DOM_ORM_EXPORT_ON_PERSIST_YAML`
+- `DOM_ORM_EXPORT_ON_PERSIST_JSON`
+- `DOM_ORM_EXPORT_ON_PERSIST_PHP`
+
+When both a config file and environment variables are present, environment variables win.
+
 ## Basic Usage
 
 ### Entity
