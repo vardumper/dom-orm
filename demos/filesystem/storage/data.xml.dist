@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+  <item type="fs_folder" id="folder-root">
+    <fragment name="name"><![CDATA[root]]></fragment>
+    <fragment name="parentId"><![CDATA[]]></fragment>
+    <fragment name="createdAt"><![CDATA[2024-01-01T00:00:00+00:00]]></fragment>
+    <group type="fs_folder">
+      <item type="fs_folder" id="folder-documents">
+        <fragment name="name"><![CDATA[Documents]]></fragment>
+        <fragment name="parentId"><![CDATA[folder-root]]></fragment>
+        <fragment name="createdAt"><![CDATA[2024-01-01T00:00:01+00:00]]></fragment>
+        <group type="fs_file">
+          <item type="fs_file" id="file-readme">
+            <fragment name="name"><![CDATA[README.md]]></fragment>
+            <fragment name="parentId"><![CDATA[folder-root]]></fragment>
+            <fragment name="createdAt"><![CDATA[2024-01-01T00:00:03+00:00]]></fragment>
+          </item>
+          <item type="fs_file" id="file-report">
+            <fragment name="name"><![CDATA[annual-report.pdf]]></fragment>
+            <fragment name="parentId"><![CDATA[folder-documents]]></fragment>
+            <fragment name="createdAt"><![CDATA[2024-01-01T00:00:04+00:00]]></fragment>
+          </item>
+          <item type="fs_file" id="file-notes">
+            <fragment name="name"><![CDATA[notes.txt]]></fragment>
+            <fragment name="parentId"><![CDATA[folder-documents]]></fragment>
+            <fragment name="createdAt"><![CDATA[2024-01-01T00:00:05+00:00]]></fragment>
+          </item>
+        </group>
+      </item>
+      <item type="fs_folder" id="folder-images">
+        <fragment name="name"><![CDATA[Images]]></fragment>
+        <fragment name="parentId"><![CDATA[folder-root]]></fragment>
+        <fragment name="createdAt"><![CDATA[2024-01-01T00:00:02+00:00]]></fragment>
+        <group type="fs_file">
+          <item type="fs_file" id="file-photo">
+            <fragment name="name"><![CDATA[photo.jpg]]></fragment>
+            <fragment name="parentId"><![CDATA[folder-images]]></fragment>
+            <fragment name="createdAt"><![CDATA[2024-01-01T00:00:06+00:00]]></fragment>
+          </item>
+          <item type="fs_file" id="file-logo">
+            <fragment name="name"><![CDATA[logo.png]]></fragment>
+            <fragment name="parentId"><![CDATA[folder-images]]></fragment>
+            <fragment name="createdAt"><![CDATA[2024-01-01T00:00:07+00:00]]></fragment>
+          </item>
+        </group>
+      </item>
+    </group>
+    <group type="fs_file">
+      <item type="fs_file" id="file-readme">
+        <fragment name="name"><![CDATA[README.md]]></fragment>
+        <fragment name="parentId"><![CDATA[folder-root]]></fragment>
+        <fragment name="createdAt"><![CDATA[2024-01-01T00:00:03+00:00]]></fragment>
+      </item>
+      <item type="fs_file" id="file-report">
+        <fragment name="name"><![CDATA[annual-report.pdf]]></fragment>
+        <fragment name="parentId"><![CDATA[folder-documents]]></fragment>
+        <fragment name="createdAt"><![CDATA[2024-01-01T00:00:04+00:00]]></fragment>
+      </item>
+  </item>
+</data>
