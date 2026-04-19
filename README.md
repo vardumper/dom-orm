@@ -1,4 +1,15 @@
-# DOM ORM
+<h1 align="center">DOM ORM</h1>
+
+<p align="center" dir="auto">
+    <a href="https://packagist.org/packages/vardumper/dom-orm" rel="nofollow">
+        <img src="https://poser.pugx.org/vardumper/dom-orm/v/stable" alt="Latest Stable Version" />
+    </a>
+    <img src="https://img.shields.io/packagist/dt/vardumper/dom-orm" alt="Total Downloads" />
+    <img src="https://img.shields.io/badge/license-mit-red" alt="License" />
+    <img src="https://img.shields.io/badge/unit%20tests-passing-green?style=flat&amp;color=%234c1" style="max-width: 100%;">
+    <img src="https://raw.githubusercontent.com/vardumper/dom-orm/refs/heads/main/coverage.svg">
+    <img src="https://dtrack.erikpoehler.us/api/v1/badge/vulns/project/4e028df9-0be3-4c3d-b383-7b1468262c27?apiKey=odt_nG83W_EAcQZkk6b5KqknIVoK8nfNjSz38Ompnn" >
+</p>
 
 DOM ORM is a lightweight, zero-setup, XML-based persistence layer for small datasets in PHP projects. It stores entities in a single XML document, so you can start without a database server.
 
