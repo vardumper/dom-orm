@@ -3,44 +3,15 @@
 declare(strict_types=1);
 
 use Composer\InstalledVersions;
-use DOM\ORM\Entity\AbstractEntity;
-use DOM\ORM\Mapping as ORM;
-use DOM\ORM\Repository\EntityRepository;
 use DOM\ORM\Storage\StorageService;
-use DOM\ORM\Traits\EntityManagerTrait;
 
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/VirtualFile.php';
+require __DIR__ . '/VirtualFolder.php';
+require __DIR__ . '/VirtualFilesystemManager.php';
 
 \putenv('DOM_ORM_FLYSYSTEM_LOCATION=' . __DIR__ . '/storage');
 \putenv('DOM_ORM_FILENAME=data.xml');
-
-#[ORM\Item(entityType: 'virtual_note')]
-final class VirtualFilesystemNote extends AbstractEntity
-{
-    public function __construct(
-        #[ORM\Fragment]
-        private string $title,
-        ?string $id = null,
-        ?\DateTimeInterface $createdAt = null,
-    ) {
-        parent::__construct($id, $createdAt);
-    }
-
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-}
-
-final class VirtualFilesystemNoteManager
-{
-    use EntityManagerTrait;
-
-    public function add(string $title): void
-    {
-        $this->persist(new VirtualFilesystemNote($title));
-    }
-}
 
 $storageDir = __DIR__ . '/storage';
 if (!\is_dir($storageDir) && !\mkdir($storageDir, 0755, true) && !\is_dir($storageDir)) {
@@ -52,16 +23,47 @@ if (\is_file($dataFile)) {
     \unlink($dataFile);
 }
 
-$manager = new VirtualFilesystemNoteManager();
-$manager->add('First virtual note');
-$manager->add('Second virtual note');
+// Expected XML tree:
+//
+// <data>
+//   <item type="file" id="...">           <!-- root-level file -->
+//     <fragment name="name">readme.txt</fragment>
+//     ...
+//   </item>
+//   <item type="folder" id="...">         <!-- /documents/ -->
+//     <fragment name="name">documents</fragment>
+//     <group type="files">
+//       <item type="file" id="...">       <!-- documents/notes.txt -->
+//         ...
+//       </item>
+//     </group>
+//     <group type="folders">
+//       <item type="folder" id="...">     <!-- documents/work/ -->
+//         <fragment name="name">work</fragment>
+//         <group type="files">
+//           <item type="file" id="...">   <!-- documents/work/report.json -->
+//             ...
+//           </item>
+//         </group>
+//       </item>
+//     </group>
+//   </item>
+// </data>
 
-$repository = new EntityRepository(VirtualFilesystemNote::class);
-$notes = $repository->findAll();
+$manager = new VirtualFilesystemManager();
+
+// Root-level file
+$manager->addFile('readme.txt', 'text/plain', 'This is the virtual filesystem root.');
+
+// /documents/ folder with one file and one sub-folder
+$manager->addFolder('documents');
+$manager->addFileToFolder('documents', 'notes.txt', 'text/plain', 'Meeting notes go here.');
+$manager->addFolderToFolder('documents', 'work');
+$manager->addFileToFolder('work', 'report.json', 'application/json', '{"status":"done","progress":100}');
+
 $xml = StorageService::fromConfig()->read();
 
 echo 'Leaf installed: ' . (InstalledVersions::isInstalled('leafs/leaf') ? 'yes' : 'no') . PHP_EOL;
-echo 'Notes persisted: ' . \count($notes) . PHP_EOL;
 echo 'XML file: ' . $dataFile . PHP_EOL;
 echo PHP_EOL;
 echo $xml . PHP_EOL;
