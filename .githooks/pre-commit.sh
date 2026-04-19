@@ -16,7 +16,7 @@ PASS=true
 
 printf "Committing as ${YELLOW}$(git config user.name) ${NC}/ ${YELLOW}$(git config user.email)${NC}\n"
 
-CHANGED_FILES=$(git diff --cached --name-only --diff-filter=ACM -- '*.php')
+CHANGED_FILES=$(git diff --cached --name-only --diff-filter=ACM -- '*.php' | grep -v '^demos/vendor/' || true)
 
 # Swiss Knife
 PHP_SWISSKNIFE="./vendor/bin/swiss-knife"
@@ -76,7 +76,7 @@ if $HAS_PHP_ECS; then
 # if ([ -x $PHP_ECS ] && [ -n "$CHANGED_FILES" ]); then
     printf "ECS start"
     # Get a list of files in the staging area
-    FILES=` git status --porcelain | grep -e '^[AM]\(.*\).php$' | cut -c 3- | tr '\n' ' '`
+    FILES=` git status --porcelain | grep -e '^[AM]\(.*\).php$' | cut -c 3- | grep -v '^demos/vendor/' | tr '\n' ' '`
     if [ -z "$FILES" ]; then
           printf "\nNo PHP file in this commit. Skipping ECS.\n"
     else
@@ -113,7 +113,7 @@ if $HAS_PHPSTAN; then
         printf "\nNo PHP file in this commit. Skipping PHPStan.\n"
   else
     # Filter out files excluded by phpstan.neon (vendor/, tests/, flex/)
-    PHPSTAN_FILES=$(echo "$CHANGED_FILES" | tr ' ' '\n' | grep -v '^vendor/' | grep -v '^tests/' | grep -v '^flex/' | tr '\n' ' ' | xargs)
+    PHPSTAN_FILES=$(echo "$CHANGED_FILES" | tr ' ' '\n' | grep -v '^vendor/' | grep -v '^tests/' | grep -v '^flex/' | grep -v '^demos/vendor/' | tr '\n' ' ' | xargs)
     if [ -z "$PHPSTAN_FILES" ]; then
         printf "\nNo analysable PHP files in this commit. Skipping PHPStan.\n"
     elif RUN $PHPSTAN analyse -c ./phpstan.neon --ansi --memory-limit=1G $PHPSTAN_FILES; then
@@ -138,7 +138,7 @@ run_phpmd() {
 }
 
 if $HAS_PHPMD; then
-  STAGED_PHP_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.php$' | tr '\n' ',')
+  STAGED_PHP_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.php$' | grep -v '^demos/vendor/' | tr '\n' ',')
 
   if [ -z "$STAGED_PHP_FILES" ]; then
     printf "${YELLOW}PHP Mess Detector${NC} — no PHP files staged, skipping.\n"

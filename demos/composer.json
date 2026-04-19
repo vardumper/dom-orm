@@ -1,0 +1,24 @@
+{
+  "name": "vardumper/dom-orm-demos",
+  "description": "Standalone demo workspace for DOM ORM",
+  "type": "project",
+  "require": {
+    "php": ">=8.3 <8.6",
+    "leafs/leaf": "^3.0 || ^4.0 || ^5.0",
+    "vardumper/dom-orm": "dev-main"
+  },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../",
+      "options": {
+        "symlink": true
+      }
+    }
+  ],
+  "scripts": {
+    "demo:virtual-filesystem": "@php virtual-filesystem/example.php"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

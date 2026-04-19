@@ -1,5 +1,6 @@
 # Package Manager-related
 /vendor/
+/demos/vendor/
 /node_modules/
 # IDE-related
 /.history/
@@ -8,3 +9,4 @@
 # Used internally by Git hooks
 cghooks.lock
 /.commit
+/.vscode
