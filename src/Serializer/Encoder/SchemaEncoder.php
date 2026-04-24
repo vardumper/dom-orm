@@ -75,6 +75,10 @@ class SchemaEncoder implements EncoderInterface
                     $node->appendChild($fragment);
                 }
 
+                if (\is_int($value) || \is_float($value) || \is_bool($value)) {
+                    $value = (string)$value;
+                }
+
                 if (\is_string($value)) {
                     $cdataSection = $this->dom->createCDATASection($value);
                     $fragment = $this->dom->createElement('fragment');

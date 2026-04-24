@@ -54,6 +54,10 @@ class SchemaNormalizer implements NormalizerInterface
                 $value = $value->format('c');
             }
 
+            if (\is_int($value) || \is_float($value) || \is_bool($value)) {
+                $value = (string)$value;
+            }
+
             // Encrypt sensitive string properties when an EncryptionService is configured
             if (
                 $this->encryption !== null

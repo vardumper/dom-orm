@@ -162,6 +162,10 @@ class SchemaDenormalizer implements DenormalizerInterface
                 $entityData[$param->getName()] = new \DateTimeImmutable($paramValue);
             }
 
+            if (\is_string($entityData[$param->getName()])) {
+                $entityData[$param->getName()] = $this->castScalar($entityData[$param->getName()], $param->getType());
+            }
+
             if (!isset($constructorArgs[$param->getName()])) {
                 $constructorArgs[$param->getName()] = $entityData[$param->getName()];
             }
@@ -199,9 +203,37 @@ class SchemaDenormalizer implements DenormalizerInterface
             if (!\method_exists($ret, $method)) {
                 continue;
             }
+
+            // Cast string back to the setter's declared scalar type when possible.
+            if (\is_string($value)) {
+                $setterRef = new \ReflectionMethod($ret, $method);
+                $setterParams = $setterRef->getParameters();
+                if (!empty($setterParams)) {
+                    $value = $this->castScalar($value, $setterParams[0]->getType());
+                }
+            }
+
             $ret->{$method}($value);
         }
 
         return $ret;
+    }
+
+    /**
+     * Cast a string value to int, float, or bool when the reflection type demands it.
+     * Returns the original string for any other type or when $type is null.
+     */
+    private function castScalar(string $value, ?\ReflectionType $type): mixed
+    {
+        if (!$type instanceof \ReflectionNamedType) {
+            return $value;
+        }
+
+        return match ($type->getName()) {
+            'int' => (int)$value,
+            'float' => (float)$value,
+            'bool' => $value === '1' || \strtolower($value) === 'true',
+            default => $value,
+        };
     }
 }

@@ -73,7 +73,7 @@ final class VirtualFilesystemManager
     /**
      * Add a pre-base64-encoded file at the root level (for API uploads).
      */
-    public function addEncodedFileToRoot(string $name, string $mimeType, string $encodedContent, string $size): string
+    public function addEncodedFileToRoot(string $name, string $mimeType, string $encodedContent, int $size): string
     {
         $file = new VirtualFile($name, $mimeType, $encodedContent, $size);
         $this->persist($file);
@@ -81,7 +81,7 @@ final class VirtualFilesystemManager
         return $file->getId();
     }
 
-    public function addFileById(string $parentId, string $name, string $mimeType, string $content, string $size = '0'): string
+    public function addFileById(string $parentId, string $name, string $mimeType, string $content, int $size = 0): string
     {
         $repository = new EntityRepository(VirtualFolder::class);
         $parent = $repository->find($parentId);

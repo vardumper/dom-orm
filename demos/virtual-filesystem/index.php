@@ -147,9 +147,9 @@ app()->post('/api/file/add', function () {
     try {
         $manager = new VirtualFilesystemManager();
         if ($parentId !== '') {
-            $id = $manager->addFileById($parentId, $name, $mimeType, $content, $size);
+            $id = $manager->addFileById($parentId, $name, $mimeType, $content, $sizeInt);
         } else {
-            $id = $manager->addEncodedFileToRoot($name, $mimeType, $content, $size);
+            $id = $manager->addEncodedFileToRoot($name, $mimeType, $content, $sizeInt);
         }
         jsonOk([
             'success' => true,
