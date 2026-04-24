@@ -15,6 +15,8 @@ final class VirtualFile extends AbstractEntity
         private string $mimeType,
         #[ORM\Fragment]
         private string $content,
+        #[ORM\Fragment]
+        private string $size = '0',
         ?string $id = null,
         ?\DateTimeInterface $createdAt = null,
     ) {
@@ -56,8 +58,13 @@ final class VirtualFile extends AbstractEntity
         $this->content = $content;
     }
 
-    public function getSize(): int
+    public function getSize(): string
     {
-        return \strlen($this->content);
+        return $this->size;
+    }
+
+    public function setSize(string $size): void
+    {
+        $this->size = $size;
     }
 }

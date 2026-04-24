@@ -133,18 +133,52 @@ app()->post('/api/file/add', function () {
     $name = trim((string)(request()->get('name') ?? ''));
     $mimeType = trim((string)(request()->get('mimeType') ?? 'application/octet-stream'));
     $content = (string)(request()->get('content') ?? '');
+    $size = trim((string)(request()->get('size') ?? '0'));
 
-    if ($parentId === '' || $name === '') {
-        jsonError('parentId and name are required');
+    if ($name === '') {
+        jsonError('name is required');
+    }
+
+    $sizeInt = (int)$size;
+    if ($sizeInt > 500 * 1024) {
+        jsonError('File exceeds the maximum allowed size of 500 KB.', 413);
     }
 
     try {
         $manager = new VirtualFilesystemManager();
-        $id = $manager->addFileById($parentId, $name, $mimeType, $content);
+        if ($parentId !== '') {
+            $id = $manager->addFileById($parentId, $name, $mimeType, $content, $size);
+        } else {
+            $id = $manager->addEncodedFileToRoot($name, $mimeType, $content, $size);
+        }
         jsonOk([
             'success' => true,
             'id' => $id,
         ], 201);
+    } catch (\Throwable $e) {
+        jsonError($e->getMessage());
+    }
+});
+
+app()->get('/api/file/content', function () {
+    $id = trim((string)(request()->get('id') ?? ''));
+
+    if ($id === '') {
+        jsonError('id is required');
+    }
+
+    try {
+        $repository = new \DOM\ORM\Repository\EntityRepository(VirtualFile::class);
+        $file = $repository->find($id);
+        if (!$file instanceof VirtualFile) {
+            jsonError('File not found', 404);
+        }
+        jsonOk([
+            'name' => $file->getName(),
+            'mimeType' => $file->getMimeType(),
+            'content' => $file->getContent(), // base64-encoded
+            'size' => $file->getSize(),
+        ]);
     } catch (\Throwable $e) {
         jsonError($e->getMessage());
     }
@@ -174,26 +208,19 @@ app()->get('/api/xml', function () {
     echo StorageService::fromConfig()->read();
 });
 
-app()->post('/api/file/upload', function () {
-    $parentId = trim((string)(request()->get('parentId') ?? ''));
-    $name = trim((string)(request()->get('name') ?? ''));
-    $mimeType = trim((string)(request()->get('mimeType') ?? 'application/octet-stream'));
-    $content = (string)(request()->get('content') ?? '');
+app()->get('/api/table', function () {
+    $xml = StorageService::fromConfig()->read();
+    $doc = new DOMDocument();
+    $doc->loadXML($xml);
 
-    if ($parentId === '' || $name === '') {
-        jsonError('parentId and name are required');
-    }
+    $xsl = new DOMDocument();
+    $xsl->load(__DIR__ . '/table.xsl');
 
-    try {
-        $manager = new VirtualFilesystemManager();
-        $id = $manager->addFileById($parentId, $name, $mimeType, $content);
-        jsonOk([
-            'success' => true,
-            'id' => $id,
-        ], 201);
-    } catch (\Throwable $e) {
-        jsonError($e->getMessage());
-    }
+    $proc = new XSLTProcessor();
+    $proc->importStylesheet($xsl);
+
+    header('Content-Type: text/html; charset=UTF-8');
+    echo (string)$proc->transformToXML($doc);
 });
 
 app()->post('/api/file/remove', function () {

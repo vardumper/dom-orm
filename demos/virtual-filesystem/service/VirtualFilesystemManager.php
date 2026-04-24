@@ -11,7 +11,8 @@ final class VirtualFilesystemManager
 
     public function addFile(string $name, string $mimeType, string $content): void
     {
-        $this->persist(new VirtualFile($name, $mimeType, $content));
+        $encoded = base64_encode($content);
+        $this->persist(new VirtualFile($name, $mimeType, $encoded, (string)strlen($content)));
     }
 
     public function addFolder(string $name): void
@@ -29,7 +30,8 @@ final class VirtualFilesystemManager
             throw new \RuntimeException('Folder not found: ' . $folderName);
         }
 
-        $file = new VirtualFile($fileName, $mimeType, $content);
+        $encoded = base64_encode($content);
+        $file = new VirtualFile($fileName, $mimeType, $encoded, (string)strlen($content));
         $folder->addFile($file);
         $this->persist($folder);
     }
@@ -68,7 +70,18 @@ final class VirtualFilesystemManager
         return $folder->getId();
     }
 
-    public function addFileById(string $parentId, string $name, string $mimeType, string $content): string
+    /**
+     * Add a pre-base64-encoded file at the root level (for API uploads).
+     */
+    public function addEncodedFileToRoot(string $name, string $mimeType, string $encodedContent, string $size): string
+    {
+        $file = new VirtualFile($name, $mimeType, $encodedContent, $size);
+        $this->persist($file);
+
+        return $file->getId();
+    }
+
+    public function addFileById(string $parentId, string $name, string $mimeType, string $content, string $size = '0'): string
     {
         $repository = new EntityRepository(VirtualFolder::class);
         $parent = $repository->find($parentId);
@@ -76,7 +89,7 @@ final class VirtualFilesystemManager
             throw new \RuntimeException('Parent folder not found: ' . $parentId);
         }
 
-        $file = new VirtualFile($name, $mimeType, $content);
+        $file = new VirtualFile($name, $mimeType, $content, $size);
         $parent->addFile($file);
         $this->persist($parent);
 
