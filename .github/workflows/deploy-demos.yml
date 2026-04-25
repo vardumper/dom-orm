@@ -58,9 +58,9 @@ jobs:
             "mkdir -p ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && \
             cd ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && \
             tar -xzf - --strip-components=1 && \
-            chown -R www-data:www-data . && \
-            find . -type f -exec chmod 644 {} \; && \
-            find . -type d -exec chmod 755 {} \;"
+            sudo chown -R www-data:www-data . && \
+            sudo find . -type f -exec chmod 644 {} \; && \
+            sudo find . -type d -exec chmod 755 {} \;"
 
       - name: Clean up SSH key
         if: always()
