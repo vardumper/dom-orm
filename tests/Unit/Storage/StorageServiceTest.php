@@ -62,7 +62,13 @@ it('read throws when file does not exist', function () use (&$storage): void {
         throw new RuntimeException('Storage test fixture was not initialized.');
     }
 
-    expect(fn () => $storage->read())->toThrow(UnableToReadFile::class);
+    \set_error_handler(static fn () => true, E_WARNING);
+
+    try {
+        expect(fn () => $storage->read())->toThrow(UnableToReadFile::class);
+    } finally {
+        \restore_error_handler();
+    }
 });
 
 it('fromConfig returns a StorageService instance', function (): void {

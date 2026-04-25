@@ -101,8 +101,14 @@ it('decode with an empty data document returns empty data array', function (): v
 
 it('decode throws UnexpectedValueException for non-XML string', function (): void {
     $encoder = new SchemaEncoder();
-    expect(fn () => $encoder->decode('not xml at all', SchemaEncoder::FORMAT))
-        ->toThrow(\UnexpectedValueException::class);
+    \set_error_handler(static fn () => true, E_WARNING);
+
+    try {
+        expect(fn () => $encoder->decode('not xml at all', SchemaEncoder::FORMAT))
+            ->toThrow(\UnexpectedValueException::class);
+    } finally {
+        \restore_error_handler();
+    }
 });
 
 it('decode extracts fragment name and value correctly', function (): void {

@@ -1,0 +1,66 @@
+name: Deploy Demos
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'demos/**'
+  workflow_dispatch:
+    inputs:
+      remote_ip:
+        description: 'Remote server IP address'
+        required: true
+        type: string
+      remote_path:
+        description: 'Remote path to deploy to'
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    name: Compress, Transfer & Extract demos
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+
+      - name: Install Composer dependencies
+        working-directory: demos
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Compress demos directory
+        run: tar -czf demos.tar.gz demos/
+
+      - name: Set up SSH key
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H "${{ inputs.remote_ip || secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Copy archive to remote server
+        run: |
+          scp -i ~/.ssh/id_rsa \
+            -o StrictHostKeyChecking=no \
+            demos.tar.gz \
+            "${{ secrets.DEPLOY_USER }}@${{ inputs.remote_ip || secrets.DEPLOY_HOST }}:${{ inputs.remote_path || secrets.DEPLOY_PATH }}/demos.tar.gz"
+
+      - name: Extract archive on remote server
+        run: |
+          ssh -i ~/.ssh/id_rsa \
+            -o StrictHostKeyChecking=no \
+            "${{ secrets.DEPLOY_USER }}@${{ inputs.remote_ip || secrets.DEPLOY_HOST }}" \
+            "tar -xzf ${{ inputs.remote_path || secrets.DEPLOY_PATH }}/demos.tar.gz \
+              -C ${{ inputs.remote_path || secrets.DEPLOY_PATH }} \
+              --strip-components=1 \
+            && rm ${{ inputs.remote_path || secrets.DEPLOY_PATH }}/demos.tar.gz"
+
+      - name: Clean up SSH key
+        if: always()
+        run: rm -f ~/.ssh/id_rsa
