@@ -13,3 +13,5 @@ cghooks.lock
 /demos/vendor
 .github/agents/Edit.agent.md 
 events.log
+/coverage-report-unit
+/coverage-report-integration
