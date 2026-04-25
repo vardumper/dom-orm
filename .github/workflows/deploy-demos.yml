@@ -79,7 +79,7 @@ jobs:
             "${{ secrets.DEPLOY_USER }}@${{ inputs.remote_ip || secrets.DEPLOY_HOST }}" \
             "mkdir -p ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && \
             cd ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && \
-            tar -xzf - --strip-components=1 && \
+            TAR_OPTIONS= tar -xzf - --overwrite --strip-components=1 && \
             sudo chown -R www-data:www-data . && \
             sudo find . -type f -exec chmod 644 {} \; && \
             sudo find . -type d -exec chmod 755 {} \;"
