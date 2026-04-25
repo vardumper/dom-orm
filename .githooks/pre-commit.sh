@@ -188,18 +188,25 @@ if [ -x $PEST ]; then
 fi
 printf "${YELLOW}Pest Unit Tests${NC}\n"
 if $HAS_PEST; then
-    if RUN $PEST --testdox --colors=always --compact pccov--exclude-group=benchmark; then
-      # All good, also re-generate clover.xml and stage it
-        if RUN env XDEBUG_MODE=coverage $PEST --coverage --coverage-clover clover.xml --exclude-group=benchmark; then
-            git add clover.xml
-            printf "${GREEN}Pest tests passed; clover.xml updated${NC}\n"
-        else
-            printf "${RED}Pest coverage generation failed${NC}\n"
-            PASS=false
-        fi
+  if [ -z "$CHANGED_FILES" ]; then
+    printf "\nNo PHP file in this commit. Skipping Pest and Clover refresh.\n"
+  else
+    if RUN $PEST tests/Unit --exclude-group=benchmark,external-bin --testdox --colors=always --compact; then
+      printf "${GREEN}Unit tests passed${NC}\n"
+
+      if RUN composer run test:coverage:unit \
+        && RUN composer run test:coverage:integration \
+        && RUN php bin/merge-clover.php clover.xml clover.unit.xml clover.integration.xml; then
+        git add clover.unit.xml clover.integration.xml clover.xml
+        printf "${GREEN}Clover reports updated (unit, integration, merged)${NC}\n"
+      else
+        printf "${RED}Coverage generation/merge failed${NC}\n"
+        PASS=false
+      fi
     else
       PASS=false
     fi
+  fi
 else
   printf "\npest is required. Install it with:\n\n composer require --dev pestphp/pest\n\n"
 fi
@@ -212,6 +219,8 @@ if ! $PASS; then
   exit 1
 else
   printf "pre commit hook ${GREEN}SUCCEEDED${NC}. Took ${YELLOW}${DURATION}${NC} seconds\n"
-  git add $CHANGED_FILES
+  if [ -n "$CHANGED_FILES" ]; then
+    git add $CHANGED_FILES
+  fi
   exit 0
 fi
