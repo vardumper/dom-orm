@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/12.5/phpunit.xsd" backupGlobals="false" colors="true" bootstrap="tests/bootstrap.php" displayDetailsOnTestsThatTriggerDeprecations="false" failOnWarning="false" failOnNotice="false">
-    <php>
-        <ini name="display_errors" value="1" />
-        <ini name="error_reporting" value="-1" />
-        <server name="APP_ENV" value="test" force="true" />
-    </php>
-
-    <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
-            <exclude>tests/Benchmark</exclude>
-        </testsuite>
-    </testsuites>
-
-    <coverage/>
-
-    <source ignoreIndirectDeprecations="true" ignoreDirectDeprecations="true">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true">
+    
+    <source>
         <include>
             <directory suffix=".php">src</directory>
         </include>
     </source>
 
-    <!-- Run `composer require symfony/panther` before enabling this extension -->
-    <!--
-    <extensions>
-        <extension class="Symfony\Component\Panther\ServerExtension" />
-    </extensions>
-    -->
+    <testsuites>
+        <testsuite name="default">
+            <directory>tests/Integration</directory>
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="benchmark">
+            <directory>tests/Benchmark</directory>
+        </testsuite>
+    </testsuites>
+
+    <coverage>
+        <report>
+            <html outputDirectory="build/coverage"/>
+        </report>
+    </coverage>
 </phpunit>
