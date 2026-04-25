@@ -35,6 +35,9 @@ jobs:
         working-directory: demos
         run: composer install --no-dev --optimize-autoloader
 
+      - name: Fix directory permissions
+        run: chmod -R u+r demos/
+
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
