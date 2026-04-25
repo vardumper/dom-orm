@@ -36,6 +36,7 @@ jobs:
         run: |
           # In CI we must not use the local path repository (../), because it installs
           # vardumper/dom-orm as a symlink that breaks when only demos/ is deployed.
+          rm -rf vendor
           composer config --unset repositories.0 || true
           rm -f composer.lock
           composer update --no-dev --prefer-dist --optimize-autoloader
