@@ -36,7 +36,9 @@ jobs:
         run: composer install --no-dev --optimize-autoloader
 
       - name: Fix directory permissions
-        run: chmod -R u+r demos/
+        run: |
+          find demos -type f -exec chmod 644 {} \;
+          find demos -type d -exec chmod 755 {} \;
 
       - name: Set up SSH key
         run: |
@@ -53,7 +55,12 @@ jobs:
           tar -czf - demos/ | ssh -i ~/.ssh/id_rsa \
             -o StrictHostKeyChecking=no \
             "${{ secrets.DEPLOY_USER }}@${{ inputs.remote_ip || secrets.DEPLOY_HOST }}" \
-            "cd ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && tar -xzf - --strip-components=1"
+            "mkdir -p ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && \
+            cd ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && \
+            tar -xzf - --strip-components=1 && \
+            chown -R www-data:www-data . && \
+            find . -type f -exec chmod 644 {} \; && \
+            find . -type d -exec chmod 755 {} \;"
 
       - name: Clean up SSH key
         if: always()
