@@ -28,27 +28,26 @@ jobs:
       - name: Generate code coverage badge
         run: php bin/generate-coverage-badge.php clover.xml coverage.svg
 
-      - name: Setup SSH Signing
-        run: |
-          # Create the key file from the secret in a stable temp location
-          KEY_PATH="$RUNNER_TEMP/sign_key"
-          printf '%s' "${{ secrets.SSH_SIGNING_KEY }}" > "$KEY_PATH"
-          chmod 600 "$KEY_PATH"
-          echo "SSH_SIGNING_KEY_PATH=$KEY_PATH" >> "$GITHUB_ENV"
-          
-          # Configure Git to use SSH for signing
-          git config --global user.name 'Erik Pöhler'
-          git config --global user.email 'admin@teuton.mx'
-          git config --global gpg.format ssh
-          git config --global user.signingkey "$KEY_PATH"
-          git config --global commit.gpgsign true
-
       - name: Commit badge
         if: github.event_name != 'pull_request'
+        env:
+          SSH_SIGNING_KEY: ${{ secrets.SSH_SIGNING_KEY }}
         run: |
-            if [ ! -f "$SSH_SIGNING_KEY_PATH" ]; then
-              echo "Signing key file not found at $SSH_SIGNING_KEY_PATH"
-              exit 1
+            git config --global user.name 'Erik Pöhler'
+            git config --global user.email 'admin@teuton.mx'
+
+            if [ -n "$SSH_SIGNING_KEY" ]; then
+              KEY_PATH="$RUNNER_TEMP/sign_key"
+              printf '%s' "$SSH_SIGNING_KEY" > "$KEY_PATH"
+              chmod 600 "$KEY_PATH"
+
+              git config --global gpg.format ssh
+              git config --global user.signingkey "$KEY_PATH"
+              git config --global commit.gpgsign true
+            else
+              echo "SSH_SIGNING_KEY is not set; committing without signing."
+              git config --global --unset-all user.signingkey || true
+              git config --global commit.gpgsign false
             fi
 
             git add coverage.svg
