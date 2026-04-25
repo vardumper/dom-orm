@@ -35,9 +35,6 @@ jobs:
         working-directory: demos
         run: composer install --no-dev --optimize-autoloader
 
-      - name: Compress demos directory
-        run: tar -czf demos.tar.gz demos/
-
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
@@ -48,30 +45,12 @@ jobs:
           ssh-keyscan -H "${{ inputs.remote_ip || secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || true
           chmod 644 ~/.ssh/known_hosts
 
-      - name: Test SSH connection
+      - name: Transfer and extract demos on remote server
         run: |
-          ssh -i ~/.ssh/id_rsa \
-            -o StrictHostKeyChecking=no \
-            -o ConnectTimeout=5 \
-            "${{ secrets.DEPLOY_USER }}@${{ inputs.remote_ip || secrets.DEPLOY_HOST }}" \
-            "echo 'SSH connection successful' && pwd"
-
-      - name: Copy archive to remote server
-        run: |
-          scp -i ~/.ssh/id_rsa \
-            -o StrictHostKeyChecking=no \
-            demos.tar.gz \
-            "${{ secrets.DEPLOY_USER }}@${{ inputs.remote_ip || secrets.DEPLOY_HOST }}:${{ inputs.remote_path || secrets.DEPLOY_PATH }}/demos.tar.gz"
-
-      - name: Extract archive on remote server
-        run: |
-          ssh -i ~/.ssh/id_rsa \
+          tar -czf - demos/ | ssh -i ~/.ssh/id_rsa \
             -o StrictHostKeyChecking=no \
             "${{ secrets.DEPLOY_USER }}@${{ inputs.remote_ip || secrets.DEPLOY_HOST }}" \
-            "tar -xzf ${{ inputs.remote_path || secrets.DEPLOY_PATH }}/demos.tar.gz \
-              -C ${{ inputs.remote_path || secrets.DEPLOY_PATH }} \
-              --strip-components=1 \
-            && rm ${{ inputs.remote_path || secrets.DEPLOY_PATH }}/demos.tar.gz"
+            "cd ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && tar -xzf - --strip-components=1"
 
       - name: Clean up SSH key
         if: always()
