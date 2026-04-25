@@ -33,9 +33,12 @@ jobs:
 
       - name: Install Composer dependencies
         working-directory: demos
-        env:
-          COMPOSER_MIRROR_PATH_REPOS: 1
-        run: composer install --no-dev --optimize-autoloader
+        run: |
+          # In CI we must not use the local path repository (../), because it installs
+          # vardumper/dom-orm as a symlink that breaks when only demos/ is deployed.
+          composer config --unset repositories.0 || true
+          rm -f composer.lock
+          composer update --no-dev --prefer-dist --optimize-autoloader
 
       - name: Verify demo vendor is deploy-safe
         run: |
