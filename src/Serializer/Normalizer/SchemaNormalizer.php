@@ -6,6 +6,7 @@ namespace DOM\ORM\Serializer\Normalizer;
 
 use DOM\ORM\Encryption\EncryptedValue;
 use DOM\ORM\Encryption\EncryptionService;
+use DOM\ORM\Mapping\Fragment;
 use DOM\ORM\{Entity\AbstractEntity, Traits\AttributeResolverTrait};
 use Ramsey\Collection\Collection;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -40,7 +41,7 @@ class SchemaNormalizer implements NormalizerInterface
         ];
 
         $fragments = $this->resolveFragments($object);
-        foreach ($fragments as [$storageStrategy, $fragmentName, $propertyName]) {
+        foreach ($fragments as [$storageStrategy, $fragmentName, $propertyName, $dataType]) {
             $name = ($storageStrategy === 'inline') ? '@' . $fragmentName : $fragmentName;
             $methodName = 'get' . \ucfirst($propertyName);
 
@@ -52,6 +53,19 @@ class SchemaNormalizer implements NormalizerInterface
 
             if ($value instanceof \DateTimeInterface) {
                 $value = $value->format('c');
+            }
+
+            if (\is_array($value) || $value instanceof \Traversable) {
+                if ($dataType !== Fragment::DATA_TYPE_JSON_SCALAR) {
+                    throw new \InvalidArgumentException(\sprintf(
+                        'Fragment "%s" on %s contains an array value. Arrays are rejected by default for Fragment values. Use #[Fragment(dataType: "%s")] for scalar JSON blobs, or prefer #[Group] mappings for domain collections.',
+                        $propertyName,
+                        $object::class,
+                        Fragment::DATA_TYPE_JSON_SCALAR,
+                    ));
+                }
+
+                $value = $this->encodeJsonScalarArray($value, $propertyName, $object::class);
             }
 
             if (\is_int($value) || \is_float($value) || \is_bool($value)) {
@@ -113,6 +127,56 @@ class SchemaNormalizer implements NormalizerInterface
         }
 
         return $data;
+    }
+
+    /**
+     * @param array<mixed>|\Traversable<mixed> $value
+     */
+    private function encodeJsonScalarArray(array|\Traversable $value, string $propertyName, string $entityClass): string
+    {
+        $arrayValue = \is_array($value) ? $value : \iterator_to_array($value);
+        if (!$this->isJsonScalarArray($arrayValue)) {
+            throw new \InvalidArgumentException(\sprintf(
+                'Fragment "%s" on %s uses dataType "%s" but contains non-scalar values. Only scalar/null JSON array values are supported.',
+                $propertyName,
+                $entityClass,
+                Fragment::DATA_TYPE_JSON_SCALAR,
+            ));
+        }
+
+        try {
+            return \json_encode($arrayValue, \JSON_THROW_ON_ERROR);
+        } catch (\JsonException $exception) {
+            throw new \InvalidArgumentException(\sprintf(
+                'Failed to JSON-encode fragment "%s" on %s.',
+                $propertyName,
+                $entityClass,
+            ), previous: $exception);
+        }
+    }
+
+    /**
+     * @param array<mixed> $value
+     */
+    private function isJsonScalarArray(array $value): bool
+    {
+        foreach ($value as $item) {
+            if (\is_array($item)) {
+                if (!$this->isJsonScalarArray($item)) {
+                    return false;
+                }
+
+                continue;
+            }
+
+            if ($item === null || \is_scalar($item)) {
+                continue;
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     /**

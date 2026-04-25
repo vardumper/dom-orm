@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DOM\ORM\Serializer\Normalizer;
 
 use DOM\ORM\Encryption\EncryptionService;
+use DOM\ORM\Mapping\Fragment;
 use DOM\ORM\{Entity\AbstractEntity, Entity\EntityInterface, Serializer\Encoder\SchemaEncoder, Traits\AttributeResolverTrait};
 use Ramsey\Collection\Collection;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -135,6 +136,8 @@ class SchemaDenormalizer implements DenormalizerInterface
             }
         }
 
+        $fragmentDataTypes = $this->resolveFragmentDataTypes($entityClass);
+
         $params = $this->resolveConstructorParams($entityClass);
         $constructorArgs = [];
 
@@ -154,6 +157,14 @@ class SchemaDenormalizer implements DenormalizerInterface
                 && \in_array($param->getName(), $sensitiveProps, true)
             ) {
                 $paramValue = $this->encryption->decrypt($paramValue);
+                $entityData[$param->getName()] = $paramValue;
+            }
+
+            if (
+                \is_string($paramValue)
+                && ($fragmentDataTypes[$param->getName()] ?? null) === Fragment::DATA_TYPE_JSON_SCALAR
+            ) {
+                $paramValue = $this->decodeJsonScalarArray($paramValue, $param->getName(), $entityClass);
                 $entityData[$param->getName()] = $paramValue;
             }
 
@@ -194,6 +205,13 @@ class SchemaDenormalizer implements DenormalizerInterface
                 $value = $this->encryption->decrypt($value);
             }
 
+            if (
+                \is_string($value)
+                && ($fragmentDataTypes[$key] ?? null) === Fragment::DATA_TYPE_JSON_SCALAR
+            ) {
+                $value = $this->decodeJsonScalarArray($value, $key, $entityClass);
+            }
+
             if (\in_array($key, self::DATETIME_ATTRIBUTES, true) && \is_string($value)) {
                 $value = new \DateTimeImmutable($value);
             }
@@ -217,6 +235,77 @@ class SchemaDenormalizer implements DenormalizerInterface
         }
 
         return $ret;
+    }
+
+    /**
+     * @param class-string<AbstractEntity> $entityClass
+     * @return array<string, string|null>
+     */
+    private function resolveFragmentDataTypes(string $entityClass): array
+    {
+        $types = [];
+        $fragments = $this->resolveFragments($entityClass);
+        if ($fragments === null) {
+            return $types;
+        }
+
+        foreach ($fragments as [, , $propertyName, $dataType]) {
+            $types[$propertyName] = $dataType;
+        }
+
+        return $types;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    private function decodeJsonScalarArray(string $value, string $propertyName, string $entityClass): array
+    {
+        try {
+            $decoded = \json_decode($value, true, 512, \JSON_THROW_ON_ERROR);
+        } catch (\JsonException $exception) {
+            throw new \InvalidArgumentException(\sprintf(
+                'Fragment "%s" on %s is configured as "%s" but did not contain valid JSON.',
+                $propertyName,
+                $entityClass,
+                Fragment::DATA_TYPE_JSON_SCALAR,
+            ), previous: $exception);
+        }
+
+        if (!\is_array($decoded) || !$this->isJsonScalarArray($decoded)) {
+            throw new \InvalidArgumentException(\sprintf(
+                'Fragment "%s" on %s is configured as "%s" but must decode to an array of scalar/null values.',
+                $propertyName,
+                $entityClass,
+                Fragment::DATA_TYPE_JSON_SCALAR,
+            ));
+        }
+
+        return $decoded;
+    }
+
+    /**
+     * @param array<mixed> $value
+     */
+    private function isJsonScalarArray(array $value): bool
+    {
+        foreach ($value as $item) {
+            if (\is_array($item)) {
+                if (!$this->isJsonScalarArray($item)) {
+                    return false;
+                }
+
+                continue;
+            }
+
+            if ($item === null || \is_scalar($item)) {
+                continue;
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     /**

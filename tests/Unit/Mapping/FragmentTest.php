@@ -9,6 +9,7 @@ it('instantiates with all defaults', function (): void {
     expect($fragment->fragmentName)->toBeNull();
     expect($fragment->storageStrategy)->toBe('standalone');
     expect($fragment->unique)->toBeFalse();
+    expect($fragment->dataType)->toBeNull();
 });
 
 it('accepts a custom fragmentName', function (): void {
@@ -24,4 +25,9 @@ it('accepts inline storageStrategy', function (): void {
 it('accepts unique flag set to true', function (): void {
     $fragment = new Fragment(unique: true);
     expect($fragment->unique)->toBeTrue();
+});
+
+it('accepts json_scalar dataType metadata', function (): void {
+    $fragment = new Fragment(dataType: Fragment::DATA_TYPE_JSON_SCALAR);
+    expect($fragment->dataType)->toBe(Fragment::DATA_TYPE_JSON_SCALAR);
 });

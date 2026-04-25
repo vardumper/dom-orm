@@ -152,6 +152,33 @@ DOM ORM generates an `ID` (a 32 char UUID string) and a `createdAt` timestamp au
 
 ## Advanced Topics
 
+
+### Opt-In Array Usage For Fragments
+
+By default, `#[Fragment]` values are treated as scalar fragment values. If a fragment contains an array, normalization rejects it with an exception.
+
+If you need to persist a small scalar JSON payload inside one fragment, opt in explicitly with `dataType: 'json_scalar'`:
+
+```php
+use DOM\ORM\Mapping as ORM;
+
+class ExampleEntity
+{
+    #[ORM\Fragment(dataType: ORM\Fragment::DATA_TYPE_JSON_SCALAR)]
+    private array $payload = [
+        'flags' => ['a', 'b'],
+        'enabled' => true,
+        'count' => 2,
+        'note' => null,
+    ];
+}
+```
+
+Use this only for scalar JSON blobs (strings, numbers, booleans, null, and nested arrays of those values).
+
+For domain collections and relationships, prefer `#[Group]` mappings instead of array fragments.
+
+
 ### Scoping entities with `allowedParentPaths`
 
 By default, entities are appended to the root `<data>` element. The `allowedParentPaths` parameter on `#[ORM\Item]` accepts XPath expressions that constrain **where** an entity may be persisted. This lets you simulate the table-scoping behaviour of a relational database.

@@ -30,7 +30,7 @@ trait AttributeResolverTrait
     private static array $allowedParentPathsByClass = [];
 
     /**
-     * @var array<class-string<AbstractEntity>, list<array{0: string|null, 1: string, 2: string}>|null>
+     * @var array<class-string<AbstractEntity>, list<array{0: string|null, 1: string, 2: string, 3: string|null}>|null>
      */
     private static array $fragmentsByClass = [];
 
@@ -187,7 +187,7 @@ trait AttributeResolverTrait
     }
 
     /**
-     * @return list<array{0: string|null, 1: string, 2: string}>|null
+     * @return list<array{0: string|null, 1: string, 2: string, 3: string|null}>|null
      */
     private function resolveFragments(string|EntityInterface $entity): ?array
     {
@@ -271,6 +271,7 @@ trait AttributeResolverTrait
                     $fragment->storageStrategy,
                     $fragment->fragmentName ?? $property->getName(),
                     $property->getName(),
+                    $fragment->dataType,
                 ];
 
                 // Collect properties that are also marked #[Sensitive]

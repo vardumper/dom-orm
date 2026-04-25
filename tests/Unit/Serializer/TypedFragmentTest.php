@@ -5,6 +5,8 @@ declare(strict_types=1);
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Serializer\Normalizer\SchemaDenormalizer;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
+use Tests\Fixtures\ArrayFragmentEntity;
+use Tests\Fixtures\JsonScalarArrayFragmentEntity;
 use Tests\Fixtures\NullableTypedFieldEntity;
 use Tests\Fixtures\TypedFieldEntity;
 
@@ -356,6 +358,63 @@ it('encoder rejects array fragment input with a clear exception', function (): v
             ],
         ], SchemaEncoder::FORMAT);
     })->toThrow(\InvalidArgumentException::class, 'Only arrays are supported.');
+})->group('typed-fragments');
+
+it('normalizer rejects array Fragment values by default and points to Group mappings', function (): void {
+    $normalizer = new SchemaNormalizer();
+    $entity = new ArrayFragmentEntity(['news', 'updates'], 'arr-1');
+
+    expect(fn () => $normalizer->normalize($entity, SchemaNormalizer::FORMAT))
+        ->toThrow(\InvalidArgumentException::class, 'prefer #[Group] mappings for domain collections');
+})->group('typed-fragments');
+
+it('normalizer serializes json_scalar Fragment arrays as JSON strings', function (): void {
+    $normalizer = new SchemaNormalizer();
+    $entity = new JsonScalarArrayFragmentEntity([
+        'tags' => ['news', 'updates'],
+        'count' => 2,
+        'enabled' => true,
+        'nullable' => null,
+    ], 'json-array-1');
+
+    $result = $normalizer->normalize($entity, SchemaNormalizer::FORMAT);
+    $item = $result['item-json-array-1'];
+
+    expect($item['payload'])->toBeString();
+    expect(\json_decode($item['payload'], true, 512, \JSON_THROW_ON_ERROR))->toBe([
+        'tags' => ['news', 'updates'],
+        'count' => 2,
+        'enabled' => true,
+        'nullable' => null,
+    ]);
+})->group('typed-fragments');
+
+it('denormalizer restores json_scalar Fragment payload back to array', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    $collection = $denormalizer->denormalize(
+        [
+            'data' => [
+                [
+                    'item-json-array-1' => [
+                        '@id' => 'json-array-1',
+                        '@type' => 'json_scalar_array_fragment_entity',
+                        'payload' => '{"tags":["news","updates"],"count":2,"enabled":true,"nullable":null}',
+                    ],
+                ],
+            ],
+        ],
+        JsonScalarArrayFragmentEntity::class,
+        SchemaNormalizer::FORMAT,
+    );
+
+    /** @var JsonScalarArrayFragmentEntity $entity */
+    $entity = $collection->first();
+    expect($entity->getPayload())->toBe([
+        'tags' => ['news', 'updates'],
+        'count' => 2,
+        'enabled' => true,
+        'nullable' => null,
+    ]);
 })->group('typed-fragments');
 
 // ---------------------------------------------------------------------------

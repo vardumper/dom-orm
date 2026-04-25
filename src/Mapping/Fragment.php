@@ -9,11 +9,13 @@ final class Fragment
 {
     public const STORAGE_STRATEGY_INLINE = 'inline';
     private const STORAGE_STRATEGY_STANDALONE = 'standalone';
+    public const DATA_TYPE_JSON_SCALAR = 'json_scalar';
 
     public function __construct(
         public ?string $fragmentName = null,
         public ?string $storageStrategy = self::STORAGE_STRATEGY_STANDALONE,
-        public ?bool $unique = false
+        public ?bool $unique = false,
+        public ?string $dataType = null,
     ) {
     }
 }
