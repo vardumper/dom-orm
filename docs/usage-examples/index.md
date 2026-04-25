@@ -2,6 +2,7 @@
 
 ## A virtual filesystem
 
+![virtual filesystem](https://dom-orm.erikpoehler.com/virtual-filesystem/assets/images/virtual-filesystem.png)
 This example is to illustrate how a filesystem tree can be persisted with DOM-ORM.
 
 [https://dom-orm.erikpoehler.com/virtual-filesystem/](https://dom-orm.erikpoehler.com/virtual-filesystem/)
