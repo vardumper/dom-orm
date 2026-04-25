@@ -5,6 +5,7 @@ declare(strict_types=1);
 use DOM\ORM\Serializer\Encoder\SchemaEncoder;
 use DOM\ORM\Serializer\Normalizer\SchemaDenormalizer;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
+use Tests\Fixtures\NullableTypedFieldEntity;
 use Tests\Fixtures\TypedFieldEntity;
 
 // ---------------------------------------------------------------------------
@@ -29,6 +30,44 @@ function makeTypedData(
                     'ratio' => $ratio,
                     'active' => $active,
                 ],
+            ],
+        ],
+    ];
+}
+
+/**
+ * Helper for nullable scalar fixture payloads.
+ * Null values are represented by omitted keys to match fragment absence in XML.
+ */
+function makeNullableTypedData(
+    string $id = 'nullable-1',
+    ?string $label = null,
+    ?string $count = null,
+    ?string $ratio = null,
+    ?string $active = null,
+): array {
+    $item = [
+        '@id' => $id,
+        '@type' => 'nullable_typed_entity',
+    ];
+
+    if ($label !== null) {
+        $item['label'] = $label;
+    }
+    if ($count !== null) {
+        $item['count'] = $count;
+    }
+    if ($ratio !== null) {
+        $item['ratio'] = $ratio;
+    }
+    if ($active !== null) {
+        $item['active'] = $active;
+    }
+
+    return [
+        'data' => [
+            [
+                'item-' . $id => $item,
             ],
         ],
     ];
@@ -204,6 +243,45 @@ it('denormalizer casts string "1" back to bool true for bool-typed property', fu
     expect($entity->getActive())->toBeBool()->toBeTrue();
 })->group('typed-fragments');
 
+it('denormalizer casts string "true" back to bool true for bool-typed property', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    $collection = $denormalizer->denormalize(
+        makeTypedData(active: 'true'),
+        TypedFieldEntity::class,
+        SchemaNormalizer::FORMAT,
+    );
+
+    /** @var TypedFieldEntity $entity */
+    $entity = $collection->first();
+    expect($entity->getActive())->toBeBool()->toBeTrue();
+})->group('typed-fragments');
+
+it('denormalizer casts string "false" back to bool false for bool-typed property', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    $collection = $denormalizer->denormalize(
+        makeTypedData(active: 'false'),
+        TypedFieldEntity::class,
+        SchemaNormalizer::FORMAT,
+    );
+
+    /** @var TypedFieldEntity $entity */
+    $entity = $collection->first();
+    expect($entity->getActive())->toBeBool()->toBeFalse();
+})->group('typed-fragments');
+
+it('denormalizer casts string "0" back to bool false for bool-typed property', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    $collection = $denormalizer->denormalize(
+        makeTypedData(active: '0'),
+        TypedFieldEntity::class,
+        SchemaNormalizer::FORMAT,
+    );
+
+    /** @var TypedFieldEntity $entity */
+    $entity = $collection->first();
+    expect($entity->getActive())->toBeBool()->toBeFalse();
+})->group('typed-fragments');
+
 it('denormalizer casts empty string back to bool false for bool-typed property', function (): void {
     $denormalizer = new SchemaDenormalizer();
     $collection = $denormalizer->denormalize(
@@ -237,6 +315,47 @@ it('denormalizer preserves negative float correctly', function (): void {
     );
 
     expect($collection->first()->getRatio())->toBe(-0.5);
+})->group('typed-fragments');
+
+it('denormalizer casts scientific notation string to float', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    $collection = $denormalizer->denormalize(
+        makeTypedData(ratio: '1e-3'),
+        TypedFieldEntity::class,
+        SchemaNormalizer::FORMAT,
+    );
+
+    expect($collection->first()->getRatio())->toBeFloat()->toBe(0.001);
+})->group('typed-fragments');
+
+it('denormalizer keeps nullable scalar fields as null when fragment keys are absent', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    $collection = $denormalizer->denormalize(
+        makeNullableTypedData(),
+        NullableTypedFieldEntity::class,
+        SchemaNormalizer::FORMAT,
+    );
+
+    /** @var NullableTypedFieldEntity $entity */
+    $entity = $collection->first();
+    expect($entity->getLabel())->toBeNull();
+    expect($entity->getCount())->toBeNull();
+    expect($entity->getRatio())->toBeNull();
+    expect($entity->getActive())->toBeNull();
+})->group('typed-fragments');
+
+it('encoder rejects array fragment input with a clear exception', function (): void {
+    $encoder = new SchemaEncoder();
+
+    expect(function () use ($encoder): void {
+        $encoder->encode([
+            'item-typed-1' => [
+                '@id' => 'typed-1',
+                '@type' => 'typed_entity',
+                'count' => [1, 2],
+            ],
+        ], SchemaEncoder::FORMAT);
+    })->toThrow(\InvalidArgumentException::class, 'Only arrays are supported.');
 })->group('typed-fragments');
 
 // ---------------------------------------------------------------------------
