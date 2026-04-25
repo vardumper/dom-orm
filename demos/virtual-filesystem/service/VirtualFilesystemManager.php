@@ -12,7 +12,7 @@ final class VirtualFilesystemManager
     public function addFile(string $name, string $mimeType, string $content): void
     {
         $encoded = base64_encode($content);
-        $this->persist(new VirtualFile($name, $mimeType, $encoded, (string)strlen($content)));
+        $this->persist(new VirtualFile($name, $mimeType, $encoded, strlen($content)));
     }
 
     public function addFolder(string $name): void
@@ -31,7 +31,7 @@ final class VirtualFilesystemManager
         }
 
         $encoded = base64_encode($content);
-        $file = new VirtualFile($fileName, $mimeType, $encoded, (string)strlen($content));
+        $file = new VirtualFile($fileName, $mimeType, $encoded, strlen($content));
         $folder->addFile($file);
         $this->persist($folder);
     }
