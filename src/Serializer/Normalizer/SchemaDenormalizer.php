@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace DOM\ORM\Serializer\Normalizer;
 
 use DOM\ORM\Encryption\EncryptionService;
-use DOM\ORM\Mapping\Fragment;
 use DOM\ORM\{Entity\AbstractEntity, Entity\EntityInterface, Serializer\Encoder\SchemaEncoder, Traits\AttributeResolverTrait};
+use DOM\ORM\Mapping\Fragment;
 use Ramsey\Collection\Collection;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -31,6 +31,12 @@ class SchemaDenormalizer implements DenormalizerInterface
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
+        if (\is_subclass_of($type, AbstractEntity::class)) {
+            // Prime attribute cache for the requested root type so entityType lookups
+            // also work when the class was only referenced as a class-string.
+            $this->resolveEntityType($type);
+        }
+
         if (isset($data['data'])) {
             $ret = new Collection($type);
             foreach ($data['data'] as $row) {
@@ -120,6 +126,10 @@ class SchemaDenormalizer implements DenormalizerInterface
         $groups = $this->resolveGroups($entityClass);
         if ($groups !== null) {
             foreach ($groups as [$groupEntity, $groupType, $propName, $isSingle]) {
+                // Prime entity-type cache for nested relation targets referenced
+                // as class-strings in #[Group(entity: ...)] metadata.
+                $this->resolveEntityType($groupEntity);
+
                 $key = $groupType ?? $propName;
                 if (!\array_key_exists($key, $entityData)) {
                     continue;

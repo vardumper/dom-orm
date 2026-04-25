@@ -11,3 +11,7 @@ uses()
 uses()
     ->group('integration')
     ->in('Integration');
+
+uses()
+    ->group('external-bin')
+    ->in('Unit/Vcs');

@@ -12,3 +12,4 @@ cghooks.lock
 /.vscode
 /demos/vendor
 .github/agents/Edit.agent.md 
+events.log
