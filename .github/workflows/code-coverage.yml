@@ -30,20 +30,34 @@ jobs:
 
       - name: Setup SSH Signing
         run: |
-          # Create the key file from the secret
-          echo "${{ secrets.SSH_SIGNING_KEY }}" > sign_key
-          chmod 600 sign_key
+          # Create the key file from the secret in a stable temp location
+          KEY_PATH="$RUNNER_TEMP/sign_key"
+          printf '%s' "${{ secrets.SSH_SIGNING_KEY }}" > "$KEY_PATH"
+          chmod 600 "$KEY_PATH"
+          echo "SSH_SIGNING_KEY_PATH=$KEY_PATH" >> "$GITHUB_ENV"
           
           # Configure Git to use SSH for signing
           git config --global user.name 'Erik Pöhler'
           git config --global user.email 'admin@teuton.mx'
           git config --global gpg.format ssh
-          git config --global user.signingkey "$(pwd)/sign_key"
+          git config --global user.signingkey "$KEY_PATH"
           git config --global commit.gpgsign true
 
       - name: Commit badge
+        if: github.event_name != 'pull_request'
         run: |
+            if [ ! -f "$SSH_SIGNING_KEY_PATH" ]; then
+              echo "Signing key file not found at $SSH_SIGNING_KEY_PATH"
+              exit 1
+            fi
+
             git add coverage.svg
-            git commit -am "chore: coverage.svg badge updated" --no-verify
+
+            if git diff --staged --quiet; then
+              echo "No badge changes to commit."
+              exit 0
+            fi
+
+            git commit -m "chore: coverage.svg badge updated" --no-verify
             git push --no-verify
         continue-on-error: true # do not fail if nothing changed
