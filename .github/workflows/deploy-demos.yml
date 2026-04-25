@@ -33,7 +33,16 @@ jobs:
 
       - name: Install Composer dependencies
         working-directory: demos
+        env:
+          COMPOSER_MIRROR_PATH_REPOS: 1
         run: composer install --no-dev --optimize-autoloader
+
+      - name: Verify demo vendor is deploy-safe
+        run: |
+          if [ -L demos/vendor/vardumper/dom-orm ]; then
+            echo "Error: demos/vendor/vardumper/dom-orm is a symlink; deployment would break."
+            exit 1
+          fi
 
       - name: Fix directory permissions
         run: |
