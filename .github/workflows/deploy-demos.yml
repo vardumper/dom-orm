@@ -77,12 +77,11 @@ jobs:
           tar -czf - demos/ | ssh -i ~/.ssh/id_rsa \
             -o StrictHostKeyChecking=no \
             "${{ secrets.DEPLOY_USER }}@${{ inputs.remote_ip || secrets.DEPLOY_HOST }}" \
-            "mkdir -p ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && \
-            cd ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && \
-            TAR_OPTIONS= tar -xzf - --overwrite --strip-components=1 && \
-            sudo chown -R www-data:www-data . && \
-            sudo find . -type f -exec chmod 644 {} \; && \
-            sudo find . -type d -exec chmod 755 {} \;"
+            "sudo mkdir -p ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && \
+            sudo env TAR_OPTIONS= tar -xzf - --overwrite --strip-components=1 -C ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && \
+            sudo chown -R www-data:www-data ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && \
+            sudo find ${{ inputs.remote_path || secrets.DEPLOY_PATH }} -type f -exec chmod 644 {} \; && \
+            sudo find ${{ inputs.remote_path || secrets.DEPLOY_PATH }} -type d -exec chmod 755 {} \;"
 
       - name: Clean up SSH key
         if: always()
