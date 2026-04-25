@@ -34,12 +34,21 @@ jobs:
       - name: Install Composer dependencies
         working-directory: demos
         run: |
-          # In CI we must not use the local path repository (../), because it installs
-          # vardumper/dom-orm as a symlink that breaks when only demos/ is deployed.
-          rm -rf vendor
-          composer config --unset repositories.0 || true
-          rm -f composer.lock
-          composer update --no-dev --prefer-dist --optimize-autoloader
+          composer install --no-dev --optimize-autoloader
+
+      - name: Materialize local path repository
+        run: |
+          if [ -L demos/vendor/vardumper/dom-orm ]; then
+            source_dir="$(realpath demos/vendor/vardumper/dom-orm)"
+            rm demos/vendor/vardumper/dom-orm
+            mkdir -p demos/vendor/vardumper/dom-orm
+            rsync -a --delete \
+              --exclude .git \
+              --exclude vendor \
+              --exclude node_modules \
+              --exclude demos \
+              "$source_dir/" demos/vendor/vardumper/dom-orm/
+          fi
 
       - name: Verify demo vendor is deploy-safe
         run: |
