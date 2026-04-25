@@ -1,15 +1,11 @@
-// Base URL derived from the current page, so API calls work regardless of
-// the subdirectory the demo is served from (e.g. /virtual-filesystem/).
-const BASE = window.location.pathname.replace(/\/$/, '');
-
 // Reload both the table fragment and the raw XML textarea in parallel
 async function reloadView() {
   const progress = document.querySelector('progress');
   progress.style.visibility = 'visible';
   try {
     const [tableRes, xmlRes] = await Promise.all([
-      fetch(BASE + '/api/table'),
-      fetch(BASE + '/api/xml'),
+      fetch('api/table'),
+      fetch('api/xml'),
     ]);
     if (tableRes.ok) {
       const html = await tableRes.text();
@@ -71,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     body.append('parentId', folderDialog.querySelector('[name=parentId]').value);
     body.append('name', name);
     try {
-      const res = await fetch(BASE + '/api/folder/add', { method: 'POST', body });
+      const res = await fetch('api/folder/add', { method: 'POST', body });
       if (!res.ok) { console.error('folder/add failed:', res.status, await res.text()); return; }
       folderDialog.querySelector('[name=name]').value = '';
       closeModal(folderDialog);
@@ -115,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     body.append('content', content);
     body.append('size', String(size));
     try {
-      const res = await fetch(BASE + '/api/file/add', { method: 'POST', body });
+      const res = await fetch('api/file/add', { method: 'POST', body });
       if (!res.ok) { console.error('file/add failed:', res.status, await res.text()); return; }
       fileInput.value = '';
       closeModal(uploadDialog);
@@ -130,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = e.target.closest('[data-action="delete"]');
     if (!btn) return;
     const { id, type } = btn.dataset;
-    const endpoint = type === 'folder' ? BASE + '/api/folder/remove' : BASE + '/api/file/remove';
+    const endpoint = type === 'folder' ? 'api/folder/remove' : 'api/file/remove';
     try {
       const body = new FormData();
       body.append('id', id);
@@ -157,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     openModal(previewDialog);
 
     try {
-      const res = await fetch(BASE + '/api/file/content?id=' + encodeURIComponent(id));
+      const res = await fetch('api/file/content?id=' + encodeURIComponent(id));
       if (!res.ok) { previewContent.innerHTML = '<p class="preview-unavailable">Failed to load file.</p>'; return; }
       const data = await res.json();
       const mimeType = data.mimeType || '';
@@ -220,7 +216,7 @@ document.addEventListener('keyup', (e) => {
 
     if (!name || name === '..' || name.includes('/') || name.includes('\\')) return;
 
-    const endpoint = type === 'folder' ? BASE + '/api/folder/rename' : BASE + '/api/file/rename';
+    const endpoint = type === 'folder' ? 'api/folder/rename' : 'api/file/rename';
     const body = new FormData();
     body.append('id', id);
     body.append('name', name);
