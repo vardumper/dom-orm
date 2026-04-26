@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use DOM\ORM\Storage\InMemoryFilesystemAdapter;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use function DOM\ORM\getConfig;
 
@@ -86,4 +87,15 @@ it('allows environment variables to override file configuration values', functio
     $config = getConfig();
 
     expect($config->get('dom-orm.filename'))->toBe('env-overrides.xml');
+});
+
+it('supports selecting the built-in in-memory adapter via environment', function (): void {
+    \putenv('DOM_ORM_FLYSYSTEM_ADAPTER=' . InMemoryFilesystemAdapter::class);
+
+    $config = getConfig();
+
+    expect($config->get('dom-orm.flysystem.adapter'))->toBe(InMemoryFilesystemAdapter::class)
+        ->and($config->get('dom-orm.flysystem.config'))->toBe([
+            'location' => getcwd() . '/storage',
+        ]);
 });

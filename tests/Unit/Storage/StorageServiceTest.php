@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use DOM\ORM\Storage\InMemoryFilesystemAdapter;
 use DOM\ORM\Storage\StorageService;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Local\LocalFilesystemAdapter;
@@ -74,6 +75,19 @@ it('read throws when file does not exist', function () use (&$storage): void {
 it('fromConfig returns a StorageService instance', function (): void {
     // fromConfig uses getcwd()/storage – just verify the return type
     expect(StorageService::fromConfig())->toBeInstanceOf(StorageService::class);
+});
+
+it('fromConfig supports the built-in in-memory adapter via env', function (): void {
+    \putenv('DOM_ORM_FLYSYSTEM_ADAPTER=' . InMemoryFilesystemAdapter::class);
+
+    try {
+        $storage = StorageService::fromConfig();
+        $storage->write('<data><item /></data>');
+
+        expect($storage->read())->toBe('<data><item /></data>');
+    } finally {
+        \putenv('DOM_ORM_FLYSYSTEM_ADAPTER');
+    }
 });
 
 it('lock creates a lock file and unlock releases it', function () use (&$storage, &$lockFile): void {

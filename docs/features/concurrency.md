@@ -51,6 +51,15 @@ Use one of these patterns when running against remote storage:
 - Guard writes with an external distributed lock such as Redis, PostgreSQL advisory locks, or a cloud-native lease mechanism.
 - Treat remote adapters as read-mostly snapshots and perform writes on a single local authority.
 
+## Built-in in-memory adapter
+
+When using `DOM\\ORM\\Storage\\InMemoryFilesystemAdapter`, XML is kept only in PHP process memory.
+This is useful when another layer loads XML from a database and persists it back later.
+
+- Data is process-local and disappears when the PHP process ends.
+- No cross-process locking or shared state is provided.
+- Use your own transaction/lock strategy in the external store (e.g. database row/advisory lock).
+
 ## Practical guidance
 
 - Local storage with the built-in lock is suitable for multi-process PHP workloads on a single host.

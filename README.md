@@ -20,6 +20,7 @@ DOM ORM is a lightweight, zero-setup, XML-based persistence layer for small data
 - Supports Versioning in Git or Mercurial out of the box.
 - Handles concurrency with flock() when used with local file strage 
 - Supports local and remote storage via Flysystem (S3, Azure, Google Cloud, (S)FTP, etc.).
+- Ships with a built-in in-memory Flysystem adapter for process-local XML storage.
 - Supports one-to-one, one-to-many, many-to-one, and many-to-many patterns.
 - Supports AES-256-GCM field-level encryption via `#[Sensitive]` with searchable HMAC hashes.
 - Supports schema evolution (rename/remove fragments) via `#[FragmentMap]` and CLI commands.

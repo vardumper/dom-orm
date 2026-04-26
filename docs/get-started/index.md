@@ -39,6 +39,22 @@ To change the location, configure a Flysystem adapter. Be aware that concurrency
 ];
 ```
 
+To keep XML only in process memory (no disk write), use the built-in in-memory adapter:
+
+```php
+// config/dom-orm.php
+<?php return [
+  'dom-orm' => [
+    'flysystem' => [
+      'adapter' => DOM\ORM\Storage\InMemoryFilesystemAdapter::class,
+      // location acts as an in-memory namespace key and may be any string
+      'config' => ['location' => 'pagebuilder-runtime'],
+    ],
+    'filename' => 'data.xml',
+  ],
+];
+```
+
 You can also configure DOM ORM with environment variables instead of a config file.
 This is useful for containers, CI, and 12-factor style deployments.
 
@@ -49,6 +65,14 @@ DOM_ORM_ENCRYPTION_KEY=your-secret-key-32-bytes-minimum!
 DOM_ORM_VERSIONING=true
 DOM_ORM_VERSION_CONTROL=git
 DOM_ORM_VERSION_CONTROL_PUSH=manual
+```
+
+To enable process-local in-memory storage via env only:
+
+```bash
+DOM_ORM_FLYSYSTEM_ADAPTER=DOM\\ORM\\Storage\\InMemoryFilesystemAdapter
+DOM_ORM_FLYSYSTEM_LOCATION=pagebuilder-runtime
+DOM_ORM_FILENAME=data.xml
 ```
 
 Supported environment variables:
