@@ -2,10 +2,10 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:7c284005-f5c4-4a1d-9030-1925e3e366b7",
+  "serialNumber": "urn:uuid:cd6a3994-ce3c-47c2-a26c-73bd7800c4bf",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-04-25T12:35:36+00:00",
+    "timestamp": "2026-04-26T09:12:17+00:00",
     "tools": {
       "components": [
         {
@@ -20,7 +20,7 @@
       ]
     },
     "component": {
-      "bom-ref": "608328ba-2b74-4836-b270-454fecee7eef",
+      "bom-ref": "8724a6b4-fbff-4eee-9634-67d20f05e0ad",
       "type": "application",
       "name": ".",
       "properties": [
@@ -33,272 +33,7 @@
   },
   "components": [
     {
-      "bom-ref": "0309014b-20da-4e35-93df-1a0a1da7ae5c",
-      "type": "library",
-      "name": "symfony/polyfill-intl-grapheme",
-      "version": "v1.36.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/polyfill-intl-grapheme@v1.36.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-intl-grapheme@v1.36.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "052152a9-9211-4c30-8aca-33e383a31c43",
-      "type": "library",
-      "name": "php-di/invoker",
-      "version": "2.3.7",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/php-di/invoker@2.3.7",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "php-di/invoker@2.3.7"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "05ece2c0-b0d7-4c40-8586-6e9dd2948ffe",
-      "type": "application",
-      "name": "demos/composer.lock",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:Class",
-          "value": "lang-pkgs"
-        },
-        {
-          "name": "aquasecurity:trivy:Type",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "067101f1-6da4-45d8-81c0-49866aaf768d",
-      "type": "library",
-      "name": "mnapoli/silly",
-      "version": "1.9.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/mnapoli/silly@1.9.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "mnapoli/silly@1.9.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "114f7a90-fb7f-4d36-afd8-3e1e84ff9776",
-      "type": "library",
-      "name": "league/config",
-      "version": "v1.2.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/config@v1.2.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/config@v1.2.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "1b2ec832-42d8-4dc9-bc33-0ad79ca8c56f",
-      "type": "library",
-      "name": "symfony/service-contracts",
-      "version": "v3.6.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/service-contracts@v3.6.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/service-contracts@v3.6.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "1fee6e3d-2b1d-4c47-bbce-99c02a712ed6",
-      "type": "library",
-      "name": "nette/utils",
-      "version": "v4.1.3",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-2.0-only"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-3.0-only"
-          }
-        }
-      ],
-      "purl": "pkg:composer/nette/utils@v4.1.3",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "nette/utils@v4.1.3"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "267e4a81-4817-4f41-b017-c10930c9b6c0",
-      "type": "library",
-      "name": "symfony/string",
-      "version": "v8.0.8",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/string@v8.0.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/string@v8.0.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "29a81e7d-8220-4c38-b094-39f909a1a7c3",
-      "type": "library",
-      "name": "symfony/serializer",
-      "version": "v8.0.8",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/serializer@v8.0.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/serializer@v8.0.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "2c524d6d-f1b7-4694-a793-c5ce55f6f95d",
-      "type": "library",
-      "name": "symfony/deprecation-contracts",
-      "version": "v3.6.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/deprecation-contracts@v3.6.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/deprecation-contracts@v3.6.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "34bcefa0-f8e3-49fc-a388-7a8d44bd7405",
-      "type": "library",
-      "name": "czproject/git-php",
-      "version": "v4.6.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        }
-      ],
-      "purl": "pkg:composer/czproject/git-php@v4.6.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "czproject/git-php@v4.6.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "375393c1-21bc-48d5-84c8-39ee1573a18d",
+      "bom-ref": "001ff76d-a4fd-4d8f-a9e6-9a167c0e3207",
       "type": "library",
       "name": "psr/log",
       "version": "3.0.2",
@@ -322,37 +57,22 @@
       ]
     },
     {
-      "bom-ref": "387963c8-6c1a-43b8-8292-e8746983840c",
-      "type": "application",
-      "name": "composer.lock",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:Class",
-          "value": "lang-pkgs"
-        },
-        {
-          "name": "aquasecurity:trivy:Type",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "3ab0f9bc-28cb-463e-ab40-dfc88b26c47a",
+      "bom-ref": "00f06ca5-e63b-4661-89ff-fd773ac7a9ca",
       "type": "library",
-      "name": "symfony/deprecation-contracts",
-      "version": "v3.6.0",
+      "name": "league/config",
+      "version": "v1.2.0",
       "licenses": [
         {
           "license": {
-            "id": "MIT"
+            "id": "BSD-3-Clause"
           }
         }
       ],
-      "purl": "pkg:composer/symfony/deprecation-contracts@v3.6.0",
+      "purl": "pkg:composer/league/config@v1.2.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/deprecation-contracts@v3.6.0"
+          "value": "league/config@v1.2.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -361,127 +81,7 @@
       ]
     },
     {
-      "bom-ref": "47878296-d9d9-4662-a4eb-b206d873b88c",
-      "type": "library",
-      "name": "symfony/polyfill-ctype",
-      "version": "v1.36.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/polyfill-ctype@v1.36.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-ctype@v1.36.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "49c30e3c-2019-4f01-bd02-2fe20aacb841",
-      "type": "library",
-      "name": "league/flysystem",
-      "version": "3.33.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/flysystem@3.33.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/flysystem@3.33.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "4abd07f8-34ce-4107-9e66-cb2d30d8e9ed",
-      "type": "library",
-      "name": "psr/container",
-      "version": "2.0.2",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/psr/container@2.0.2",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "psr/container@2.0.2"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "4d6b2ade-f9fc-4528-a318-eeb4415db0fe",
-      "type": "library",
-      "name": "symfony/console",
-      "version": "v7.4.8",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/console@v7.4.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/console@v7.4.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "513677b2-dfd3-44ee-9b0f-debdb7f3a4dd",
-      "type": "library",
-      "name": "league/flysystem-local",
-      "version": "3.31.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/flysystem-local@3.31.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/flysystem-local@3.31.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "56a1301a-d6be-4ca4-9a22-e60f7ea5fa5a",
+      "bom-ref": "03a12967-e0bf-4535-9b81-9259fc532443",
       "type": "library",
       "name": "symfony/polyfill-mbstring",
       "version": "v1.36.0",
@@ -505,10 +105,10 @@
       ]
     },
     {
-      "bom-ref": "5d2943fe-8cc5-44d3-a981-1b5b132eeab3",
+      "bom-ref": "099f77d2-b6c4-470d-a168-ac7261ce6018",
       "type": "library",
-      "name": "symfony/string",
-      "version": "v8.0.8",
+      "name": "symfony/service-contracts",
+      "version": "v3.6.1",
       "licenses": [
         {
           "license": {
@@ -516,11 +116,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/string@v8.0.8",
+      "purl": "pkg:composer/symfony/service-contracts@v3.6.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/string@v8.0.8"
+          "value": "symfony/service-contracts@v3.6.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -529,10 +129,10 @@
       ]
     },
     {
-      "bom-ref": "62c00c67-b22b-4ee1-b7cd-bfdc9981c609",
+      "bom-ref": "12d9fac3-079a-4230-9ded-45aa26abe54b",
       "type": "library",
-      "name": "symfony/polyfill-intl-grapheme",
-      "version": "v1.36.0",
+      "name": "php-di/invoker",
+      "version": "2.3.7",
       "licenses": [
         {
           "license": {
@@ -540,11 +140,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/polyfill-intl-grapheme@v1.36.0",
+      "purl": "pkg:composer/php-di/invoker@2.3.7",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-intl-grapheme@v1.36.0"
+          "value": "php-di/invoker@2.3.7"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -553,22 +153,22 @@
       ]
     },
     {
-      "bom-ref": "63e76cad-e118-4b4b-9c58-d85e4fea7caf",
+      "bom-ref": "19879116-f3ce-4dbf-8fee-8c77ddaecd65",
       "type": "library",
-      "name": "league/flysystem",
-      "version": "3.33.0",
+      "name": "czproject/git-php",
+      "version": "v4.6.0",
       "licenses": [
         {
           "license": {
-            "id": "MIT"
+            "id": "BSD-3-Clause"
           }
         }
       ],
-      "purl": "pkg:composer/league/flysystem@3.33.0",
+      "purl": "pkg:composer/czproject/git-php@v4.6.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "league/flysystem@3.33.0"
+          "value": "czproject/git-php@v4.6.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -577,55 +177,7 @@
       ]
     },
     {
-      "bom-ref": "64c814e9-db72-452a-be79-eca74b9e73b2",
-      "type": "library",
-      "name": "brick/math",
-      "version": "0.14.8",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/brick/math@0.14.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "brick/math@0.14.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "678eea40-478b-4324-b5b1-a8ddc27130aa",
-      "type": "library",
-      "name": "mnapoli/silly",
-      "version": "1.9.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/mnapoli/silly@1.9.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "mnapoli/silly@1.9.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "6a79f935-4399-45cc-83e6-1a62464b21a3",
+      "bom-ref": "1bb1dd29-3e27-48ec-be40-d106810f08a9",
       "type": "library",
       "name": "symfony/polyfill-intl-normalizer",
       "version": "v1.36.0",
@@ -649,25 +201,10 @@
       ]
     },
     {
-      "bom-ref": "721dbaab-375e-4347-b3b8-09d92afa949a",
+      "bom-ref": "2808b075-8253-4df0-9d2e-e5b0836e247a",
       "type": "library",
-      "name": "",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "package.json"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "yarn"
-        }
-      ]
-    },
-    {
-      "bom-ref": "951c41b9-9dd4-47ca-bc4b-310e00d9be42",
-      "type": "library",
-      "name": "nette/utils",
-      "version": "v4.1.3",
+      "name": "nette/schema",
+      "version": "v1.3.5",
       "licenses": [
         {
           "license": {
@@ -685,11 +222,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/nette/utils@v4.1.3",
+      "purl": "pkg:composer/nette/schema@v1.3.5",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "nette/utils@v4.1.3"
+          "value": "nette/schema@v1.3.5"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -698,31 +235,7 @@
       ]
     },
     {
-      "bom-ref": "99233f6f-b160-4447-8d6a-c3a7b01e2701",
-      "type": "library",
-      "name": "symfony/polyfill-intl-normalizer",
-      "version": "v1.36.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/polyfill-intl-normalizer@v1.36.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-intl-normalizer@v1.36.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "9bac2042-d425-4f26-aaa3-2381806718d7",
+      "bom-ref": "54599f87-d06d-4dae-9a1f-2fb4a22f956b",
       "type": "application",
       "name": "yarn.lock",
       "properties": [
@@ -737,233 +250,7 @@
       ]
     },
     {
-      "bom-ref": "a102ddf6-0560-4f24-8a11-500e6c65413f",
-      "type": "library",
-      "name": "symfony/yaml",
-      "version": "v8.0.8",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/yaml@v8.0.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/yaml@v8.0.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "a4d4f334-8087-4611-b7bb-8cdc3095a893",
-      "type": "library",
-      "name": "league/config",
-      "version": "v1.2.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/config@v1.2.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/config@v1.2.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "a58d754e-94dd-4551-a660-e8f5b8f45ecd",
-      "type": "library",
-      "name": "dflydev/dot-access-data",
-      "version": "v3.0.3",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/dflydev/dot-access-data@v3.0.3",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "dflydev/dot-access-data@v3.0.3"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "ac499b2f-5f88-447b-bef1-b7f6d57e25d2",
-      "type": "library",
-      "name": "brick/math",
-      "version": "0.14.8",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/brick/math@0.14.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "brick/math@0.14.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "ac667766-cb89-4f66-ab16-d305fcc618bc",
-      "type": "library",
-      "name": "psr/log",
-      "version": "3.0.2",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/psr/log@3.0.2",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "psr/log@3.0.2"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "ae159c62-cecc-42e3-8122-ee51b0cd285e",
-      "type": "library",
-      "name": "php-di/invoker",
-      "version": "2.3.7",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/php-di/invoker@2.3.7",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "php-di/invoker@2.3.7"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "aeb2d3c1-b579-4fb1-b6e0-d093501ba312",
-      "type": "library",
-      "name": "symfony/service-contracts",
-      "version": "v3.6.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/service-contracts@v3.6.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/service-contracts@v3.6.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "b7031bb8-f1cc-46ae-9c29-3a12d604978d",
-      "type": "library",
-      "name": "nette/schema",
-      "version": "v1.3.5",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-2.0-only"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-3.0-only"
-          }
-        }
-      ],
-      "purl": "pkg:composer/nette/schema@v1.3.5",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "nette/schema@v1.3.5"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "bc46f20f-eb83-47a0-ab62-8cdee9c43f78",
-      "type": "library",
-      "name": "ramsey/collection",
-      "version": "2.1.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/ramsey/collection@2.1.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "ramsey/collection@2.1.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "bdebafb2-cbe1-411e-9608-4f5cf5b4e21a",
+      "bom-ref": "5f1aa02d-a5ec-4195-b8e2-df3ea2fd8cc6",
       "type": "library",
       "name": "league/flysystem-local",
       "version": "3.31.0",
@@ -987,33 +274,24 @@
       ]
     },
     {
-      "bom-ref": "ca0f66cc-72b7-4333-b09c-05d98803b599",
-      "type": "library",
-      "name": "league/mime-type-detection",
-      "version": "1.16.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/mime-type-detection@1.16.0",
+      "bom-ref": "6701cafa-2668-4ef9-a21b-58aec85d18de",
+      "type": "application",
+      "name": "demos/composer.lock",
       "properties": [
         {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/mime-type-detection@1.16.0"
+          "name": "aquasecurity:trivy:Class",
+          "value": "lang-pkgs"
         },
         {
-          "name": "aquasecurity:trivy:PkgType",
+          "name": "aquasecurity:trivy:Type",
           "value": "composer"
         }
       ]
     },
     {
-      "bom-ref": "ce95b8cc-b36c-4de0-932b-b9b276cb51cf",
+      "bom-ref": "68eb6a1e-1a81-410f-8465-2ecbab44ebf3",
       "type": "library",
-      "name": "symfony/polyfill-ctype",
+      "name": "symfony/polyfill-intl-normalizer",
       "version": "v1.36.0",
       "licenses": [
         {
@@ -1022,11 +300,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/polyfill-ctype@v1.36.0",
+      "purl": "pkg:composer/symfony/polyfill-intl-normalizer@v1.36.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-ctype@v1.36.0"
+          "value": "symfony/polyfill-intl-normalizer@v1.36.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1035,10 +313,10 @@
       ]
     },
     {
-      "bom-ref": "d4ecc465-cb00-41ff-be1b-0133c3d88d1d",
+      "bom-ref": "68eef812-d1dd-4d14-bad3-c8728c926e87",
       "type": "library",
-      "name": "czproject/git-php",
-      "version": "v4.6.0",
+      "name": "league/config",
+      "version": "v1.2.0",
       "licenses": [
         {
           "license": {
@@ -1046,11 +324,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/czproject/git-php@v4.6.0",
+      "purl": "pkg:composer/league/config@v1.2.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "czproject/git-php@v4.6.0"
+          "value": "league/config@v1.2.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1059,33 +337,9 @@
       ]
     },
     {
-      "bom-ref": "d60c985e-daa7-40b2-acd4-9faff9226945",
+      "bom-ref": "6d3c508e-d48e-475b-8160-54642c401144",
       "type": "library",
-      "name": "league/mime-type-detection",
-      "version": "1.16.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/mime-type-detection@1.16.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/mime-type-detection@1.16.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "d77b2c26-3c1a-4e6b-af8a-e49f5ad09c67",
-      "type": "library",
-      "name": "symfony/polyfill-mbstring",
+      "name": "symfony/polyfill-intl-grapheme",
       "version": "v1.36.0",
       "licenses": [
         {
@@ -1094,11 +348,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/polyfill-mbstring@v1.36.0",
+      "purl": "pkg:composer/symfony/polyfill-intl-grapheme@v1.36.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-mbstring@v1.36.0"
+          "value": "symfony/polyfill-intl-grapheme@v1.36.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1107,7 +361,7 @@
       ]
     },
     {
-      "bom-ref": "dc5be7a6-4b6e-4b5f-a3f1-2f5bfc207761",
+      "bom-ref": "6d75b86c-00a6-451e-bc73-30f42b52b604",
       "type": "library",
       "name": "ramsey/collection",
       "version": "2.1.1",
@@ -1131,7 +385,729 @@
       ]
     },
     {
-      "bom-ref": "e05a5ab6-cf5f-44de-aa3e-a37676ea26f4",
+      "bom-ref": "72516afd-03ea-4698-bb67-6e0cefb2c700",
+      "type": "library",
+      "name": "dflydev/dot-access-data",
+      "version": "v3.0.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/dflydev/dot-access-data@v3.0.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "dflydev/dot-access-data@v3.0.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "72791b19-c96d-426e-9718-48d914e4922c",
+      "type": "library",
+      "name": "symfony/deprecation-contracts",
+      "version": "v3.6.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/deprecation-contracts@v3.6.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/deprecation-contracts@v3.6.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "75ddeefb-b8a5-4d0f-8d90-e6f09b691df6",
+      "type": "library",
+      "name": "symfony/polyfill-ctype",
+      "version": "v1.36.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/polyfill-ctype@v1.36.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-ctype@v1.36.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "77d9e3fb-b1b3-447b-82b8-e6e414f6b558",
+      "type": "library",
+      "name": "league/mime-type-detection",
+      "version": "1.16.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/league/mime-type-detection@1.16.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/mime-type-detection@1.16.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "79c33e9f-b4fa-4d0c-b843-407986ea8d46",
+      "type": "library",
+      "name": "czproject/git-php",
+      "version": "v4.6.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:composer/czproject/git-php@v4.6.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "czproject/git-php@v4.6.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "7c479cb9-c205-4bd7-a5ac-170fd9cbbcbb",
+      "type": "library",
+      "name": "symfony/console",
+      "version": "v7.4.8",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/console@v7.4.8",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/console@v7.4.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "7e79ca53-9c29-4feb-a6e6-c52926e82c2d",
+      "type": "library",
+      "name": "league/mime-type-detection",
+      "version": "1.16.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/league/mime-type-detection@1.16.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/mime-type-detection@1.16.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "81fd6eb1-c34a-4b6f-9538-527e075c1d12",
+      "type": "library",
+      "name": "mnapoli/silly",
+      "version": "1.9.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/mnapoli/silly@1.9.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "mnapoli/silly@1.9.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "852f982d-437b-4cfc-8e66-73368a6a3580",
+      "type": "library",
+      "name": "psr/log",
+      "version": "3.0.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/psr/log@3.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/log@3.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "86e10011-f8be-4e77-a6fe-18cb84b5ea33",
+      "type": "library",
+      "name": "php-di/invoker",
+      "version": "2.3.7",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/php-di/invoker@2.3.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "php-di/invoker@2.3.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "93f400b0-fc7b-40db-b3be-ef402bdc83a4",
+      "type": "library",
+      "name": "symfony/polyfill-mbstring",
+      "version": "v1.36.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/polyfill-mbstring@v1.36.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-mbstring@v1.36.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "961dd981-c7f2-4011-8011-fd3098e6d760",
+      "type": "library",
+      "name": "ramsey/uuid",
+      "version": "4.9.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/ramsey/uuid@4.9.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ramsey/uuid@4.9.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "983f2d95-8c92-4ac2-800e-28fc65cee338",
+      "type": "library",
+      "name": "nette/utils",
+      "version": "v4.1.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-2.0-only"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-3.0-only"
+          }
+        }
+      ],
+      "purl": "pkg:composer/nette/utils@v4.1.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "nette/utils@v4.1.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "9a7448e2-ede7-4bff-9f5a-f4b320f5e804",
+      "type": "library",
+      "name": "symfony/service-contracts",
+      "version": "v3.6.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/service-contracts@v3.6.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/service-contracts@v3.6.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "9aac02c4-40e8-4d51-852b-6f6195f9bc2c",
+      "type": "library",
+      "name": "mnapoli/silly",
+      "version": "1.9.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/mnapoli/silly@1.9.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "mnapoli/silly@1.9.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "9e4eb842-96e1-4418-8ade-c3a71164d026",
+      "type": "library",
+      "name": "symfony/string",
+      "version": "v8.0.8",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/string@v8.0.8",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/string@v8.0.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "a40d9063-6f83-4fe9-9f18-7920c4c23a70",
+      "type": "application",
+      "name": "composer.lock",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Class",
+          "value": "lang-pkgs"
+        },
+        {
+          "name": "aquasecurity:trivy:Type",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "a90900c2-323f-4d4f-a24e-7370a01df69b",
+      "type": "library",
+      "name": "",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "package.json"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "yarn"
+        }
+      ]
+    },
+    {
+      "bom-ref": "abad3e14-fc8e-4463-b5c6-f6f8b0573c72",
+      "type": "library",
+      "name": "league/flysystem",
+      "version": "3.33.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/league/flysystem@3.33.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/flysystem@3.33.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "b4334f12-2021-4ffc-895b-22c292ff2c1c",
+      "type": "library",
+      "name": "nette/utils",
+      "version": "v4.1.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-2.0-only"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-3.0-only"
+          }
+        }
+      ],
+      "purl": "pkg:composer/nette/utils@v4.1.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "nette/utils@v4.1.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "b90dd629-fb53-4723-97da-1ed40244ff39",
+      "type": "library",
+      "name": "symfony/yaml",
+      "version": "v8.0.8",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/yaml@v8.0.8",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/yaml@v8.0.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "bc85be5e-b1e8-41fb-bc94-141c04a0161e",
+      "type": "library",
+      "name": "ramsey/collection",
+      "version": "2.1.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/ramsey/collection@2.1.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ramsey/collection@2.1.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "c0babcbf-fff0-489b-ba9c-c981a4f99e3b",
+      "type": "library",
+      "name": "ramsey/uuid",
+      "version": "4.9.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/ramsey/uuid@4.9.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ramsey/uuid@4.9.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "c122ddfc-a131-4804-802b-02ef79045f72",
+      "type": "library",
+      "name": "dflydev/dot-access-data",
+      "version": "v3.0.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/dflydev/dot-access-data@v3.0.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "dflydev/dot-access-data@v3.0.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "c475c52d-cddf-4c4c-a967-e077aac1c563",
+      "type": "library",
+      "name": "symfony/yaml",
+      "version": "v8.0.8",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/yaml@v8.0.8",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/yaml@v8.0.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "c76f243c-e7bc-4927-8a3e-a0cd6ba81071",
+      "type": "library",
+      "name": "symfony/serializer",
+      "version": "v8.0.8",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/serializer@v8.0.8",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/serializer@v8.0.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "c878a853-0ded-4cf2-aa19-c07654f19f79",
+      "type": "library",
+      "name": "symfony/polyfill-intl-grapheme",
+      "version": "v1.36.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/polyfill-intl-grapheme@v1.36.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-intl-grapheme@v1.36.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "cc062d23-365c-4a8b-a764-87c55f77e643",
+      "type": "library",
+      "name": "symfony/console",
+      "version": "v7.4.8",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/console@v7.4.8",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/console@v7.4.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "cf7d4cb9-3407-4780-97ec-53d303ad6969",
+      "type": "library",
+      "name": "psr/container",
+      "version": "2.0.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/psr/container@2.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/container@2.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "d119e712-6537-4a23-a043-1000db9050c7",
+      "type": "library",
+      "name": "brick/math",
+      "version": "0.14.8",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/brick/math@0.14.8",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "brick/math@0.14.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "d9688b8d-d21d-427b-8cb5-e4aedd16fc00",
       "type": "library",
       "name": "nette/schema",
       "version": "v1.3.5",
@@ -1165,10 +1141,10 @@
       ]
     },
     {
-      "bom-ref": "e7be94e1-55a0-4075-8a0e-03b6f3002c81",
+      "bom-ref": "db9dd767-f579-4986-b710-1fd339d0723f",
       "type": "library",
-      "name": "dflydev/dot-access-data",
-      "version": "v3.0.3",
+      "name": "league/flysystem",
+      "version": "3.33.0",
       "licenses": [
         {
           "license": {
@@ -1176,11 +1152,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/dflydev/dot-access-data@v3.0.3",
+      "purl": "pkg:composer/league/flysystem@3.33.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "dflydev/dot-access-data@v3.0.3"
+          "value": "league/flysystem@3.33.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1189,10 +1165,10 @@
       ]
     },
     {
-      "bom-ref": "ea4cce81-1689-45ec-a56d-e6820e8b06b4",
+      "bom-ref": "df8fe78c-6e13-4e09-90f3-eee7330932b9",
       "type": "library",
-      "name": "ramsey/uuid",
-      "version": "4.9.2",
+      "name": "league/flysystem-local",
+      "version": "3.31.0",
       "licenses": [
         {
           "license": {
@@ -1200,11 +1176,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/ramsey/uuid@4.9.2",
+      "purl": "pkg:composer/league/flysystem-local@3.31.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "ramsey/uuid@4.9.2"
+          "value": "league/flysystem-local@3.31.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1213,79 +1189,7 @@
       ]
     },
     {
-      "bom-ref": "ea745640-77a2-4db9-a963-20998d2b7067",
-      "type": "library",
-      "name": "symfony/serializer",
-      "version": "v8.0.8",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/serializer@v8.0.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/serializer@v8.0.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "ec0ff034-eaa0-48f1-9bb8-5720c709d28f",
-      "type": "library",
-      "name": "ramsey/uuid",
-      "version": "4.9.2",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/ramsey/uuid@4.9.2",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "ramsey/uuid@4.9.2"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "f131ed0f-6003-42e7-808f-11fc7a509431",
-      "type": "library",
-      "name": "symfony/console",
-      "version": "v7.4.8",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/console@v7.4.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/console@v7.4.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "f7df8b04-cef3-44f1-a9ce-ebf6606e0ef6",
+      "bom-ref": "e082b439-be18-48f2-9534-441556664635",
       "type": "library",
       "name": "psr/container",
       "version": "2.0.2",
@@ -1309,9 +1213,81 @@
       ]
     },
     {
-      "bom-ref": "fadeb0f4-f0f2-4296-bc4f-a9188acbf2de",
+      "bom-ref": "ebafbc01-0c4c-440c-85d8-351891542226",
       "type": "library",
-      "name": "symfony/yaml",
+      "name": "symfony/polyfill-ctype",
+      "version": "v1.36.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/polyfill-ctype@v1.36.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-ctype@v1.36.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "f134ac47-6c99-4fa2-b32d-5264291c3731",
+      "type": "library",
+      "name": "brick/math",
+      "version": "0.14.8",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/brick/math@0.14.8",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "brick/math@0.14.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "f1ac28fa-0a81-4cb5-ba28-d0fd45a61e54",
+      "type": "library",
+      "name": "symfony/deprecation-contracts",
+      "version": "v3.6.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/deprecation-contracts@v3.6.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/deprecation-contracts@v3.6.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "f3a7eec0-dcfb-4264-b96e-eae4b774c6ce",
+      "type": "library",
+      "name": "symfony/string",
       "version": "v8.0.8",
       "licenses": [
         {
@@ -1320,11 +1296,35 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/yaml@v8.0.8",
+      "purl": "pkg:composer/symfony/string@v8.0.8",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/yaml@v8.0.8"
+          "value": "symfony/string@v8.0.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "f48c7b52-3361-465e-903e-ffa713db674b",
+      "type": "library",
+      "name": "symfony/serializer",
+      "version": "v8.0.8",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/serializer@v8.0.8",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/serializer@v8.0.8"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -6513,23 +6513,6 @@
       ]
     },
     {
-      "bom-ref": "pkg:npm/nanoid@3.3.8",
-      "type": "library",
-      "name": "nanoid",
-      "version": "3.3.8",
-      "purl": "pkg:npm/nanoid@3.3.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "nanoid@3.3.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "yarn"
-        }
-      ]
-    },
-    {
       "bom-ref": "pkg:npm/negotiator@1.0.0",
       "type": "library",
       "name": "negotiator",
@@ -6675,23 +6658,6 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "picomatch@4.0.4"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "yarn"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:npm/postcss@8.5.1",
-      "type": "library",
-      "name": "postcss",
-      "version": "8.5.1",
-      "purl": "pkg:npm/postcss@8.5.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "postcss@8.5.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -7365,86 +7331,195 @@
   ],
   "dependencies": [
     {
-      "ref": "0309014b-20da-4e35-93df-1a0a1da7ae5c",
+      "ref": "001ff76d-a4fd-4d8f-a9e6-9a167c0e3207",
       "dependsOn": []
     },
     {
-      "ref": "052152a9-9211-4c30-8aca-33e383a31c43",
+      "ref": "00f06ca5-e63b-4661-89ff-fd773ac7a9ca",
       "dependsOn": [
-        "f7df8b04-cef3-44f1-a9ce-ebf6606e0ef6"
+        "2808b075-8253-4df0-9d2e-e5b0836e247a",
+        "72516afd-03ea-4698-bb67-6e0cefb2c700"
       ]
     },
     {
-      "ref": "05ece2c0-b0d7-4c40-8586-6e9dd2948ffe",
+      "ref": "03a12967-e0bf-4535-9b81-9259fc532443",
+      "dependsOn": []
+    },
+    {
+      "ref": "099f77d2-b6c4-470d-a168-ac7261ce6018",
+      "dependsOn": [
+        "cf7d4cb9-3407-4780-97ec-53d303ad6969",
+        "f1ac28fa-0a81-4cb5-ba28-d0fd45a61e54"
+      ]
+    },
+    {
+      "ref": "12d9fac3-079a-4230-9ded-45aa26abe54b",
+      "dependsOn": [
+        "cf7d4cb9-3407-4780-97ec-53d303ad6969"
+      ]
+    },
+    {
+      "ref": "19879116-f3ce-4dbf-8fee-8c77ddaecd65",
+      "dependsOn": []
+    },
+    {
+      "ref": "1bb1dd29-3e27-48ec-be40-d106810f08a9",
+      "dependsOn": []
+    },
+    {
+      "ref": "2808b075-8253-4df0-9d2e-e5b0836e247a",
+      "dependsOn": [
+        "983f2d95-8c92-4ac2-800e-28fc65cee338"
+      ]
+    },
+    {
+      "ref": "54599f87-d06d-4dae-9a1f-2fb4a22f956b",
+      "dependsOn": [
+        "a90900c2-323f-4d4f-a24e-7370a01df69b"
+      ]
+    },
+    {
+      "ref": "5f1aa02d-a5ec-4195-b8e2-df3ea2fd8cc6",
+      "dependsOn": [
+        "7e79ca53-9c29-4feb-a6e6-c52926e82c2d",
+        "db9dd767-f579-4986-b710-1fd339d0723f"
+      ]
+    },
+    {
+      "ref": "6701cafa-2668-4ef9-a21b-58aec85d18de",
       "dependsOn": [
         "pkg:composer/leafs/leaf@v4.4",
         "pkg:composer/vardumper/dom-orm@dev-main"
       ]
     },
     {
-      "ref": "067101f1-6da4-45d8-81c0-49866aaf768d",
-      "dependsOn": [
-        "052152a9-9211-4c30-8aca-33e383a31c43",
-        "f131ed0f-6003-42e7-808f-11fc7a509431",
-        "f7df8b04-cef3-44f1-a9ce-ebf6606e0ef6"
-      ]
-    },
-    {
-      "ref": "114f7a90-fb7f-4d36-afd8-3e1e84ff9776",
-      "dependsOn": [
-        "b7031bb8-f1cc-46ae-9c29-3a12d604978d",
-        "e7be94e1-55a0-4075-8a0e-03b6f3002c81"
-      ]
-    },
-    {
-      "ref": "1b2ec832-42d8-4dc9-bc33-0ad79ca8c56f",
-      "dependsOn": [
-        "3ab0f9bc-28cb-463e-ab40-dfc88b26c47a",
-        "f7df8b04-cef3-44f1-a9ce-ebf6606e0ef6"
-      ]
-    },
-    {
-      "ref": "1fee6e3d-2b1d-4c47-bbce-99c02a712ed6",
+      "ref": "68eb6a1e-1a81-410f-8465-2ecbab44ebf3",
       "dependsOn": []
     },
     {
-      "ref": "267e4a81-4817-4f41-b017-c10930c9b6c0",
+      "ref": "68eef812-d1dd-4d14-bad3-c8728c926e87",
       "dependsOn": [
-        "62c00c67-b22b-4ee1-b7cd-bfdc9981c609",
-        "99233f6f-b160-4447-8d6a-c3a7b01e2701",
-        "ce95b8cc-b36c-4de0-932b-b9b276cb51cf",
-        "d77b2c26-3c1a-4e6b-af8a-e49f5ad09c67"
+        "c122ddfc-a131-4804-802b-02ef79045f72",
+        "d9688b8d-d21d-427b-8cb5-e4aedd16fc00"
       ]
     },
     {
-      "ref": "29a81e7d-8220-4c38-b094-39f909a1a7c3",
+      "ref": "6d3c508e-d48e-475b-8160-54642c401144",
+      "dependsOn": []
+    },
+    {
+      "ref": "6d75b86c-00a6-451e-bc73-30f42b52b604",
+      "dependsOn": []
+    },
+    {
+      "ref": "72516afd-03ea-4698-bb67-6e0cefb2c700",
+      "dependsOn": []
+    },
+    {
+      "ref": "72791b19-c96d-426e-9718-48d914e4922c",
+      "dependsOn": []
+    },
+    {
+      "ref": "75ddeefb-b8a5-4d0f-8d90-e6f09b691df6",
+      "dependsOn": []
+    },
+    {
+      "ref": "77d9e3fb-b1b3-447b-82b8-e6e414f6b558",
+      "dependsOn": []
+    },
+    {
+      "ref": "79c33e9f-b4fa-4d0c-b843-407986ea8d46",
+      "dependsOn": []
+    },
+    {
+      "ref": "7c479cb9-c205-4bd7-a5ac-170fd9cbbcbb",
       "dependsOn": [
-        "47878296-d9d9-4662-a4eb-b206d873b88c"
+        "03a12967-e0bf-4535-9b81-9259fc532443",
+        "72791b19-c96d-426e-9718-48d914e4922c",
+        "9a7448e2-ede7-4bff-9f5a-f4b320f5e804",
+        "9e4eb842-96e1-4418-8ade-c3a71164d026"
       ]
     },
     {
-      "ref": "2c524d6d-f1b7-4694-a793-c5ce55f6f95d",
+      "ref": "7e79ca53-9c29-4feb-a6e6-c52926e82c2d",
       "dependsOn": []
     },
     {
-      "ref": "34bcefa0-f8e3-49fc-a388-7a8d44bd7405",
-      "dependsOn": []
-    },
-    {
-      "ref": "375393c1-21bc-48d5-84c8-39ee1573a18d",
-      "dependsOn": []
-    },
-    {
-      "ref": "387963c8-6c1a-43b8-8292-e8746983840c",
+      "ref": "81fd6eb1-c34a-4b6f-9538-527e075c1d12",
       "dependsOn": [
-        "067101f1-6da4-45d8-81c0-49866aaf768d",
-        "114f7a90-fb7f-4d36-afd8-3e1e84ff9776",
-        "49c30e3c-2019-4f01-bd02-2fe20aacb841",
-        "a102ddf6-0560-4f24-8a11-500e6c65413f",
-        "d4ecc465-cb00-41ff-be1b-0133c3d88d1d",
-        "dc5be7a6-4b6e-4b5f-a3f1-2f5bfc207761",
-        "ea4cce81-1689-45ec-a56d-e6820e8b06b4",
-        "ea745640-77a2-4db9-a963-20998d2b7067",
+        "12d9fac3-079a-4230-9ded-45aa26abe54b",
+        "cc062d23-365c-4a8b-a764-87c55f77e643",
+        "cf7d4cb9-3407-4780-97ec-53d303ad6969"
+      ]
+    },
+    {
+      "ref": "852f982d-437b-4cfc-8e66-73368a6a3580",
+      "dependsOn": []
+    },
+    {
+      "ref": "86e10011-f8be-4e77-a6fe-18cb84b5ea33",
+      "dependsOn": [
+        "e082b439-be18-48f2-9534-441556664635"
+      ]
+    },
+    {
+      "ref": "8724a6b4-fbff-4eee-9634-67d20f05e0ad",
+      "dependsOn": [
+        "54599f87-d06d-4dae-9a1f-2fb4a22f956b",
+        "6701cafa-2668-4ef9-a21b-58aec85d18de",
+        "a40d9063-6f83-4fe9-9f18-7920c4c23a70"
+      ]
+    },
+    {
+      "ref": "93f400b0-fc7b-40db-b3be-ef402bdc83a4",
+      "dependsOn": []
+    },
+    {
+      "ref": "961dd981-c7f2-4011-8011-fd3098e6d760",
+      "dependsOn": [
+        "bc85be5e-b1e8-41fb-bc94-141c04a0161e",
+        "d119e712-6537-4a23-a043-1000db9050c7"
+      ]
+    },
+    {
+      "ref": "983f2d95-8c92-4ac2-800e-28fc65cee338",
+      "dependsOn": []
+    },
+    {
+      "ref": "9a7448e2-ede7-4bff-9f5a-f4b320f5e804",
+      "dependsOn": [
+        "72791b19-c96d-426e-9718-48d914e4922c",
+        "e082b439-be18-48f2-9534-441556664635"
+      ]
+    },
+    {
+      "ref": "9aac02c4-40e8-4d51-852b-6f6195f9bc2c",
+      "dependsOn": [
+        "7c479cb9-c205-4bd7-a5ac-170fd9cbbcbb",
+        "86e10011-f8be-4e77-a6fe-18cb84b5ea33",
+        "e082b439-be18-48f2-9534-441556664635"
+      ]
+    },
+    {
+      "ref": "9e4eb842-96e1-4418-8ade-c3a71164d026",
+      "dependsOn": [
+        "03a12967-e0bf-4535-9b81-9259fc532443",
+        "1bb1dd29-3e27-48ec-be40-d106810f08a9",
+        "6d3c508e-d48e-475b-8160-54642c401144",
+        "ebafbc01-0c4c-440c-85d8-351891542226"
+      ]
+    },
+    {
+      "ref": "a40d9063-6f83-4fe9-9f18-7920c4c23a70",
+      "dependsOn": [
+        "19879116-f3ce-4dbf-8fee-8c77ddaecd65",
+        "68eef812-d1dd-4d14-bad3-c8728c926e87",
+        "6d75b86c-00a6-451e-bc73-30f42b52b604",
+        "81fd6eb1-c34a-4b6f-9538-527e075c1d12",
+        "b90dd629-fb53-4723-97da-1ed40244ff39",
+        "c0babcbf-fff0-489b-ba9c-c981a4f99e3b",
+        "c76f243c-e7bc-4927-8a3e-a0cd6ba81071",
+        "db9dd767-f579-4986-b710-1fd339d0723f",
         "pkg:composer/brainmaestro/composer-git-hooks@dev-master",
         "pkg:composer/fakerphp/faker@v1.24.1",
         "pkg:composer/friendsofphp/php-cs-fixer@v3.95.1",
@@ -7457,246 +7532,137 @@
       ]
     },
     {
-      "ref": "3ab0f9bc-28cb-463e-ab40-dfc88b26c47a",
-      "dependsOn": []
-    },
-    {
-      "ref": "47878296-d9d9-4662-a4eb-b206d873b88c",
-      "dependsOn": []
-    },
-    {
-      "ref": "49c30e3c-2019-4f01-bd02-2fe20aacb841",
-      "dependsOn": [
-        "513677b2-dfd3-44ee-9b0f-debdb7f3a4dd",
-        "ca0f66cc-72b7-4333-b09c-05d98803b599"
-      ]
-    },
-    {
-      "ref": "4abd07f8-34ce-4107-9e66-cb2d30d8e9ed",
-      "dependsOn": []
-    },
-    {
-      "ref": "4d6b2ade-f9fc-4528-a318-eeb4415db0fe",
-      "dependsOn": [
-        "2c524d6d-f1b7-4694-a793-c5ce55f6f95d",
-        "56a1301a-d6be-4ca4-9a22-e60f7ea5fa5a",
-        "5d2943fe-8cc5-44d3-a981-1b5b132eeab3",
-        "aeb2d3c1-b579-4fb1-b6e0-d093501ba312"
-      ]
-    },
-    {
-      "ref": "513677b2-dfd3-44ee-9b0f-debdb7f3a4dd",
-      "dependsOn": [
-        "49c30e3c-2019-4f01-bd02-2fe20aacb841",
-        "ca0f66cc-72b7-4333-b09c-05d98803b599"
-      ]
-    },
-    {
-      "ref": "56a1301a-d6be-4ca4-9a22-e60f7ea5fa5a",
-      "dependsOn": []
-    },
-    {
-      "ref": "5d2943fe-8cc5-44d3-a981-1b5b132eeab3",
-      "dependsOn": [
-        "0309014b-20da-4e35-93df-1a0a1da7ae5c",
-        "47878296-d9d9-4662-a4eb-b206d873b88c",
-        "56a1301a-d6be-4ca4-9a22-e60f7ea5fa5a",
-        "6a79f935-4399-45cc-83e6-1a62464b21a3"
-      ]
-    },
-    {
-      "ref": "608328ba-2b74-4836-b270-454fecee7eef",
-      "dependsOn": [
-        "05ece2c0-b0d7-4c40-8586-6e9dd2948ffe",
-        "387963c8-6c1a-43b8-8292-e8746983840c",
-        "9bac2042-d425-4f26-aaa3-2381806718d7"
-      ]
-    },
-    {
-      "ref": "62c00c67-b22b-4ee1-b7cd-bfdc9981c609",
-      "dependsOn": []
-    },
-    {
-      "ref": "63e76cad-e118-4b4b-9c58-d85e4fea7caf",
-      "dependsOn": [
-        "bdebafb2-cbe1-411e-9608-4f5cf5b4e21a",
-        "d60c985e-daa7-40b2-acd4-9faff9226945"
-      ]
-    },
-    {
-      "ref": "64c814e9-db72-452a-be79-eca74b9e73b2",
-      "dependsOn": []
-    },
-    {
-      "ref": "678eea40-478b-4324-b5b1-a8ddc27130aa",
-      "dependsOn": [
-        "4abd07f8-34ce-4107-9e66-cb2d30d8e9ed",
-        "4d6b2ade-f9fc-4528-a318-eeb4415db0fe",
-        "ae159c62-cecc-42e3-8122-ee51b0cd285e"
-      ]
-    },
-    {
-      "ref": "6a79f935-4399-45cc-83e6-1a62464b21a3",
-      "dependsOn": []
-    },
-    {
-      "ref": "721dbaab-375e-4347-b3b8-09d92afa949a",
+      "ref": "a90900c2-323f-4d4f-a24e-7370a01df69b",
       "dependsOn": [
         "pkg:npm/vitepress@1.6.4"
       ]
     },
     {
-      "ref": "951c41b9-9dd4-47ca-bc4b-310e00d9be42",
-      "dependsOn": []
-    },
-    {
-      "ref": "99233f6f-b160-4447-8d6a-c3a7b01e2701",
-      "dependsOn": []
-    },
-    {
-      "ref": "9bac2042-d425-4f26-aaa3-2381806718d7",
+      "ref": "abad3e14-fc8e-4463-b5c6-f6f8b0573c72",
       "dependsOn": [
-        "721dbaab-375e-4347-b3b8-09d92afa949a"
+        "77d9e3fb-b1b3-447b-82b8-e6e414f6b558",
+        "df8fe78c-6e13-4e09-90f3-eee7330932b9"
       ]
     },
     {
-      "ref": "a102ddf6-0560-4f24-8a11-500e6c65413f",
+      "ref": "b4334f12-2021-4ffc-895b-22c292ff2c1c",
+      "dependsOn": []
+    },
+    {
+      "ref": "b90dd629-fb53-4723-97da-1ed40244ff39",
       "dependsOn": [
-        "ce95b8cc-b36c-4de0-932b-b9b276cb51cf"
+        "75ddeefb-b8a5-4d0f-8d90-e6f09b691df6"
       ]
     },
     {
-      "ref": "a4d4f334-8087-4611-b7bb-8cdc3095a893",
+      "ref": "bc85be5e-b1e8-41fb-bc94-141c04a0161e",
+      "dependsOn": []
+    },
+    {
+      "ref": "c0babcbf-fff0-489b-ba9c-c981a4f99e3b",
       "dependsOn": [
-        "a58d754e-94dd-4551-a660-e8f5b8f45ecd",
-        "e05a5ab6-cf5f-44de-aa3e-a37676ea26f4"
+        "6d75b86c-00a6-451e-bc73-30f42b52b604",
+        "f134ac47-6c99-4fa2-b32d-5264291c3731"
       ]
     },
     {
-      "ref": "a58d754e-94dd-4551-a660-e8f5b8f45ecd",
+      "ref": "c122ddfc-a131-4804-802b-02ef79045f72",
       "dependsOn": []
     },
     {
-      "ref": "ac499b2f-5f88-447b-bef1-b7f6d57e25d2",
-      "dependsOn": []
-    },
-    {
-      "ref": "ac667766-cb89-4f66-ab16-d305fcc618bc",
-      "dependsOn": []
-    },
-    {
-      "ref": "ae159c62-cecc-42e3-8122-ee51b0cd285e",
+      "ref": "c475c52d-cddf-4c4c-a967-e077aac1c563",
       "dependsOn": [
-        "4abd07f8-34ce-4107-9e66-cb2d30d8e9ed"
+        "ebafbc01-0c4c-440c-85d8-351891542226"
       ]
     },
     {
-      "ref": "aeb2d3c1-b579-4fb1-b6e0-d093501ba312",
+      "ref": "c76f243c-e7bc-4927-8a3e-a0cd6ba81071",
       "dependsOn": [
-        "2c524d6d-f1b7-4694-a793-c5ce55f6f95d",
-        "4abd07f8-34ce-4107-9e66-cb2d30d8e9ed"
+        "75ddeefb-b8a5-4d0f-8d90-e6f09b691df6"
       ]
     },
     {
-      "ref": "b7031bb8-f1cc-46ae-9c29-3a12d604978d",
+      "ref": "c878a853-0ded-4cf2-aa19-c07654f19f79",
+      "dependsOn": []
+    },
+    {
+      "ref": "cc062d23-365c-4a8b-a764-87c55f77e643",
       "dependsOn": [
-        "951c41b9-9dd4-47ca-bc4b-310e00d9be42"
+        "099f77d2-b6c4-470d-a168-ac7261ce6018",
+        "93f400b0-fc7b-40db-b3be-ef402bdc83a4",
+        "f1ac28fa-0a81-4cb5-ba28-d0fd45a61e54",
+        "f3a7eec0-dcfb-4264-b96e-eae4b774c6ce"
       ]
     },
     {
-      "ref": "bc46f20f-eb83-47a0-ab62-8cdee9c43f78",
+      "ref": "cf7d4cb9-3407-4780-97ec-53d303ad6969",
       "dependsOn": []
     },
     {
-      "ref": "bdebafb2-cbe1-411e-9608-4f5cf5b4e21a",
+      "ref": "d119e712-6537-4a23-a043-1000db9050c7",
+      "dependsOn": []
+    },
+    {
+      "ref": "d9688b8d-d21d-427b-8cb5-e4aedd16fc00",
       "dependsOn": [
-        "63e76cad-e118-4b4b-9c58-d85e4fea7caf",
-        "d60c985e-daa7-40b2-acd4-9faff9226945"
+        "b4334f12-2021-4ffc-895b-22c292ff2c1c"
       ]
     },
     {
-      "ref": "ca0f66cc-72b7-4333-b09c-05d98803b599",
-      "dependsOn": []
-    },
-    {
-      "ref": "ce95b8cc-b36c-4de0-932b-b9b276cb51cf",
-      "dependsOn": []
-    },
-    {
-      "ref": "d4ecc465-cb00-41ff-be1b-0133c3d88d1d",
-      "dependsOn": []
-    },
-    {
-      "ref": "d60c985e-daa7-40b2-acd4-9faff9226945",
-      "dependsOn": []
-    },
-    {
-      "ref": "d77b2c26-3c1a-4e6b-af8a-e49f5ad09c67",
-      "dependsOn": []
-    },
-    {
-      "ref": "dc5be7a6-4b6e-4b5f-a3f1-2f5bfc207761",
-      "dependsOn": []
-    },
-    {
-      "ref": "e05a5ab6-cf5f-44de-aa3e-a37676ea26f4",
+      "ref": "db9dd767-f579-4986-b710-1fd339d0723f",
       "dependsOn": [
-        "1fee6e3d-2b1d-4c47-bbce-99c02a712ed6"
+        "5f1aa02d-a5ec-4195-b8e2-df3ea2fd8cc6",
+        "7e79ca53-9c29-4feb-a6e6-c52926e82c2d"
       ]
     },
     {
-      "ref": "e7be94e1-55a0-4075-8a0e-03b6f3002c81",
+      "ref": "df8fe78c-6e13-4e09-90f3-eee7330932b9",
+      "dependsOn": [
+        "77d9e3fb-b1b3-447b-82b8-e6e414f6b558",
+        "abad3e14-fc8e-4463-b5c6-f6f8b0573c72"
+      ]
+    },
+    {
+      "ref": "e082b439-be18-48f2-9534-441556664635",
       "dependsOn": []
     },
     {
-      "ref": "ea4cce81-1689-45ec-a56d-e6820e8b06b4",
-      "dependsOn": [
-        "64c814e9-db72-452a-be79-eca74b9e73b2",
-        "dc5be7a6-4b6e-4b5f-a3f1-2f5bfc207761"
-      ]
-    },
-    {
-      "ref": "ea745640-77a2-4db9-a963-20998d2b7067",
-      "dependsOn": [
-        "ce95b8cc-b36c-4de0-932b-b9b276cb51cf"
-      ]
-    },
-    {
-      "ref": "ec0ff034-eaa0-48f1-9bb8-5720c709d28f",
-      "dependsOn": [
-        "ac499b2f-5f88-447b-bef1-b7f6d57e25d2",
-        "bc46f20f-eb83-47a0-ab62-8cdee9c43f78"
-      ]
-    },
-    {
-      "ref": "f131ed0f-6003-42e7-808f-11fc7a509431",
-      "dependsOn": [
-        "1b2ec832-42d8-4dc9-bc33-0ad79ca8c56f",
-        "267e4a81-4817-4f41-b017-c10930c9b6c0",
-        "3ab0f9bc-28cb-463e-ab40-dfc88b26c47a",
-        "d77b2c26-3c1a-4e6b-af8a-e49f5ad09c67"
-      ]
-    },
-    {
-      "ref": "f7df8b04-cef3-44f1-a9ce-ebf6606e0ef6",
+      "ref": "ebafbc01-0c4c-440c-85d8-351891542226",
       "dependsOn": []
     },
     {
-      "ref": "fadeb0f4-f0f2-4296-bc4f-a9188acbf2de",
+      "ref": "f134ac47-6c99-4fa2-b32d-5264291c3731",
+      "dependsOn": []
+    },
+    {
+      "ref": "f1ac28fa-0a81-4cb5-ba28-d0fd45a61e54",
+      "dependsOn": []
+    },
+    {
+      "ref": "f3a7eec0-dcfb-4264-b96e-eae4b774c6ce",
       "dependsOn": [
-        "47878296-d9d9-4662-a4eb-b206d873b88c"
+        "68eb6a1e-1a81-410f-8465-2ecbab44ebf3",
+        "75ddeefb-b8a5-4d0f-8d90-e6f09b691df6",
+        "93f400b0-fc7b-40db-b3be-ef402bdc83a4",
+        "c878a853-0ded-4cf2-aa19-c07654f19f79"
+      ]
+    },
+    {
+      "ref": "f48c7b52-3361-465e-903e-ffa713db674b",
+      "dependsOn": [
+        "ebafbc01-0c4c-440c-85d8-351891542226"
       ]
     },
     {
       "ref": "pkg:composer/brainmaestro/composer-git-hooks@dev-master",
       "dependsOn": [
-        "f131ed0f-6003-42e7-808f-11fc7a509431"
+        "cc062d23-365c-4a8b-a764-87c55f77e643"
       ]
     },
     {
       "ref": "pkg:composer/brianium/paratest@v7.20.0",
       "dependsOn": [
-        "f131ed0f-6003-42e7-808f-11fc7a509431",
+        "cc062d23-365c-4a8b-a764-87c55f77e643",
         "pkg:composer/fidry/cpu-core-counter@1.3.0",
         "pkg:composer/jean85/pretty-package-versions@2.1.1",
         "pkg:composer/phpunit/php-code-coverage@12.5.6",
@@ -7724,7 +7690,7 @@
     {
       "ref": "pkg:composer/composer/xdebug-handler@3.0.5",
       "dependsOn": [
-        "375393c1-21bc-48d5-84c8-39ee1573a18d",
+        "001ff76d-a4fd-4d8f-a9e6-9a167c0e3207",
         "pkg:composer/composer/pcre@3.3.2"
       ]
     },
@@ -7743,8 +7709,8 @@
     {
       "ref": "pkg:composer/fakerphp/faker@v1.24.1",
       "dependsOn": [
-        "3ab0f9bc-28cb-463e-ab40-dfc88b26c47a",
-        "f7df8b04-cef3-44f1-a9ce-ebf6606e0ef6"
+        "cf7d4cb9-3407-4780-97ec-53d303ad6969",
+        "f1ac28fa-0a81-4cb5-ba28-d0fd45a61e54"
       ]
     },
     {
@@ -7754,14 +7720,14 @@
     {
       "ref": "pkg:composer/filp/whoops@2.18.4",
       "dependsOn": [
-        "375393c1-21bc-48d5-84c8-39ee1573a18d"
+        "001ff76d-a4fd-4d8f-a9e6-9a167c0e3207"
       ]
     },
     {
       "ref": "pkg:composer/friendsofphp/php-cs-fixer@v3.95.1",
       "dependsOn": [
-        "d77b2c26-3c1a-4e6b-af8a-e49f5ad09c67",
-        "f131ed0f-6003-42e7-808f-11fc7a509431",
+        "93f400b0-fc7b-40db-b3be-ef402bdc83a4",
+        "cc062d23-365c-4a8b-a764-87c55f77e643",
         "pkg:composer/clue/ndjson-react@v1.3.0",
         "pkg:composer/composer/semver@3.4.4",
         "pkg:composer/composer/xdebug-handler@3.0.5",
@@ -7794,7 +7760,7 @@
     {
       "ref": "pkg:composer/leafs/exception@v3.7",
       "dependsOn": [
-        "ac667766-cb89-4f66-ab16-d305fcc618bc"
+        "852f982d-437b-4cfc-8e66-73368a6a3580"
       ]
     },
     {
@@ -7834,7 +7800,7 @@
     {
       "ref": "pkg:composer/nunomaduro/collision@v8.9.4",
       "dependsOn": [
-        "f131ed0f-6003-42e7-808f-11fc7a509431",
+        "cc062d23-365c-4a8b-a764-87c55f77e643",
         "pkg:composer/filp/whoops@2.18.4",
         "pkg:composer/nunomaduro/termwind@v2.4.0"
       ]
@@ -7842,13 +7808,13 @@
     {
       "ref": "pkg:composer/nunomaduro/termwind@v2.4.0",
       "dependsOn": [
-        "f131ed0f-6003-42e7-808f-11fc7a509431"
+        "cc062d23-365c-4a8b-a764-87c55f77e643"
       ]
     },
     {
       "ref": "pkg:composer/pdepend/pdepend@2.16.2",
       "dependsOn": [
-        "d77b2c26-3c1a-4e6b-af8a-e49f5ad09c67",
+        "93f400b0-fc7b-40db-b3be-ef402bdc83a4",
         "pkg:composer/symfony/config@v7.4.8",
         "pkg:composer/symfony/dependency-injection@v7.4.8",
         "pkg:composer/symfony/filesystem@v7.4.8"
@@ -8125,17 +8091,17 @@
     {
       "ref": "pkg:composer/symfony/config@v7.4.8",
       "dependsOn": [
-        "3ab0f9bc-28cb-463e-ab40-dfc88b26c47a",
-        "ce95b8cc-b36c-4de0-932b-b9b276cb51cf",
+        "75ddeefb-b8a5-4d0f-8d90-e6f09b691df6",
+        "f1ac28fa-0a81-4cb5-ba28-d0fd45a61e54",
         "pkg:composer/symfony/filesystem@v7.4.8"
       ]
     },
     {
       "ref": "pkg:composer/symfony/dependency-injection@v7.4.8",
       "dependsOn": [
-        "1b2ec832-42d8-4dc9-bc33-0ad79ca8c56f",
-        "3ab0f9bc-28cb-463e-ab40-dfc88b26c47a",
-        "f7df8b04-cef3-44f1-a9ce-ebf6606e0ef6",
+        "099f77d2-b6c4-470d-a168-ac7261ce6018",
+        "cf7d4cb9-3407-4780-97ec-53d303ad6969",
+        "f1ac28fa-0a81-4cb5-ba28-d0fd45a61e54",
         "pkg:composer/symfony/var-exporter@v8.0.8"
       ]
     },
@@ -8154,8 +8120,8 @@
     {
       "ref": "pkg:composer/symfony/filesystem@v7.4.8",
       "dependsOn": [
-        "ce95b8cc-b36c-4de0-932b-b9b276cb51cf",
-        "d77b2c26-3c1a-4e6b-af8a-e49f5ad09c67"
+        "75ddeefb-b8a5-4d0f-8d90-e6f09b691df6",
+        "93f400b0-fc7b-40db-b3be-ef402bdc83a4"
       ]
     },
     {
@@ -8165,7 +8131,7 @@
     {
       "ref": "pkg:composer/symfony/options-resolver@v8.0.8",
       "dependsOn": [
-        "3ab0f9bc-28cb-463e-ab40-dfc88b26c47a"
+        "f1ac28fa-0a81-4cb5-ba28-d0fd45a61e54"
       ]
     },
     {
@@ -8187,7 +8153,7 @@
     {
       "ref": "pkg:composer/symfony/stopwatch@v8.0.8",
       "dependsOn": [
-        "1b2ec832-42d8-4dc9-bc33-0ad79ca8c56f"
+        "099f77d2-b6c4-470d-a168-ac7261ce6018"
       ]
     },
     {
@@ -8214,14 +8180,14 @@
     {
       "ref": "pkg:composer/vardumper/dom-orm@dev-main",
       "dependsOn": [
-        "29a81e7d-8220-4c38-b094-39f909a1a7c3",
-        "34bcefa0-f8e3-49fc-a388-7a8d44bd7405",
-        "63e76cad-e118-4b4b-9c58-d85e4fea7caf",
-        "678eea40-478b-4324-b5b1-a8ddc27130aa",
-        "a4d4f334-8087-4611-b7bb-8cdc3095a893",
-        "bc46f20f-eb83-47a0-ab62-8cdee9c43f78",
-        "ec0ff034-eaa0-48f1-9bb8-5720c709d28f",
-        "fadeb0f4-f0f2-4296-bc4f-a9188acbf2de"
+        "00f06ca5-e63b-4661-89ff-fd773ac7a9ca",
+        "79c33e9f-b4fa-4d0c-b843-407986ea8d46",
+        "961dd981-c7f2-4011-8011-fd3098e6d760",
+        "9aac02c4-40e8-4d51-852b-6f6195f9bc2c",
+        "abad3e14-fc8e-4463-b5c6-f6f8b0573c72",
+        "bc85be5e-b1e8-41fb-bc94-141c04a0161e",
+        "c475c52d-cddf-4c4c-a967-e077aac1c563",
+        "f48c7b52-3361-465e-903e-ffa713db674b"
       ]
     },
     {
@@ -9249,10 +9215,6 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:npm/nanoid@3.3.8",
-      "dependsOn": []
-    },
-    {
       "ref": "pkg:npm/negotiator@1.0.0",
       "dependsOn": []
     },
@@ -9307,14 +9269,6 @@
     {
       "ref": "pkg:npm/picomatch@4.0.4",
       "dependsOn": []
-    },
-    {
-      "ref": "pkg:npm/postcss@8.5.1",
-      "dependsOn": [
-        "pkg:npm/nanoid@3.3.8",
-        "pkg:npm/picocolors@1.1.1",
-        "pkg:npm/source-map-js@1.2.1"
-      ]
     },
     {
       "ref": "pkg:npm/postcss@8.5.10",
@@ -9536,7 +9490,7 @@
       "dependsOn": [
         "pkg:npm/esbuild@0.21.5",
         "pkg:npm/fsevents@2.3.3",
-        "pkg:npm/postcss@8.5.1",
+        "pkg:npm/postcss@8.5.10",
         "pkg:npm/rollup@4.60.1"
       ]
     },
@@ -9667,59 +9621,6 @@
           "versions": [
             {
               "version": "5.4.21",
-              "status": "affected"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "CVE-2026-41305",
-      "source": {
-        "name": "ghsa",
-        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
-      },
-      "ratings": [
-        {
-          "source": {
-            "name": "ghsa"
-          },
-          "score": 6.1,
-          "severity": "medium",
-          "method": "CVSSv31",
-          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
-        }
-      ],
-      "cwes": [
-        79
-      ],
-      "description": "PostCSS takes a CSS file and provides an API to analyze and modify its rules by transforming the rules into an Abstract Syntax Tree. Versions prior to 8.5.10 do not escape `</style>` sequences when stringifying CSS ASTs. When user-submitted CSS is parsed and re-stringified for embedding in HTML `<style>` tags, `</style>` in CSS values breaks out of the style context, enabling XSS. Version 8.5.10 fixes the issue.",
-      "recommendation": "Upgrade postcss to version 8.5.10",
-      "advisories": [
-        {
-          "url": "https://avd.aquasec.com/nvd/cve-2026-41305"
-        },
-        {
-          "url": "https://github.com/postcss/postcss"
-        },
-        {
-          "url": "https://github.com/postcss/postcss/releases/tag/8.5.10"
-        },
-        {
-          "url": "https://github.com/postcss/postcss/security/advisories/GHSA-qx2v-qp2m-jg93"
-        },
-        {
-          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-41305"
-        }
-      ],
-      "published": "2026-04-24T03:16:11+00:00",
-      "updated": "2026-04-24T17:16:21+00:00",
-      "affects": [
-        {
-          "ref": "pkg:npm/postcss@8.5.1",
-          "versions": [
-            {
-              "version": "8.5.1",
               "status": "affected"
             }
           ]
