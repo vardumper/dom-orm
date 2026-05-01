@@ -134,7 +134,7 @@ if [ -x $PHPMD ]; then
 fi
 
 run_phpmd() {
-  RUN php -d error_reporting=E_ALL "$PHPMD" "$1" text phpmd.xml
+  RUN php -d error_reporting='E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED' "$PHPMD" "$1" text phpmd.xml
 }
 
 if $HAS_PHPMD; then
