@@ -22,6 +22,8 @@ use League\Flysystem\Visibility;
  *
  * This adapter keeps files in PHP memory only and can be selected via
  * `dom-orm.flysystem.adapter` / `DOM_ORM_FLYSYSTEM_ADAPTER`.
+ *
+ * @SuppressWarnings("PHPMD.TooManyPublicMethods")
  */
 final class InMemoryFilesystemAdapter implements FilesystemAdapter
 {
@@ -49,6 +51,22 @@ final class InMemoryFilesystemAdapter implements FilesystemAdapter
                     ],
                 ],
             ];
+        }
+    }
+
+    /**
+     * Clear one or all in-memory buckets.
+     *
+     * Call after the XML has been flushed to the database column to release
+     * the memory held by that bucket.  Omit the argument to clear every
+     * namespace, or pass a specific location key to clear only that one.
+     */
+    public static function reset(?string $bucketKey = null): void
+    {
+        if ($bucketKey === null) {
+            self::$buckets = [];
+        } else {
+            unset(self::$buckets[$bucketKey]);
         }
     }
 

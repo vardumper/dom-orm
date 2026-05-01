@@ -191,7 +191,6 @@ function resetEntityManagerStatics(string $class): void
         while ($reflection !== false) {
             if ($reflection->hasProperty($prop)) {
                 $p = $reflection->getProperty($prop);
-                $p->setAccessible(true);
                 $p->setValue(null, null);
                 break;
             }

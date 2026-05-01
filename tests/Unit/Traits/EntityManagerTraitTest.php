@@ -26,7 +26,6 @@ function resetEntityManagerSharedState(): void
 
     foreach (['sharedStorage', 'sharedSerializer'] as $propertyName) {
         $property = $reflection->getProperty($propertyName);
-        $property->setAccessible(true);
         $property->setValue(null, null);
     }
 }
