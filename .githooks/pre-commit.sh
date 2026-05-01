@@ -191,7 +191,7 @@ if $HAS_PEST; then
   if [ -z "$CHANGED_FILES" ]; then
     printf "\nNo PHP file in this commit. Skipping Pest and Clover refresh.\n"
   else
-    if RUN $PEST tests/Unit --exclude-group=benchmark,external-bin --testdox --colors=always; then
+    if RUN $PEST tests/Unit --exclude-group=benchmark --exclude-group=external-bin --testdox --colors=always; then
       printf "${GREEN}Unit tests passed${NC}\n"
 
       if RUN composer run test:coverage:unit \
