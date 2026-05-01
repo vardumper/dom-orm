@@ -190,6 +190,7 @@ printf "${YELLOW}Pest Unit Tests${NC}\n"
 if $HAS_PEST; then
   if [ -z "$CHANGED_FILES" ]; then
     printf "\nNo PHP file in this commit. Skipping Pest and Clover refresh.\n"
+    printf "${YELLOW}Clover reports unchanged (no staged PHP files) at $(date '+%Y-%m-%d %H:%M:%S')${NC}\n"
   else
     if RUN $PEST tests/Unit --exclude-group=benchmark --exclude-group=external-bin --testdox --colors=always; then
       printf "${GREEN}Unit tests passed${NC}\n"
@@ -198,7 +199,7 @@ if $HAS_PEST; then
         && RUN composer run test:coverage:integration \
         && RUN php bin/merge-clover.php clover.xml clover.unit.xml clover.integration.xml; then
         git add clover.unit.xml clover.integration.xml clover.xml
-        printf "${GREEN}Clover reports updated (unit, integration, merged)${NC}\n"
+        printf "${GREEN}Clover reports updated (unit, integration, merged) at $(date '+%Y-%m-%d %H:%M:%S')${NC}\n"
       else
         printf "${RED}Coverage generation/merge failed${NC}\n"
         PASS=false
