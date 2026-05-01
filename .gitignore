@@ -15,3 +15,4 @@ cghooks.lock
 events.log
 /coverage-report-unit
 /coverage-report-integration
+/storage/data.xml.lock
