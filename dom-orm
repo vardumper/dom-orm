@@ -163,8 +163,8 @@ $app->command('diagnose', function (ConsoleOutputInterface $output) {
 });
 
 $app->command(
-    'perf [--count=] [--sample=] [--keep]',
-    function (?int $count, ?int $sample, bool $keep, ConsoleOutputInterface $output): void {
+    'perf [--count=] [--sample=] [--keep] [--in-memory] [--compare-adapters]',
+    function (?int $count, ?int $sample, bool $keep, bool $inMemory, bool $compareAdapters, ConsoleOutputInterface $output): void {
         $count  = $count  ?? 100_000;
         $sample = $sample ?? 50;
 
@@ -179,8 +179,19 @@ $app->command(
         $output->writeln('');
         $output->writeln("<options=bold>Running… (this may take a minute)</>\n");
 
-        $s  = Perf::run($count, $sample, $keep);
+        $s  = Perf::run($count, $sample, $keep, $inMemory);
         $ms = static fn (float $v): string => \number_format($v, 2) . ' ms';
+        $adapterLabel = $s['adapter'] === 'in_memory' ? 'InMemoryFilesystemAdapter' : 'LocalFilesystemAdapter';
+
+        $output->writeln('<options=bold>[ADAPTER]</>');
+        $output->writeln(\sprintf('  Mode                : <fg=green>%s</>', $adapterLabel));
+
+        $output->writeln('');
+        $output->writeln('<options=bold>[MEMORY]</>');
+        $output->writeln(\sprintf('  Start               : <fg=green>%s MB</>', \number_format($s['memory_start_mb'], 2)));
+        $output->writeln(\sprintf('  End                 : <fg=green>%s MB</>', \number_format($s['memory_end_mb'], 2)));
+        $output->writeln(\sprintf('  Peak                : <fg=green>%s MB</>', \number_format($s['memory_peak_mb'], 2)));
+        $output->writeln(\sprintf('  Delta               : <fg=green>%s MB</>', \number_format($s['memory_delta_mb'], 2)));
 
         $output->writeln('<options=bold>[WRITE — one-by-one]</>');
         $output->writeln(\sprintf(
@@ -232,6 +243,38 @@ $app->command(
             $ms($s['cache_find_one_by_ms']),
             $s['find_one_by_ms'] / \max($s['cache_find_one_by_ms'], 0.001),
         ));
+
+        if ($compareAdapters) {
+            $output->writeln('');
+            $output->writeln('<options=bold>[IN-MEMORY COMPARISON]</>');
+
+            $local = $s['adapter'] === 'local' ? $s : Perf::run($count, $sample, $keep, false);
+            $inMem = $s['adapter'] === 'in_memory' ? $s : Perf::run($count, $sample, $keep, true);
+
+            $output->writeln(\sprintf(
+                '  Batch write total    : local <fg=green>%s</> vs in-memory <fg=green>%s</> (<fg=cyan>%.2f×</> local/in-memory)',
+                $ms($local['batch_total_ms']),
+                $ms($inMem['batch_total_ms']),
+                $local['batch_total_ms'] / \max($inMem['batch_total_ms'], 0.001),
+            ));
+            $output->writeln(\sprintf(
+                '  findAll()            : local <fg=green>%s</> vs in-memory <fg=green>%s</> (<fg=cyan>%.2f×</> local/in-memory)',
+                $ms($local['find_all_ms']),
+                $ms($inMem['find_all_ms']),
+                $local['find_all_ms'] / \max($inMem['find_all_ms'], 0.001),
+            ));
+            $output->writeln(\sprintf(
+                '  Peak memory          : local <fg=green>%s MB</> vs in-memory <fg=green>%s MB</>',
+                \number_format($local['memory_peak_mb'], 2),
+                \number_format($inMem['memory_peak_mb'], 2),
+            ));
+            $output->writeln(\sprintf(
+                '  Memory delta         : local <fg=green>%s MB</> vs in-memory <fg=green>%s MB</>',
+                \number_format($local['memory_delta_mb'], 2),
+                \number_format($inMem['memory_delta_mb'], 2),
+            ));
+        }
+
         $output->writeln('');
     },
 );

@@ -8,9 +8,11 @@ use DOM\ORM\Entity\AbstractEntity;
 use DOM\ORM\Mapping\Fragment;
 use DOM\ORM\Mapping\Item;
 use DOM\ORM\Repository\EntityRepository;
+use DOM\ORM\Storage\InMemoryFilesystemAdapter;
 use DOM\ORM\Storage\QueryCache;
 use DOM\ORM\Traits\EntityManagerTrait;
 use Faker\Factory as FakerFactory;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 
 // ---------------------------------------------------------------------------
 // Inline entity — only exists for the perf run, lives alongside the command.
@@ -126,7 +128,9 @@ class Perf
      * @param int  $count        Total entities to seed (default 100 000).
      * @param int  $sampleSize   How many to insert one-by-one for the baseline (default 50).
      * @param bool $keepStorage  When false (default) the perf storage file is deleted after the run.
+     * @param bool $useInMemory  When true, run benchmark with InMemoryFilesystemAdapter.
      * @return array{
+     *   adapter: string,
      *   count: int,
      *   sample_size: int,
      *   one_by_one_sample_ms: float,
@@ -142,16 +146,23 @@ class Perf
      *   cache_find_all_ms: float|null,
      *   cache_find_one_ms: float|null,
      *   cache_find_one_by_ms: float|null,
+     *   memory_start_mb: float,
+     *   memory_end_mb: float,
+     *   memory_peak_mb: float,
+     *   memory_delta_mb: float,
      * }
      */
-    public static function run(int $count = 100_000, int $sampleSize = 50, bool $keepStorage = false): array
+    public static function run(int $count = 100_000, int $sampleSize = 50, bool $keepStorage = false, bool $useInMemory = false): array
     {
         // Benchmarking 100k entities needs more RAM than the PHP default.
         \ini_set('memory_limit', '1G');
+        $memoryStartBytes = \memory_get_usage(true);
         $storageDir = \sys_get_temp_dir() . '/dom_orm_perf';
-        $storageFile = $storageDir . '/perf_data.xml';
+        $filename = 'perf_data.xml';
+        $storageFile = $storageDir . '/' . $filename;
         $cacheFile = $storageDir . '/perf_cache.php';
         $configFile = \getcwd() . '/dom-orm.php';
+        $adapterClass = $useInMemory ? InMemoryFilesystemAdapter::class : LocalFilesystemAdapter::class;
 
         // ---- Write a temporary dom-orm.php config -------------------------
         $prevConfig = \file_exists($configFile) ? \file_get_contents($configFile) : null;
@@ -159,17 +170,31 @@ class Perf
         if (!\is_dir($storageDir)) {
             \mkdir($storageDir, 0755, true);
         }
-        \file_put_contents($storageFile, '<?xml version="1.0" encoding="utf-8"?>' . "\n<data/>");
+
+        $initializeStorage = static function () use ($useInMemory, $storageDir, $storageFile, $filename): void {
+            $xml = '<?xml version="1.0" encoding="utf-8"?>' . "\n<data/>";
+            if ($useInMemory) {
+                InMemoryFilesystemAdapter::reset($storageDir);
+                $adapter = new InMemoryFilesystemAdapter($storageDir);
+                $adapter->write($filename, $xml, new \League\Flysystem\Config());
+
+                return;
+            }
+
+            \file_put_contents($storageFile, $xml);
+        };
+
+        $initializeStorage();
 
         \file_put_contents($configFile, '<?php return ' . \var_export([
             'dom-orm' => [
                 'flysystem' => [
-                    'adapter' => \League\Flysystem\Local\LocalFilesystemAdapter::class,
+                    'adapter' => $adapterClass,
                     'config' => [
                         'location' => $storageDir,
                     ],
                 ],
-                'filename' => 'perf_data.xml',
+                'filename' => $filename,
                 'encryption_key' => null,
                 'cache_path' => $cacheFile,
                 'cache_strategy' => 'manual',
@@ -198,7 +223,7 @@ class Perf
         }
 
         // Write a fresh empty XML for the one-by-one sample run.
-        \file_put_contents($storageFile, '<?xml version="1.0" encoding="utf-8"?>' . "\n<data/>");
+        $initializeStorage();
         self::resetSharedSingletons();
 
         $mgr = new PerfManager();
@@ -211,7 +236,7 @@ class Perf
         $oneByOneEstMs = $oneByOnePer * $count;
 
         // ---- 2. BATCH INSERT (all $count entities) ------------------------
-        \file_put_contents($storageFile, '<?xml version="1.0" encoding="utf-8"?>' . "\n<data/>");
+        $initializeStorage();
         self::resetSharedSingletons();
 
         $mgr2 = new PerfManager();
@@ -219,7 +244,7 @@ class Perf
         $mgr2->batchInsert($sample);
         $batchMs = (\hrtime(true) - $t1) / 1_000_000;
         $batchPer = $batchMs / $count;
-        $batchXmlKb = (int)(\filesize($storageFile) / 1024);
+        $batchXmlKb = \file_exists($storageFile) ? (int)(\filesize($storageFile) / 1024) : 0;
 
         // ---- 3. QUERY — XPath (no cache) ---------------------------------
         self::resetSharedSingletons();
@@ -275,6 +300,10 @@ class Perf
             if (\is_dir($storageDir)) {
                 @\rmdir($storageDir);
             }
+
+            if ($useInMemory) {
+                InMemoryFilesystemAdapter::reset($storageDir);
+            }
         }
 
         // Restore the previous config (or remove the temp one).
@@ -286,7 +315,11 @@ class Perf
 
         self::resetSharedSingletons();
 
+        $memoryEndBytes = \memory_get_usage(true);
+        $memoryPeakBytes = \memory_get_peak_usage(true);
+
         return [
+            'adapter' => $useInMemory ? 'in_memory' : 'local',
             'count' => $count,
             'sample_size' => $sampleSize,
             'one_by_one_sample_ms' => \round($oneByOneMs, 2),
@@ -302,6 +335,10 @@ class Perf
             'cache_find_all_ms' => \round($cacheFindAllMs, 2),
             'cache_find_one_ms' => \round($cacheFindOneMs, 2),
             'cache_find_one_by_ms' => \round($cacheFindOneByMs, 2),
+            'memory_start_mb' => \round($memoryStartBytes / 1_048_576, 2),
+            'memory_end_mb' => \round($memoryEndBytes / 1_048_576, 2),
+            'memory_peak_mb' => \round($memoryPeakBytes / 1_048_576, 2),
+            'memory_delta_mb' => \round(($memoryEndBytes - $memoryStartBytes) / 1_048_576, 2),
         ];
     }
 
@@ -314,7 +351,6 @@ class Perf
             while ($r !== false) {
                 if ($r->hasProperty($prop)) {
                     $p = $r->getProperty($prop);
-                    $p->setAccessible(true);
                     $p->setValue(null, null);
                     break;
                 }
