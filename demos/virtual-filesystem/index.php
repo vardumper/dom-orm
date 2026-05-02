@@ -35,6 +35,7 @@ function renderHtml(): string
 
     $xsl = new DOMDocument();
     $xsl->load(__DIR__ . '/templates/filesystem.xsl');
+    $xsl->documentURI = 'file://' . __DIR__ . '/';
 
     $proc = new XSLTProcessor();
     $proc->importStylesheet($xsl);
@@ -215,6 +216,7 @@ app()->get('/api/table', function () {
 
     $xsl = new DOMDocument();
     $xsl->load(__DIR__ . '/templates/table.xsl');
+    $xsl->documentURI = 'file://' . __DIR__ . '/';
 
     $proc = new XSLTProcessor();
     $proc->importStylesheet($xsl);
