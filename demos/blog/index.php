@@ -129,26 +129,31 @@ $twig->addGlobal('basePath', $basePath);
 
 // ── Routes ───────────────────────────────────────────────────────────────────
 
+function loadRawXml(): string
+{
+    $xmlPath = __DIR__ . '/storage/data.xml';
+    if (!is_file($xmlPath)) {
+        return '';
+    }
+    $dom = new DOMDocument();
+    $dom->formatOutput = true;
+    $dom->load($xmlPath);
+    return (string)$dom->saveXML();
+}
+
 app()->get('/', function () use ($twig) {
     $articles = (new BlogManager())->findAllArticles();
     echo $twig->render('index.twig', [
         'articles' => $articles,
+        'rawXml'   => loadRawXml(),
     ]);
 });
 
 app()->get('/admin', function () use ($twig) {
     $articles = (new BlogManager())->findAllArticles();
-    $rawXml = '';
-    $xmlPath = __DIR__ . '/storage/data.xml';
-    if (is_file($xmlPath)) {
-        $dom = new DOMDocument();
-        $dom->formatOutput = true;
-        $dom->load($xmlPath);
-        $rawXml = (string)$dom->saveXML();
-    }
     echo $twig->render('admin/index.twig', [
         'articles' => $articles,
-        'rawXml' => $rawXml,
+        'rawXml'   => loadRawXml(),
     ]);
 });
 

@@ -1,9 +1,55 @@
 {% extends 'layout.twig' %}
 
+{% block head_extra %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css"/>
+<style>
+  body { padding-bottom: 28vh; }
+  #xml-viewer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 28vh;
+    z-index: 98;
+    display: flex;
+    flex-direction: column;
+  }
+  #xml-viewer-bar {
+    padding: 0.3rem 1rem;
+    background: #21252b;
+    color: #abb2bf;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    border-top: 2px solid #3d4148;
+  }
+  #raw-xml-pre {
+    margin: 0;
+    border-radius: 0;
+    flex: 1;
+    overflow: auto;
+  }
+  #raw-xml-pre code.hljs {
+    font-size: 0.75em;
+    border-radius: 0;
+    padding: 0.75rem 1rem;
+    min-height: 100%;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
   {% for article in articles %}
     {% include 'article.twig' with { article: article } %}
   {% else %}
-    <p><em>No articles yet. Visit the <a href="/admin">admin panel</a> to add one.</em></p>
+    <p><em>No articles yet. Visit the <a href="{{ basePath }}/admin">admin panel</a> to add one.</em></p>
   {% endfor %}
+{% endblock %}
+
+{% block body_extra %}
+<div id="xml-viewer">
+  <div id="xml-viewer-bar"><strong>Raw XML</strong></div>
+  <pre id="raw-xml-pre"><code class="language-xml">{{ rawXml }}</code></pre>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+<script>hljs.highlightElement(document.querySelector('#raw-xml-pre code'));</script>
 {% endblock %}
