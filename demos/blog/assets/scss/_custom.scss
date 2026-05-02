@@ -41,13 +41,20 @@
   --pico-font-size: 93.75%;
 }
 
-// ── Headings: Calistoga font ──────────────────────────────────────────────────
+// ── Headings: Calistoga font + 125% of default Pico v2 sizes ─────────────────
 h1, h2, h3, h4, h5, h6 {
   font-family: "Calistoga", serif;
   font-weight: 400;
   --pico-font-family: "Calistoga", serif;
   --pico-font-weight: 400;
 }
+
+h1 { --pico-font-size: 2.5rem; }
+h2 { --pico-font-size: 2.1875rem; }
+h3 { --pico-font-size: 1.875rem; }
+h4 { --pico-font-size: 1.5625rem; }
+h5 { --pico-font-size: 1.40625rem; }
+h6 { --pico-font-size: 1.25rem; }
 
 // ── Content width (matches AMP example breakpoints) ──────────────────────────
 body > main,

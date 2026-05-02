@@ -138,8 +138,17 @@ app()->get('/', function () use ($twig) {
 
 app()->get('/admin', function () use ($twig) {
     $articles = (new BlogManager())->findAllArticles();
+    $rawXml = '';
+    $xmlPath = __DIR__ . '/storage/data.xml';
+    if (is_file($xmlPath)) {
+        $dom = new DOMDocument();
+        $dom->formatOutput = true;
+        $dom->load($xmlPath);
+        $rawXml = (string)$dom->saveXML();
+    }
     echo $twig->render('admin/index.twig', [
         'articles' => $articles,
+        'rawXml' => $rawXml,
     ]);
 });
 
