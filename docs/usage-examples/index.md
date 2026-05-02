@@ -5,7 +5,7 @@
 ![virtual filesystem](https://dom-orm.erikpoehler.com/virtual-filesystem/assets/images/virtual-filesystem.png)
 This example is to illustrate how a filesystem tree can be persisted with DOM-ORM. See the [source code](https://github.com/vardumper/dom-orm/tree/main/demos/virtual-filesystem). 
 
-[https://dom-orm.erikpoehler.com/virtual-filesystem/](https://dom-orm.erikpoehler.com/virtual-filesystem/)
+[Virtual Filesystem Demo](https://dom-orm.erikpoehler.com/virtual-filesystem/)
 
 ### Explanations
 1. Look at the demo entities [VirtualFolder](https://github.com/vardumper/dom-orm/blob/main/demos/virtual-filesystem/models/VirtualFolder.php) and [VirtualFile](https://github.com/vardumper/dom-orm/blob/main/demos/virtual-filesystem/models/VirtualFile.php). Both define what fields they consist of and how to store them in DOM-ORM by using PHP attributes.
@@ -16,8 +16,12 @@ This example is to illustrate how a filesystem tree can be persisted with DOM-OR
 ## A minmal blog
 
 ![blog](https://dom-orm.erikpoehler.com/blog/assets/images/blog.png)
+
+[Blog Demo](https://dom-orm.erikpoehler.com/blog/)
+
 This example illustrates how to store Article, Image and Comment entities into a DOM-ORM XML flatfile database. See the [source code](https://github.com/vardumper/dom-orm/tree/main/demos/blog). 
 
 ### Explanation
 1. In the Demo, you see a basic blog theme with Twig rendered templates.
-2. The Demo is reset automatically.
+2. Head to [Admin](https://dom-orm.erikpoehler.com/blog/admin) in order to add or delete posts and comments.
+3. The Demo is reset automatically.
