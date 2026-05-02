@@ -5,6 +5,8 @@
     <xsl:strip-space elements="*"/>
 
     <xsl:param name="raw-xml"/>
+    <xsl:param name="elapsed-ms"/>
+    <xsl:param name="memory-mb"/>
 
     <xsl:include href="_table.xsl"/>
 
@@ -19,7 +21,6 @@
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css" />
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css"/>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
                 <script src="assets/js/modal.js"></script>
                 <script src="assets/js/filesystem.js" defer="defer"></script>
                 <style>
@@ -28,12 +29,13 @@
                     [contenteditable] { outline: 2px solid transparent; border-radius: 2px; padding: 1px 4px; }
                     [contenteditable]:focus { outline: 2px solid #D47DE4; }
                     html,body {height: 100vh;padding-block: 0;}
-                    body>footer {position: sticky;top: 100vh;padding-block:0;}
-                    footer {margin-bottom: 0; padding-bottom:0}
-                    textarea.code { font-family: monospace; font-size: 0.8em; border-radius: 0; margin-bottom:0; }
-                    progress {margin:0;padding:0;border-radius:0;width:100%;visibility:hidden;}
-                    #raw-xml-pre { margin: 0; border-radius: 0; overflow-x: auto; }
-                    #raw-xml-pre code.hljs { font-size: 0.8em; padding: 1rem; border-radius: 0; }
+                    body { padding-bottom: 28vh; }
+                    #xml-viewer { position: fixed; bottom: 0; left: 0; right: 0; height: 28vh; z-index: 98; display: flex; flex-direction: column; }
+                    #xml-viewer-bar { padding: 0.3rem 1rem; background: #21252b; color: #abb2bf; font-size: 0.75rem; flex-shrink: 0; border-top: 2px solid #3d4148; display: flex; gap: 1.5rem; align-items: center; }
+                    #xml-viewer-bar strong { color: #fff; }
+                    #xml-viewer-bar .stat { opacity: 0.7; }
+                    #raw-xml-pre { margin: 0; border-radius: 0; flex: 1; overflow: auto; }
+                    #raw-xml-pre code.hljs { font-size: 0.75em; padding: 0.75rem 1rem; border-radius: 0; }
                     tr:hover td { background-color: #f0f0f0; }
                     .row-actions button { padding: 2px 4px; border: none; box-shadow: none; }
                     .row-actions button svg { width: 20px; height: 20px; vertical-align: middle; display: inline-block; }
@@ -126,11 +128,16 @@
                         </article>
                     </dialog>
                 </main>
-                <footer>
-                    <strong>Raw XML</strong>
-                    <progress />
+                <div id="xml-viewer">
+                    <div id="xml-viewer-bar">
+                        <strong>Raw XML</strong>
+                        <span class="stat"><xsl:value-of select="$elapsed-ms"/> ms</span>
+                        <span class="stat"><xsl:value-of select="$memory-mb"/> MB</span>
+                    </div>
                     <pre id="raw-xml-pre"><code class="language-xml" id="raw-xml-display"><xsl:value-of select="$raw-xml"/></code></pre>
-                </footer>
+                </div>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+                <script>hljs.highlightElement(document.getElementById('raw-xml-display'));</script>
             </body>
         </html>
     </xsl:template>

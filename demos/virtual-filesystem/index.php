@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+$startTime = microtime(true);
+
 use DOM\ORM\Storage\StorageService;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -40,6 +42,8 @@ function renderHtml(): string
     $proc = new XSLTProcessor();
     $proc->importStylesheet($xsl);
     $proc->setParameter('', 'raw-xml', $xml);
+    $proc->setParameter('', 'elapsed-ms', (string)(int)round((microtime(true) - $GLOBALS['startTime']) * 1000));
+    $proc->setParameter('', 'memory-mb', number_format(memory_get_usage(true) / 1048576, 1));
 
     return (string)$proc->transformToXML($doc);
 }
