@@ -5,6 +5,7 @@
   "require": {
     "php": ">=8.3 <8.6",
     "leafs/leaf": "^3.0 || ^4.0 || ^5.0",
+    "twig/twig": "^3.0",
     "vardumper/dom-orm": "dev-main"
   },
   "repositories": [
@@ -17,7 +18,8 @@
     }
   ],
   "scripts": {
-    "demo:virtual-filesystem": "@php virtual-filesystem/index.php"
+    "demo:virtual-filesystem": "@php virtual-filesystem/index.php",
+    "demo:blog": "@php blog/index.php"
   },
   "minimum-stability": "dev",
   "prefer-stable": true

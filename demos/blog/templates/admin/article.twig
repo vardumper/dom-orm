@@ -1,0 +1,30 @@
+{# Admin article card with delete controls. Variables: article #}
+<article data-id="{{ article.id|e }}">
+  <header class="admin-article-header">
+    <div>
+      <h3 style="margin:0">{{ article.title|e }}</h3>
+      {% if article.subline %}<p style="margin:0.25rem 0 0">{{ article.subline|e }}</p>{% endif %}
+      <small>By <strong>{{ article.author|e }}</strong> &mdash; {{ article.createdAt|date('Y-m-d H:i') }}</small>
+    </div>
+    <button class="outline secondary btn-sm" onclick="removeArticle('{{ article.id|e('js') }}')">Delete article</button>
+  </header>
+
+  {% if article.image %}
+  <figure>
+    <img src="data:{{ article.image.mimeType|e }};base64,{{ article.image.content }}" alt="{{ article.image.name|e }}" />
+  </figure>
+  {% endif %}
+
+  <p>{{ article.body|e|nl2br }}</p>
+
+  <section>
+    <h4>Comments ({{ article.comments|length }})</h4>
+    <ul class="comment-list">
+      {% for comment in article.comments %}
+        {% include 'admin/comment.twig' with { comment: comment, articleId: article.id } %}
+      {% else %}
+        <li><em>No comments yet.</em></li>
+      {% endfor %}
+    </ul>
+  </section>
+</article>

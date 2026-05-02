@@ -34,7 +34,7 @@ function renderHtml(): string
     $doc->loadXML($xml);
 
     $xsl = new DOMDocument();
-    $xsl->load(__DIR__ . '/filesystem.xsl');
+    $xsl->load(__DIR__ . '/templates/filesystem.xsl');
 
     $proc = new XSLTProcessor();
     $proc->importStylesheet($xsl);
@@ -214,7 +214,7 @@ app()->get('/api/table', function () {
     $doc->loadXML($xml);
 
     $xsl = new DOMDocument();
-    $xsl->load(__DIR__ . '/table.xsl');
+    $xsl->load(__DIR__ . '/templates/table.xsl');
 
     $proc = new XSLTProcessor();
     $proc->importStylesheet($xsl);

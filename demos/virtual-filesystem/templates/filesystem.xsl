@@ -55,7 +55,10 @@
                             <h2>Storing and hydrating PHP objects to and from XML.</h2>
                         </hgroup>
                         <p>
-                            Try renaming files/folders by clicking on their names. Create new folders with the "Add Folder" button.
+                            This demo uses simple file and folder PHP classes, that can be directly persisted and hydrated to and from XML. 
+                            I used XSLT here to render the XML into HTML. If you're interested in other templating engines such as Twig, check out the Blog demo.
+                            In this demo, you can rename files &amp; folders by clicking on their names.
+                            You can preview, delete and add new files and folders. Every 10 minutes the XML is restored to its initial state. 
                         </p>
                     </section>
                     <section>

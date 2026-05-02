@@ -1,0 +1,3 @@
+// Compile only the custom layer on top of Pico CDN.
+// Pico itself is loaded via CDN in layout.twig.
+@use "custom";

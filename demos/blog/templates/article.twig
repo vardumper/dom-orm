@@ -1,0 +1,33 @@
+{# Public article card — no admin controls. Variables: article #}
+<article>
+  <hgroup>
+    <h3>{{ article.title|e }}</h3>
+    {% if article.subline %}<p>{{ article.subline|e }}</p>{% endif %}
+  </hgroup>
+  <p>
+    <a role="button" class="btn-share btn-share--twitter" aria-label="Share on Twitter" href="#" onclick="window.open('https://twitter.com/intent/tweet?text={{ article.title|e('js')|url_encode }}&url='+encodeURIComponent(location.href),'_blank');return false;"></a>
+    <a role="button" class="btn-share btn-share--facebook" aria-label="Share on Facebook" href="#" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'_blank');return false;"></a>
+    <a role="button" class="btn-share btn-share--pinterest" aria-label="Share on Pinterest" href="#" onclick="window.open('https://pinterest.com/pin/create/button/?url='+encodeURIComponent(location.href)+'&description={{ article.title|e('js')|url_encode }}','_blank');return false;"></a>
+  </p>
+  <small>By <strong>{{ article.author|e }}</strong> &mdash; {{ article.createdAt|date('Y-m-d H:i') }}</small>
+
+  {% if article.image %}
+  <figure>
+    <img src="data:{{ article.image.mimeType|e }};base64,{{ article.image.content }}" alt="{{ article.image.name|e }}" />
+  </figure>
+  {% endif %}
+
+  <p>{{ article.body|e|nl2br }}</p>
+
+  <details>
+    <summary>Comments ({{ article.comments|length }})</summary>
+    <ul class="comment-list">
+      {% for comment in article.comments %}
+        {% include 'comment.twig' with { comment: comment } %}
+      {% else %}
+        <li><em>No comments yet.</em></li>
+      {% endfor %}
+    </ul>
+    {% include 'comment-add.twig' with { articleId: article.id } %}
+  </details>
+</article>

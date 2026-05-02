@@ -1,0 +1,9 @@
+{# Inline comment form. Variable: articleId #}
+<article class="comment-form">
+  <h3>Add a comment</h3>
+  <form onsubmit="addComment(event, '{{ articleId|e('js') }}')">
+    <input name="author" placeholder="Your name" required />
+    <textarea name="body" placeholder="Your comment…" required></textarea>
+    <button type="submit">Post comment</button>
+  </form>
+</article>

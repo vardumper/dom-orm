@@ -1,0 +1,11 @@
+{# Admin comment row with delete control. Variables: comment, articleId #}
+<li>
+  <div style="display:flex; justify-content:space-between; align-items:baseline; gap:1rem;">
+    <span>
+      <strong>{{ comment.author|e }}</strong>
+      <span class="comment-date">{{ comment.createdAt|date('Y-m-d H:i') }}</span>
+    </span>
+    <button class="outline secondary btn-sm" onclick="removeComment('{{ articleId|e('js') }}', '{{ comment.id|e('js') }}')">Delete</button>
+  </div>
+  <p>{{ comment.body|e|nl2br }}</p>
+</li>

@@ -1,0 +1,14 @@
+{# Standalone new-article form #}
+<form onsubmit="createArticle(event)">
+  <fieldset class="grid">
+    <input name="author" placeholder="Author" required />
+    <input name="title" placeholder="Title" required />
+  </fieldset>
+  <input name="subline" placeholder="Subline (optional)" />
+  <textarea name="body" placeholder="Body…" required></textarea>
+  <label>
+    Cover image (optional)
+    <input type="file" name="image" accept="image/jpeg,image/png,image/gif,image/webp" />
+  </label>
+  <button type="submit">Publish article</button>
+</form>

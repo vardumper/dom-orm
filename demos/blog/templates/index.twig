@@ -1,0 +1,9 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+  {% for article in articles %}
+    {% include 'article.twig' with { article: article } %}
+  {% else %}
+    <p><em>No articles yet. Visit the <a href="/admin">admin panel</a> to add one.</em></p>
+  {% endfor %}
+{% endblock %}

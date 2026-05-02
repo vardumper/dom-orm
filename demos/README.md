@@ -18,6 +18,12 @@ Execute the virtual filesystem demo:
 composer run demo:virtual-filesystem
 ```
 
+Execute the blog demo:
+
+```bash
+composer run demo:blog
+```
+
 ## Notes
 
 - This workspace has its own dependency graph and lockfile.

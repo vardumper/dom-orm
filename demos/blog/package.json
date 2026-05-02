@@ -1,0 +1,12 @@
+{
+  "name": "dom-orm-blog-demo",
+  "private": true,
+  "scripts": {
+    "build:css": "sass assets/scss/main.scss assets/css/styles.css --style=compressed --no-source-map --load-path=node_modules",
+    "watch:css": "sass assets/scss/main.scss assets/css/styles.css --watch --load-path=node_modules"
+  },
+  "devDependencies": {
+    "@picocss/pico": "^2.0.0",
+    "sass": "^1.0.0"
+  }
+}

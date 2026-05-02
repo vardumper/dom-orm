@@ -1,0 +1,347 @@
+/**
+ * Custom Styles — DOM-ORM Blog Demo
+ */
+
+// ── Color theme: pink (matches AMP example) ───────────────────────────────────
+:root,
+[data-theme="light"] {
+  --pico-primary:              #d81b60;
+  --pico-primary-background:   #d81b60;
+  --pico-primary-border:       #d81b60;
+  --pico-primary-hover:        #c2185b;
+  --pico-primary-hover-background: #c2185b;
+  --pico-primary-focus:        rgba(216, 27, 96, 0.125);
+  --pico-primary-inverse:      #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --pico-primary:              #d81b60;
+    --pico-primary-background:   #d81b60;
+    --pico-primary-border:       #d81b60;
+    --pico-primary-hover:        #e91e63;
+    --pico-primary-hover-background: #e91e63;
+    --pico-primary-focus:        rgba(216, 27, 96, 0.25);
+    --pico-primary-inverse:      #fff;
+  }
+}
+
+[data-theme="dark"] {
+  --pico-primary:              #d81b60;
+  --pico-primary-background:   #d81b60;
+  --pico-primary-border:       #d81b60;
+  --pico-primary-hover:        #e91e63;
+  --pico-primary-hover-background: #e91e63;
+  --pico-primary-focus:        rgba(216, 27, 96, 0.25);
+  --pico-primary-inverse:      #fff;
+}
+
+// ── Body copy: smaller size to match AMP demo ────────────────────────────────
+:root {
+  --pico-font-size: 93.75%;
+}
+
+// ── Headings: Calistoga font ──────────────────────────────────────────────────
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Calistoga", serif;
+  font-weight: 400;
+  --pico-font-family: "Calistoga", serif;
+  --pico-font-weight: 400;
+}
+
+// ── Content width (matches AMP example breakpoints) ──────────────────────────
+body > main,
+body > footer {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: var(--pico-spacing);
+  padding-left: var(--pico-spacing);
+
+  @media (min-width: 576px) {
+    max-width: 510px;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  @media (min-width: 768px) {
+    max-width: 700px;
+  }
+}
+
+// Body: room for fixed nav
+body {
+  padding-top: calc(1rem + var(--pico-spacing) * 2);
+}
+
+// ── Links: no underline ───────────────────────────────────────────────────────
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+// ── Fixed navbar ─────────────────────────────────────────────────────────────
+body > nav {
+  z-index: 99;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  padding: 0 var(--pico-spacing);
+  background-color: var(--pico-card-background-color);
+  box-shadow: var(--pico-card-box-shadow);
+
+  h1 {
+    margin-bottom: 0;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+
+    a { text-decoration: none; }
+  }
+
+  a,
+  button {
+    color: var(--pico-secondary);
+  }
+}
+
+// Nav icon buttons — no chrome
+body > nav button,
+body > nav button:hover,
+body > nav button:active,
+body > nav button:focus {
+  margin: 0;
+  padding: 0.25rem;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  box-shadow: none;
+  font-size: 1rem;
+  line-height: 1;
+
+  svg { display: block; height: 1.25rem; width: 1.25rem; }
+}
+
+// ── Sidebar ───────────────────────────────────────────────────────────────────
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 200;
+  min-width: 12rem;
+  padding: var(--pico-spacing);
+  background-color: var(--pico-primary);
+  box-shadow: var(--pico-card-box-shadow);
+  transform: translateX(-110%);
+  transition: transform 0.25s ease;
+
+  &.is-open {
+    transform: translateX(0);
+  }
+
+  nav {
+    position: relative;
+    margin-top: var(--pico-typography-spacing-vertical);
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 var(--pico-spacing);
+
+      li a {
+        display: block;
+        padding: 0.25rem 0;
+        padding-left: 0.75rem;
+        color: var(--pico-primary-inverse);
+        text-decoration: none;
+
+        &:hover { opacity: 0.8; }
+      }
+
+      h3 {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--pico-primary-inverse);
+        opacity: 0.7;
+        margin: 0 0 0.25rem;
+      }
+    }
+  }
+
+  #sidebar-close {
+    position: absolute;
+    top: var(--pico-spacing);
+    right: var(--pico-spacing);
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 2rem;
+    background: transparent;
+    box-shadow: none;
+    cursor: pointer;
+    color: var(--pico-primary-inverse);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+
+    svg { display: block; height: 0.75rem; width: 0.75rem; }
+  }
+}
+
+// Backdrop
+#sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 199;
+  background: rgba(0, 0, 0, 0.4);
+
+  &.is-visible { display: block; }
+}
+
+// ── Buttons ───────────────────────────────────────────────────────────────────
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+a[role="button"] {
+  font-family: "Calistoga", serif;
+  --pico-font-weight: 400;
+}
+
+// ── Article: remove Pico v2 card appearance ───────────────────────────────────
+article {
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding-inline: 0;
+  border-bottom: var(--pico-border-width) solid var(--pico-muted-border-color);
+  margin-bottom: 0;
+
+  &:last-child { border-bottom: none; }
+
+  figure {
+    margin: var(--pico-spacing) 0;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: var(--pico-border-radius);
+    }
+  }
+
+  header { background: transparent; border: none; }
+}
+
+// Comment form: restore card appearance (matches AMP subscribe form)
+article.comment-form {
+  background: var(--pico-card-background-color);
+  box-shadow: var(--pico-card-box-shadow);
+  border-radius: var(--pico-border-radius);
+  padding: var(--pico-block-spacing-vertical) var(--pico-block-spacing-horizontal);
+  border-bottom: none;
+  margin-top: var(--pico-spacing);
+}
+
+// ── Comment list ──────────────────────────────────────────────────────────────
+.comment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--pico-spacing);
+
+  li {
+    list-style: none;
+
+    &::before { display: none; }
+    &::marker { display: none; font-size: 0; }
+  }
+
+  li {
+    border-bottom: 1px solid var(--pico-muted-border-color);
+    padding: 0.75rem 0;
+
+    &:last-child { border-bottom: none; }
+  }
+}
+
+.comment-date {
+  font-size: 0.75rem;
+  color: var(--pico-muted-color);
+  margin-left: 0.5rem;
+}
+
+.btn-sm {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+}
+
+.btn-share {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.2rem;
+  padding: 0;
+  --pico-background-color: var(--pico-primary);
+  --pico-border-color: var(--pico-primary);
+  background-color: var(--pico-primary);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 60%;
+  border-radius: var(--pico-border-radius);
+  border: var(--pico-border-width) solid var(--pico-primary);
+  box-shadow: var(--pico-button-box-shadow, 0 0 0 rgba(0, 0, 0, 0));
+  outline: 0;
+  vertical-align: middle;
+  transition: background-color var(--pico-transition), border-color var(--pico-transition), box-shadow var(--pico-transition);
+
+  &:hover {
+    --pico-background-color: var(--pico-primary-hover);
+    --pico-border-color: var(--pico-primary-hover);
+    background-color: var(--pico-primary-hover);
+    border-color: var(--pico-primary-hover);
+    box-shadow: var(--pico-button-hover-box-shadow, 0 0 0 rgba(0, 0, 0, 0));
+  }
+}
+
+.btn-share--twitter {
+  background-size: 50%;
+  background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='1227' fill='none'><path fill='%23fff' d='M714.163 519.284 1160.89 0h-105.86L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.866l409.625-476.152 327.181 476.152H1200L714.137 519.284zM569.165 687.828l-47.468-67.894-377.686-540.24h162.604l304.797 435.991 47.468 67.894 396.2 566.721H892.476L569.165 687.854z'/></svg>");
+}
+
+.btn-share--facebook {
+  background-size: 70%;
+  background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%23fff' d='M212 197h-37v60h37v176h70V257h50l5-60h-55v-33c0-14 3-20 17-20h38V83h-49c-52 0-76 23-76 67z'/></svg>");
+}
+
+.btn-share--pinterest {
+  background-size: 70%;
+  background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%23fff' d='M267 77c-101 0-151 71-151 131 0 36 14 69 43 81 5 2 9 0 11-6l4-16c1-6 1-8-3-12-8-10-14-23-14-42 0-53 40-101 104-101 57 0 88 35 88 81 0 61-27 112-67 112-22 0-39-18-33-40 6-27 18-56 18-75 0-17-9-32-28-32-23 0-41 24-41 55 0 20 7 33 7 33l-27 115c-9 34-2 76-1 80 0 3 4 3 5 1 2-2 29-35 38-69l15-58c7 14 29 27 51 27 68 0 114-62 114-145 0-62-53-120-133-120'/></svg>");
+}
+
+.admin-article-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+
+  > div { flex: 1; min-width: 0; }
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+#toast {
+  display: none;
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--pico-color-slate-800);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: var(--pico-border-radius);
+  font-size: 0.875rem;
+  z-index: 999;
+}
+

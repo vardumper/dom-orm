@@ -1,0 +1,6 @@
+{# Public comment row — no delete control. Variables: comment #}
+<li>
+  <strong>{{ comment.author|e }}</strong>
+  <span class="comment-date">{{ comment.createdAt|date('Y-m-d H:i') }}</span>
+  <p>{{ comment.body|e|nl2br }}</p>
+</li>
