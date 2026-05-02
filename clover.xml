@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1777727678">
-  <project timestamp="1777727678" name="Clover Coverage">
+<coverage generated="1777735677">
+  <project timestamp="1777735677" name="Clover Coverage">
     <package name="DOM\ORM\Command">
       <file name="/Users/erikp/Sites/dom-orm/src/Command/Backup.php">
         <class name="DOM\ORM\Command\Backup" namespace="DOM\ORM\Command">

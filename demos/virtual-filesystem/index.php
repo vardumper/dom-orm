@@ -22,7 +22,14 @@ if (!\is_dir($storageDir) && !\mkdir($storageDir, 0755, true) && !\is_dir($stora
 // Seed only when no data file exists yet.
 if (!\is_file($storageDir . '/data.xml')) {
     $seed = new VirtualFilesystemManager();
+
+    // Text / JSON files — content is a plain string, addFile() base64-encodes it.
     $seed->addFile('readme.txt', 'text/plain', 'This is the virtual filesystem root.');
+
+    // Binary file (PNG) — read raw bytes, addFile() base64-encodes them.
+    $pngPath = __DIR__ . '/assets/images/virtual-filesystem.png';
+    $seed->addFile('virtual-filesystem.png', 'image/png', (string)file_get_contents($pngPath));
+
     $seed->addFolder('documents');
     $seed->addFileToFolder('documents', 'notes.txt', 'text/plain', 'Meeting notes go here.');
     $seed->addFolderToFolder('documents', 'work');
