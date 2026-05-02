@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css" />
-  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="{{ basePath }}/assets/css/styles.css" />
 </head>
 <body>
 
@@ -30,8 +30,8 @@
       </ul>
       <ul>
         <li><h3>Navigation</h3></li>
-        <li><a href="/">Blog</a></li>
-        <li><a href="/admin">Admin</a></li>
+        <li><a href="{{ basePath }}/">Blog</a></li>
+        <li><a href="{{ basePath }}/admin">Admin</a></li>
       </ul>
     </nav>
   </aside>
@@ -50,7 +50,7 @@
       </li>
     </ul>
     <ul>
-      <li><h1><a href="/" class="contrast">Blog</a></h1></li>
+      <li><h1><a href="{{ basePath }}/" class="contrast">Blog</a></h1></li>
     </ul>
     <ul>
       <li>
@@ -140,7 +140,7 @@
     async function createArticle(e) {
       e.preventDefault();
       const fd = new FormData(e.target);
-      const res = await fetch('/api/article/add', { method: 'POST', body: fd });
+      const res = await fetch('{{ basePath }}/api/article/add', { method: 'POST', body: fd });
       const data = await res.json();
       if (data.error) { toast('Error: ' + data.error); return; }
       toast('Article published!');
@@ -150,7 +150,7 @@
     async function addComment(e, articleId) {
       e.preventDefault();
       const f = e.target;
-      const data = await post('/api/comment/add', {
+      const data = await post('{{ basePath }}/api/comment/add', {
         articleId, author: f.author.value, body: f.body.value,
       });
       if (data.error) { toast('Error: ' + data.error); return; }
@@ -160,7 +160,7 @@
 
     async function removeArticle(id) {
       if (!confirm('Delete this article and all its comments?')) return;
-      const data = await post('/api/article/remove', { id });
+      const data = await post('{{ basePath }}/api/article/remove', { id });
       if (data.error) { toast('Error: ' + data.error); return; }
       toast('Article deleted.');
       reload();
@@ -168,7 +168,7 @@
 
     async function removeComment(articleId, commentId) {
       if (!confirm('Delete this comment?')) return;
-      const data = await post('/api/comment/remove', { articleId, commentId });
+      const data = await post('{{ basePath }}/api/comment/remove', { articleId, commentId });
       if (data.error) { toast('Error: ' + data.error); return; }
       toast('Comment deleted.');
       reload();

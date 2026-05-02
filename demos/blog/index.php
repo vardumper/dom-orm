@@ -78,11 +78,26 @@ function jsonError(string $message, int $status = 400): never
     exit;
 }
 
+// ── Base path detection ────────────────────────────────────────────────────
+// Detect the directory the app is served from (e.g. /blog or /) so asset
+// URLs work both locally (php -S) and when deployed in a subdirectory.
+$scriptName = $_SERVER['SCRIPT_NAME'] ?? '/index.php';
+$basePath = rtrim(dirname($scriptName), '/');
+
+// Tell Leaf's router about the sub-directory so routes like '/' and '/admin'
+// match correctly when the app is served from e.g. /blog/.
+if ($basePath !== '') {
+    \Leaf\Router::setBasePath($basePath);
+}
+
 // ── Static assets (for php -S) ───────────────────────────────────────────────
 // The built-in dev server doesn't serve subdirectory files automatically when
 // index.php is the router, so we handle /assets/* here.
 $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
-if (str_starts_with($uri, '/assets/')) {
+// Strip basePath prefix so the match works in both / and /blog contexts.
+$assetUri = $basePath !== '' ? substr($uri, strlen($basePath)) : $uri;
+if (str_starts_with($assetUri, '/assets/')) {
+    $uri = $assetUri;
     $file = __DIR__ . $uri;
     if (is_file($file)) {
         $ext = pathinfo($file, PATHINFO_EXTENSION);
@@ -110,6 +125,7 @@ $twig = new \Twig\Environment(
         'autoescape' => 'html',
     ],
 );
+$twig->addGlobal('basePath', $basePath);
 
 // ── Routes ───────────────────────────────────────────────────────────────────
 
