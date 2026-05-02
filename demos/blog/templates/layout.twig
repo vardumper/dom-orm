@@ -11,6 +11,33 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css" />
   <link rel="stylesheet" href="{{ basePath }}/assets/css/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css"/>
+  <style>
+    body { padding-bottom: 28vh; }
+    #xml-viewer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 28vh;
+      z-index: 98;
+      display: flex;
+      flex-direction: column;
+    }
+    #xml-viewer-bar {
+      padding: 0.3rem 1rem;
+      background: #21252b;
+      color: #abb2bf;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      border-top: 2px solid #3d4148;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    #xml-viewer-bar strong { color: #fff; }
+    #xml-viewer-bar .stat { opacity: 0.7; }
+    #raw-xml-pre { margin: 0; border-radius: 0; flex: 1; overflow: auto; }
+    #raw-xml-pre code.hljs { font-size: 0.75em; border-radius: 0; padding: 0.75rem 1rem; min-height: 100%; }
+  </style>
   {% block head_extra %}{% endblock %}
 </head>
 <body>
@@ -176,5 +203,17 @@
     }
   </script>
   {% block body_extra %}{% endblock %}
+  {% if rawXml is defined and rawXml %}
+  <div id="xml-viewer">
+    <div id="xml-viewer-bar">
+      <strong>Raw XML</strong>
+      <span class="stat">{{ elapsed_ms() }} ms</span>
+      <span class="stat">{{ memory_mb() }} MB</span>
+    </div>
+    <pre id="raw-xml-pre"><code class="language-xml">{{ rawXml }}</code></pre>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+  <script>hljs.highlightElement(document.querySelector('#raw-xml-pre code'));</script>
+  {% endif %}
 </body>
 </html>

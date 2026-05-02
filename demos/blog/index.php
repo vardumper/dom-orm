@@ -78,6 +78,8 @@ function jsonError(string $message, int $status = 400): never
     exit;
 }
 
+$startTime = microtime(true);
+
 // ── Base path detection ────────────────────────────────────────────────────
 // Detect the directory the app is served from (e.g. /blog or /) so asset
 // URLs work both locally (php -S) and when deployed in a subdirectory.
@@ -127,6 +129,13 @@ $twig = new \Twig\Environment(
 );
 $twig->addGlobal('basePath', $basePath);
 
+$twig->addFunction(new \Twig\TwigFunction('elapsed_ms', function () use (&$startTime): int {
+    return (int)round((microtime(true) - $startTime) * 1000);
+}));
+$twig->addFunction(new \Twig\TwigFunction('memory_mb', function (): string {
+    return number_format(memory_get_usage(true) / 1048576, 1);
+}));
+
 // ── Routes ───────────────────────────────────────────────────────────────────
 
 function loadRawXml(): string
@@ -138,6 +147,7 @@ function loadRawXml(): string
     $dom = new DOMDocument();
     $dom->formatOutput = true;
     $dom->load($xmlPath);
+
     return (string)$dom->saveXML();
 }
 
@@ -145,7 +155,7 @@ app()->get('/', function () use ($twig) {
     $articles = (new BlogManager())->findAllArticles();
     echo $twig->render('index.twig', [
         'articles' => $articles,
-        'rawXml'   => loadRawXml(),
+        'rawXml' => loadRawXml(),
     ]);
 });
 
@@ -153,7 +163,7 @@ app()->get('/admin', function () use ($twig) {
     $articles = (new BlogManager())->findAllArticles();
     echo $twig->render('admin/index.twig', [
         'articles' => $articles,
-        'rawXml'   => loadRawXml(),
+        'rawXml' => loadRawXml(),
     ]);
 });
 
