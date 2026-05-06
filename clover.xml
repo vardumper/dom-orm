@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1778059445">
-  <project timestamp="1778059445" name="Clover Coverage">
+<coverage generated="1778109987">
+  <project timestamp="1778109987" name="Clover Coverage">
     <package name="DOM\ORM\Command">
       <file name="/Users/erikp/Sites/dom-orm/src/Command/Backup.php">
         <class name="DOM\ORM\Command\Backup" namespace="DOM\ORM\Command">
@@ -1204,7 +1204,7 @@
       </file>
       <file name="/Users/erikp/Sites/dom-orm/src/Serializer/Normalizer/SchemaNormalizer.php">
         <class name="DOM\ORM\Serializer\Normalizer\SchemaNormalizer" namespace="DOM\ORM\Serializer\Normalizer">
-          <metrics complexity="46" methods="8" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="104" coveredstatements="73" elements="112" coveredelements="76"/>
+          <metrics complexity="45" methods="7" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="103" coveredstatements="73" elements="110" coveredelements="76"/>
         </class>
         <line num="20" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="49"/>
         <line num="23" type="stmt" count="49"/>
@@ -1270,57 +1270,55 @@
         <line num="124" type="stmt" count="0"/>
         <line num="125" type="stmt" count="0"/>
         <line num="129" type="stmt" count="8"/>
-        <line num="135" type="method" name="denormalize" visibility="public" complexity="1" crap="2" count="0"/>
-        <line num="138" type="stmt" count="0"/>
-        <line num="141" type="method" name="supportsNormalization" visibility="public" complexity="5" crap="6.81" count="3"/>
-        <line num="146" type="stmt" count="3"/>
-        <line num="147" type="stmt" count="1"/>
-        <line num="150" type="stmt" count="2"/>
-        <line num="151" type="stmt" count="0"/>
-        <line num="154" type="stmt" count="2"/>
-        <line num="155" type="stmt" count="0"/>
-        <line num="156" type="stmt" count="0"/>
-        <line num="157" type="stmt" count="0"/>
-        <line num="159" type="stmt" count="0"/>
-        <line num="162" type="stmt" count="2"/>
-        <line num="163" type="stmt" count="1"/>
-        <line num="166" type="stmt" count="1"/>
-        <line num="169" type="method" name="getSupportedTypes" visibility="public" complexity="2" crap="2" count="1"/>
-        <line num="171" type="stmt" count="1"/>
-        <line num="173" type="stmt" count="1"/>
-        <line num="174" type="stmt" count="1"/>
-        <line num="176" type="stmt" count="1"/>
-        <line num="179" type="method" name="hasCacheableSupportsMethod" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="132" type="method" name="supportsNormalization" visibility="public" complexity="5" crap="6.81" count="3"/>
+        <line num="137" type="stmt" count="3"/>
+        <line num="138" type="stmt" count="1"/>
+        <line num="141" type="stmt" count="2"/>
+        <line num="142" type="stmt" count="0"/>
+        <line num="145" type="stmt" count="2"/>
+        <line num="146" type="stmt" count="0"/>
+        <line num="147" type="stmt" count="0"/>
+        <line num="148" type="stmt" count="0"/>
+        <line num="150" type="stmt" count="0"/>
+        <line num="153" type="stmt" count="2"/>
+        <line num="154" type="stmt" count="1"/>
+        <line num="157" type="stmt" count="1"/>
+        <line num="160" type="method" name="getSupportedTypes" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="162" type="stmt" count="1"/>
+        <line num="164" type="stmt" count="1"/>
+        <line num="165" type="stmt" count="1"/>
+        <line num="167" type="stmt" count="1"/>
+        <line num="170" type="method" name="hasCacheableSupportsMethod" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="172" type="stmt" count="1"/>
+        <line num="178" type="method" name="encodeJsonScalarArray" visibility="private" complexity="4" crap="12.19" count="1"/>
+        <line num="180" type="stmt" count="1"/>
         <line num="181" type="stmt" count="1"/>
-        <line num="187" type="method" name="encodeJsonScalarArray" visibility="private" complexity="4" crap="12.19" count="1"/>
-        <line num="189" type="stmt" count="1"/>
-        <line num="190" type="stmt" count="1"/>
-        <line num="191" type="stmt" count="0"/>
+        <line num="182" type="stmt" count="0"/>
+        <line num="183" type="stmt" count="0"/>
+        <line num="184" type="stmt" count="0"/>
+        <line num="185" type="stmt" count="0"/>
+        <line num="186" type="stmt" count="0"/>
+        <line num="187" type="stmt" count="0"/>
+        <line num="191" type="stmt" count="1"/>
         <line num="192" type="stmt" count="0"/>
         <line num="193" type="stmt" count="0"/>
         <line num="194" type="stmt" count="0"/>
         <line num="195" type="stmt" count="0"/>
         <line num="196" type="stmt" count="0"/>
-        <line num="200" type="stmt" count="1"/>
-        <line num="201" type="stmt" count="0"/>
-        <line num="202" type="stmt" count="0"/>
-        <line num="203" type="stmt" count="0"/>
-        <line num="204" type="stmt" count="0"/>
-        <line num="205" type="stmt" count="0"/>
-        <line num="206" type="stmt" count="0"/>
-        <line num="213" type="method" name="isJsonScalarArray" visibility="private" complexity="6" crap="6.40" count="1"/>
+        <line num="197" type="stmt" count="0"/>
+        <line num="204" type="method" name="isJsonScalarArray" visibility="private" complexity="6" crap="6.40" count="1"/>
+        <line num="206" type="stmt" count="1"/>
+        <line num="207" type="stmt" count="1"/>
+        <line num="208" type="stmt" count="1"/>
+        <line num="209" type="stmt" count="0"/>
+        <line num="212" type="stmt" count="1"/>
         <line num="215" type="stmt" count="1"/>
         <line num="216" type="stmt" count="1"/>
-        <line num="217" type="stmt" count="1"/>
-        <line num="218" type="stmt" count="0"/>
-        <line num="221" type="stmt" count="1"/>
-        <line num="224" type="stmt" count="1"/>
-        <line num="225" type="stmt" count="1"/>
-        <line num="228" type="stmt" count="0"/>
-        <line num="231" type="stmt" count="1"/>
-        <metrics loc="231" ncloc="231" classes="1" methods="8" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="104" coveredstatements="77" elements="112" coveredelements="84" complexity="46"/>
+        <line num="219" type="stmt" count="0"/>
+        <line num="222" type="stmt" count="1"/>
+        <metrics loc="222" ncloc="222" classes="1" methods="7" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="103" coveredstatements="77" elements="110" coveredelements="84" complexity="45"/>
       </file>
-      <metrics complexity="119" methods="18" coveredmethods="16" conditionals="0" coveredconditionals="0" statements="249" coveredstatements="182" elements="267" coveredelements="198" classes="2" loc="567" ncloc="567"/>
+      <metrics complexity="118" methods="17" coveredmethods="16" conditionals="0" coveredconditionals="0" statements="248" coveredstatements="182" elements="265" coveredelements="198" classes="2" loc="558" ncloc="558"/>
     </package>
     <package name="DOM\ORM\Serializer">
       <file name="/Users/erikp/Sites/dom-orm/src/Serializer/SchemaSerializer.php">
@@ -2335,6 +2333,6 @@
       <line num="229" type="stmt" count="0"/>
       <metrics loc="231" ncloc="209" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="121" coveredstatements="111" elements="121" coveredelements="111"/>
     </file>
-    <metrics files="43" loc="4453" ncloc="4453" classes="40" methods="195" coveredmethods="157" conditionals="0" coveredconditionals="0" statements="1736" coveredstatements="1196" elements="1931" coveredelements="1353" complexity="697"/>
+    <metrics files="43" loc="4444" ncloc="4444" classes="40" methods="194" coveredmethods="157" conditionals="0" coveredconditionals="0" statements="1735" coveredstatements="1196" elements="1929" coveredelements="1353" complexity="696"/>
   </project>
 </coverage>

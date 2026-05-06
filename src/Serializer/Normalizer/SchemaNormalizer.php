@@ -129,15 +129,6 @@ class SchemaNormalizer implements NormalizerInterface
         return $data;
     }
 
-    /**
-     * @param array<string, mixed> $context
-     */
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
-    {
-        /** @todo */
-        return true;
-    }
-
     public function supportsNormalization(
         mixed $data,
         string|null $format = null,
