@@ -6,8 +6,8 @@ namespace DOM\ORM\Serializer\Normalizer;
 
 use DOM\ORM\Encryption\EncryptedValue;
 use DOM\ORM\Encryption\EncryptionService;
-use DOM\ORM\Mapping\Fragment;
 use DOM\ORM\{Entity\AbstractEntity, Traits\AttributeResolverTrait};
+use DOM\ORM\Mapping\Fragment;
 use Ramsey\Collection\Collection;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -113,7 +113,7 @@ class SchemaNormalizer implements NormalizerInterface
                 $data['item-' . $object->getId()][$name][] = $this->normalize($value);
             } elseif (\is_array($value) || $value instanceof Collection || \is_iterable($value)) {
                 foreach ($value as $item) {
-                    if (\get_class($item) !== $entity) {
+                    if (!($item instanceof $entity)) {
                         throw new \InvalidArgumentException(\sprintf('Wrong EntityInterface type given. Expected type was %s', $entity));
                     }
                     $data['item-' . $object->getId()][$name][] = $this->normalize($item);
@@ -127,56 +127,6 @@ class SchemaNormalizer implements NormalizerInterface
         }
 
         return $data;
-    }
-
-    /**
-     * @param array<mixed>|\Traversable<mixed> $value
-     */
-    private function encodeJsonScalarArray(array|\Traversable $value, string $propertyName, string $entityClass): string
-    {
-        $arrayValue = \is_array($value) ? $value : \iterator_to_array($value);
-        if (!$this->isJsonScalarArray($arrayValue)) {
-            throw new \InvalidArgumentException(\sprintf(
-                'Fragment "%s" on %s uses dataType "%s" but contains non-scalar values. Only scalar/null JSON array values are supported.',
-                $propertyName,
-                $entityClass,
-                Fragment::DATA_TYPE_JSON_SCALAR,
-            ));
-        }
-
-        try {
-            return \json_encode($arrayValue, \JSON_THROW_ON_ERROR);
-        } catch (\JsonException $exception) {
-            throw new \InvalidArgumentException(\sprintf(
-                'Failed to JSON-encode fragment "%s" on %s.',
-                $propertyName,
-                $entityClass,
-            ), previous: $exception);
-        }
-    }
-
-    /**
-     * @param array<mixed> $value
-     */
-    private function isJsonScalarArray(array $value): bool
-    {
-        foreach ($value as $item) {
-            if (\is_array($item)) {
-                if (!$this->isJsonScalarArray($item)) {
-                    return false;
-                }
-
-                continue;
-            }
-
-            if ($item === null || \is_scalar($item)) {
-                continue;
-            }
-
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -228,6 +178,56 @@ class SchemaNormalizer implements NormalizerInterface
 
     public function hasCacheableSupportsMethod(): bool
     {
+        return true;
+    }
+
+    /**
+     * @param array<mixed>|\Traversable<mixed> $value
+     */
+    private function encodeJsonScalarArray(array|\Traversable $value, string $propertyName, string $entityClass): string
+    {
+        $arrayValue = \is_array($value) ? $value : \iterator_to_array($value);
+        if (!$this->isJsonScalarArray($arrayValue)) {
+            throw new \InvalidArgumentException(\sprintf(
+                'Fragment "%s" on %s uses dataType "%s" but contains non-scalar values. Only scalar/null JSON array values are supported.',
+                $propertyName,
+                $entityClass,
+                Fragment::DATA_TYPE_JSON_SCALAR,
+            ));
+        }
+
+        try {
+            return \json_encode($arrayValue, \JSON_THROW_ON_ERROR);
+        } catch (\JsonException $exception) {
+            throw new \InvalidArgumentException(\sprintf(
+                'Failed to JSON-encode fragment "%s" on %s.',
+                $propertyName,
+                $entityClass,
+            ), previous: $exception);
+        }
+    }
+
+    /**
+     * @param array<mixed> $value
+     */
+    private function isJsonScalarArray(array $value): bool
+    {
+        foreach ($value as $item) {
+            if (\is_array($item)) {
+                if (!$this->isJsonScalarArray($item)) {
+                    return false;
+                }
+
+                continue;
+            }
+
+            if ($item === null || \is_scalar($item)) {
+                continue;
+            }
+
+            return false;
+        }
+
         return true;
     }
 }
