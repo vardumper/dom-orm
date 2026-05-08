@@ -212,6 +212,7 @@ else
   printf "\npest is required. Install it with:\n\n composer require --dev pestphp/pest\n\n"
 fi
 
+
 END_TIME=$(date +%s) # Record the end time
 DURATION=$((END_TIME - START_TIME)) # Calculate the duration
 

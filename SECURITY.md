@@ -21,3 +21,4 @@ Only the latest major version receives security updates.
 **Please do not open a public issue for security vulnerabilities.**
 
 Instead, please report security bugs to **info@erikpoehler.com**. We acknowledge all reports within 48 hours and will keep you informed of our progress as we work on a fix.
+Only if you should feel, that we haven't addressed the issue appropriately, go ahead and report it via Github's [Security Advisories](https://docs.github.com/en/code-security/security-advisories/security-advisories-about-github-security-advisories) feature.
