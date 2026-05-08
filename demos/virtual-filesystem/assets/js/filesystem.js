@@ -1,7 +1,7 @@
 // Reload both the table fragment and the raw XML textarea in parallel
 async function reloadView() {
   const progress = document.querySelector('progress');
-  progress.style.visibility = 'visible';
+  if (progress) progress.style.visibility = 'visible';
   try {
     const [tableRes, xmlRes] = await Promise.all([
       fetch('api/table'),
@@ -11,6 +11,8 @@ async function reloadView() {
       const html = await tableRes.text();
       const container = document.getElementById('table-container');
       if (container) container.innerHTML = html;
+    } else {
+      console.error('api/table failed:', tableRes.status, await tableRes.text());
     }
     if (xmlRes.ok) {
       const xml = await xmlRes.text();
@@ -19,9 +21,13 @@ async function reloadView() {
         codeEl.textContent = xml;
         if (window.hljs) hljs.highlightElement(codeEl);
       }
+    } else {
+      console.error('api/xml failed:', xmlRes.status, await xmlRes.text());
     }
   } finally {
-    setTimeout(() => { progress.style.visibility = 'hidden'; }, 300);
+    if (progress) {
+      setTimeout(() => { progress.style.visibility = 'hidden'; }, 300);
+    }
   }
 }
 

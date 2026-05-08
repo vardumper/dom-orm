@@ -57,20 +57,20 @@
                             <h2>Storing and hydrating PHP objects to and from XML.</h2>
                         </hgroup>
                         <p>
-                            This demo uses simple file and folder PHP classes, that can be directly persisted and hydrated to and from XML. 
+                            This demo uses simple file and folder PHP classes, that can be directly persisted and hydrated to and from XML.
                             I used XSLT here to render the XML into HTML. If you're interested in other templating engines such as Twig, check out the Blog demo.
                             In this demo, you can rename files &amp; folders by clicking on their names.
-                            You can preview, delete and add new files and folders. Every 10 minutes the XML is restored to its initial state. 
+                            You can preview, delete and add new files and folders. Every 10 minutes the XML is restored to its initial state.
                         </p>
                     </section>
                     <section>
                         <button class="secondary" data-target="dialog-add-folder">
-                            <xsl:copy-of select="document('assets/images/folder-add.svg')/*"/>
+                            <xsl:copy-of select="document('../assets/images/folder-add.svg')/*"/>
                             New Folder
                         </button>
                         <xsl:text> </xsl:text>
                         <button class="contrast" data-target="dialog-upload-file">
-                            <xsl:copy-of select="document('assets/images/document-add.svg')/*"/>
+                            <xsl:copy-of select="document('../assets/images/document-add.svg')/*"/>
                             Upload File
                         </button>
                     </section>

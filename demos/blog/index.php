@@ -14,6 +14,8 @@ require __DIR__ . '/service/BlogManager.php';
 
 \putenv('DOM_ORM_FLYSYSTEM_LOCATION=' . __DIR__ . '/storage');
 \putenv('DOM_ORM_FILENAME=data.xml');
+\putenv('DOM_ORM_CACHE_PATH=' . __DIR__ . '/storage/cache.php');
+\putenv('DOM_ORM_CACHE_STRATEGY=on_persist');
 
 $storageDir = __DIR__ . '/storage';
 if (!\is_dir($storageDir) && !\mkdir($storageDir, 0755, true) && !\is_dir($storageDir)) {
@@ -125,6 +127,7 @@ $twig = new \Twig\Environment(
     new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates'),
     [
         'autoescape' => 'html',
+        'cache' => __DIR__ . '/storage/twig-cache',
     ],
 );
 $twig->addGlobal('basePath', $basePath);

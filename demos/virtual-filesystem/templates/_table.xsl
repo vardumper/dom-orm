@@ -14,7 +14,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="1" style="padding-bottom:4px;padding-top:4px;padding-left:24px;"><xsl:copy-of select="document('assets/images/folder.svg')/*"/></td><td colspan="4"><em>Root</em></td>
+                    <td colspan="1" style="padding-bottom:4px;padding-top:4px;padding-left:24px;"><xsl:copy-of select="document('../assets/images/folder.svg')/*"/></td><td colspan="4"><em>Root</em></td>
                 </tr>
                 <xsl:variable name="root-files" select="item[@type='file']"/>
                 <xsl:for-each select="item[@type='folder']">
@@ -53,9 +53,9 @@
                     </xsl:otherwise>
                 </xsl:choose>
                 <xsl:text> </xsl:text><img src="assets/images/folder.svg" alt=""/><xsl:text> </xsl:text><span contenteditable="true" spellcheck="false" data-id="{@id}" data-type="folder"><xsl:value-of select="fragment[@name='name']"/></span><span class="row-actions">
-                    <button class="secondary" data-target="dialog-add-folder" data-parent-id="{@id}" title="New folder inside"><xsl:copy-of select="document('assets/images/folder-add.svg')/*"/></button>
-                    <xsl:text> </xsl:text><button class="contrast" data-target="dialog-upload-file" data-parent-id="{@id}" data-parent-name="{fragment[@name='name']}" title="Upload file into folder"><xsl:copy-of select="document('assets/images/document-add.svg')/*"/></button>
-                    <xsl:text> </xsl:text><button class="delete" data-action="delete" data-id="{@id}" data-type="folder" title="Delete folder"><xsl:copy-of select="document('assets/images/trash.svg')/*"/></button>
+                    <button class="secondary" data-target="dialog-add-folder" data-parent-id="{@id}" title="New folder inside"><xsl:copy-of select="document('../assets/images/folder-add.svg')/*"/></button>
+                    <xsl:text> </xsl:text><button class="contrast" data-target="dialog-upload-file" data-parent-id="{@id}" data-parent-name="{fragment[@name='name']}" title="Upload file into folder"><xsl:copy-of select="document('../assets/images/document-add.svg')/*"/></button>
+                    <xsl:text> </xsl:text><button class="delete" data-action="delete" data-id="{@id}" data-type="folder" title="Delete folder"><xsl:copy-of select="document('../assets/images/trash.svg')/*"/></button>
                 </span>
             </td>
             <td>folder</td>
@@ -116,8 +116,8 @@
                     </xsl:otherwise>
                 </xsl:choose>
                 <xsl:text> </xsl:text><img src="assets/images/document.svg" alt=""/><xsl:text> </xsl:text><span contenteditable="true" spellcheck="false" data-id="{@id}" data-type="file"><xsl:value-of select="fragment[@name='name']"/></span><span class="row-actions">
-                    <button class="secondary" data-action="preview" data-id="{@id}" data-name="{fragment[@name='name']}" data-mime="{fragment[@name='mimeType']}" title="Preview file"><xsl:copy-of select="document('assets/images/eye.svg')/*"/></button>
-                    <xsl:text> </xsl:text><button class="delete" data-action="delete" data-id="{@id}" data-type="file" title="Delete file"><xsl:copy-of select="document('assets/images/trash.svg')/*"/></button>
+                    <button class="secondary" data-action="preview" data-id="{@id}" data-name="{fragment[@name='name']}" data-mime="{fragment[@name='mimeType']}" title="Preview file"><xsl:copy-of select="document('../assets/images/eye.svg')/*"/></button>
+                    <xsl:text> </xsl:text><button class="delete" data-action="delete" data-id="{@id}" data-type="file" title="Delete file"><xsl:copy-of select="document('../assets/images/trash.svg')/*"/></button>
                 </span>
             </td>
             <td><xsl:value-of select="fragment[@name='mimeType']"/></td>

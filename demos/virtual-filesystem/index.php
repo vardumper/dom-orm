@@ -13,6 +13,8 @@ require __DIR__ . '/service/VirtualFilesystemManager.php';
 
 \putenv('DOM_ORM_FLYSYSTEM_LOCATION=' . __DIR__ . '/storage');
 \putenv('DOM_ORM_FILENAME=data.xml');
+\putenv('DOM_ORM_CACHE_PATH=' . __DIR__ . '/storage/cache.php');
+\putenv('DOM_ORM_CACHE_STRATEGY=on_persist');
 
 $storageDir = __DIR__ . '/storage';
 if (!\is_dir($storageDir) && !\mkdir($storageDir, 0755, true) && !\is_dir($storageDir)) {
@@ -36,18 +38,40 @@ if (!\is_file($storageDir . '/data.xml')) {
     $seed->addFileToFolder('work', 'report.json', 'application/json', '{"status":"done","progress":100}');
 }
 
+/**
+ * Returns a cached XSLTProcessor for the given stylesheet path.
+ * Kept in a static variable so each FPM worker only parses/compiles the XSL once.
+ */
+function getXsltProcessor(string $xslPath): XSLTProcessor
+{
+    static $processors = [];
+    if (!isset($processors[$xslPath])) {
+        $xsl = new DOMDocument();
+        $xsl->load($xslPath);
+        $proc = new XSLTProcessor();
+        $proc->importStylesheet($xsl);
+        $processors[$xslPath] = $proc;
+    }
+
+    return $processors[$xslPath];
+}
+
+/** Deletes the static HTML page cache so it is rebuilt on the next GET /. */
+function invalidatePageCache(): void
+{
+    $cacheFile = __DIR__ . '/storage/page-cache.html';
+    if (is_file($cacheFile)) {
+        unlink($cacheFile);
+    }
+}
+
 function renderHtml(): string
 {
     $xml = StorageService::fromConfig()->read();
     $doc = new DOMDocument();
     $doc->loadXML($xml);
 
-    $xsl = new DOMDocument();
-    $xsl->load(__DIR__ . '/templates/filesystem.xsl');
-    $xsl->documentURI = 'file://' . __DIR__ . '/';
-
-    $proc = new XSLTProcessor();
-    $proc->importStylesheet($xsl);
+    $proc = getXsltProcessor(__DIR__ . '/templates/filesystem.xsl');
     $proc->setParameter('', 'raw-xml', $xml);
     $proc->setParameter('', 'elapsed-ms', (string)(int)round((microtime(true) - $GLOBALS['startTime']) * 1000));
     $proc->setParameter('', 'memory-mb', number_format(memory_get_usage(true) / 1048576, 1));
@@ -76,7 +100,16 @@ function jsonError(string $message, int $status = 400): never
 // ── Routes ───────────────────────────────────────────────────────────────────
 
 app()->get('/', function () {
-    echo renderHtml();
+    $cacheFile = __DIR__ . '/storage/page-cache.html';
+    if (is_file($cacheFile)) {
+        header('X-Cache: HIT');
+        readfile($cacheFile);
+
+        return;
+    }
+    $html = renderHtml();
+    file_put_contents($cacheFile, $html);
+    echo $html;
 });
 
 // Folder endpoints ────────────────────────────────────────────────────────────
@@ -92,6 +125,7 @@ app()->post('/api/folder/add', function () {
     try {
         $manager = new VirtualFilesystemManager();
         $id = $manager->addFolderById($parentId !== '' ? $parentId : null, $name);
+        invalidatePageCache();
         jsonOk([
             'success' => true,
             'id' => $id,
@@ -112,6 +146,7 @@ app()->post('/api/folder/rename', function () {
     try {
         $manager = new VirtualFilesystemManager();
         $manager->renameFolder($id, $name);
+        invalidatePageCache();
         jsonOk([
             'success' => true,
         ]);
@@ -130,6 +165,7 @@ app()->post('/api/folder/remove', function () {
     try {
         $manager = new VirtualFilesystemManager();
         $manager->removeById($id);
+        invalidatePageCache();
         jsonOk([
             'success' => true,
         ]);
@@ -163,6 +199,7 @@ app()->post('/api/file/add', function () {
         } else {
             $id = $manager->addEncodedFileToRoot($name, $mimeType, $content, $sizeInt);
         }
+        invalidatePageCache();
         jsonOk([
             'success' => true,
             'id' => $id,
@@ -207,6 +244,7 @@ app()->post('/api/file/rename', function () {
     try {
         $manager = new VirtualFilesystemManager();
         $manager->renameFile($id, $name);
+        invalidatePageCache();
         jsonOk([
             'success' => true,
         ]);
@@ -225,12 +263,7 @@ app()->get('/api/table', function () {
     $doc = new DOMDocument();
     $doc->loadXML($xml);
 
-    $xsl = new DOMDocument();
-    $xsl->load(__DIR__ . '/templates/table.xsl');
-    $xsl->documentURI = 'file://' . __DIR__ . '/';
-
-    $proc = new XSLTProcessor();
-    $proc->importStylesheet($xsl);
+    $proc = getXsltProcessor(__DIR__ . '/templates/table.xsl');
 
     header('Content-Type: text/html; charset=UTF-8');
     echo (string)$proc->transformToXML($doc);
@@ -246,6 +279,7 @@ app()->post('/api/file/remove', function () {
     try {
         $manager = new VirtualFilesystemManager();
         $manager->removeById($id);
+        invalidatePageCache();
         jsonOk([
             'success' => true,
         ]);
