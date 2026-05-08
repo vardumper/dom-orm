@@ -1,6 +1,11 @@
 {
   "name": "vardumper/dom-orm",
   "description": "DOMDocument Object Relational Mapper (ORM)",
+  "support": {
+        "docs": "https://vardumper.github.io/dom-orm/",
+        "source": "https://github.com/vardumper/dom-orm",
+        "issues": "https://github.com/vardumper/dom-orm/issues"
+  },
   "type": "library",
   "require": {
     "php": ">=8.3 <8.6",
