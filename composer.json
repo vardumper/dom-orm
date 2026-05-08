@@ -1,10 +1,12 @@
 {
   "name": "vardumper/dom-orm",
   "description": "DOMDocument Object Relational Mapper (ORM)",
+  "license": "MIT",
   "support": {
         "docs": "https://vardumper.github.io/dom-orm/",
         "source": "https://github.com/vardumper/dom-orm",
-        "issues": "https://github.com/vardumper/dom-orm/issues"
+        "issues": "https://github.com/vardumper/dom-orm/issues",
+        "security": "https://github.com/vardumper/dom-orm/security/dependabot"
   },
   "type": "library",
   "require": {
