@@ -336,30 +336,7 @@ final class QueryCache
                 continue;
             }
 
-            $itemData = [
-                '@id' => $id,
-                '@type' => $type,
-            ];
-
-            foreach ($item->childNodes as $child) {
-                if (!$child instanceof \DOMElement) {
-                    continue;
-                }
-                if ($child->nodeName === 'fragment') {
-                    $name = $child->getAttribute('name');
-                    // Preserve searchable-hash attribute when present (encrypted fields)
-                    $hash = $child->getAttribute('searchable-hash');
-                    $value = $child->nodeValue;
-                    if ($hash !== '') {
-                        $itemData[$name] = [
-                            'value' => $value,
-                            'searchable-hash' => $hash,
-                        ];
-                    } else {
-                        $itemData[$name] = $value;
-                    }
-                }
-            }
+            $itemData = self::decodeItemElement($item);
 
             $cache[$type][$id] = $itemData;
 
@@ -377,6 +354,70 @@ final class QueryCache
         }
 
         return $cache;
+    }
+
+    /**
+     * Decode one <item> element to the same associative shape produced by SchemaDecoder::decodeItem().
+     *
+     * @return array<string, mixed>
+     */
+    private static function decodeItemElement(\DOMElement $item): array
+    {
+        $itemData = [
+            '@id' => $item->getAttribute('id'),
+            '@type' => $item->getAttribute('type'),
+        ];
+
+        foreach ($item->childNodes as $child) {
+            if (!$child instanceof \DOMElement) {
+                continue;
+            }
+
+            if ($child->nodeName === 'fragment') {
+                $name = $child->getAttribute('name');
+                // Preserve searchable-hash attribute when present (encrypted fields)
+                $hash = $child->getAttribute('searchable-hash');
+                $value = $child->nodeValue;
+
+                if ($hash !== '') {
+                    $itemData[$name] = [
+                        'value' => $value,
+                        'searchable-hash' => $hash,
+                    ];
+                } else {
+                    $itemData[$name] = $value;
+                }
+
+                continue;
+            }
+
+            if ($child->nodeName === 'group') {
+                $groupType = $child->getAttribute('type');
+                if ($groupType === '') {
+                    continue;
+                }
+
+                $groupItems = [];
+                foreach ($child->childNodes as $groupChild) {
+                    if (!$groupChild instanceof \DOMElement || $groupChild->nodeName !== 'item') {
+                        continue;
+                    }
+
+                    $groupId = $groupChild->getAttribute('id');
+                    if ($groupId === '') {
+                        continue;
+                    }
+
+                    $groupItems[] = [
+                        'item-' . $groupId => self::decodeItemElement($groupChild),
+                    ];
+                }
+
+                $itemData[$groupType] = $groupItems;
+            }
+        }
+
+        return $itemData;
     }
 
     private static function requireCachePath(): string

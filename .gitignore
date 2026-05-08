@@ -11,8 +11,11 @@ cghooks.lock
 /.commit
 /.vscode
 /demos/vendor
-.github/agents/Edit.agent.md 
+/demos/blog/storage/twig-cache
+/demos/virtual-filesystem/storage/page-cache.html
+.github/agents/Edit.agent.md
 events.log
 /coverage-report-unit
 /coverage-report-integration
-/storage/data.xml.lock
+data.xml.lock
+cache.php

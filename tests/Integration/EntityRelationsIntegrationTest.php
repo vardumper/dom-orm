@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use DOM\ORM\Repository\EntityRepository;
+use DOM\ORM\Storage\QueryCache;
 use DOM\ORM\Storage\StorageService;
 use DOM\ORM\Traits\EntityManagerTrait;
 use Tests\Fixtures\RelComment;
@@ -220,4 +221,74 @@ it('persists and retrieves a null typed single entity relation (?RelProfile)', f
     /** @var RelUserSingle $user */
     expect($user->getUsername())->toBe('charlie');
     expect($user->getProfile())->toBeNull();
+})->group('integration');
+
+it('keeps existing grouped children when adding a new child after cache-backed find', function (): void {
+    $oldCachePath = getenv('DOM_ORM_CACHE_PATH');
+    $oldCacheStrategy = getenv('DOM_ORM_CACHE_STRATEGY');
+
+    $cachePath = getcwd() . '/storage/cache-relations-regression.php';
+    putenv('DOM_ORM_CACHE_PATH=' . $cachePath);
+    putenv('DOM_ORM_CACHE_STRATEGY=on_persist');
+
+    try {
+        if (file_exists($cachePath)) {
+            unlink($cachePath);
+        }
+
+        $manager = new RelationTestEntityManager();
+        $manager->persist(new RelPost(
+            title: 'Post with children',
+            comments: [
+                new RelComment('first child', 'comment-a'),
+                new RelComment('second child', 'comment-b'),
+            ],
+            id: 'post-cache-1',
+        ));
+
+        expect(QueryCache::exists())->toBeTrue();
+
+        $postRepository = new EntityRepository(RelPost::class);
+        /** @var RelPost|null $post */
+        $post = $postRepository->find('post-cache-1');
+        expect($post)->toBeInstanceOf(RelPost::class);
+
+        $comments = $post->getComments();
+        $comments[] = new RelComment('third child', 'comment-c');
+        $post->setComments($comments);
+        $manager->persist($post);
+
+        $xpath = relationXPath();
+        $commentItems = $xpath->query('//item[@type="rel_post" and @id="post-cache-1"]/group[@type="comments"]/item[@type="rel_comment"]');
+        expect($commentItems)->not->toBeFalse();
+        expect($commentItems?->length)->toBe(3);
+
+        $first = $xpath->query('//item[@type="rel_post" and @id="post-cache-1"]/group[@type="comments"]/item[@type="rel_comment"]/fragment[@name="body"][text()="first child"]');
+        expect($first)->not->toBeFalse();
+        expect($first?->length)->toBe(1);
+
+        $second = $xpath->query('//item[@type="rel_post" and @id="post-cache-1"]/group[@type="comments"]/item[@type="rel_comment"]/fragment[@name="body"][text()="second child"]');
+        expect($second)->not->toBeFalse();
+        expect($second?->length)->toBe(1);
+
+        $third = $xpath->query('//item[@type="rel_post" and @id="post-cache-1"]/group[@type="comments"]/item[@type="rel_comment"]/fragment[@name="body"][text()="third child"]');
+        expect($third)->not->toBeFalse();
+        expect($third?->length)->toBe(1);
+    } finally {
+        if (file_exists($cachePath)) {
+            unlink($cachePath);
+        }
+
+        if ($oldCachePath === false || $oldCachePath === '') {
+            putenv('DOM_ORM_CACHE_PATH');
+        } else {
+            putenv('DOM_ORM_CACHE_PATH=' . $oldCachePath);
+        }
+
+        if ($oldCacheStrategy === false || $oldCacheStrategy === '') {
+            putenv('DOM_ORM_CACHE_STRATEGY');
+        } else {
+            putenv('DOM_ORM_CACHE_STRATEGY=' . $oldCacheStrategy);
+        }
+    }
 })->group('integration');

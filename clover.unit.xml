@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1778258036">
-  <project timestamp="1778258036" name="Clover Coverage">
+<coverage generated="1778260950">
+  <project timestamp="1778260950" name="Clover Coverage">
     <package name="DOM\ORM\Command">
       <file name="/home/erik-poehler/Sites/dom-orm/src/Command/Backup.php">
         <class name="DOM\ORM\Command\Backup" namespace="DOM\ORM\Command">
@@ -1565,7 +1565,7 @@
       </file>
       <file name="/home/erik-poehler/Sites/dom-orm/src/Storage/QueryCache.php">
         <class name="DOM\ORM\Storage\QueryCache" namespace="DOM\ORM\Storage">
-          <metrics complexity="59" methods="13" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="156" coveredstatements="39" elements="169" coveredelements="42"/>
+          <metrics complexity="66" methods="14" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="174" coveredstatements="42" elements="188" coveredelements="45"/>
         </class>
         <line num="34" type="method" name="getCachePath" visibility="public" complexity="1" crap="1" count="12"/>
         <line num="36" type="stmt" count="12"/>
@@ -1695,7 +1695,7 @@
         <line num="311" type="stmt" count="0"/>
         <line num="312" type="stmt" count="0"/>
         <line num="313" type="stmt" count="0"/>
-        <line num="319" type="method" name="buildCacheArray" visibility="private" complexity="14" crap="16.34" count="1"/>
+        <line num="319" type="method" name="buildCacheArray" visibility="private" complexity="10" crap="10.39" count="1"/>
         <line num="322" type="stmt" count="1"/>
         <line num="323" type="stmt" count="1"/>
         <line num="325" type="stmt" count="1"/>
@@ -1707,36 +1707,55 @@
         <line num="335" type="stmt" count="1"/>
         <line num="336" type="stmt" count="0"/>
         <line num="339" type="stmt" count="1"/>
-        <line num="340" type="stmt" count="1"/>
         <line num="341" type="stmt" count="1"/>
-        <line num="342" type="stmt" count="1"/>
         <line num="344" type="stmt" count="1"/>
         <line num="345" type="stmt" count="1"/>
-        <line num="346" type="stmt" count="0"/>
-        <line num="348" type="stmt" count="1"/>
+        <line num="346" type="stmt" count="1"/>
         <line num="349" type="stmt" count="1"/>
-        <line num="351" type="stmt" count="1"/>
+        <line num="350" type="stmt" count="0"/>
         <line num="352" type="stmt" count="1"/>
-        <line num="353" type="stmt" count="1"/>
-        <line num="354" type="stmt" count="0"/>
-        <line num="355" type="stmt" count="0"/>
-        <line num="356" type="stmt" count="0"/>
-        <line num="357" type="stmt" count="0"/>
-        <line num="359" type="stmt" count="1"/>
-        <line num="364" type="stmt" count="1"/>
+        <line num="356" type="stmt" count="1"/>
+        <line num="364" type="method" name="decodeItemElement" visibility="private" complexity="11" crap="35.63" count="1"/>
+        <line num="366" type="stmt" count="1"/>
         <line num="367" type="stmt" count="1"/>
         <line num="368" type="stmt" count="1"/>
         <line num="369" type="stmt" count="1"/>
+        <line num="371" type="stmt" count="1"/>
         <line num="372" type="stmt" count="1"/>
         <line num="373" type="stmt" count="0"/>
-        <line num="375" type="stmt" count="1"/>
+        <line num="376" type="stmt" count="1"/>
+        <line num="377" type="stmt" count="1"/>
         <line num="379" type="stmt" count="1"/>
-        <line num="382" type="method" name="requireCachePath" visibility="private" complexity="2" crap="2.06" count="1"/>
-        <line num="384" type="stmt" count="1"/>
-        <line num="385" type="stmt" count="1"/>
+        <line num="380" type="stmt" count="1"/>
+        <line num="382" type="stmt" count="1"/>
+        <line num="383" type="stmt" count="0"/>
+        <line num="384" type="stmt" count="0"/>
+        <line num="385" type="stmt" count="0"/>
         <line num="386" type="stmt" count="0"/>
-        <line num="389" type="stmt" count="1"/>
-        <metrics loc="392" ncloc="293" classes="1" methods="13" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="156" coveredstatements="39" elements="169" coveredelements="42"/>
+        <line num="388" type="stmt" count="1"/>
+        <line num="391" type="stmt" count="1"/>
+        <line num="394" type="stmt" count="0"/>
+        <line num="395" type="stmt" count="0"/>
+        <line num="396" type="stmt" count="0"/>
+        <line num="397" type="stmt" count="0"/>
+        <line num="400" type="stmt" count="0"/>
+        <line num="401" type="stmt" count="0"/>
+        <line num="402" type="stmt" count="0"/>
+        <line num="403" type="stmt" count="0"/>
+        <line num="406" type="stmt" count="0"/>
+        <line num="407" type="stmt" count="0"/>
+        <line num="408" type="stmt" count="0"/>
+        <line num="411" type="stmt" count="0"/>
+        <line num="412" type="stmt" count="0"/>
+        <line num="413" type="stmt" count="0"/>
+        <line num="416" type="stmt" count="0"/>
+        <line num="420" type="stmt" count="1"/>
+        <line num="423" type="method" name="requireCachePath" visibility="private" complexity="2" crap="2.06" count="1"/>
+        <line num="425" type="stmt" count="1"/>
+        <line num="426" type="stmt" count="1"/>
+        <line num="427" type="stmt" count="0"/>
+        <line num="430" type="stmt" count="1"/>
+        <metrics loc="433" ncloc="329" classes="1" methods="14" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="174" coveredstatements="42" elements="188" coveredelements="45"/>
       </file>
       <file name="/home/erik-poehler/Sites/dom-orm/src/Storage/StorageService.php">
         <class name="DOM\ORM\Storage\StorageService" namespace="DOM\ORM\Storage">
@@ -2322,6 +2341,6 @@
       <line num="229" type="stmt" count="0"/>
       <metrics loc="231" ncloc="209" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="121" coveredstatements="111" elements="121" coveredelements="111"/>
     </file>
-    <metrics files="43" loc="4953" ncloc="4251" classes="36" methods="194" coveredmethods="84" conditionals="0" coveredconditionals="0" statements="1856" coveredstatements="1029" elements="2050" coveredelements="1113"/>
+    <metrics files="43" loc="4994" ncloc="4287" classes="36" methods="195" coveredmethods="84" conditionals="0" coveredconditionals="0" statements="1874" coveredstatements="1032" elements="2069" coveredelements="1116"/>
   </project>
 </coverage>
