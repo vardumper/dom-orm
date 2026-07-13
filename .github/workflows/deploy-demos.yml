@@ -62,6 +62,40 @@ jobs:
           find demos -type f -exec chmod 644 {} \;
           find demos -type d -exec chmod 755 {} \;
 
+      - name: Resolve deployment target
+        id: deploy_target
+        env:
+          INPUT_REMOTE_IP: ${{ github.event.inputs.remote_ip }}
+          INPUT_REMOTE_PATH: ${{ github.event.inputs.remote_path }}
+          SECRET_DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          SECRET_DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          SECRET_DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          set -euo pipefail
+
+          deploy_host="${INPUT_REMOTE_IP:-$SECRET_DEPLOY_HOST}"
+          deploy_path="${INPUT_REMOTE_PATH:-$SECRET_DEPLOY_PATH}"
+          deploy_user="${SECRET_DEPLOY_USER}"
+
+          if [ -z "$deploy_host" ]; then
+            echo "Error: deployment host is empty. Set workflow input 'remote_ip' or secret 'DEPLOY_HOST'."
+            exit 1
+          fi
+
+          if [ -z "$deploy_path" ]; then
+            echo "Error: deployment path is empty. Set workflow input 'remote_path' or secret 'DEPLOY_PATH'."
+            exit 1
+          fi
+
+          if [ -z "$deploy_user" ]; then
+            echo "Error: deployment user is empty. Set secret 'DEPLOY_USER'."
+            exit 1
+          fi
+
+          echo "host=$deploy_host" >> "$GITHUB_OUTPUT"
+          echo "path=$deploy_path" >> "$GITHUB_OUTPUT"
+          echo "user=$deploy_user" >> "$GITHUB_OUTPUT"
+
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
@@ -69,19 +103,21 @@ jobs:
           ${{ secrets.DEPLOY_SSH_KEY }}
           EOF
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H "${{ inputs.remote_ip || secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || true
+          ssh-keyscan -H "${{ steps.deploy_target.outputs.host }}" >> ~/.ssh/known_hosts 2>/dev/null || true
           chmod 644 ~/.ssh/known_hosts
 
       - name: Transfer and extract demos on remote server
         run: |
+          set -euo pipefail
+
           tar -czf - demos/ | ssh -i ~/.ssh/id_rsa \
             -o StrictHostKeyChecking=no \
-            "${{ secrets.DEPLOY_USER }}@${{ inputs.remote_ip || secrets.DEPLOY_HOST }}" \
-            "sudo mkdir -p ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && \
-            sudo env TAR_OPTIONS= tar -xzf - --overwrite --strip-components=1 -C ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && \
-            sudo chown -R www-data:www-data ${{ inputs.remote_path || secrets.DEPLOY_PATH }} && \
-            sudo find ${{ inputs.remote_path || secrets.DEPLOY_PATH }} -type f -exec chmod 644 {} \; && \
-            sudo find ${{ inputs.remote_path || secrets.DEPLOY_PATH }} -type d -exec chmod 755 {} \;"
+            "${{ steps.deploy_target.outputs.user }}@${{ steps.deploy_target.outputs.host }}" \
+            "sudo mkdir -p ${{ steps.deploy_target.outputs.path }} && \
+            sudo env TAR_OPTIONS= tar -xzf - --overwrite --strip-components=1 -C ${{ steps.deploy_target.outputs.path }} && \
+            sudo chown -R www-data:www-data ${{ steps.deploy_target.outputs.path }} && \
+            sudo find ${{ steps.deploy_target.outputs.path }} -type f -exec chmod 644 {} \; && \
+            sudo find ${{ steps.deploy_target.outputs.path }} -type d -exec chmod 755 {} \;"
 
       - name: Clean up SSH key
         if: always()
