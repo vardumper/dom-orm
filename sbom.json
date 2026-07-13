@@ -2,10 +2,10 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:83d0f975-0e5f-49c0-a498-9861a465d0d1",
+  "serialNumber": "urn:uuid:04fc023e-56b9-43c6-8a3d-673f8b4e7716",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-05-18T08:18:02+00:00",
+    "timestamp": "2026-07-13T08:03:07+00:00",
     "tools": {
       "components": [
         {
@@ -20,7 +20,7 @@
       ]
     },
     "component": {
-      "bom-ref": "d97416a6-fb65-48b7-926a-8cc667fa9da1",
+      "bom-ref": "90640914-8582-4dbe-8567-8f579e33a903",
       "type": "application",
       "name": ".",
       "properties": [
@@ -33,610 +33,7 @@
   },
   "components": [
     {
-      "bom-ref": "0d38be4a-5ad5-479e-bd04-84a31b5bc208",
-      "type": "library",
-      "name": "dflydev/dot-access-data",
-      "version": "v3.0.3",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/dflydev/dot-access-data@v3.0.3",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "dflydev/dot-access-data@v3.0.3"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "1d6cd124-8282-4d74-bb14-166eecd9b84d",
-      "type": "application",
-      "name": "demos/blog/package-lock.json",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:Class",
-          "value": "lang-pkgs"
-        },
-        {
-          "name": "aquasecurity:trivy:Type",
-          "value": "npm"
-        }
-      ]
-    },
-    {
-      "bom-ref": "20441da1-13f3-4cf3-83b3-3cf01c66a766",
-      "type": "library",
-      "name": "psr/container",
-      "version": "2.0.2",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/psr/container@2.0.2",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "psr/container@2.0.2"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "242d4525-b391-47ce-bdfb-cfa2c0d269c9",
-      "type": "library",
-      "name": "ramsey/collection",
-      "version": "2.1.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/ramsey/collection@2.1.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "ramsey/collection@2.1.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "299ffd52-55bc-418b-97aa-8d9e595a40fa",
-      "type": "library",
-      "name": "brick/math",
-      "version": "0.14.8",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/brick/math@0.14.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "brick/math@0.14.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "3342d1e8-6118-4a71-8e84-bda876d2d3b1",
-      "type": "library",
-      "name": "league/config",
-      "version": "v1.2.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/config@v1.2.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/config@v1.2.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "383148f1-66d1-43ff-94b9-2b1870299575",
-      "type": "library",
-      "name": "czproject/git-php",
-      "version": "v4.6.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        }
-      ],
-      "purl": "pkg:composer/czproject/git-php@v4.6.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "czproject/git-php@v4.6.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "3ae92cbb-aded-4889-847c-93edbaa59039",
-      "type": "library",
-      "name": "brick/math",
-      "version": "0.14.8",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/brick/math@0.14.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "brick/math@0.14.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "459af217-b66c-4d94-b531-1252b19f5062",
-      "type": "library",
-      "name": "nette/schema",
-      "version": "v1.3.5",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-2.0-only"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-3.0-only"
-          }
-        }
-      ],
-      "purl": "pkg:composer/nette/schema@v1.3.5",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "nette/schema@v1.3.5"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "63c18226-ac18-4600-bf61-07d2d79381c3",
-      "type": "library",
-      "name": "source-map-js",
-      "version": "1.2.1",
-      "purl": "pkg:npm/source-map-js@1.2.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "source-map-js@1.2.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "yarn"
-        }
-      ]
-    },
-    {
-      "bom-ref": "70573847-2fa4-4c58-a040-5f6f49f85b3f",
-      "type": "library",
-      "name": "psr/log",
-      "version": "3.0.2",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/psr/log@3.0.2",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "psr/log@3.0.2"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "786825cf-ae44-45bb-8930-f28de8084e8c",
-      "type": "library",
-      "name": "dflydev/dot-access-data",
-      "version": "v3.0.3",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/dflydev/dot-access-data@v3.0.3",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "dflydev/dot-access-data@v3.0.3"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "7ad81cb8-254a-4ee1-8ce8-2de94c56543f",
-      "type": "library",
-      "name": "psr/log",
-      "version": "3.0.2",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/psr/log@3.0.2",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "psr/log@3.0.2"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "7e0fcfbd-6d03-41ab-bb91-6a95f8fd3684",
-      "type": "application",
-      "name": "yarn.lock",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:Class",
-          "value": "lang-pkgs"
-        },
-        {
-          "name": "aquasecurity:trivy:Type",
-          "value": "yarn"
-        }
-      ]
-    },
-    {
-      "bom-ref": "7f0d8086-9aaf-44bd-adb5-a5ebe3b05824",
-      "type": "application",
-      "name": "composer.lock",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:Class",
-          "value": "lang-pkgs"
-        },
-        {
-          "name": "aquasecurity:trivy:Type",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "80a3688a-c6a4-4465-aea6-d298381ef0b7",
-      "type": "library",
-      "name": "league/mime-type-detection",
-      "version": "1.16.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/mime-type-detection@1.16.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/mime-type-detection@1.16.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "8c44ae1f-a49e-4455-a7e5-9e5dbadadde2",
-      "type": "library",
-      "name": "league/flysystem-local",
-      "version": "3.31.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/flysystem-local@3.31.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/flysystem-local@3.31.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "911d568d-5b81-4091-88f3-c011b6913d4a",
-      "type": "library",
-      "name": "nette/schema",
-      "version": "v1.3.5",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-2.0-only"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-3.0-only"
-          }
-        }
-      ],
-      "purl": "pkg:composer/nette/schema@v1.3.5",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "nette/schema@v1.3.5"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "929784c0-5206-45e7-8694-8e21b3e0862f",
-      "type": "library",
-      "name": "psr/container",
-      "version": "2.0.2",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/psr/container@2.0.2",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "psr/container@2.0.2"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "93f2d275-95df-4208-9c46-dd877cb10134",
-      "type": "library",
-      "name": "php-di/invoker",
-      "version": "2.3.7",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/php-di/invoker@2.3.7",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "php-di/invoker@2.3.7"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "a5bcaf60-7c88-4405-8d5a-cb8e787ef764",
-      "type": "library",
-      "name": "league/mime-type-detection",
-      "version": "1.16.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/mime-type-detection@1.16.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/mime-type-detection@1.16.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "b28b8937-598b-4e41-a837-27ecac3ade01",
-      "type": "library",
-      "name": "source-map-js",
-      "version": "1.2.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        }
-      ],
-      "purl": "pkg:npm/source-map-js@1.2.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "source-map-js@1.2.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "npm"
-        }
-      ]
-    },
-    {
-      "bom-ref": "b2c5cd96-db5a-4234-bcf4-0f6fbe5d48e4",
-      "type": "library",
-      "name": "ramsey/uuid",
-      "version": "4.9.2",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/ramsey/uuid@4.9.2",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "ramsey/uuid@4.9.2"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "b2dc0c91-a381-451e-9b33-efc0dcf21ff6",
-      "type": "library",
-      "name": "czproject/git-php",
-      "version": "v4.6.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        }
-      ],
-      "purl": "pkg:composer/czproject/git-php@v4.6.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "czproject/git-php@v4.6.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "c137c4cc-7ff6-44ed-9e9f-13b02cd01e26",
-      "type": "library",
-      "name": "picomatch",
-      "version": "4.0.4",
-      "purl": "pkg:npm/picomatch@4.0.4",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "picomatch@4.0.4"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "yarn"
-        }
-      ]
-    },
-    {
-      "bom-ref": "cf830919-bff2-4d1c-9891-8a42c03eb1ec",
-      "type": "library",
-      "name": "php-di/invoker",
-      "version": "2.3.7",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/php-di/invoker@2.3.7",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "php-di/invoker@2.3.7"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "d491cb9a-ab35-4419-8fa4-4f6b2a5e79b3",
+      "bom-ref": "0756a05a-6c22-4ee6-b369-f56e7968b13b",
       "type": "library",
       "name": "",
       "properties": [
@@ -651,55 +48,7 @@
       ]
     },
     {
-      "bom-ref": "d50ed597-0ce9-4880-ac9e-461cdaae816b",
-      "type": "library",
-      "name": "ramsey/uuid",
-      "version": "4.9.2",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/ramsey/uuid@4.9.2",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "ramsey/uuid@4.9.2"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "d7acfdb3-3093-4e21-b56d-1c5a1a85a8b4",
-      "type": "library",
-      "name": "ramsey/collection",
-      "version": "2.1.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/ramsey/collection@2.1.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "ramsey/collection@2.1.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "d9bb53f8-8f0f-47b0-8e3f-90008d6cdb7e",
+      "bom-ref": "0a0c5d9e-1917-4c15-8991-666be75f1c06",
       "type": "library",
       "name": "picomatch",
       "version": "4.0.4",
@@ -723,10 +72,10 @@
       ]
     },
     {
-      "bom-ref": "dcdeaf62-1872-4d84-8eae-850cee836751",
+      "bom-ref": "1fc7870d-28e4-4c1c-b345-a65b64f502ee",
       "type": "library",
-      "name": "league/flysystem-local",
-      "version": "3.31.0",
+      "name": "psr/log",
+      "version": "3.0.2",
       "licenses": [
         {
           "license": {
@@ -734,11 +83,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/league/flysystem-local@3.31.0",
+      "purl": "pkg:composer/psr/log@3.0.2",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "league/flysystem-local@3.31.0"
+          "value": "psr/log@3.0.2"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -747,7 +96,250 @@
       ]
     },
     {
-      "bom-ref": "e66ae5a4-dcc0-4191-b01e-01fcb9ee6cc9",
+      "bom-ref": "22ab787e-b561-4c2c-b54e-bb86c72a20c5",
+      "type": "library",
+      "name": "nette/schema",
+      "version": "v1.3.5",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-2.0-only"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-3.0-only"
+          }
+        }
+      ],
+      "purl": "pkg:composer/nette/schema@v1.3.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "nette/schema@v1.3.5"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "2fa32804-1dce-4e7d-b0f5-fad5274feb0b",
+      "type": "library",
+      "name": "nette/schema",
+      "version": "v1.3.5",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-2.0-only"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-3.0-only"
+          }
+        }
+      ],
+      "purl": "pkg:composer/nette/schema@v1.3.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "nette/schema@v1.3.5"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "3a20c0f4-543e-47d1-950f-a1228e0a183f",
+      "type": "application",
+      "name": "yarn.lock",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Class",
+          "value": "lang-pkgs"
+        },
+        {
+          "name": "aquasecurity:trivy:Type",
+          "value": "yarn"
+        }
+      ]
+    },
+    {
+      "bom-ref": "4147738a-636d-4761-9288-e21599b1ad5f",
+      "type": "library",
+      "name": "picomatch",
+      "version": "4.0.4",
+      "purl": "pkg:npm/picomatch@4.0.4",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "picomatch@4.0.4"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "yarn"
+        }
+      ]
+    },
+    {
+      "bom-ref": "5a0e5143-502b-4ec5-ad21-adacb164116f",
+      "type": "application",
+      "name": "demos/blog/package-lock.json",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Class",
+          "value": "lang-pkgs"
+        },
+        {
+          "name": "aquasecurity:trivy:Type",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "5f64cabc-138d-4bfc-9cae-0a2b9430023f",
+      "type": "library",
+      "name": "source-map-js",
+      "version": "1.2.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:npm/source-map-js@1.2.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "source-map-js@1.2.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "61bd99a2-e087-4d13-97e7-102d3939684c",
+      "type": "library",
+      "name": "czproject/git-php",
+      "version": "v4.6.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:composer/czproject/git-php@v4.6.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "czproject/git-php@v4.6.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "6d1c4485-8a50-4821-8e69-3d7f60b7e51a",
+      "type": "application",
+      "name": "composer.lock",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Class",
+          "value": "lang-pkgs"
+        },
+        {
+          "name": "aquasecurity:trivy:Type",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "80b8a751-e578-470f-bc50-1960476ae256",
+      "type": "library",
+      "name": "psr/container",
+      "version": "2.0.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/psr/container@2.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/container@2.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "87ecf3b3-ad18-47d8-bea9-744419951262",
+      "type": "library",
+      "name": "source-map-js",
+      "version": "1.2.1",
+      "purl": "pkg:npm/source-map-js@1.2.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "source-map-js@1.2.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "yarn"
+        }
+      ]
+    },
+    {
+      "bom-ref": "a3843ead-7a9a-4874-9fc4-aaf330b8a9e7",
+      "type": "library",
+      "name": "psr/log",
+      "version": "3.0.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/psr/log@3.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/log@3.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "ae6d7e59-799c-4d85-b0d8-54cd20a0128b",
       "type": "library",
       "name": "league/config",
       "version": "v1.2.0",
@@ -771,7 +363,199 @@
       ]
     },
     {
-      "bom-ref": "e687e59c-54cf-45f8-b56b-941edd9109cd",
+      "bom-ref": "b39d225d-f199-4e7c-8cf5-8a763ef71314",
+      "type": "library",
+      "name": "league/flysystem-local",
+      "version": "3.31.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/league/flysystem-local@3.31.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/flysystem-local@3.31.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "c24e60d8-2897-49ea-9b7c-bef8590088ab",
+      "type": "library",
+      "name": "league/flysystem-local",
+      "version": "3.31.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/league/flysystem-local@3.31.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/flysystem-local@3.31.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "c3d8682e-307f-47b2-9861-68cde2b7884a",
+      "type": "library",
+      "name": "ramsey/collection",
+      "version": "2.1.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/ramsey/collection@2.1.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ramsey/collection@2.1.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "c57b1ec2-3652-4e44-bade-c94e985b2b72",
+      "type": "library",
+      "name": "czproject/git-php",
+      "version": "v4.6.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:composer/czproject/git-php@v4.6.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "czproject/git-php@v4.6.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "c6927cb8-9a5f-4ef2-bf93-b262ec61cdcb",
+      "type": "library",
+      "name": "php-di/invoker",
+      "version": "2.3.7",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/php-di/invoker@2.3.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "php-di/invoker@2.3.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "cb159c02-7088-41f4-8fa9-58c87f52dc77",
+      "type": "library",
+      "name": "dflydev/dot-access-data",
+      "version": "v3.0.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/dflydev/dot-access-data@v3.0.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "dflydev/dot-access-data@v3.0.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "e2d5a319-3105-4320-96bc-cdf67a2934f2",
+      "type": "library",
+      "name": "php-di/invoker",
+      "version": "2.3.7",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/php-di/invoker@2.3.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "php-di/invoker@2.3.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "e97362b1-6c28-4034-baee-d6cbc0487f96",
+      "type": "library",
+      "name": "psr/container",
+      "version": "2.0.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/psr/container@2.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/container@2.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "e9e40e7f-e124-4e93-9959-d040d3c6bd9e",
       "type": "application",
       "name": "demos/composer.lock",
       "properties": [
@@ -781,6 +565,78 @@
         },
         {
           "name": "aquasecurity:trivy:Type",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "ea90babd-3cf3-49cb-834a-8224e25ab106",
+      "type": "library",
+      "name": "ramsey/collection",
+      "version": "2.1.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/ramsey/collection@2.1.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ramsey/collection@2.1.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "ee15778a-2b8b-420e-991e-885b88259405",
+      "type": "library",
+      "name": "dflydev/dot-access-data",
+      "version": "v3.0.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/dflydev/dot-access-data@v3.0.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "dflydev/dot-access-data@v3.0.3"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "ffe6788b-4b10-4c5d-9260-5c1e1f736851",
+      "type": "library",
+      "name": "league/config",
+      "version": "v1.2.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:composer/league/config@v1.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/config@v1.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
           "value": "composer"
         }
       ]
@@ -834,6 +690,54 @@
       ]
     },
     {
+      "bom-ref": "pkg:composer/brick/math@0.14.8",
+      "type": "library",
+      "name": "brick/math",
+      "version": "0.14.8",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/brick/math@0.14.8",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "brick/math@0.14.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/brick/math@0.18.0",
+      "type": "library",
+      "name": "brick/math",
+      "version": "0.18.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/brick/math@0.18.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "brick/math@0.18.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
       "bom-ref": "pkg:composer/clue/ndjson-react@v1.3.0",
       "type": "library",
       "name": "clue/ndjson-react",
@@ -858,10 +762,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/composer/pcre@3.3.2",
+      "bom-ref": "pkg:composer/composer/pcre@3.4.0",
       "type": "library",
       "name": "composer/pcre",
-      "version": "3.3.2",
+      "version": "3.4.0",
       "licenses": [
         {
           "license": {
@@ -869,11 +773,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/composer/pcre@3.3.2",
+      "purl": "pkg:composer/composer/pcre@3.4.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "composer/pcre@3.3.2"
+          "value": "composer/pcre@3.4.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -946,6 +850,30 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "doctrine/deprecations@1.1.6"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/entropy/entropy@0.4.6",
+      "type": "library",
+      "name": "entropy/entropy",
+      "version": "0.4.6",
+      "licenses": [
+        {
+          "license": {
+            "name": "proprietary"
+          }
+        }
+      ],
+      "purl": "pkg:composer/entropy/entropy@0.4.6",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "entropy/entropy@0.4.6"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1074,10 +1002,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/friendsofphp/php-cs-fixer@v3.95.2",
+      "bom-ref": "pkg:composer/friendsofphp/php-cs-fixer@v3.95.13",
       "type": "library",
       "name": "friendsofphp/php-cs-fixer",
-      "version": "v3.95.2",
+      "version": "v3.95.13",
       "licenses": [
         {
           "license": {
@@ -1085,11 +1013,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/friendsofphp/php-cs-fixer@v3.95.2",
+      "purl": "pkg:composer/friendsofphp/php-cs-fixer@v3.95.13",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "friendsofphp/php-cs-fixer@v3.95.2"
+          "value": "friendsofphp/php-cs-fixer@v3.95.13"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1290,10 +1218,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/league/flysystem@3.34.0",
+      "bom-ref": "pkg:composer/league/flysystem@3.35.2",
       "type": "library",
       "name": "league/flysystem",
-      "version": "3.34.0",
+      "version": "3.35.2",
       "licenses": [
         {
           "license": {
@@ -1301,11 +1229,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/league/flysystem@3.34.0",
+      "purl": "pkg:composer/league/flysystem@3.35.2",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "league/flysystem@3.34.0"
+          "value": "league/flysystem@3.35.2"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1314,10 +1242,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/mnapoli/silly@1.10.0",
+      "bom-ref": "pkg:composer/league/mime-type-detection@1.16.0",
       "type": "library",
-      "name": "mnapoli/silly",
-      "version": "1.10.0",
+      "name": "league/mime-type-detection",
+      "version": "1.16.0",
       "licenses": [
         {
           "license": {
@@ -1325,11 +1253,59 @@
           }
         }
       ],
-      "purl": "pkg:composer/mnapoli/silly@1.10.0",
+      "purl": "pkg:composer/league/mime-type-detection@1.16.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "mnapoli/silly@1.10.0"
+          "value": "league/mime-type-detection@1.16.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/league/mime-type-detection@1.17.0",
+      "type": "library",
+      "name": "league/mime-type-detection",
+      "version": "1.17.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/league/mime-type-detection@1.17.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/mime-type-detection@1.17.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/mnapoli/silly@1.10.1",
+      "type": "library",
+      "name": "mnapoli/silly",
+      "version": "1.10.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/mnapoli/silly@1.10.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "mnapoli/silly@1.10.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1378,6 +1354,40 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "myclabs/deep-copy@1.13.4"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/nette/robot-loader@v4.1.2",
+      "type": "library",
+      "name": "nette/robot-loader",
+      "version": "v4.1.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-2.0-only"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-3.0-only"
+          }
+        }
+      ],
+      "purl": "pkg:composer/nette/robot-loader@v4.1.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "nette/robot-loader@v4.1.2"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1454,10 +1464,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/nikic/php-parser@v5.7.0",
+      "bom-ref": "pkg:composer/nikic/php-parser@v5.8.0",
       "type": "library",
       "name": "nikic/php-parser",
-      "version": "v5.7.0",
+      "version": "v5.8.0",
       "licenses": [
         {
           "license": {
@@ -1465,11 +1475,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/nikic/php-parser@v5.7.0",
+      "purl": "pkg:composer/nikic/php-parser@v5.8.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "nikic/php-parser@v5.7.0"
+          "value": "nikic/php-parser@v5.8.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1646,10 +1656,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/pestphp/pest@v4.7.0",
+      "bom-ref": "pkg:composer/pestphp/pest@v4.7.5",
       "type": "library",
       "name": "pestphp/pest",
-      "version": "v4.7.0",
+      "version": "v4.7.5",
       "licenses": [
         {
           "license": {
@@ -1657,11 +1667,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/pestphp/pest@v4.7.0",
+      "purl": "pkg:composer/pestphp/pest@v4.7.5",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "pestphp/pest@v4.7.0"
+          "value": "pestphp/pest@v4.7.5"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1814,10 +1824,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/phpstan/phpdoc-parser@2.3.2",
+      "bom-ref": "pkg:composer/phpstan/phpdoc-parser@2.3.3",
       "type": "library",
       "name": "phpstan/phpdoc-parser",
-      "version": "2.3.2",
+      "version": "2.3.3",
       "licenses": [
         {
           "license": {
@@ -1825,11 +1835,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/phpstan/phpdoc-parser@2.3.2",
+      "purl": "pkg:composer/phpstan/phpdoc-parser@2.3.3",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "phpstan/phpdoc-parser@2.3.2"
+          "value": "phpstan/phpdoc-parser@2.3.3"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1838,10 +1848,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/phpstan/phpstan@1.12.33",
+      "bom-ref": "pkg:composer/phpstan/phpstan@2.2.5",
       "type": "library",
       "name": "phpstan/phpstan",
-      "version": "1.12.33",
+      "version": "2.2.5",
       "licenses": [
         {
           "license": {
@@ -1849,11 +1859,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/phpstan/phpstan@1.12.33",
+      "purl": "pkg:composer/phpstan/phpstan@2.2.5",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "phpstan/phpstan@1.12.33"
+          "value": "phpstan/phpstan@2.2.5"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1862,10 +1872,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/phpunit/php-code-coverage@12.5.6",
+      "bom-ref": "pkg:composer/phpunit/php-code-coverage@12.5.7",
       "type": "library",
       "name": "phpunit/php-code-coverage",
-      "version": "12.5.6",
+      "version": "12.5.7",
       "licenses": [
         {
           "license": {
@@ -1873,11 +1883,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/phpunit/php-code-coverage@12.5.6",
+      "purl": "pkg:composer/phpunit/php-code-coverage@12.5.7",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "phpunit/php-code-coverage@12.5.6"
+          "value": "phpunit/php-code-coverage@12.5.7"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1982,10 +1992,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/phpunit/phpunit@12.5.24",
+      "bom-ref": "pkg:composer/phpunit/phpunit@12.5.30",
       "type": "library",
       "name": "phpunit/phpunit",
-      "version": "12.5.24",
+      "version": "12.5.30",
       "licenses": [
         {
           "license": {
@@ -1993,11 +2003,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/phpunit/phpunit@12.5.24",
+      "purl": "pkg:composer/phpunit/phpunit@12.5.30",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "phpunit/phpunit@12.5.24"
+          "value": "phpunit/phpunit@12.5.30"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2046,6 +2056,54 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "psr/simple-cache@3.0.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/ramsey/uuid@4.9.2",
+      "type": "library",
+      "name": "ramsey/uuid",
+      "version": "4.9.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/ramsey/uuid@4.9.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ramsey/uuid@4.9.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/ramsey/uuid@4.9.3",
+      "type": "library",
+      "name": "ramsey/uuid",
+      "version": "4.9.3",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/ramsey/uuid@4.9.3",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ramsey/uuid@4.9.3"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2222,10 +2280,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/rector/swiss-knife@2.3.5",
+      "bom-ref": "pkg:composer/rector/swiss-knife@2.4.8",
       "type": "library",
       "name": "rector/swiss-knife",
-      "version": "2.3.5",
+      "version": "2.4.8",
       "licenses": [
         {
           "license": {
@@ -2233,11 +2291,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/rector/swiss-knife@2.3.5",
+      "purl": "pkg:composer/rector/swiss-knife@2.4.8",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "rector/swiss-knife@2.3.5"
+          "value": "rector/swiss-knife@2.4.8"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2270,10 +2328,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/sebastian/comparator@7.1.6",
+      "bom-ref": "pkg:composer/sebastian/comparator@7.1.8",
       "type": "library",
       "name": "sebastian/comparator",
-      "version": "7.1.6",
+      "version": "7.1.8",
       "licenses": [
         {
           "license": {
@@ -2281,11 +2339,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/sebastian/comparator@7.1.6",
+      "purl": "pkg:composer/sebastian/comparator@7.1.8",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "sebastian/comparator@7.1.6"
+          "value": "sebastian/comparator@7.1.8"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2342,10 +2400,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/sebastian/environment@8.1.0",
+      "bom-ref": "pkg:composer/sebastian/environment@8.1.2",
       "type": "library",
       "name": "sebastian/environment",
-      "version": "8.1.0",
+      "version": "8.1.2",
       "licenses": [
         {
           "license": {
@@ -2353,11 +2411,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/sebastian/environment@8.1.0",
+      "purl": "pkg:composer/sebastian/environment@8.1.2",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "sebastian/environment@8.1.0"
+          "value": "sebastian/environment@8.1.2"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2366,10 +2424,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/sebastian/exporter@7.0.2",
+      "bom-ref": "pkg:composer/sebastian/exporter@7.0.3",
       "type": "library",
       "name": "sebastian/exporter",
-      "version": "7.0.2",
+      "version": "7.0.3",
       "licenses": [
         {
           "license": {
@@ -2377,11 +2435,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/sebastian/exporter@7.0.2",
+      "purl": "pkg:composer/sebastian/exporter@7.0.3",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "sebastian/exporter@7.0.2"
+          "value": "sebastian/exporter@7.0.3"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2390,10 +2448,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/sebastian/global-state@8.0.2",
+      "bom-ref": "pkg:composer/sebastian/global-state@8.0.3",
       "type": "library",
       "name": "sebastian/global-state",
-      "version": "8.0.2",
+      "version": "8.0.3",
       "licenses": [
         {
           "license": {
@@ -2401,11 +2459,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/sebastian/global-state@8.0.2",
+      "purl": "pkg:composer/sebastian/global-state@8.0.3",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "sebastian/global-state@8.0.2"
+          "value": "sebastian/global-state@8.0.3"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2414,10 +2472,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/sebastian/lines-of-code@4.0.0",
+      "bom-ref": "pkg:composer/sebastian/lines-of-code@4.0.1",
       "type": "library",
       "name": "sebastian/lines-of-code",
-      "version": "4.0.0",
+      "version": "4.0.1",
       "licenses": [
         {
           "license": {
@@ -2425,11 +2483,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/sebastian/lines-of-code@4.0.0",
+      "purl": "pkg:composer/sebastian/lines-of-code@4.0.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "sebastian/lines-of-code@4.0.0"
+          "value": "sebastian/lines-of-code@4.0.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2510,10 +2568,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/sebastian/type@6.0.3",
+      "bom-ref": "pkg:composer/sebastian/type@6.0.4",
       "type": "library",
       "name": "sebastian/type",
-      "version": "6.0.3",
+      "version": "6.0.4",
       "licenses": [
         {
           "license": {
@@ -2521,11 +2579,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/sebastian/type@6.0.3",
+      "purl": "pkg:composer/sebastian/type@6.0.4",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "sebastian/type@6.0.3"
+          "value": "sebastian/type@6.0.4"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2582,10 +2640,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/config@v7.4.10",
+      "bom-ref": "pkg:composer/symfony/config@v7.4.14",
       "type": "library",
       "name": "symfony/config",
-      "version": "v7.4.10",
+      "version": "v7.4.14",
       "licenses": [
         {
           "license": {
@@ -2593,11 +2651,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/config@v7.4.10",
+      "purl": "pkg:composer/symfony/config@v7.4.14",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/config@v7.4.10"
+          "value": "symfony/config@v7.4.14"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2606,10 +2664,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/console@v7.4.11",
+      "bom-ref": "pkg:composer/symfony/console@v7.4.14",
       "type": "library",
       "name": "symfony/console",
-      "version": "v7.4.11",
+      "version": "v7.4.14",
       "licenses": [
         {
           "license": {
@@ -2617,11 +2675,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/console@v7.4.11",
+      "purl": "pkg:composer/symfony/console@v7.4.14",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/console@v7.4.11"
+          "value": "symfony/console@v7.4.14"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2654,10 +2712,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/dependency-injection@v7.4.10",
+      "bom-ref": "pkg:composer/symfony/dependency-injection@v7.4.14",
       "type": "library",
       "name": "symfony/dependency-injection",
-      "version": "v7.4.10",
+      "version": "v7.4.14",
       "licenses": [
         {
           "license": {
@@ -2665,11 +2723,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/dependency-injection@v7.4.10",
+      "purl": "pkg:composer/symfony/dependency-injection@v7.4.14",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/dependency-injection@v7.4.10"
+          "value": "symfony/dependency-injection@v7.4.14"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2702,10 +2760,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/deprecation-contracts@v3.7.0",
+      "bom-ref": "pkg:composer/symfony/deprecation-contracts@v3.7.1",
       "type": "library",
       "name": "symfony/deprecation-contracts",
-      "version": "v3.7.0",
+      "version": "v3.7.1",
       "licenses": [
         {
           "license": {
@@ -2713,11 +2771,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/deprecation-contracts@v3.7.0",
+      "purl": "pkg:composer/symfony/deprecation-contracts@v3.7.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/deprecation-contracts@v3.7.0"
+          "value": "symfony/deprecation-contracts@v3.7.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2726,10 +2784,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/event-dispatcher-contracts@v3.7.0",
+      "bom-ref": "pkg:composer/symfony/event-dispatcher-contracts@v3.7.1",
       "type": "library",
       "name": "symfony/event-dispatcher-contracts",
-      "version": "v3.7.0",
+      "version": "v3.7.1",
       "licenses": [
         {
           "license": {
@@ -2737,11 +2795,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/event-dispatcher-contracts@v3.7.0",
+      "purl": "pkg:composer/symfony/event-dispatcher-contracts@v3.7.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/event-dispatcher-contracts@v3.7.0"
+          "value": "symfony/event-dispatcher-contracts@v3.7.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2750,10 +2808,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/event-dispatcher@v8.0.9",
+      "bom-ref": "pkg:composer/symfony/event-dispatcher@v8.1.1",
       "type": "library",
       "name": "symfony/event-dispatcher",
-      "version": "v8.0.9",
+      "version": "v8.1.1",
       "licenses": [
         {
           "license": {
@@ -2761,11 +2819,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/event-dispatcher@v8.0.9",
+      "purl": "pkg:composer/symfony/event-dispatcher@v8.1.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/event-dispatcher@v8.0.9"
+          "value": "symfony/event-dispatcher@v8.1.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2798,10 +2856,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/finder@v8.0.8",
+      "bom-ref": "pkg:composer/symfony/finder@v8.1.1",
       "type": "library",
       "name": "symfony/finder",
-      "version": "v8.0.8",
+      "version": "v8.1.1",
       "licenses": [
         {
           "license": {
@@ -2809,11 +2867,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/finder@v8.0.8",
+      "purl": "pkg:composer/symfony/finder@v8.1.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/finder@v8.0.8"
+          "value": "symfony/finder@v8.1.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2822,10 +2880,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/options-resolver@v8.0.8",
+      "bom-ref": "pkg:composer/symfony/options-resolver@v8.1.0",
       "type": "library",
       "name": "symfony/options-resolver",
-      "version": "v8.0.8",
+      "version": "v8.1.0",
       "licenses": [
         {
           "license": {
@@ -2833,11 +2891,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/options-resolver@v8.0.8",
+      "purl": "pkg:composer/symfony/options-resolver@v8.1.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/options-resolver@v8.0.8"
+          "value": "symfony/options-resolver@v8.1.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2894,6 +2952,30 @@
       ]
     },
     {
+      "bom-ref": "pkg:composer/symfony/polyfill-deepclone@v1.40.0",
+      "type": "library",
+      "name": "symfony/polyfill-deepclone",
+      "version": "v1.40.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/polyfill-deepclone@v1.40.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-deepclone@v1.40.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
       "bom-ref": "pkg:composer/symfony/polyfill-intl-grapheme@v1.36.0",
       "type": "library",
       "name": "symfony/polyfill-intl-grapheme",
@@ -2918,10 +3000,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/polyfill-intl-grapheme@v1.37.0",
+      "bom-ref": "pkg:composer/symfony/polyfill-intl-grapheme@v1.38.1",
       "type": "library",
       "name": "symfony/polyfill-intl-grapheme",
-      "version": "v1.37.0",
+      "version": "v1.38.1",
       "licenses": [
         {
           "license": {
@@ -2929,11 +3011,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/polyfill-intl-grapheme@v1.37.0",
+      "purl": "pkg:composer/symfony/polyfill-intl-grapheme@v1.38.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-intl-grapheme@v1.37.0"
+          "value": "symfony/polyfill-intl-grapheme@v1.38.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2966,10 +3048,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/polyfill-intl-normalizer@v1.37.0",
+      "bom-ref": "pkg:composer/symfony/polyfill-intl-normalizer@v1.38.0",
       "type": "library",
       "name": "symfony/polyfill-intl-normalizer",
-      "version": "v1.37.0",
+      "version": "v1.38.0",
       "licenses": [
         {
           "license": {
@@ -2977,11 +3059,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/polyfill-intl-normalizer@v1.37.0",
+      "purl": "pkg:composer/symfony/polyfill-intl-normalizer@v1.38.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-intl-normalizer@v1.37.0"
+          "value": "symfony/polyfill-intl-normalizer@v1.38.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -3014,10 +3096,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/polyfill-mbstring@v1.37.0",
+      "bom-ref": "pkg:composer/symfony/polyfill-mbstring@v1.38.2",
       "type": "library",
       "name": "symfony/polyfill-mbstring",
-      "version": "v1.37.0",
+      "version": "v1.38.2",
       "licenses": [
         {
           "license": {
@@ -3025,11 +3107,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/polyfill-mbstring@v1.37.0",
+      "purl": "pkg:composer/symfony/polyfill-mbstring@v1.38.2",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-mbstring@v1.37.0"
+          "value": "symfony/polyfill-mbstring@v1.38.2"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -3062,10 +3144,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/polyfill-php81@v1.37.0",
+      "bom-ref": "pkg:composer/symfony/polyfill-php81@v1.38.1",
       "type": "library",
       "name": "symfony/polyfill-php81",
-      "version": "v1.37.0",
+      "version": "v1.38.1",
       "licenses": [
         {
           "license": {
@@ -3073,11 +3155,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/polyfill-php81@v1.37.0",
+      "purl": "pkg:composer/symfony/polyfill-php81@v1.38.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-php81@v1.37.0"
+          "value": "symfony/polyfill-php81@v1.38.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -3086,10 +3168,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/polyfill-php84@v1.37.0",
+      "bom-ref": "pkg:composer/symfony/polyfill-php84@v1.38.1",
       "type": "library",
       "name": "symfony/polyfill-php84",
-      "version": "v1.37.0",
+      "version": "v1.38.1",
       "licenses": [
         {
           "license": {
@@ -3097,11 +3179,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/polyfill-php84@v1.37.0",
+      "purl": "pkg:composer/symfony/polyfill-php84@v1.38.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-php84@v1.37.0"
+          "value": "symfony/polyfill-php84@v1.38.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -3110,10 +3192,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/process@v8.0.11",
+      "bom-ref": "pkg:composer/symfony/process@v8.1.0",
       "type": "library",
       "name": "symfony/process",
-      "version": "v8.0.11",
+      "version": "v8.1.0",
       "licenses": [
         {
           "license": {
@@ -3121,35 +3203,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/process@v8.0.11",
+      "purl": "pkg:composer/symfony/process@v8.1.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/process@v8.0.11"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/serializer@v8.0.10",
-      "type": "library",
-      "name": "symfony/serializer",
-      "version": "v8.0.10",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/serializer@v8.0.10",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/serializer@v8.0.10"
+          "value": "symfony/process@v8.1.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -3182,6 +3240,30 @@
       ]
     },
     {
+      "bom-ref": "pkg:composer/symfony/serializer@v8.1.1",
+      "type": "library",
+      "name": "symfony/serializer",
+      "version": "v8.1.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/serializer@v8.1.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/serializer@v8.1.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
       "bom-ref": "pkg:composer/symfony/service-contracts@v3.6.1",
       "type": "library",
       "name": "symfony/service-contracts",
@@ -3206,10 +3288,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/service-contracts@v3.7.0",
+      "bom-ref": "pkg:composer/symfony/service-contracts@v3.7.1",
       "type": "library",
       "name": "symfony/service-contracts",
-      "version": "v3.7.0",
+      "version": "v3.7.1",
       "licenses": [
         {
           "license": {
@@ -3217,11 +3299,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/service-contracts@v3.7.0",
+      "purl": "pkg:composer/symfony/service-contracts@v3.7.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/service-contracts@v3.7.0"
+          "value": "symfony/service-contracts@v3.7.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -3230,10 +3312,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/stopwatch@v8.0.8",
+      "bom-ref": "pkg:composer/symfony/stopwatch@v8.1.0",
       "type": "library",
       "name": "symfony/stopwatch",
-      "version": "v8.0.8",
+      "version": "v8.1.0",
       "licenses": [
         {
           "license": {
@@ -3241,35 +3323,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/stopwatch@v8.0.8",
+      "purl": "pkg:composer/symfony/stopwatch@v8.1.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/stopwatch@v8.0.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/string@v8.0.11",
-      "type": "library",
-      "name": "symfony/string",
-      "version": "v8.0.11",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/string@v8.0.11",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/string@v8.0.11"
+          "value": "symfony/stopwatch@v8.1.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -3302,10 +3360,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/var-exporter@v8.0.9",
+      "bom-ref": "pkg:composer/symfony/string@v8.1.0",
       "type": "library",
-      "name": "symfony/var-exporter",
-      "version": "v8.0.9",
+      "name": "symfony/string",
+      "version": "v8.1.0",
       "licenses": [
         {
           "license": {
@@ -3313,11 +3371,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/var-exporter@v8.0.9",
+      "purl": "pkg:composer/symfony/string@v8.1.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/var-exporter@v8.0.9"
+          "value": "symfony/string@v8.1.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -3326,10 +3384,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/yaml@v8.0.11",
+      "bom-ref": "pkg:composer/symfony/var-exporter@v8.1.1",
       "type": "library",
-      "name": "symfony/yaml",
-      "version": "v8.0.11",
+      "name": "symfony/var-exporter",
+      "version": "v8.1.1",
       "licenses": [
         {
           "license": {
@@ -3337,11 +3395,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/yaml@v8.0.11",
+      "purl": "pkg:composer/symfony/var-exporter@v8.1.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/yaml@v8.0.11"
+          "value": "symfony/var-exporter@v8.1.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -3366,6 +3424,30 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "symfony/yaml@v8.0.8"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:composer/symfony/yaml@v8.1.1",
+      "type": "library",
+      "name": "symfony/yaml",
+      "version": "v8.1.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/yaml@v8.1.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/yaml@v8.1.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -3487,10 +3569,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/webmozart/assert@2.3.0",
+      "bom-ref": "pkg:composer/webmozart/assert@2.4.1",
       "type": "library",
       "name": "webmozart/assert",
-      "version": "2.3.0",
+      "version": "2.4.1",
       "licenses": [
         {
           "license": {
@@ -3498,11 +3580,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/webmozart/assert@2.3.0",
+      "purl": "pkg:composer/webmozart/assert@2.4.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "webmozart/assert@2.3.0"
+          "value": "webmozart/assert@2.4.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -6023,15 +6105,15 @@
       ]
     },
     {
-      "bom-ref": "pkg:npm/brace-expansion@5.0.5",
+      "bom-ref": "pkg:npm/brace-expansion@5.0.6",
       "type": "library",
       "name": "brace-expansion",
-      "version": "5.0.5",
-      "purl": "pkg:npm/brace-expansion@5.0.5",
+      "version": "5.0.6",
+      "purl": "pkg:npm/brace-expansion@5.0.6",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "brace-expansion@5.0.5"
+          "value": "brace-expansion@5.0.6"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -7985,195 +8067,150 @@
   ],
   "dependencies": [
     {
-      "ref": "0d38be4a-5ad5-479e-bd04-84a31b5bc208",
+      "ref": "0756a05a-6c22-4ee6-b369-f56e7968b13b",
+      "dependsOn": [
+        "pkg:npm/vitepress@1.6.4"
+      ]
+    },
+    {
+      "ref": "0a0c5d9e-1917-4c15-8991-666be75f1c06",
       "dependsOn": []
     },
     {
-      "ref": "1d6cd124-8282-4d74-bb14-166eecd9b84d",
+      "ref": "1fc7870d-28e4-4c1c-b345-a65b64f502ee",
+      "dependsOn": []
+    },
+    {
+      "ref": "22ab787e-b561-4c2c-b54e-bb86c72a20c5",
+      "dependsOn": [
+        "pkg:composer/nette/utils@v4.1.4"
+      ]
+    },
+    {
+      "ref": "2fa32804-1dce-4e7d-b0f5-fad5274feb0b",
+      "dependsOn": [
+        "pkg:composer/nette/utils@v4.1.3"
+      ]
+    },
+    {
+      "ref": "3a20c0f4-543e-47d1-950f-a1228e0a183f",
+      "dependsOn": [
+        "0756a05a-6c22-4ee6-b369-f56e7968b13b"
+      ]
+    },
+    {
+      "ref": "4147738a-636d-4761-9288-e21599b1ad5f",
+      "dependsOn": []
+    },
+    {
+      "ref": "5a0e5143-502b-4ec5-ad21-adacb164116f",
       "dependsOn": [
         "pkg:npm/%40picocss/pico@2.1.1",
         "pkg:npm/sass@1.99.0"
       ]
     },
     {
-      "ref": "20441da1-13f3-4cf3-83b3-3cf01c66a766",
+      "ref": "5f64cabc-138d-4bfc-9cae-0a2b9430023f",
       "dependsOn": []
     },
     {
-      "ref": "242d4525-b391-47ce-bdfb-cfa2c0d269c9",
+      "ref": "61bd99a2-e087-4d13-97e7-102d3939684c",
       "dependsOn": []
     },
     {
-      "ref": "299ffd52-55bc-418b-97aa-8d9e595a40fa",
-      "dependsOn": []
-    },
-    {
-      "ref": "3342d1e8-6118-4a71-8e84-bda876d2d3b1",
+      "ref": "6d1c4485-8a50-4821-8e69-3d7f60b7e51a",
       "dependsOn": [
-        "0d38be4a-5ad5-479e-bd04-84a31b5bc208",
-        "911d568d-5b81-4091-88f3-c011b6913d4a"
-      ]
-    },
-    {
-      "ref": "383148f1-66d1-43ff-94b9-2b1870299575",
-      "dependsOn": []
-    },
-    {
-      "ref": "3ae92cbb-aded-4889-847c-93edbaa59039",
-      "dependsOn": []
-    },
-    {
-      "ref": "459af217-b66c-4d94-b531-1252b19f5062",
-      "dependsOn": [
-        "pkg:composer/nette/utils@v4.1.4"
-      ]
-    },
-    {
-      "ref": "63c18226-ac18-4600-bf61-07d2d79381c3",
-      "dependsOn": []
-    },
-    {
-      "ref": "70573847-2fa4-4c58-a040-5f6f49f85b3f",
-      "dependsOn": []
-    },
-    {
-      "ref": "786825cf-ae44-45bb-8930-f28de8084e8c",
-      "dependsOn": []
-    },
-    {
-      "ref": "7ad81cb8-254a-4ee1-8ce8-2de94c56543f",
-      "dependsOn": []
-    },
-    {
-      "ref": "7e0fcfbd-6d03-41ab-bb91-6a95f8fd3684",
-      "dependsOn": [
-        "d491cb9a-ab35-4419-8fa4-4f6b2a5e79b3"
-      ]
-    },
-    {
-      "ref": "7f0d8086-9aaf-44bd-adb5-a5ebe3b05824",
-      "dependsOn": [
-        "b2dc0c91-a381-451e-9b33-efc0dcf21ff6",
-        "d50ed597-0ce9-4880-ac9e-461cdaae816b",
-        "d7acfdb3-3093-4e21-b56d-1c5a1a85a8b4",
-        "e66ae5a4-dcc0-4191-b01e-01fcb9ee6cc9",
+        "61bd99a2-e087-4d13-97e7-102d3939684c",
+        "ea90babd-3cf3-49cb-834a-8224e25ab106",
+        "ffe6788b-4b10-4c5d-9260-5c1e1f736851",
         "pkg:composer/brainmaestro/composer-git-hooks@dev-master",
         "pkg:composer/fakerphp/faker@v1.24.1",
-        "pkg:composer/friendsofphp/php-cs-fixer@v3.95.2",
-        "pkg:composer/league/flysystem@3.34.0",
-        "pkg:composer/mnapoli/silly@1.10.0",
-        "pkg:composer/pestphp/pest@v4.7.0",
+        "pkg:composer/friendsofphp/php-cs-fixer@v3.95.13",
+        "pkg:composer/league/flysystem@3.35.2",
+        "pkg:composer/mnapoli/silly@1.10.1",
+        "pkg:composer/pestphp/pest@v4.7.5",
         "pkg:composer/phpmd/phpmd@2.15.0",
-        "pkg:composer/phpstan/phpstan@1.12.33",
-        "pkg:composer/phpunit/phpunit@12.5.24",
-        "pkg:composer/rector/swiss-knife@2.3.5",
-        "pkg:composer/symfony/serializer@v8.0.10",
-        "pkg:composer/symfony/yaml@v8.0.11",
+        "pkg:composer/phpstan/phpstan@2.2.5",
+        "pkg:composer/phpunit/phpunit@12.5.30",
+        "pkg:composer/ramsey/uuid@4.9.3",
+        "pkg:composer/rector/swiss-knife@2.4.8",
+        "pkg:composer/symfony/serializer@v8.1.1",
+        "pkg:composer/symfony/yaml@v8.1.1",
         "pkg:composer/symplify/easy-coding-standard@12.6.2"
       ]
     },
     {
-      "ref": "80a3688a-c6a4-4465-aea6-d298381ef0b7",
+      "ref": "80b8a751-e578-470f-bc50-1960476ae256",
       "dependsOn": []
     },
     {
-      "ref": "8c44ae1f-a49e-4455-a7e5-9e5dbadadde2",
-      "dependsOn": [
-        "80a3688a-c6a4-4465-aea6-d298381ef0b7",
-        "pkg:composer/league/flysystem@3.34.0"
-      ]
-    },
-    {
-      "ref": "911d568d-5b81-4091-88f3-c011b6913d4a",
-      "dependsOn": [
-        "pkg:composer/nette/utils@v4.1.3"
-      ]
-    },
-    {
-      "ref": "929784c0-5206-45e7-8694-8e21b3e0862f",
+      "ref": "87ecf3b3-ad18-47d8-bea9-744419951262",
       "dependsOn": []
     },
     {
-      "ref": "93f2d275-95df-4208-9c46-dd877cb10134",
+      "ref": "90640914-8582-4dbe-8567-8f579e33a903",
       "dependsOn": [
-        "20441da1-13f3-4cf3-83b3-3cf01c66a766"
+        "3a20c0f4-543e-47d1-950f-a1228e0a183f",
+        "5a0e5143-502b-4ec5-ad21-adacb164116f",
+        "6d1c4485-8a50-4821-8e69-3d7f60b7e51a",
+        "e9e40e7f-e124-4e93-9959-d040d3c6bd9e"
       ]
     },
     {
-      "ref": "a5bcaf60-7c88-4405-8d5a-cb8e787ef764",
+      "ref": "a3843ead-7a9a-4874-9fc4-aaf330b8a9e7",
       "dependsOn": []
     },
     {
-      "ref": "b28b8937-598b-4e41-a837-27ecac3ade01",
+      "ref": "ae6d7e59-799c-4d85-b0d8-54cd20a0128b",
+      "dependsOn": [
+        "2fa32804-1dce-4e7d-b0f5-fad5274feb0b",
+        "cb159c02-7088-41f4-8fa9-58c87f52dc77"
+      ]
+    },
+    {
+      "ref": "b39d225d-f199-4e7c-8cf5-8a763ef71314",
+      "dependsOn": [
+        "pkg:composer/league/flysystem@3.35.2",
+        "pkg:composer/league/mime-type-detection@1.17.0"
+      ]
+    },
+    {
+      "ref": "c24e60d8-2897-49ea-9b7c-bef8590088ab",
+      "dependsOn": [
+        "pkg:composer/league/flysystem@3.33.0",
+        "pkg:composer/league/mime-type-detection@1.16.0"
+      ]
+    },
+    {
+      "ref": "c3d8682e-307f-47b2-9861-68cde2b7884a",
       "dependsOn": []
     },
     {
-      "ref": "b2c5cd96-db5a-4234-bcf4-0f6fbe5d48e4",
-      "dependsOn": [
-        "242d4525-b391-47ce-bdfb-cfa2c0d269c9",
-        "3ae92cbb-aded-4889-847c-93edbaa59039"
-      ]
-    },
-    {
-      "ref": "b2dc0c91-a381-451e-9b33-efc0dcf21ff6",
+      "ref": "c57b1ec2-3652-4e44-bade-c94e985b2b72",
       "dependsOn": []
     },
     {
-      "ref": "c137c4cc-7ff6-44ed-9e9f-13b02cd01e26",
+      "ref": "c6927cb8-9a5f-4ef2-bf93-b262ec61cdcb",
+      "dependsOn": [
+        "80b8a751-e578-470f-bc50-1960476ae256"
+      ]
+    },
+    {
+      "ref": "cb159c02-7088-41f4-8fa9-58c87f52dc77",
       "dependsOn": []
     },
     {
-      "ref": "cf830919-bff2-4d1c-9891-8a42c03eb1ec",
+      "ref": "e2d5a319-3105-4320-96bc-cdf67a2934f2",
       "dependsOn": [
-        "929784c0-5206-45e7-8694-8e21b3e0862f"
+        "e97362b1-6c28-4034-baee-d6cbc0487f96"
       ]
     },
     {
-      "ref": "d491cb9a-ab35-4419-8fa4-4f6b2a5e79b3",
-      "dependsOn": [
-        "pkg:npm/vitepress@1.6.4"
-      ]
-    },
-    {
-      "ref": "d50ed597-0ce9-4880-ac9e-461cdaae816b",
-      "dependsOn": [
-        "299ffd52-55bc-418b-97aa-8d9e595a40fa",
-        "d7acfdb3-3093-4e21-b56d-1c5a1a85a8b4"
-      ]
-    },
-    {
-      "ref": "d7acfdb3-3093-4e21-b56d-1c5a1a85a8b4",
+      "ref": "e97362b1-6c28-4034-baee-d6cbc0487f96",
       "dependsOn": []
     },
     {
-      "ref": "d97416a6-fb65-48b7-926a-8cc667fa9da1",
-      "dependsOn": [
-        "1d6cd124-8282-4d74-bb14-166eecd9b84d",
-        "7e0fcfbd-6d03-41ab-bb91-6a95f8fd3684",
-        "7f0d8086-9aaf-44bd-adb5-a5ebe3b05824",
-        "e687e59c-54cf-45f8-b56b-941edd9109cd"
-      ]
-    },
-    {
-      "ref": "d9bb53f8-8f0f-47b0-8e3f-90008d6cdb7e",
-      "dependsOn": []
-    },
-    {
-      "ref": "dcdeaf62-1872-4d84-8eae-850cee836751",
-      "dependsOn": [
-        "a5bcaf60-7c88-4405-8d5a-cb8e787ef764",
-        "pkg:composer/league/flysystem@3.33.0"
-      ]
-    },
-    {
-      "ref": "e66ae5a4-dcc0-4191-b01e-01fcb9ee6cc9",
-      "dependsOn": [
-        "459af217-b66c-4d94-b531-1252b19f5062",
-        "786825cf-ae44-45bb-8930-f28de8084e8c"
-      ]
-    },
-    {
-      "ref": "e687e59c-54cf-45f8-b56b-941edd9109cd",
+      "ref": "e9e40e7f-e124-4e93-9959-d040d3c6bd9e",
       "dependsOn": [
         "pkg:composer/leafs/leaf@v4.4",
         "pkg:composer/twig/twig@v3.24.0",
@@ -8181,9 +8218,24 @@
       ]
     },
     {
+      "ref": "ea90babd-3cf3-49cb-834a-8224e25ab106",
+      "dependsOn": []
+    },
+    {
+      "ref": "ee15778a-2b8b-420e-991e-885b88259405",
+      "dependsOn": []
+    },
+    {
+      "ref": "ffe6788b-4b10-4c5d-9260-5c1e1f736851",
+      "dependsOn": [
+        "22ab787e-b561-4c2c-b54e-bb86c72a20c5",
+        "ee15778a-2b8b-420e-991e-885b88259405"
+      ]
+    },
+    {
       "ref": "pkg:composer/brainmaestro/composer-git-hooks@dev-master",
       "dependsOn": [
-        "pkg:composer/symfony/console@v7.4.11"
+        "pkg:composer/symfony/console@v7.4.14"
       ]
     },
     {
@@ -8191,14 +8243,22 @@
       "dependsOn": [
         "pkg:composer/fidry/cpu-core-counter@1.3.0",
         "pkg:composer/jean85/pretty-package-versions@2.1.1",
-        "pkg:composer/phpunit/php-code-coverage@12.5.6",
+        "pkg:composer/phpunit/php-code-coverage@12.5.7",
         "pkg:composer/phpunit/php-file-iterator@6.0.1",
         "pkg:composer/phpunit/php-timer@8.0.0",
-        "pkg:composer/phpunit/phpunit@12.5.24",
-        "pkg:composer/sebastian/environment@8.1.0",
-        "pkg:composer/symfony/console@v7.4.11",
-        "pkg:composer/symfony/process@v8.0.11"
+        "pkg:composer/phpunit/phpunit@12.5.30",
+        "pkg:composer/sebastian/environment@8.1.2",
+        "pkg:composer/symfony/console@v7.4.14",
+        "pkg:composer/symfony/process@v8.1.0"
       ]
+    },
+    {
+      "ref": "pkg:composer/brick/math@0.14.8",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:composer/brick/math@0.18.0",
+      "dependsOn": []
     },
     {
       "ref": "pkg:composer/clue/ndjson-react@v1.3.0",
@@ -8207,7 +8267,7 @@
       ]
     },
     {
-      "ref": "pkg:composer/composer/pcre@3.3.2",
+      "ref": "pkg:composer/composer/pcre@3.4.0",
       "dependsOn": []
     },
     {
@@ -8217,13 +8277,19 @@
     {
       "ref": "pkg:composer/composer/xdebug-handler@3.0.5",
       "dependsOn": [
-        "7ad81cb8-254a-4ee1-8ce8-2de94c56543f",
-        "pkg:composer/composer/pcre@3.3.2"
+        "1fc7870d-28e4-4c1c-b345-a65b64f502ee",
+        "pkg:composer/composer/pcre@3.4.0"
       ]
     },
     {
       "ref": "pkg:composer/doctrine/deprecations@1.1.6",
       "dependsOn": []
+    },
+    {
+      "ref": "pkg:composer/entropy/entropy@0.4.6",
+      "dependsOn": [
+        "pkg:composer/webmozart/assert@2.4.1"
+      ]
     },
     {
       "ref": "pkg:composer/ergebnis/agent-detector@1.2.0",
@@ -8236,8 +8302,8 @@
     {
       "ref": "pkg:composer/fakerphp/faker@v1.24.1",
       "dependsOn": [
-        "929784c0-5206-45e7-8694-8e21b3e0862f",
-        "pkg:composer/symfony/deprecation-contracts@v3.7.0"
+        "e97362b1-6c28-4034-baee-d6cbc0487f96",
+        "pkg:composer/symfony/deprecation-contracts@v3.7.1"
       ]
     },
     {
@@ -8247,11 +8313,11 @@
     {
       "ref": "pkg:composer/filp/whoops@2.18.4",
       "dependsOn": [
-        "7ad81cb8-254a-4ee1-8ce8-2de94c56543f"
+        "1fc7870d-28e4-4c1c-b345-a65b64f502ee"
       ]
     },
     {
-      "ref": "pkg:composer/friendsofphp/php-cs-fixer@v3.95.2",
+      "ref": "pkg:composer/friendsofphp/php-cs-fixer@v3.95.13",
       "dependsOn": [
         "pkg:composer/clue/ndjson-react@v1.3.0",
         "pkg:composer/composer/semver@3.4.4",
@@ -8263,17 +8329,17 @@
         "pkg:composer/react/socket@v1.17.0",
         "pkg:composer/react/stream@v1.4.0",
         "pkg:composer/sebastian/diff@7.0.0",
-        "pkg:composer/symfony/console@v7.4.11",
-        "pkg:composer/symfony/event-dispatcher@v8.0.9",
+        "pkg:composer/symfony/console@v7.4.14",
+        "pkg:composer/symfony/event-dispatcher@v8.1.1",
         "pkg:composer/symfony/filesystem@v7.4.11",
-        "pkg:composer/symfony/finder@v8.0.8",
-        "pkg:composer/symfony/options-resolver@v8.0.8",
-        "pkg:composer/symfony/polyfill-mbstring@v1.37.0",
+        "pkg:composer/symfony/finder@v8.1.1",
+        "pkg:composer/symfony/options-resolver@v8.1.0",
+        "pkg:composer/symfony/polyfill-mbstring@v1.38.2",
         "pkg:composer/symfony/polyfill-php80@v1.37.0",
-        "pkg:composer/symfony/polyfill-php81@v1.37.0",
-        "pkg:composer/symfony/polyfill-php84@v1.37.0",
-        "pkg:composer/symfony/process@v8.0.11",
-        "pkg:composer/symfony/stopwatch@v8.0.8"
+        "pkg:composer/symfony/polyfill-php81@v1.38.1",
+        "pkg:composer/symfony/polyfill-php84@v1.38.1",
+        "pkg:composer/symfony/process@v8.1.0",
+        "pkg:composer/symfony/stopwatch@v8.1.0"
       ]
     },
     {
@@ -8287,7 +8353,7 @@
     {
       "ref": "pkg:composer/leafs/exception@v3.7",
       "dependsOn": [
-        "70573847-2fa4-4c58-a040-5f6f49f85b3f"
+        "a3843ead-7a9a-4874-9fc4-aaf330b8a9e7"
       ]
     },
     {
@@ -8319,36 +8385,50 @@
     {
       "ref": "pkg:composer/league/flysystem@3.33.0",
       "dependsOn": [
-        "a5bcaf60-7c88-4405-8d5a-cb8e787ef764",
-        "dcdeaf62-1872-4d84-8eae-850cee836751"
+        "c24e60d8-2897-49ea-9b7c-bef8590088ab",
+        "pkg:composer/league/mime-type-detection@1.16.0"
       ]
     },
     {
-      "ref": "pkg:composer/league/flysystem@3.34.0",
+      "ref": "pkg:composer/league/flysystem@3.35.2",
       "dependsOn": [
-        "80a3688a-c6a4-4465-aea6-d298381ef0b7",
-        "8c44ae1f-a49e-4455-a7e5-9e5dbadadde2"
+        "b39d225d-f199-4e7c-8cf5-8a763ef71314",
+        "pkg:composer/league/mime-type-detection@1.17.0"
       ]
     },
     {
-      "ref": "pkg:composer/mnapoli/silly@1.10.0",
+      "ref": "pkg:composer/league/mime-type-detection@1.16.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:composer/league/mime-type-detection@1.17.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:composer/mnapoli/silly@1.10.1",
       "dependsOn": [
-        "929784c0-5206-45e7-8694-8e21b3e0862f",
-        "cf830919-bff2-4d1c-9891-8a42c03eb1ec",
-        "pkg:composer/symfony/console@v7.4.11"
+        "e2d5a319-3105-4320-96bc-cdf67a2934f2",
+        "e97362b1-6c28-4034-baee-d6cbc0487f96",
+        "pkg:composer/symfony/console@v7.4.14"
       ]
     },
     {
       "ref": "pkg:composer/mnapoli/silly@1.9.1",
       "dependsOn": [
-        "20441da1-13f3-4cf3-83b3-3cf01c66a766",
-        "93f2d275-95df-4208-9c46-dd877cb10134",
+        "80b8a751-e578-470f-bc50-1960476ae256",
+        "c6927cb8-9a5f-4ef2-bf93-b262ec61cdcb",
         "pkg:composer/symfony/console@v7.4.8"
       ]
     },
     {
       "ref": "pkg:composer/myclabs/deep-copy@1.13.4",
       "dependsOn": []
+    },
+    {
+      "ref": "pkg:composer/nette/robot-loader@v4.1.2",
+      "dependsOn": [
+        "pkg:composer/nette/utils@v4.1.4"
+      ]
     },
     {
       "ref": "pkg:composer/nette/utils@v4.1.3",
@@ -8359,7 +8439,7 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/nikic/php-parser@v5.7.0",
+      "ref": "pkg:composer/nikic/php-parser@v5.8.0",
       "dependsOn": []
     },
     {
@@ -8367,22 +8447,22 @@
       "dependsOn": [
         "pkg:composer/filp/whoops@2.18.4",
         "pkg:composer/nunomaduro/termwind@v2.4.0",
-        "pkg:composer/symfony/console@v7.4.11"
+        "pkg:composer/symfony/console@v7.4.14"
       ]
     },
     {
       "ref": "pkg:composer/nunomaduro/termwind@v2.4.0",
       "dependsOn": [
-        "pkg:composer/symfony/console@v7.4.11"
+        "pkg:composer/symfony/console@v7.4.14"
       ]
     },
     {
       "ref": "pkg:composer/pdepend/pdepend@2.16.2",
       "dependsOn": [
-        "pkg:composer/symfony/config@v7.4.10",
-        "pkg:composer/symfony/dependency-injection@v7.4.10",
+        "pkg:composer/symfony/config@v7.4.14",
+        "pkg:composer/symfony/dependency-injection@v7.4.14",
         "pkg:composer/symfony/filesystem@v7.4.11",
-        "pkg:composer/symfony/polyfill-mbstring@v1.37.0"
+        "pkg:composer/symfony/polyfill-mbstring@v1.38.2"
       ]
     },
     {
@@ -8395,7 +8475,7 @@
     {
       "ref": "pkg:composer/pestphp/pest-plugin-mutate@v4.0.1",
       "dependsOn": [
-        "pkg:composer/nikic/php-parser@v5.7.0",
+        "pkg:composer/nikic/php-parser@v5.8.0",
         "pkg:composer/pestphp/pest-plugin@v4.0.0",
         "pkg:composer/psr/simple-cache@3.0.0"
       ]
@@ -8411,7 +8491,7 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/pestphp/pest@v4.7.0",
+      "ref": "pkg:composer/pestphp/pest@v4.7.5",
       "dependsOn": [
         "pkg:composer/brianium/paratest@v7.20.0",
         "pkg:composer/composer/xdebug-handler@3.0.5",
@@ -8421,8 +8501,8 @@
         "pkg:composer/pestphp/pest-plugin-mutate@v4.0.1",
         "pkg:composer/pestphp/pest-plugin-profanity@v4.2.1",
         "pkg:composer/pestphp/pest-plugin@v4.0.0",
-        "pkg:composer/phpunit/phpunit@12.5.24",
-        "pkg:composer/symfony/process@v8.0.11"
+        "pkg:composer/phpunit/phpunit@12.5.30",
+        "pkg:composer/symfony/process@v8.1.0"
       ]
     },
     {
@@ -8445,8 +8525,8 @@
         "pkg:composer/doctrine/deprecations@1.1.6",
         "pkg:composer/phpdocumentor/reflection-common@2.2.0",
         "pkg:composer/phpdocumentor/type-resolver@2.0.0",
-        "pkg:composer/phpstan/phpdoc-parser@2.3.2",
-        "pkg:composer/webmozart/assert@2.3.0"
+        "pkg:composer/phpstan/phpdoc-parser@2.3.3",
+        "pkg:composer/webmozart/assert@2.4.1"
       ]
     },
     {
@@ -8454,7 +8534,7 @@
       "dependsOn": [
         "pkg:composer/doctrine/deprecations@1.1.6",
         "pkg:composer/phpdocumentor/reflection-common@2.2.0",
-        "pkg:composer/phpstan/phpdoc-parser@2.3.2"
+        "pkg:composer/phpstan/phpdoc-parser@2.3.3"
       ]
     },
     {
@@ -8465,21 +8545,21 @@
       ]
     },
     {
-      "ref": "pkg:composer/phpstan/phpdoc-parser@2.3.2",
+      "ref": "pkg:composer/phpstan/phpdoc-parser@2.3.3",
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/phpstan/phpstan@1.12.33",
+      "ref": "pkg:composer/phpstan/phpstan@2.2.5",
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/phpunit/php-code-coverage@12.5.6",
+      "ref": "pkg:composer/phpunit/php-code-coverage@12.5.7",
       "dependsOn": [
-        "pkg:composer/nikic/php-parser@v5.7.0",
+        "pkg:composer/nikic/php-parser@v5.8.0",
         "pkg:composer/phpunit/php-text-template@5.0.0",
         "pkg:composer/sebastian/complexity@5.0.0",
-        "pkg:composer/sebastian/environment@8.1.0",
-        "pkg:composer/sebastian/lines-of-code@4.0.0",
+        "pkg:composer/sebastian/environment@8.1.2",
+        "pkg:composer/sebastian/lines-of-code@4.0.1",
         "pkg:composer/sebastian/version@6.0.0",
         "pkg:composer/theseer/tokenizer@2.0.1"
       ]
@@ -8501,25 +8581,25 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/phpunit/phpunit@12.5.24",
+      "ref": "pkg:composer/phpunit/phpunit@12.5.30",
       "dependsOn": [
         "pkg:composer/myclabs/deep-copy@1.13.4",
         "pkg:composer/phar-io/manifest@2.0.4",
         "pkg:composer/phar-io/version@3.2.1",
-        "pkg:composer/phpunit/php-code-coverage@12.5.6",
+        "pkg:composer/phpunit/php-code-coverage@12.5.7",
         "pkg:composer/phpunit/php-file-iterator@6.0.1",
         "pkg:composer/phpunit/php-invoker@6.0.0",
         "pkg:composer/phpunit/php-text-template@5.0.0",
         "pkg:composer/phpunit/php-timer@8.0.0",
         "pkg:composer/sebastian/cli-parser@4.2.1",
-        "pkg:composer/sebastian/comparator@7.1.6",
+        "pkg:composer/sebastian/comparator@7.1.8",
         "pkg:composer/sebastian/diff@7.0.0",
-        "pkg:composer/sebastian/environment@8.1.0",
-        "pkg:composer/sebastian/exporter@7.0.2",
-        "pkg:composer/sebastian/global-state@8.0.2",
+        "pkg:composer/sebastian/environment@8.1.2",
+        "pkg:composer/sebastian/exporter@7.0.3",
+        "pkg:composer/sebastian/global-state@8.0.3",
         "pkg:composer/sebastian/object-enumerator@7.0.0",
         "pkg:composer/sebastian/recursion-context@7.0.1",
-        "pkg:composer/sebastian/type@6.0.3",
+        "pkg:composer/sebastian/type@6.0.4",
         "pkg:composer/sebastian/version@6.0.0",
         "pkg:composer/staabm/side-effects-detector@1.0.5"
       ]
@@ -8531,6 +8611,20 @@
     {
       "ref": "pkg:composer/psr/simple-cache@3.0.0",
       "dependsOn": []
+    },
+    {
+      "ref": "pkg:composer/ramsey/uuid@4.9.2",
+      "dependsOn": [
+        "c3d8682e-307f-47b2-9861-68cde2b7884a",
+        "pkg:composer/brick/math@0.14.8"
+      ]
+    },
+    {
+      "ref": "pkg:composer/ramsey/uuid@4.9.3",
+      "dependsOn": [
+        "ea90babd-3cf3-49cb-834a-8224e25ab106",
+        "pkg:composer/brick/math@0.18.0"
+      ]
     },
     {
       "ref": "pkg:composer/react/cache@v1.2.0",
@@ -8580,24 +8674,32 @@
       ]
     },
     {
-      "ref": "pkg:composer/rector/swiss-knife@2.3.5",
-      "dependsOn": []
+      "ref": "pkg:composer/rector/swiss-knife@2.4.8",
+      "dependsOn": [
+        "pkg:composer/entropy/entropy@0.4.6",
+        "pkg:composer/nette/robot-loader@v4.1.2",
+        "pkg:composer/nette/utils@v4.1.4",
+        "pkg:composer/nikic/php-parser@v5.8.0",
+        "pkg:composer/symfony/finder@v8.1.1",
+        "pkg:composer/symfony/yaml@v8.1.1",
+        "pkg:composer/webmozart/assert@2.4.1"
+      ]
     },
     {
       "ref": "pkg:composer/sebastian/cli-parser@4.2.1",
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/sebastian/comparator@7.1.6",
+      "ref": "pkg:composer/sebastian/comparator@7.1.8",
       "dependsOn": [
         "pkg:composer/sebastian/diff@7.0.0",
-        "pkg:composer/sebastian/exporter@7.0.2"
+        "pkg:composer/sebastian/exporter@7.0.3"
       ]
     },
     {
       "ref": "pkg:composer/sebastian/complexity@5.0.0",
       "dependsOn": [
-        "pkg:composer/nikic/php-parser@v5.7.0"
+        "pkg:composer/nikic/php-parser@v5.8.0"
       ]
     },
     {
@@ -8605,26 +8707,26 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/sebastian/environment@8.1.0",
+      "ref": "pkg:composer/sebastian/environment@8.1.2",
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/sebastian/exporter@7.0.2",
+      "ref": "pkg:composer/sebastian/exporter@7.0.3",
       "dependsOn": [
         "pkg:composer/sebastian/recursion-context@7.0.1"
       ]
     },
     {
-      "ref": "pkg:composer/sebastian/global-state@8.0.2",
+      "ref": "pkg:composer/sebastian/global-state@8.0.3",
       "dependsOn": [
         "pkg:composer/sebastian/object-reflector@5.0.0",
         "pkg:composer/sebastian/recursion-context@7.0.1"
       ]
     },
     {
-      "ref": "pkg:composer/sebastian/lines-of-code@4.0.0",
+      "ref": "pkg:composer/sebastian/lines-of-code@4.0.1",
       "dependsOn": [
-        "pkg:composer/nikic/php-parser@v5.7.0"
+        "pkg:composer/nikic/php-parser@v5.8.0"
       ]
     },
     {
@@ -8643,7 +8745,7 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/sebastian/type@6.0.3",
+      "ref": "pkg:composer/sebastian/type@6.0.4",
       "dependsOn": []
     },
     {
@@ -8655,20 +8757,20 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/symfony/config@v7.4.10",
+      "ref": "pkg:composer/symfony/config@v7.4.14",
       "dependsOn": [
-        "pkg:composer/symfony/deprecation-contracts@v3.7.0",
+        "pkg:composer/symfony/deprecation-contracts@v3.7.1",
         "pkg:composer/symfony/filesystem@v7.4.11",
         "pkg:composer/symfony/polyfill-ctype@v1.37.0"
       ]
     },
     {
-      "ref": "pkg:composer/symfony/console@v7.4.11",
+      "ref": "pkg:composer/symfony/console@v7.4.14",
       "dependsOn": [
-        "pkg:composer/symfony/deprecation-contracts@v3.7.0",
-        "pkg:composer/symfony/polyfill-mbstring@v1.37.0",
-        "pkg:composer/symfony/service-contracts@v3.7.0",
-        "pkg:composer/symfony/string@v8.0.11"
+        "pkg:composer/symfony/deprecation-contracts@v3.7.1",
+        "pkg:composer/symfony/polyfill-mbstring@v1.38.2",
+        "pkg:composer/symfony/service-contracts@v3.7.1",
+        "pkg:composer/symfony/string@v8.1.0"
       ]
     },
     {
@@ -8681,12 +8783,12 @@
       ]
     },
     {
-      "ref": "pkg:composer/symfony/dependency-injection@v7.4.10",
+      "ref": "pkg:composer/symfony/dependency-injection@v7.4.14",
       "dependsOn": [
-        "929784c0-5206-45e7-8694-8e21b3e0862f",
-        "pkg:composer/symfony/deprecation-contracts@v3.7.0",
-        "pkg:composer/symfony/service-contracts@v3.7.0",
-        "pkg:composer/symfony/var-exporter@v8.0.9"
+        "e97362b1-6c28-4034-baee-d6cbc0487f96",
+        "pkg:composer/symfony/deprecation-contracts@v3.7.1",
+        "pkg:composer/symfony/service-contracts@v3.7.1",
+        "pkg:composer/symfony/var-exporter@v8.1.1"
       ]
     },
     {
@@ -8694,36 +8796,37 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/symfony/deprecation-contracts@v3.7.0",
+      "ref": "pkg:composer/symfony/deprecation-contracts@v3.7.1",
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/symfony/event-dispatcher-contracts@v3.7.0",
+      "ref": "pkg:composer/symfony/event-dispatcher-contracts@v3.7.1",
       "dependsOn": [
         "pkg:composer/psr/event-dispatcher@1.0.0"
       ]
     },
     {
-      "ref": "pkg:composer/symfony/event-dispatcher@v8.0.9",
+      "ref": "pkg:composer/symfony/event-dispatcher@v8.1.1",
       "dependsOn": [
-        "pkg:composer/symfony/event-dispatcher-contracts@v3.7.0"
+        "pkg:composer/symfony/deprecation-contracts@v3.7.1",
+        "pkg:composer/symfony/event-dispatcher-contracts@v3.7.1"
       ]
     },
     {
       "ref": "pkg:composer/symfony/filesystem@v7.4.11",
       "dependsOn": [
         "pkg:composer/symfony/polyfill-ctype@v1.37.0",
-        "pkg:composer/symfony/polyfill-mbstring@v1.37.0"
+        "pkg:composer/symfony/polyfill-mbstring@v1.38.2"
       ]
     },
     {
-      "ref": "pkg:composer/symfony/finder@v8.0.8",
+      "ref": "pkg:composer/symfony/finder@v8.1.1",
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/symfony/options-resolver@v8.0.8",
+      "ref": "pkg:composer/symfony/options-resolver@v8.1.0",
       "dependsOn": [
-        "pkg:composer/symfony/deprecation-contracts@v3.7.0"
+        "pkg:composer/symfony/deprecation-contracts@v3.7.1"
       ]
     },
     {
@@ -8735,11 +8838,15 @@
       "dependsOn": []
     },
     {
+      "ref": "pkg:composer/symfony/polyfill-deepclone@v1.40.0",
+      "dependsOn": []
+    },
+    {
       "ref": "pkg:composer/symfony/polyfill-intl-grapheme@v1.36.0",
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/symfony/polyfill-intl-grapheme@v1.37.0",
+      "ref": "pkg:composer/symfony/polyfill-intl-grapheme@v1.38.1",
       "dependsOn": []
     },
     {
@@ -8747,7 +8854,7 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/symfony/polyfill-intl-normalizer@v1.37.0",
+      "ref": "pkg:composer/symfony/polyfill-intl-normalizer@v1.38.0",
       "dependsOn": []
     },
     {
@@ -8755,7 +8862,7 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/symfony/polyfill-mbstring@v1.37.0",
+      "ref": "pkg:composer/symfony/polyfill-mbstring@v1.38.2",
       "dependsOn": []
     },
     {
@@ -8763,22 +8870,16 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/symfony/polyfill-php81@v1.37.0",
+      "ref": "pkg:composer/symfony/polyfill-php81@v1.38.1",
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/symfony/polyfill-php84@v1.37.0",
+      "ref": "pkg:composer/symfony/polyfill-php84@v1.38.1",
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/symfony/process@v8.0.11",
+      "ref": "pkg:composer/symfony/process@v8.1.0",
       "dependsOn": []
-    },
-    {
-      "ref": "pkg:composer/symfony/serializer@v8.0.10",
-      "dependsOn": [
-        "pkg:composer/symfony/polyfill-ctype@v1.37.0"
-      ]
     },
     {
       "ref": "pkg:composer/symfony/serializer@v8.0.8",
@@ -8787,32 +8888,30 @@
       ]
     },
     {
+      "ref": "pkg:composer/symfony/serializer@v8.1.1",
+      "dependsOn": [
+        "pkg:composer/symfony/deprecation-contracts@v3.7.1",
+        "pkg:composer/symfony/polyfill-ctype@v1.37.0"
+      ]
+    },
+    {
       "ref": "pkg:composer/symfony/service-contracts@v3.6.1",
       "dependsOn": [
-        "20441da1-13f3-4cf3-83b3-3cf01c66a766",
+        "80b8a751-e578-470f-bc50-1960476ae256",
         "pkg:composer/symfony/deprecation-contracts@v3.6.0"
       ]
     },
     {
-      "ref": "pkg:composer/symfony/service-contracts@v3.7.0",
+      "ref": "pkg:composer/symfony/service-contracts@v3.7.1",
       "dependsOn": [
-        "929784c0-5206-45e7-8694-8e21b3e0862f",
-        "pkg:composer/symfony/deprecation-contracts@v3.7.0"
+        "e97362b1-6c28-4034-baee-d6cbc0487f96",
+        "pkg:composer/symfony/deprecation-contracts@v3.7.1"
       ]
     },
     {
-      "ref": "pkg:composer/symfony/stopwatch@v8.0.8",
+      "ref": "pkg:composer/symfony/stopwatch@v8.1.0",
       "dependsOn": [
-        "pkg:composer/symfony/service-contracts@v3.7.0"
-      ]
-    },
-    {
-      "ref": "pkg:composer/symfony/string@v8.0.11",
-      "dependsOn": [
-        "pkg:composer/symfony/polyfill-ctype@v1.37.0",
-        "pkg:composer/symfony/polyfill-intl-grapheme@v1.37.0",
-        "pkg:composer/symfony/polyfill-intl-normalizer@v1.37.0",
-        "pkg:composer/symfony/polyfill-mbstring@v1.37.0"
+        "pkg:composer/symfony/service-contracts@v3.7.1"
       ]
     },
     {
@@ -8825,13 +8924,19 @@
       ]
     },
     {
-      "ref": "pkg:composer/symfony/var-exporter@v8.0.9",
-      "dependsOn": []
+      "ref": "pkg:composer/symfony/string@v8.1.0",
+      "dependsOn": [
+        "pkg:composer/symfony/polyfill-ctype@v1.37.0",
+        "pkg:composer/symfony/polyfill-intl-grapheme@v1.38.1",
+        "pkg:composer/symfony/polyfill-intl-normalizer@v1.38.0",
+        "pkg:composer/symfony/polyfill-mbstring@v1.38.2"
+      ]
     },
     {
-      "ref": "pkg:composer/symfony/yaml@v8.0.11",
+      "ref": "pkg:composer/symfony/var-exporter@v8.1.1",
       "dependsOn": [
-        "pkg:composer/symfony/polyfill-ctype@v1.37.0"
+        "pkg:composer/symfony/deprecation-contracts@v3.7.1",
+        "pkg:composer/symfony/polyfill-deepclone@v1.40.0"
       ]
     },
     {
@@ -8841,16 +8946,22 @@
       ]
     },
     {
+      "ref": "pkg:composer/symfony/yaml@v8.1.1",
+      "dependsOn": [
+        "pkg:composer/symfony/polyfill-ctype@v1.37.0"
+      ]
+    },
+    {
       "ref": "pkg:composer/symplify/easy-coding-standard@12.6.2",
       "dependsOn": []
     },
     {
       "ref": "pkg:composer/ta-tikoma/phpunit-architecture-test@0.8.7",
       "dependsOn": [
-        "pkg:composer/nikic/php-parser@v5.7.0",
+        "pkg:composer/nikic/php-parser@v5.8.0",
         "pkg:composer/phpdocumentor/reflection-docblock@6.0.3",
-        "pkg:composer/phpunit/phpunit@12.5.24",
-        "pkg:composer/symfony/finder@v8.0.8"
+        "pkg:composer/phpunit/phpunit@12.5.30",
+        "pkg:composer/symfony/finder@v8.1.1"
       ]
     },
     {
@@ -8868,18 +8979,18 @@
     {
       "ref": "pkg:composer/vardumper/dom-orm@dev-main",
       "dependsOn": [
-        "242d4525-b391-47ce-bdfb-cfa2c0d269c9",
-        "3342d1e8-6118-4a71-8e84-bda876d2d3b1",
-        "383148f1-66d1-43ff-94b9-2b1870299575",
-        "b2c5cd96-db5a-4234-bcf4-0f6fbe5d48e4",
+        "ae6d7e59-799c-4d85-b0d8-54cd20a0128b",
+        "c3d8682e-307f-47b2-9861-68cde2b7884a",
+        "c57b1ec2-3652-4e44-bade-c94e985b2b72",
         "pkg:composer/league/flysystem@3.33.0",
         "pkg:composer/mnapoli/silly@1.9.1",
+        "pkg:composer/ramsey/uuid@4.9.2",
         "pkg:composer/symfony/serializer@v8.0.8",
         "pkg:composer/symfony/yaml@v8.0.8"
       ]
     },
     {
-      "ref": "pkg:composer/webmozart/assert@2.3.0",
+      "ref": "pkg:composer/webmozart/assert@2.4.1",
       "dependsOn": []
     },
     {
@@ -9240,7 +9351,7 @@
     {
       "ref": "pkg:npm/%40parcel/watcher@2.5.6",
       "dependsOn": [
-        "d9bb53f8-8f0f-47b0-8e3f-90008d6cdb7e",
+        "0a0c5d9e-1917-4c15-8991-666be75f1c06",
         "pkg:npm/%40parcel/watcher-android-arm64@2.5.6",
         "pkg:npm/%40parcel/watcher-darwin-arm64@2.5.6",
         "pkg:npm/%40parcel/watcher-darwin-x64@2.5.6",
@@ -9469,7 +9580,7 @@
     {
       "ref": "pkg:npm/%40vue/compiler-core@3.5.32",
       "dependsOn": [
-        "63c18226-ac18-4600-bf61-07d2d79381c3",
+        "87ecf3b3-ad18-47d8-bea9-744419951262",
         "pkg:npm/%40babel/parser@7.29.2",
         "pkg:npm/%40vue/shared@3.5.32",
         "pkg:npm/entities@7.0.1",
@@ -9486,7 +9597,7 @@
     {
       "ref": "pkg:npm/%40vue/compiler-sfc@3.5.32",
       "dependsOn": [
-        "63c18226-ac18-4600-bf61-07d2d79381c3",
+        "87ecf3b3-ad18-47d8-bea9-744419951262",
         "pkg:npm/%40babel/parser@7.29.2",
         "pkg:npm/%40vue/compiler-core@3.5.32",
         "pkg:npm/%40vue/compiler-dom@3.5.32",
@@ -9623,7 +9734,7 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:npm/brace-expansion@5.0.5",
+      "ref": "pkg:npm/brace-expansion@5.0.6",
       "dependsOn": [
         "pkg:npm/balanced-match@4.0.4"
       ]
@@ -9936,7 +10047,7 @@
     {
       "ref": "pkg:npm/minimatch@10.2.5",
       "dependsOn": [
-        "pkg:npm/brace-expansion@5.0.5"
+        "pkg:npm/brace-expansion@5.0.6"
       ]
     },
     {
@@ -10063,7 +10174,7 @@
     {
       "ref": "pkg:npm/postcss@8.5.10",
       "dependsOn": [
-        "63c18226-ac18-4600-bf61-07d2d79381c3",
+        "87ecf3b3-ad18-47d8-bea9-744419951262",
         "pkg:npm/nanoid@3.3.11",
         "pkg:npm/picocolors@1.1.1"
       ]
@@ -10143,7 +10254,7 @@
     {
       "ref": "pkg:npm/sass@1.99.0",
       "dependsOn": [
-        "b28b8937-598b-4e41-a837-27ecac3ade01",
+        "5f64cabc-138d-4bfc-9cae-0a2b9430023f",
         "pkg:npm/%40parcel/watcher@2.5.6",
         "pkg:npm/chokidar@4.0.3",
         "pkg:npm/immutable@5.1.5"
@@ -10229,7 +10340,7 @@
     {
       "ref": "pkg:npm/tinyglobby@0.2.16",
       "dependsOn": [
-        "c137c4cc-7ff6-44ed-9e9f-13b02cd01e26",
+        "4147738a-636d-4761-9288-e21599b1ad5f",
         "pkg:npm/fdir@6.5.0"
       ]
     },
@@ -10347,6 +10458,92 @@
   ],
   "vulnerabilities": [
     {
+      "id": "CVE-2026-24425",
+      "source": {
+        "name": "php-security-advisories",
+        "url": "https://github.com/FriendsOfPHP/security-advisories"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 8.8,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "source": {
+            "name": "nvd"
+          },
+          "score": 9.9,
+          "severity": "critical",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+        },
+        {
+          "source": {
+            "name": "ubuntu"
+          },
+          "severity": "medium"
+        }
+      ],
+      "cwes": [
+        693
+      ],
+      "description": "Twig versions 2.16.x and 3.9.0 through 3.25.x contain a sandbox bypass vulnerability when using a SourcePolicyInterface that allows attackers with template rendering capabilities to pass arbitrary PHP callables to sort, filter, map, and reduce filters. Attackers can exploit the runtime check that fails to use the current template source to bypass sandbox restrictions and execute arbitrary code when the sandbox is enabled through a source policy rather than globally.",
+      "recommendation": "Upgrade twig/twig to version 3.0.0, 3.26.0",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-24425"
+        },
+        {
+          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-24425.yaml"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-2q52-x2ff-qgfr"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-24425"
+        },
+        {
+          "url": "https://symfony.com/blog/cve-2026-24425-possible-sandbox-bypass-when-using-a-source-policy"
+        },
+        {
+          "url": "https://symfony.com/cve-2026-24425"
+        },
+        {
+          "url": "https://ubuntu.com/security/notices/USN-8408-1"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-24425"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/twig-x-x-sandbox-bypass-via-sourcepolicyinterface"
+        }
+      ],
+      "published": "2026-05-20T14:16:38+00:00",
+      "updated": "2026-06-17T10:23:03+00:00",
+      "affects": [
+        {
+          "ref": "pkg:composer/twig/twig@v3.24.0",
+          "versions": [
+            {
+              "version": "v3.24.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "CVE-2026-39365",
       "source": {
         "name": "ghsa",
@@ -10413,13 +10610,613 @@
         }
       ],
       "published": "2026-04-07T20:16:30+00:00",
-      "updated": "2026-04-30T18:34:09+00:00",
+      "updated": "2026-06-17T10:42:00+00:00",
       "affects": [
         {
           "ref": "pkg:npm/vite@5.4.21",
           "versions": [
             {
               "version": "5.4.21",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-46633",
+      "source": {
+        "name": "php-security-advisories",
+        "url": "https://github.com/FriendsOfPHP/security-advisories"
+      },
+      "ratings": [],
+      "description": "### Description\n\n`Compiler::string()` escapes `\"`, `$`, `\\`, NUL and TAB when generating PHP double-quoted string literals, but does not escape single quotes. In `ModuleNode::compileConstructor()`, the template name from a `{% use %}` tag is compiled via `subcompile()` -> `string()` and placed inside a surrounding PHP single-quoted string literal. A template name containing a single quote terminates that surrounding string early, allowing arbitrary PHP expressions to be injected into the compiled cache file.\n\nThe injected code executes within the PHP process when the cache file is first loaded, bypassing the Twig sandbox entirely and achieving remote code execution. `SecurityPolicy` unconditionally allows `{% use %}` regardless of the configured `allowedTags`, so this primitive is reachable from sandboxed templates as well.\n\n### Resolution\n\n`Compiler::string()` now also escapes single quotes so that template names placed inside single-quoted PHP literals can no longer break out of the surrounding context.\n\n### Credits\n\nTwig would like to thank Anvil Secure in collaboration with Claude and Anthropic Research for reporting the issue and providing the fix.",
+      "recommendation": "Upgrade twig/twig to version 2.0.0, 3.0.0, 3.26.0",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-46633"
+        },
+        {
+          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-46633.yaml"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-7p85-w9px-jpjp"
+        },
+        {
+          "url": "https://symfony.com/cve-2026-46633"
+        }
+      ],
+      "affects": [
+        {
+          "ref": "pkg:composer/twig/twig@v3.24.0",
+          "versions": [
+            {
+              "version": "v3.24.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-46634",
+      "source": {
+        "name": "php-security-advisories",
+        "url": "https://github.com/FriendsOfPHP/security-advisories"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "severity": "medium"
+        }
+      ],
+      "description": "### Description\n\nWhen the sandbox is enabled selectively via `SourcePolicyInterface` (and not globally), a sandboxed template that is allowed to call `template_from_string` and `include` can render an arbitrary inner template with no security policy enforcement.\n\n`Environment::createTemplate()` compiles the inner string under a synthesized name (`__string_template__<hash>`), so a name/path-based `SourcePolicy` returns `false` for it, and the inner template's `checkSecurity()` becomes a no-op. From a template the integrator believes is sandboxed, an attacker can use any tag/filter/function (including `constant()` to read secrets, or `|map(\"system\")` to execute shell commands).\n\n### Resolution\n\nThis is a configuration trap rather than a code bug: there is no legitimate use case for exposing `template_from_string` to untrusted template authors, and propagating the parent sandbox state through `template_from_string` would require invasive changes to `SourcePolicyInterface` semantics with their own risks.\n\nStarting with Twig 3.26.0, the documentation and the PHPDoc of `StringLoaderExtension::templateFromString()` explicitly warn against allowing `template_from_string` in a sandboxed environment (i.e. listing it in a `SecurityPolicy` allowed-functions list). Integrators using a `SourcePolicyInterface` MUST NOT allow `template_from_string` in their allowed functions; the safest option is not to register `StringLoaderExtension` at all when a sandbox is in use.\n\n### Credits\n\nTwig would like to thank Claude Mythos Preview (via Project Glasswing) for reporting the issue.",
+      "recommendation": "Upgrade twig/twig to version 3.26.0",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-46634"
+        },
+        {
+          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-46634.yaml"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-24x9-r6q4-q93w"
+        },
+        {
+          "url": "https://symfony.com/cve-2026-46634"
+        }
+      ],
+      "affects": [
+        {
+          "ref": "pkg:composer/twig/twig@v3.24.0",
+          "versions": [
+            {
+              "version": "v3.24.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-46638",
+      "source": {
+        "name": "php-security-advisories",
+        "url": "https://github.com/FriendsOfPHP/security-advisories"
+      },
+      "ratings": [],
+      "description": "### Description\n\nThe fix for CVE-2024-45411 / GHSA-6j75-5wfj-gh66 added an explicit `$loaded->unwrap()->checkSecurity()` call in `CoreExtension::include()` so that a template already cached in `Environment::$loadedTemplates` is re-checked when included with `sandboxed = true`.\n\nThe deprecated but still functional `{% sandbox %}{% include ... %}{% endsandbox %}` tag path was not updated: it compiles to `enableSandbox(); yield from $this->load(...)->unwrap()->yield(...); disableSandbox();` with no `checkSecurity()` re-invocation. If the included template was loaded once outside the sandbox in the same `Environment` instance, its constructor (and therefore its compiled `checkSecurity()` call) already ran while `isSandboxed()` was `false`, so the tags/filters/functions allowlist enforced by `SecurityPolicy::checkSecurity()` is never applied.\n\nAn attacker who can author the included template gains access to every filter, function and tag registered in the environment, regardless of the sandbox policy.\n\n### Resolution\n\nThe compiled output of `{% sandbox %}{% include %}` now calls `checkSecurity()` on the loaded template, matching the behaviour of `CoreExtension::include()` with `sandboxed = true`.\n\n### Credits\n\nTwig would like to thank Claude Mythos Preview (via Project Glasswing) for reporting the issue and providing the fix.",
+      "recommendation": "Upgrade twig/twig to version 2.0.0, 3.0.0, 3.26.0",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-46638"
+        },
+        {
+          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-46638.yaml"
+        },
+        {
+          "url": "https://github.com/advisories/GHSA-6j75-5wfj-gh66"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-7fxw-r6jv-74c8"
+        },
+        {
+          "url": "https://symfony.com/cve-2026-46638"
+        }
+      ],
+      "affects": [
+        {
+          "ref": "pkg:composer/twig/twig@v3.24.0",
+          "versions": [
+            {
+              "version": "v3.24.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-46639",
+      "source": {
+        "name": "php-security-advisories",
+        "url": "https://github.com/FriendsOfPHP/security-advisories"
+      },
+      "ratings": [],
+      "description": "### Description\n\nThe object-destructuring assignment syntax introduced in Twig 3.24.0 generates a call to `CoreExtension::getAttribute()` with the `$sandboxed` argument hardcoded to `false`, regardless of whether a `SandboxExtension` is active. This permanently disables the sandbox's property and method policy checks for every destructuring expression.\n\n`ObjectDestructuringSetBinary::compile()` emits:\n\n```php\nCoreExtension::getAttribute($this->env, $this->source, ..., \\Twig\\Template::ANY_CALL, false, false, false, ...);\n//                                                                                ^^^^^\n//                                                                       sandbox check never runs\n```\n\nWhereas `GetAttrExpression::compile()` correctly passes `$env->hasExtension(SandboxExtension::class)`.\n\nAn attacker with write access to a sandboxed Twig template can read any public property or invoke any public getter on objects passed to the template engine, bypassing `SecurityPolicy` restrictions. The exploit requires only the `{% do %}` tag to be in `allowedTags`, which is a common configuration.\n\n### Resolution\n\nThe destructuring compiler now forwards the active sandbox flag to `getAttribute()` so property/method allowlists are enforced.\n\n### Credits\n\nTwig would like to thank Anvil Secure in collaboration with Claude and Anthropic Research for reporting and fixing the issue.",
+      "recommendation": "Upgrade twig/twig to version 3.26.0",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-46639"
+        },
+        {
+          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-46639.yaml"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-mm6w-gr99-p3jj"
+        },
+        {
+          "url": "https://symfony.com/cve-2026-46639"
+        }
+      ],
+      "affects": [
+        {
+          "ref": "pkg:composer/twig/twig@v3.24.0",
+          "versions": [
+            {
+              "version": "v3.24.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-46640",
+      "source": {
+        "name": "php-security-advisories",
+        "url": "https://github.com/FriendsOfPHP/security-advisories"
+      },
+      "ratings": [],
+      "description": "### Description\n\nThe `obj.(expr)` dynamic-attribute syntax (added in 3.15.0 as the replacement for the deprecated `attribute()` function) lets the attribute be an arbitrary expression. When the receiver is `_self` (or any `{% import %}` alias) and the parenthesised expression is a string literal, `DotExpressionParser` short-circuits to the macro-call path and concatenates the attacker-controlled string into a `MacroReferenceExpression` name with no identifier validation. `MacroReferenceExpression::compile()` then emits that name raw into the generated PHP source.\n\nAn attacker who can supply template source can inject arbitrary PHP into the compiled template and execute it at template-load time, before `checkSecurity()` is ever called. This is a complete bypass of `SandboxExtension`, including a globally-enabled sandbox with an empty `SecurityPolicy` allowlist.\n\n### Resolution\n\nThe parser now validates that the dynamic attribute resolves to a valid macro identifier before routing through `MacroReferenceExpression`, and the macro-reference compiler emits the name through a properly escaped path.\n\n### Credits\n\nTwig would like to thank Claude Mythos Preview (via Project Glasswing) for reporting the issue and providing the fix.",
+      "recommendation": "Upgrade twig/twig to version 3.26.0",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-46640"
+        },
+        {
+          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-46640.yaml"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-45vw-wh46-2vx8"
+        },
+        {
+          "url": "https://github.com/vladko312/extras/blob/main/CVE-2026-46640.py"
+        },
+        {
+          "url": "https://symfony.com/cve-2026-46640"
+        }
+      ],
+      "affects": [
+        {
+          "ref": "pkg:composer/twig/twig@v3.24.0",
+          "versions": [
+            {
+              "version": "v3.24.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-47732",
+      "source": {
+        "name": "php-security-advisories",
+        "url": "https://github.com/FriendsOfPHP/security-advisories"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "severity": "high"
+        }
+      ],
+      "description": "### Description\n\n`SandboxNodeVisitor` enforces `SecurityPolicy::checkMethodAllowed()` for implicit `__toString()` calls by wrapping selected AST nodes in `CheckToStringNode`. The set of wrapped nodes is incomplete, and several Twig language constructs still trigger PHP string coercion on a `Stringable` operand without first consulting the policy. A sandboxed template author can therefore invoke `__toString()` on any object reachable in the render context, even when `__toString` on its class is not allowlisted.\n\nConfirmed bypass vectors:\n\n- Conditional expressions (`a ? b : c`, `a ?: b`, `a ?? b`) used as the input of a string-coercing filter or as a filter/function argument.\n- The `matches` operator and the loose comparison operators (`==`, `!=`, `<`, `>`, `<=`, `>=`, `<=>`), which coerce a `Stringable` operand to string and can be used as an oracle to recover the value byte by byte (no tag, filter or function needs to be allowlisted).\n- Twig tests in general (which were never policy-gated), in particular `is empty` which casts a `Stringable` value via `(string) $value` in `CoreExtension::testEmpty()`.\n- Null-coalesce expressions nested in concatenation, and the direct output of allowed functions or filters that return a `Stringable` object.\n- Arguments passed to allowed object methods, template-name expressions of template-loading tags (`include`, `extends`, `use`, ...), dynamic attribute/property names, and spread arguments from `Traversable` objects.\n- The `do` tag and the `..` range operator.\n\n### Resolution\n\nThe sandbox now wraps every child node that the parent will string-coerce at runtime, instead of relying on a hardcoded list of node types in `SandboxNodeVisitor`. A new `Twig\\Node\\CoercesChildrenToStringInterface` lets nodes declare which of their children must be guarded; core nodes (concatenation, comparison and range binaries, filter/function/test expressions, `do`, `include`, `extends`, `use`, ...) implement it. Spread arguments are materialised and policy-checked via the new `SandboxExtension::ensureSpreadAllowed()`, and dynamic attribute names are checked at runtime inside `CoreExtension::getAttribute()`.\n\n### Credits\n\nTwig would like to thank Anthropic Glasswing and El Kharoubi Iosif for reporting the issues, and Fabien Potencier for providing the fixes.",
+      "recommendation": "Upgrade twig/twig to version 2.0.0, 3.0.0, 3.26.0",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-47732"
+        },
+        {
+          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-47732.yaml"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-pr2w-4gpj-cpq4"
+        },
+        {
+          "url": "https://symfony.com/cve-2026-47732"
+        }
+      ],
+      "affects": [
+        {
+          "ref": "pkg:composer/twig/twig@v3.24.0",
+          "versions": [
+            {
+              "version": "v3.24.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-48806",
+      "source": {
+        "name": "php-security-advisories",
+        "url": "https://github.com/FriendsOfPHP/security-advisories"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "severity": "medium"
+        }
+      ],
+      "description": "### Description\n\nThis is a residual bypass of CVE-2026-47732 / GHSA-pr2w-4gpj-cpq4 left after the initial fix for unguarded `__toString()` calls.\n\nIn 3.26.0 the sandbox visitor was extended to wrap every child node that its parent will string-coerce at runtime with `CheckToStringNode`, gated by the new `CoercesChildrenToStringInterface`. `ArrayExpression` did not implement the interface for its mapping keys: when a dynamic key expression resolves to a `Stringable` object, `ArrayExpression::compile()` emits a raw `(string)` cast (via `StringCastUnary` for `ContextVariable` keys, and no cast at all for richer key expressions). PHP then invokes `__toString()` directly, without ever calling `SandboxExtension::ensureToStringAllowed()`.\n\nA sandboxed template author can therefore trigger `__toString()` on any object reachable in the render context by using it as a dynamic mapping key, for example:\n\n```twig\n{% set arr = {(obj): \"value\"} %}\n```\n\nDirect output of the same object is correctly blocked, which makes this a clear policy enforcement gap. The reliable demonstrated impact is unauthorised disclosure of data returned by `__toString()`.\n\n### Resolution\n\n`ArrayExpression` now declares its dynamic mapping keys as string-coercion sites through `CoercesChildrenToStringInterface`, so the sandbox visitor wraps them with `CheckToStringNode` and the policy is consulted before PHP coerces the key to a string. The compiler also keeps an explicit `(string)` cast around the wrapped expression so PHP type errors on non-string keys are preserved.\n\nAs a side effect, any expression is now accepted as a dynamic mapping key (not only context variables); this is documented as a new feature on the 3.x branch.\n\n### Credits\n\nTwig would like to thank El Kharoubi Iosif for reporting the issue and Fabien Potencier for providing the fix.",
+      "recommendation": "Upgrade twig/twig to version 2.0.0, 3.0.0, 3.27.0",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-48806"
+        },
+        {
+          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-48806.yaml"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/releases/tag/v3.27.0"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-5v5v-ww74-355v"
+        },
+        {
+          "url": "https://symfony.com/blog/cve-2026-48806-sandbox-tostring-policy-bypass-via-dynamic-mapping-keys"
+        }
+      ],
+      "affects": [
+        {
+          "ref": "pkg:composer/twig/twig@v3.24.0",
+          "versions": [
+            {
+              "version": "v3.24.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-48807",
+      "source": {
+        "name": "php-security-advisories",
+        "url": "https://github.com/FriendsOfPHP/security-advisories"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "severity": "medium"
+        }
+      ],
+      "description": "### Description\n\nThis is a residual bypass of CVE-2026-47732 / GHSA-pr2w-4gpj-cpq4 left after the initial fix for unguarded `__toString()` calls. It covers two related coercion points that were not caught by the original patch.\n\n**`Traversable` in `join` and `replace` filters.** `SandboxExtension::ensureToStringAllowed()` recurses into PHP arrays so that a `Stringable` object hidden inside an array argument cannot be string-coerced without consulting the security policy. The recursion stops at PHP arrays: a `Traversable` value passed at the same position is not materialised, so its contents are not policy-checked. `CoreExtension::join()` and `CoreExtension::replace()` later materialise such `Traversable` inputs through `self::toArray()` and feed them to `implode()` / `strtr()`, both of which implicitly call `__toString()` on contained `Stringable` objects. The bypass also reproduces when the container implements both `Stringable` and `Traversable`: the container's own `__toString()` is policy-checked, but the elements yielded by `getIterator()` are not, and the consuming filters still coerce them to string.\n\n**`in` and `not in` operators.** `InBinary` and `NotInBinary` compile to `CoreExtension::inFilter()`, which falls through to PHP's `<=>` operator when comparing a string with a `Stringable` object. PHP coerces the object to string via `__toString()` without the sandbox policy being consulted. Beyond the direct side effect, `in` can also be used as a content-leak oracle: each probe against an attacker-chosen needle leaks one bit of equality, and chained probes can reconstruct the string returned by `__toString()` even when every method is denied. The bypass reproduces with both array and `Traversable` haystacks, and on both operand sides.\n\nA sandboxed template author who is allowed to call `join` / `replace`, or to use the `in` / `not in` operators, can therefore trigger a disallowed `__toString()` method on objects reachable from the render context, even when that method is not on `SecurityPolicy::$allowedMethods`. The bypass reproduces both under global sandbox mode and when sandboxing is enabled through `SourcePolicyInterface`.\n\n### Resolution\n\n`SandboxExtension::ensureToStringAllowed()` now also recurses into `Traversable` operands when sandboxing is active for the current source: each value is materialised once and run through the same array-recursion path, so the policy is consulted before the filter implementation can coerce contained objects to strings. This applies to plain `Traversable` operands as well as to containers that implement both `Stringable` and `Traversable`: the container's own `__toString()` is still policy-checked, and the yielded elements are additionally checked. The materialisation is guarded by `isSandboxed($source)` so that non-sandboxed code paths do not pay the cost or change generator-exhaustion semantics.\n\n`InBinary` and `NotInBinary` now implement `Twig\\Node\\CoercesChildrenToStringInterface` and declare both operands as string-coerced, so `SandboxNodeVisitor` wraps each operand in `CheckToStringNode`. The policy is consulted before `CoreExtension::inFilter()` reaches PHP's `<=>` operator, matching the existing protection on the other comparison binaries (`Equal`, `Less`, `Greater`, `Spaceship`, ...).\n\n### Credits\n\nTwig would like to thank Vincent55 Yang and Fabien Potencier for reporting the issues and Fabien Potencier for providing the fix.",
+      "recommendation": "Upgrade twig/twig to version 2.0.0, 3.0.0, 3.27.0",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-48807"
+        },
+        {
+          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-48807.yaml"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/releases/tag/v3.27.0"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-8x9c-rmqh-456c"
+        },
+        {
+          "url": "https://symfony.com/blog/cve-2026-48807-sandbox-tostring-policy-bypass-via-traversable-in-join-replace-and-in-not-in-operators"
+        }
+      ],
+      "affects": [
+        {
+          "ref": "pkg:composer/twig/twig@v3.24.0",
+          "versions": [
+            {
+              "version": "v3.24.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-48808",
+      "source": {
+        "name": "php-security-advisories",
+        "url": "https://github.com/FriendsOfPHP/security-advisories"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "severity": "medium"
+        }
+      ],
+      "description": "### Description\n\nThis is a residual bypass of CVE-2026-46635 / GHSA-vcc8-phrv-43wj that only affects sandboxing enabled through `SourcePolicyInterface` (and not the regular global sandbox mode).\n\n`CoreExtension::column()` receives the active sandbox state via the `needs_is_sandboxed` channel as a boolean `$isSandboxed`, but then routes the per-element property reads through `SandboxExtension::checkPropertyAllowed()` without forwarding the current `Source`. `SandboxExtension::checkPropertyAllowed()` re-evaluates `isSandboxed($source)` internally; with `$source = null` the `SourcePolicyInterface`-driven decision is lost, the method short-circuits to \"not sandboxed\", and the property allowlist is never consulted.\n\nA template author whose sandbox is gated by a `SourcePolicyInterface` and who has `column` on their `allowedFilters` list can therefore read any public or magic property of any object reachable in the render context, regardless of `SecurityPolicy::$allowedProperties`. Direct attribute access to the same property is blocked, and the same payload is also blocked under global sandbox mode, which makes this a clear policy enforcement gap rather than a configuration issue.\n\n### Resolution\n\n`CoreExtension::column()` no longer goes through the `SandboxExtension` wrapper for the property check. It calls the security policy directly: the per-source decision is already captured by the `$isSandboxed` boolean computed at the call site, so the property allowlist is enforced consistently for both global and source-policy sandboxing.\n\n### Credits\n\nTwig would like to thank Vincent55 Yang for reporting the issue and Fabien Potencier for providing the fix.",
+      "recommendation": "Upgrade twig/twig to version 2.0.0, 3.0.0, 3.27.0",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-48808"
+        },
+        {
+          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-48808.yaml"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/releases/tag/v3.27.0"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-h8vq-8gpg-mhcg"
+        },
+        {
+          "url": "https://symfony.com/blog/cve-2026-48808-sandbox-property-allowlist-bypass-via-the-column-filter-under-sourcepolicyinterface"
+        }
+      ],
+      "affects": [
+        {
+          "ref": "pkg:composer/twig/twig@v3.24.0",
+          "versions": [
+            {
+              "version": "v3.24.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-49981",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Acomposer"
+      },
+      "ratings": [],
+      "description": "### Description\n\nThe per-template filter, tag and function allow-list check is compiled into the `checkSecurity()` method of each `Template` subclass and was invoked once from the constructor, gated by `SandboxExtension::isSandboxed($source)`. `Template` instances are then cached on the `Environment` in `$loadedTemplates`, so the verdict computed at construction time was sticky for the rest of the process.\n\nAny later change of sandbox state on the same `Environment` left that cached verdict in place: toggling `SandboxExtension::enableSandbox()`/`disableSandbox()`, swapping the policy via `setSecurityPolicy()`, a `SourcePolicyInterface` decision flip, or simply having a parent, macro or included template pre-instantiated outside the sandbox before a sandboxed render reached it. In all of these cases, the filters, tags and functions used by the affected template kept running with the original (typically empty) check, bypassing the `SecurityPolicy` allow-list.\n\nMethod, property and `__toString` allow-lists are not affected: they are enforced at every call site at runtime through `SandboxExtension::checkMethodAllowed()`, `checkPropertyAllowed()` and `ensureToStringAllowed()`, which re-read the current state on every call.\n\nLong-lived workers (FrankenPHP, RoadRunner, Symfony Messenger consumers, FPM with hot autoloading) that share a single `Environment` between sandboxed and non-sandboxed renders are the most exposed: a single non-sandboxed render of a shared layout pre-warms its `Template` instance, after which any later sandboxed render that extends, uses, includes or imports from that layout silently skips the filter/tag/function allow-list for the pre-warmed instance.\n\n### Resolution\n\nThe allow-list check is no longer run from the constructor. `Template` gains a public `ensureSecurityChecked()` method that calls the compiled `checkSecurity()` only when `SandboxExtension::isSandboxed($source)` returns true for the current source, and it is invoked at every entry point that can reach a `Template` instance whose security has not yet been verified against the current state: `Template::yield()`, `Template::yieldBlock()` (on the resolved block template, which covers `extends`, `use`, traits and parent blocks), `Template::getParent()` (which evaluates user code when the parent name is dynamic) and `Template::getTemplateForMacro()` (on the resolved macro template).\n\nThe explicit `checkSecurity()` calls previously emitted by `IncludeNode` and `CoreExtension::include()` are removed: the included template's own `yield()` now re-runs the check against the current sandbox state. The compiled `checkSecurity()` body is a cheap walk over compile-time-static arrays, so the per-render cost is negligible. Old cached compiled PHP files keep working unchanged: the constructor-time call they still contain is idempotent.\n\n### Credits\n\nTwig would like to thank Fabien Potencier for reporting and fixing the issue.",
+      "recommendation": "Upgrade twig/twig to version 3.27.0",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-49981"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/releases/tag/v3.27.0"
+        },
+        {
+          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-529h-vh3j-85hq"
+        }
+      ],
+      "affects": [
+        {
+          "ref": "pkg:composer/twig/twig@v3.24.0",
+          "versions": [
+            {
+              "version": "v3.24.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-53571",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "nvd"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+        }
+      ],
+      "cwes": [
+        22,
+        200
+      ],
+      "description": "Vite is a frontend tooling framework for JavaScript. Prior to 8.0.16, 7.3.5, and 6.4.3, the contents of files that are specified by server.fs.deny can be returned to the browser on Windows. Vite’s dev server denies direct access to sensitive files through server.fs.deny, including entries such as .env, .env.*, and *.{crt,pem}. However, on Windows, the deny logic does not correctly normalize NTFS ADS path forms before access checks are applied. Because of this, requests such as /.env::$DATA?raw are treated as allowed paths, while Windows resolves them to the original file's default data stream. Similar to that, Windows allows accessing a file using a different name with the 8.3 short name compatibility feature. Vite did not reject accessing files via them. This vulnerability is fixed in 8.0.16, 7.3.5, and 6.4.3.",
+      "recommendation": "Upgrade vite to version 8.0.16, 7.3.5, 6.4.3",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-53571"
+        },
+        {
+          "url": "https://github.com/vitejs/vite"
+        },
+        {
+          "url": "https://github.com/vitejs/vite/security/advisories/GHSA-fx2h-pf6j-xcff"
+        }
+      ],
+      "published": "2026-06-22T18:16:44+00:00",
+      "updated": "2026-06-24T20:44:24+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/vite@5.4.21",
+          "versions": [
+            {
+              "version": "5.4.21",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-53632",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 5.3,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N"
+        }
+      ],
+      "cwes": [
+        73,
+        522
+      ],
+      "description": "launch-editor allows users to open files with line numbers in editor from Node.js. Prior to 2.14.1, the launch-editor NPM package accesses arbitrary paths including Windows UNC paths. When a UNC path is opened, Windows automatically attempts NTLM authentication to the remote host, causing the user’s NTLMv2 password hash to be leaked to an attacker-controlled SMB server. This can result in credential compromise through offline hash cracking. This vulnerability is fixed in 2.14.1.",
+      "recommendation": "Upgrade vite to version 8.0.16, 7.3.5, 6.4.3",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-53632"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-53632"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor"
+        },
+        {
+          "url": "https://github.com/vitejs/launch-editor/security/advisories/GHSA-v6wh-96g9-6wx3"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53632"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-53632"
+        }
+      ],
+      "published": "2026-06-22T18:16:44+00:00",
+      "updated": "2026-06-23T15:44:39+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/vite@5.4.21",
+          "versions": [
+            {
+              "version": "5.4.21",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-53655",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "nvd"
+          },
+          "score": 5.5,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 6.1,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:L/I:H/A:N"
+        }
+      ],
+      "cwes": [
+        436
+      ],
+      "description": "node-tar is a full-featured Tar for Node.js. Prior to 7.5.16, tar (node-tar) applies a PAX extended header's size= record (and other PAX overrides) to the next header entry of any type, including intermediary metadata headers such as a GNU long-name (L) or long-link (K) entry. Per POSIX pax, a PAX extended header (x) describes the next file entry, not the intermediary extension headers that may sit between the x header and the file it annotates. Because node-tar lets the PAX size override the byte length of an intervening L/K/x header, an attacker can desynchronize node-tar's stream cursor relative to every other mainstream tar implementation (GNU tar, libarchive/bsdtar, Python tarfile, and the now-fixed tar-rs / astral-tokio-tar). The result is a tar parser interpretation differential (CWE-436): a single crafted archive yields a different set of members under node-tar than under the reference tar tools. An attacker can use this to hide a member from one parser while it is visible to another, which defeats security tooling whose scanner and extractor disagree on archive contents (e.g. a malware/secret scanner that lists entries with one library while a downstream step extracts with another) This vulnerability is fixed in 7.5.16.",
+      "recommendation": "Upgrade tar to version 7.5.16",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-53655"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-53655"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/security/advisories/GHSA-vmf3-w455-68vh"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53655"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-53655"
+        }
+      ],
+      "published": "2026-06-22T16:16:38+00:00",
+      "updated": "2026-06-26T20:03:47+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/tar@7.5.13",
+          "versions": [
+            {
+              "version": "7.5.13",
               "status": "affected"
             }
           ]
