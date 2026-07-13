@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+use DOM\ORM\Entity\EntityInterface;
 use DOM\ORM\Repository\EntityRepository;
+use DOM\ORM\Serializer\Encoder\SchemaEncoder;
+use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use DOM\ORM\Traits\EntityManagerTrait;
 
 final class VirtualFilesystemManager
@@ -32,8 +35,7 @@ final class VirtualFilesystemManager
 
         $encoded = base64_encode($content);
         $file = new VirtualFile($fileName, $mimeType, $encoded, strlen($content));
-        $folder->addFile($file);
-        $this->persist($folder);
+        $this->appendEntityToFolderGroup($folder->getId(), 'files', $file);
     }
 
     public function addFolderToFolder(string $parentFolderName, string $childFolderName): void
@@ -47,8 +49,7 @@ final class VirtualFilesystemManager
         }
 
         $childFolder = new VirtualFolder($childFolderName);
-        $parentFolder->addFolder($childFolder);
-        $this->persist($parentFolder);
+        $this->appendEntityToFolderGroup($parentFolder->getId(), 'folders', $childFolder);
     }
 
     public function addFolderById(?string $parentId, string $name): string
@@ -58,13 +59,7 @@ final class VirtualFilesystemManager
         if (empty($parentId)) {
             $this->persist($folder);
         } else {
-            $repository = new EntityRepository(VirtualFolder::class);
-            $parent = $repository->find($parentId);
-            if (!$parent instanceof VirtualFolder) {
-                throw new \RuntimeException('Parent folder not found: ' . $parentId);
-            }
-            $parent->addFolder($folder);
-            $this->persist($parent);
+            $this->appendEntityToFolderGroup($parentId, 'folders', $folder);
         }
 
         return $folder->getId();
@@ -83,15 +78,8 @@ final class VirtualFilesystemManager
 
     public function addFileById(string $parentId, string $name, string $mimeType, string $content, int $size = 0): string
     {
-        $repository = new EntityRepository(VirtualFolder::class);
-        $parent = $repository->find($parentId);
-        if (!$parent instanceof VirtualFolder) {
-            throw new \RuntimeException('Parent folder not found: ' . $parentId);
-        }
-
         $file = new VirtualFile($name, $mimeType, $content, $size);
-        $parent->addFile($file);
-        $this->persist($parent);
+        $this->appendEntityToFolderGroup($parentId, 'files', $file);
 
         return $file->getId();
     }
@@ -116,6 +104,34 @@ final class VirtualFilesystemManager
         }
         $file->setName($name);
         $this->persist($file);
+    }
+
+    private function appendEntityToFolderGroup(string $folderId, string $groupType, EntityInterface $entity): void
+    {
+        $this->withWriteLock(function () use ($folderId, $groupType, $entity): void {
+            $folderQuery = sprintf('//item[@type="folder" and @id="%s"]', $folderId);
+            $folderNodes = $this->xpath->query($folderQuery);
+            $folderNode = ($folderNodes === false) ? null : $folderNodes->item(0);
+            if (!$folderNode instanceof \DOMElement) {
+                throw new \RuntimeException('Parent folder not found: ' . $folderId);
+            }
+
+            $groupQuery = sprintf('./group[@type="%s"]', $groupType);
+            $groupNodes = $this->xpath->query($groupQuery, $folderNode);
+            $groupNode = ($groupNodes === false) ? null : $groupNodes->item(0);
+            if (!$groupNode instanceof \DOMElement) {
+                $groupNode = $this->data->createElement('group');
+                $groupNode->setAttribute('type', $groupType);
+                $folderNode->appendChild($groupNode);
+            }
+
+            $array = $this->serializer->normalize($entity, SchemaNormalizer::FORMAT);
+            $xml = $this->serializer->encode($array, SchemaEncoder::FORMAT);
+            $tmp = $this->getEmptyDom();
+            $tmp->loadXML($xml);
+            $importedNode = $this->data->importNode($tmp->documentElement, true);
+            $groupNode->appendChild($importedNode);
+        });
     }
 
 }

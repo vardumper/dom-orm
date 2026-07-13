@@ -16,9 +16,9 @@ abstract class AbstractEntity implements EntityInterface
     private \DateTimeInterface $createdAt;
 
     /**
-     * @var list<string>|null
+     * @var list<string>
      */
-    private ?array $allowedParentPaths = null;
+    private array $allowedParentPaths = [];
 
     #[Fragment]
     private ?\DateTimeInterface $updatedAt = null;
@@ -82,6 +82,6 @@ abstract class AbstractEntity implements EntityInterface
 
     public function hasAllowedParentPaths(): bool
     {
-        return $this->allowedParentPaths !== null;
+        return $this->allowedParentPaths !== [];
     }
 }

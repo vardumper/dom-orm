@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1778260951">
-  <project timestamp="1778260951" name="Clover Coverage">
+<coverage generated="1783929731">
+  <project timestamp="1783929731" name="Clover Coverage">
     <package name="DOM\ORM\Command">
       <file name="/home/erik-poehler/Sites/dom-orm/src/Command/Backup.php">
         <class name="DOM\ORM\Command\Backup" namespace="DOM\ORM\Command">
@@ -329,34 +329,32 @@
         <line num="87" type="stmt" count="0"/>
         <line num="99" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
         <line num="101" type="stmt" count="0"/>
-        <line num="107" type="method" name="batchInsert" visibility="public" complexity="1" crap="2" count="0"/>
-        <line num="109" type="stmt" count="0"/>
-        <line num="115" type="method" name="insert" visibility="public" complexity="1" crap="2" count="0"/>
-        <line num="117" type="stmt" count="0"/>
-        <line num="155" type="method" name="run" visibility="public" complexity="16" crap="272" count="0"/>
-        <line num="158" type="stmt" count="0"/>
-        <line num="159" type="stmt" count="0"/>
+        <line num="109" type="method" name="batchInsert" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="111" type="stmt" count="0"/>
+        <line num="117" type="method" name="insert" visibility="public" complexity="1" crap="2" count="0"/>
+        <line num="119" type="stmt" count="0"/>
+        <line num="157" type="method" name="run" visibility="public" complexity="16" crap="272" count="0"/>
         <line num="160" type="stmt" count="0"/>
         <line num="161" type="stmt" count="0"/>
         <line num="162" type="stmt" count="0"/>
         <line num="163" type="stmt" count="0"/>
         <line num="164" type="stmt" count="0"/>
         <line num="165" type="stmt" count="0"/>
-        <line num="168" type="stmt" count="0"/>
+        <line num="166" type="stmt" count="0"/>
+        <line num="167" type="stmt" count="0"/>
         <line num="170" type="stmt" count="0"/>
-        <line num="171" type="stmt" count="0"/>
-        <line num="174" type="stmt" count="0"/>
-        <line num="175" type="stmt" count="0"/>
+        <line num="172" type="stmt" count="0"/>
+        <line num="173" type="stmt" count="0"/>
         <line num="176" type="stmt" count="0"/>
         <line num="177" type="stmt" count="0"/>
         <line num="178" type="stmt" count="0"/>
         <line num="179" type="stmt" count="0"/>
+        <line num="180" type="stmt" count="0"/>
         <line num="181" type="stmt" count="0"/>
-        <line num="184" type="stmt" count="0"/>
-        <line num="185" type="stmt" count="0"/>
+        <line num="183" type="stmt" count="0"/>
+        <line num="186" type="stmt" count="0"/>
         <line num="187" type="stmt" count="0"/>
         <line num="189" type="stmt" count="0"/>
-        <line num="190" type="stmt" count="0"/>
         <line num="191" type="stmt" count="0"/>
         <line num="192" type="stmt" count="0"/>
         <line num="193" type="stmt" count="0"/>
@@ -369,11 +367,11 @@
         <line num="200" type="stmt" count="0"/>
         <line num="201" type="stmt" count="0"/>
         <line num="202" type="stmt" count="0"/>
-        <line num="205" type="stmt" count="0"/>
+        <line num="203" type="stmt" count="0"/>
+        <line num="204" type="stmt" count="0"/>
         <line num="207" type="stmt" count="0"/>
-        <line num="208" type="stmt" count="0"/>
-        <line num="211" type="stmt" count="0"/>
-        <line num="212" type="stmt" count="0"/>
+        <line num="209" type="stmt" count="0"/>
+        <line num="210" type="stmt" count="0"/>
         <line num="213" type="stmt" count="0"/>
         <line num="214" type="stmt" count="0"/>
         <line num="215" type="stmt" count="0"/>
@@ -384,71 +382,71 @@
         <line num="220" type="stmt" count="0"/>
         <line num="221" type="stmt" count="0"/>
         <line num="222" type="stmt" count="0"/>
-        <line num="226" type="stmt" count="0"/>
-        <line num="227" type="stmt" count="0"/>
+        <line num="223" type="stmt" count="0"/>
+        <line num="224" type="stmt" count="0"/>
+        <line num="228" type="stmt" count="0"/>
         <line num="229" type="stmt" count="0"/>
-        <line num="230" type="stmt" count="0"/>
         <line num="231" type="stmt" count="0"/>
         <line num="232" type="stmt" count="0"/>
+        <line num="233" type="stmt" count="0"/>
         <line num="234" type="stmt" count="0"/>
-        <line num="235" type="stmt" count="0"/>
         <line num="236" type="stmt" count="0"/>
-        <line num="239" type="stmt" count="0"/>
-        <line num="240" type="stmt" count="0"/>
+        <line num="237" type="stmt" count="0"/>
+        <line num="238" type="stmt" count="0"/>
+        <line num="241" type="stmt" count="0"/>
         <line num="242" type="stmt" count="0"/>
-        <line num="243" type="stmt" count="0"/>
         <line num="244" type="stmt" count="0"/>
         <line num="245" type="stmt" count="0"/>
         <line num="246" type="stmt" count="0"/>
         <line num="247" type="stmt" count="0"/>
-        <line num="250" type="stmt" count="0"/>
+        <line num="248" type="stmt" count="0"/>
+        <line num="249" type="stmt" count="0"/>
         <line num="252" type="stmt" count="0"/>
         <line num="254" type="stmt" count="0"/>
-        <line num="255" type="stmt" count="0"/>
         <line num="256" type="stmt" count="0"/>
+        <line num="257" type="stmt" count="0"/>
         <line num="258" type="stmt" count="0"/>
-        <line num="259" type="stmt" count="0"/>
+        <line num="260" type="stmt" count="0"/>
         <line num="261" type="stmt" count="0"/>
-        <line num="262" type="stmt" count="0"/>
         <line num="263" type="stmt" count="0"/>
+        <line num="264" type="stmt" count="0"/>
         <line num="265" type="stmt" count="0"/>
-        <line num="266" type="stmt" count="0"/>
         <line num="267" type="stmt" count="0"/>
         <line num="268" type="stmt" count="0"/>
         <line num="269" type="stmt" count="0"/>
-        <line num="272" type="stmt" count="0"/>
-        <line num="273" type="stmt" count="0"/>
+        <line num="270" type="stmt" count="0"/>
+        <line num="271" type="stmt" count="0"/>
         <line num="274" type="stmt" count="0"/>
+        <line num="275" type="stmt" count="0"/>
         <line num="276" type="stmt" count="0"/>
-        <line num="277" type="stmt" count="0"/>
+        <line num="278" type="stmt" count="0"/>
         <line num="279" type="stmt" count="0"/>
-        <line num="280" type="stmt" count="0"/>
         <line num="281" type="stmt" count="0"/>
+        <line num="282" type="stmt" count="0"/>
         <line num="283" type="stmt" count="0"/>
-        <line num="284" type="stmt" count="0"/>
         <line num="285" type="stmt" count="0"/>
+        <line num="286" type="stmt" count="0"/>
         <line num="287" type="stmt" count="0"/>
-        <line num="288" type="stmt" count="0"/>
         <line num="289" type="stmt" count="0"/>
         <line num="290" type="stmt" count="0"/>
         <line num="291" type="stmt" count="0"/>
-        <line num="294" type="stmt" count="0"/>
-        <line num="295" type="stmt" count="0"/>
+        <line num="292" type="stmt" count="0"/>
+        <line num="293" type="stmt" count="0"/>
         <line num="296" type="stmt" count="0"/>
         <line num="297" type="stmt" count="0"/>
-        <line num="300" type="stmt" count="0"/>
-        <line num="301" type="stmt" count="0"/>
-        <line num="304" type="stmt" count="0"/>
-        <line num="305" type="stmt" count="0"/>
-        <line num="310" type="stmt" count="0"/>
-        <line num="311" type="stmt" count="0"/>
+        <line num="298" type="stmt" count="0"/>
+        <line num="299" type="stmt" count="0"/>
+        <line num="302" type="stmt" count="0"/>
+        <line num="303" type="stmt" count="0"/>
+        <line num="306" type="stmt" count="0"/>
+        <line num="307" type="stmt" count="0"/>
         <line num="312" type="stmt" count="0"/>
         <line num="313" type="stmt" count="0"/>
-        <line num="316" type="stmt" count="0"/>
+        <line num="314" type="stmt" count="0"/>
+        <line num="315" type="stmt" count="0"/>
         <line num="318" type="stmt" count="0"/>
-        <line num="319" type="stmt" count="0"/>
+        <line num="320" type="stmt" count="0"/>
         <line num="321" type="stmt" count="0"/>
-        <line num="322" type="stmt" count="0"/>
         <line num="323" type="stmt" count="0"/>
         <line num="324" type="stmt" count="0"/>
         <line num="325" type="stmt" count="0"/>
@@ -469,9 +467,9 @@
         <line num="340" type="stmt" count="0"/>
         <line num="341" type="stmt" count="0"/>
         <line num="342" type="stmt" count="0"/>
-        <line num="345" type="method" name="resetSharedSingletons" visibility="private" complexity="4" crap="20" count="0"/>
-        <line num="347" type="stmt" count="0"/>
-        <line num="348" type="stmt" count="0"/>
+        <line num="343" type="stmt" count="0"/>
+        <line num="344" type="stmt" count="0"/>
+        <line num="347" type="method" name="resetSharedSingletons" visibility="private" complexity="4" crap="20" count="0"/>
         <line num="349" type="stmt" count="0"/>
         <line num="350" type="stmt" count="0"/>
         <line num="351" type="stmt" count="0"/>
@@ -479,8 +477,10 @@
         <line num="353" type="stmt" count="0"/>
         <line num="354" type="stmt" count="0"/>
         <line num="355" type="stmt" count="0"/>
+        <line num="356" type="stmt" count="0"/>
         <line num="357" type="stmt" count="0"/>
-        <metrics loc="357" ncloc="357" classes="4" methods="13" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="162" coveredstatements="0" elements="175" coveredelements="0" complexity="31"/>
+        <line num="359" type="stmt" count="0"/>
+        <metrics loc="359" ncloc="359" classes="4" methods="13" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="162" coveredstatements="0" elements="175" coveredelements="0" complexity="31"/>
       </file>
       <file name="/home/erik-poehler/Sites/dom-orm/src/Command/Validate.php">
         <class name="DOM\ORM\Command\Validate" namespace="DOM\ORM\Command">
@@ -490,7 +490,7 @@
         <line num="10" type="stmt" count="0"/>
         <metrics loc="10" ncloc="10" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="0" elements="2" coveredelements="0" complexity="1"/>
       </file>
-      <metrics complexity="125" methods="31" coveredmethods="12" conditionals="0" coveredconditionals="0" statements="394" coveredstatements="186" elements="425" coveredelements="198" classes="12" loc="955" ncloc="955"/>
+      <metrics complexity="125" methods="31" coveredmethods="12" conditionals="0" coveredconditionals="0" statements="394" coveredstatements="186" elements="425" coveredelements="198" classes="12" loc="957" ncloc="957"/>
     </package>
     <package name="DOM\ORM\Encryption">
       <file name="/home/erik-poehler/Sites/dom-orm/src/Encryption/EncryptedValue.php">
@@ -913,7 +913,7 @@
       </file>
       <file name="/home/erik-poehler/Sites/dom-orm/src/Serializer/Encoder/SchemaEncoder.php">
         <class name="DOM\ORM\Serializer\Encoder\SchemaEncoder" namespace="DOM\ORM\Serializer\Encoder">
-          <metrics complexity="42" methods="8" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="107" coveredstatements="86" elements="115" coveredelements="91"/>
+          <metrics complexity="38" methods="8" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="105" coveredstatements="85" elements="113" coveredelements="90"/>
         </class>
         <line num="16" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="46"/>
         <line num="18" type="stmt" count="46"/>
@@ -962,7 +962,7 @@
         <line num="89" type="stmt" count="39"/>
         <line num="93" type="stmt" count="39"/>
         <line num="95" type="stmt" count="39"/>
-        <line num="102" type="method" name="decode" visibility="public" complexity="13" crap="13.29" count="11"/>
+        <line num="102" type="method" name="decode" visibility="public" complexity="11" crap="11.21" count="11"/>
         <line num="104" type="stmt" count="11"/>
         <line num="106" type="stmt" count="11"/>
         <line num="107" type="stmt" count="10"/>
@@ -997,7 +997,7 @@
         <line num="156" type="stmt" count="10"/>
         <line num="157" type="stmt" count="10"/>
         <line num="158" type="stmt" count="10"/>
-        <line num="165" type="method" name="decodeGroup" visibility="private" complexity="4" crap="20" count="0"/>
+        <line num="165" type="method" name="decodeGroup" visibility="private" complexity="3" crap="12" count="0"/>
         <line num="167" type="stmt" count="0"/>
         <line num="168" type="stmt" count="0"/>
         <line num="169" type="stmt" count="0"/>
@@ -1005,34 +1005,32 @@
         <line num="171" type="stmt" count="0"/>
         <line num="173" type="stmt" count="0"/>
         <line num="174" type="stmt" count="0"/>
-        <line num="175" type="stmt" count="0"/>
+        <line num="177" type="stmt" count="0"/>
+        <line num="178" type="stmt" count="0"/>
         <line num="179" type="stmt" count="0"/>
-        <line num="180" type="stmt" count="0"/>
-        <line num="181" type="stmt" count="0"/>
-        <line num="188" type="method" name="decodeItem" visibility="private" complexity="4" crap="4" count="9"/>
+        <line num="186" type="method" name="decodeItem" visibility="private" complexity="3" crap="3" count="9"/>
+        <line num="188" type="stmt" count="9"/>
         <line num="190" type="stmt" count="9"/>
+        <line num="191" type="stmt" count="9"/>
         <line num="192" type="stmt" count="9"/>
         <line num="193" type="stmt" count="9"/>
-        <line num="194" type="stmt" count="9"/>
         <line num="195" type="stmt" count="9"/>
-        <line num="197" type="stmt" count="9"/>
-        <line num="198" type="stmt" count="9"/>
-        <line num="199" type="stmt" count="6"/>
-        <line num="201" type="stmt" count="9"/>
-        <line num="202" type="stmt" count="9"/>
+        <line num="196" type="stmt" count="9"/>
+        <line num="197" type="stmt" count="6"/>
+        <line num="199" type="stmt" count="9"/>
+        <line num="200" type="stmt" count="9"/>
         <line num="203" type="stmt" count="9"/>
-        <line num="207" type="stmt" count="9"/>
-        <line num="208" type="stmt" count="9"/>
-        <line num="209" type="stmt" count="9"/>
-        <line num="216" type="method" name="decodeFragment" visibility="private" complexity="1" crap="1" count="9"/>
+        <line num="204" type="stmt" count="9"/>
+        <line num="205" type="stmt" count="9"/>
+        <line num="212" type="method" name="decodeFragment" visibility="private" complexity="1" crap="1" count="9"/>
+        <line num="214" type="stmt" count="9"/>
+        <line num="215" type="stmt" count="9"/>
+        <line num="217" type="stmt" count="9"/>
         <line num="218" type="stmt" count="9"/>
         <line num="219" type="stmt" count="9"/>
-        <line num="221" type="stmt" count="9"/>
-        <line num="222" type="stmt" count="9"/>
-        <line num="223" type="stmt" count="9"/>
-        <metrics loc="223" ncloc="223" classes="1" methods="8" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="107" coveredstatements="93" elements="115" coveredelements="100" complexity="42"/>
+        <metrics loc="219" ncloc="219" classes="1" methods="8" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="105" coveredstatements="92" elements="113" coveredelements="99" complexity="38"/>
       </file>
-      <metrics complexity="71" methods="15" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="181" coveredstatements="155" elements="196" coveredelements="168" classes="2" loc="385" ncloc="385"/>
+      <metrics complexity="67" methods="15" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="179" coveredstatements="154" elements="194" coveredelements="167" classes="2" loc="381" ncloc="381"/>
     </package>
     <file name="/home/erik-poehler/Sites/dom-orm/src/Serializer/Encoder/SchemaDecoderInterface.php">
       <metrics loc="13" ncloc="10" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
@@ -2352,6 +2350,6 @@
       <line num="229" type="stmt" count="0"/>
       <metrics loc="231" ncloc="209" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="121" coveredstatements="111" elements="121" coveredelements="111"/>
     </file>
-    <metrics files="43" loc="4485" ncloc="4485" classes="40" methods="195" coveredmethods="161" conditionals="0" coveredconditionals="0" statements="1753" coveredstatements="1231" elements="1948" coveredelements="1392" complexity="703"/>
+    <metrics files="43" loc="4483" ncloc="4483" classes="40" methods="195" coveredmethods="161" conditionals="0" coveredconditionals="0" statements="1751" coveredstatements="1230" elements="1946" coveredelements="1391" complexity="699"/>
   </project>
 </coverage>

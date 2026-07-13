@@ -79,6 +79,40 @@ function renderHtml(): string
     return (string)$proc->transformToXML($doc);
 }
 
+function findFileNodeById(DOMDocument $doc, string $id): ?DOMElement
+{
+    $xpath = new DOMXPath($doc);
+    $nodes = $xpath->query('//item[@type="file"]');
+    if ($nodes === false) {
+        return null;
+    }
+
+    foreach ($nodes as $node) {
+        if (!$node instanceof DOMElement) {
+            continue;
+        }
+        if ($node->getAttribute('id') === $id) {
+            return $node;
+        }
+    }
+
+    return null;
+}
+
+function fragmentValue(DOMElement $itemNode, string $fragmentName, string $default = ''): string
+{
+    foreach ($itemNode->childNodes as $child) {
+        if (!$child instanceof DOMElement || $child->tagName !== 'fragment') {
+            continue;
+        }
+        if ($child->getAttribute('name') === $fragmentName) {
+            return (string)$child->nodeValue;
+        }
+    }
+
+    return $default;
+}
+
 function jsonOk(array $data, int $status = 200): never
 {
     http_response_code($status);
@@ -217,16 +251,20 @@ app()->get('/api/file/content', function () {
     }
 
     try {
-        $repository = new \DOM\ORM\Repository\EntityRepository(VirtualFile::class);
-        $file = $repository->find($id);
-        if (!$file instanceof VirtualFile) {
+        $xml = StorageService::fromConfig()->read();
+        $doc = new DOMDocument();
+        $doc->loadXML($xml);
+        $fileNode = findFileNodeById($doc, $id);
+
+        if (!$fileNode instanceof DOMElement) {
             jsonError('File not found', 404);
         }
+
         jsonOk([
-            'name' => $file->getName(),
-            'mimeType' => $file->getMimeType(),
-            'content' => $file->getContent(), // base64-encoded
-            'size' => $file->getSize(),
+            'name' => fragmentValue($fileNode, 'name'),
+            'mimeType' => fragmentValue($fileNode, 'mimeType', 'application/octet-stream'),
+            'content' => fragmentValue($fileNode, 'content'), // base64-encoded
+            'size' => (int)fragmentValue($fileNode, 'size', '0'),
         ]);
     } catch (\Throwable $e) {
         jsonError($e->getMessage());

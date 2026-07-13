@@ -119,7 +119,7 @@ class SchemaEncoder implements EncoderInterface
             }
         }
 
-        if ($data instanceof \DOMElement || ($data instanceof \DOMNode && !$data instanceof \DOMDocument)) {
+        if (!$data instanceof \DOMDocument) {
             $xml = $data;
             $data = new \DOMDocument();
             $importedNode = $data->importNode($xml, true);
@@ -171,9 +171,7 @@ class SchemaEncoder implements EncoderInterface
                 continue;
             }
             $decoded = $this->decode($child, $format, $context);
-            if (\is_array($decoded)) {
-                $groupItems[] = $decoded;
-            }
+            $groupItems[] = $decoded;
         }
 
         return [
@@ -199,9 +197,7 @@ class SchemaEncoder implements EncoderInterface
                 continue;
             }
             $decoded = $this->decode($child, $format, $context);
-            if (\is_array($decoded)) {
-                $itemData = \array_merge($itemData, $decoded);
-            }
+            $itemData = \array_merge($itemData, $decoded);
         }
 
         return [

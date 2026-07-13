@@ -103,6 +103,8 @@ class PerfManager
 
     /**
      * Expose persistBatch publicly so the command can call it.
+     *
+     * @param iterable<AbstractEntity> $entities
      */
     public function batchInsert(iterable $entities): void
     {
