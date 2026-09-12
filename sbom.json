@@ -2,10 +2,10 @@
   "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
   "bomFormat": "CycloneDX",
   "specVersion": "1.6",
-  "serialNumber": "urn:uuid:04fc023e-56b9-43c6-8a3d-673f8b4e7716",
+  "serialNumber": "urn:uuid:24655f1d-fdb7-40f8-8e41-86cf7a505a52",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-07-13T08:03:07+00:00",
+    "timestamp": "2026-09-12T14:33:52+00:00",
     "tools": {
       "components": [
         {
@@ -20,7 +20,7 @@
       ]
     },
     "component": {
-      "bom-ref": "90640914-8582-4dbe-8567-8f579e33a903",
+      "bom-ref": "51edf1e1-6266-4e1f-a223-492f897ca863",
       "type": "application",
       "name": ".",
       "properties": [
@@ -33,25 +33,10 @@
   },
   "components": [
     {
-      "bom-ref": "0756a05a-6c22-4ee6-b369-f56e7968b13b",
+      "bom-ref": "0295afed-92f3-4663-9570-2d40275a9d57",
       "type": "library",
-      "name": "",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "package.json"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "yarn"
-        }
-      ]
-    },
-    {
-      "bom-ref": "0a0c5d9e-1917-4c15-8991-666be75f1c06",
-      "type": "library",
-      "name": "picomatch",
-      "version": "4.0.4",
+      "name": "php-di/invoker",
+      "version": "2.3.7",
       "licenses": [
         {
           "license": {
@@ -59,23 +44,23 @@
           }
         }
       ],
-      "purl": "pkg:npm/picomatch@4.0.4",
+      "purl": "pkg:composer/php-di/invoker@2.3.7",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "picomatch@4.0.4"
+          "value": "php-di/invoker@2.3.7"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
-          "value": "npm"
+          "value": "composer"
         }
       ]
     },
     {
-      "bom-ref": "1fc7870d-28e4-4c1c-b345-a65b64f502ee",
+      "bom-ref": "0a391133-704e-452c-904e-2dddd11e5086",
       "type": "library",
-      "name": "psr/log",
-      "version": "3.0.2",
+      "name": "ramsey/uuid",
+      "version": "4.9.3",
       "licenses": [
         {
           "license": {
@@ -83,11 +68,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/psr/log@3.0.2",
+      "purl": "pkg:composer/ramsey/uuid@4.9.3",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "psr/log@3.0.2"
+          "value": "ramsey/uuid@4.9.3"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -96,170 +81,7 @@
       ]
     },
     {
-      "bom-ref": "22ab787e-b561-4c2c-b54e-bb86c72a20c5",
-      "type": "library",
-      "name": "nette/schema",
-      "version": "v1.3.5",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-2.0-only"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-3.0-only"
-          }
-        }
-      ],
-      "purl": "pkg:composer/nette/schema@v1.3.5",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "nette/schema@v1.3.5"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "2fa32804-1dce-4e7d-b0f5-fad5274feb0b",
-      "type": "library",
-      "name": "nette/schema",
-      "version": "v1.3.5",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-2.0-only"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-3.0-only"
-          }
-        }
-      ],
-      "purl": "pkg:composer/nette/schema@v1.3.5",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "nette/schema@v1.3.5"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "3a20c0f4-543e-47d1-950f-a1228e0a183f",
-      "type": "application",
-      "name": "yarn.lock",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:Class",
-          "value": "lang-pkgs"
-        },
-        {
-          "name": "aquasecurity:trivy:Type",
-          "value": "yarn"
-        }
-      ]
-    },
-    {
-      "bom-ref": "4147738a-636d-4761-9288-e21599b1ad5f",
-      "type": "library",
-      "name": "picomatch",
-      "version": "4.0.4",
-      "purl": "pkg:npm/picomatch@4.0.4",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "picomatch@4.0.4"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "yarn"
-        }
-      ]
-    },
-    {
-      "bom-ref": "5a0e5143-502b-4ec5-ad21-adacb164116f",
-      "type": "application",
-      "name": "demos/blog/package-lock.json",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:Class",
-          "value": "lang-pkgs"
-        },
-        {
-          "name": "aquasecurity:trivy:Type",
-          "value": "npm"
-        }
-      ]
-    },
-    {
-      "bom-ref": "5f64cabc-138d-4bfc-9cae-0a2b9430023f",
-      "type": "library",
-      "name": "source-map-js",
-      "version": "1.2.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        }
-      ],
-      "purl": "pkg:npm/source-map-js@1.2.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "source-map-js@1.2.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "npm"
-        }
-      ]
-    },
-    {
-      "bom-ref": "61bd99a2-e087-4d13-97e7-102d3939684c",
-      "type": "library",
-      "name": "czproject/git-php",
-      "version": "v4.6.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        }
-      ],
-      "purl": "pkg:composer/czproject/git-php@v4.6.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "czproject/git-php@v4.6.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "6d1c4485-8a50-4821-8e69-3d7f60b7e51a",
+      "bom-ref": "0d6f960d-3da6-46f1-8e0f-3b71657f34da",
       "type": "application",
       "name": "composer.lock",
       "properties": [
@@ -274,7 +96,7 @@
       ]
     },
     {
-      "bom-ref": "80b8a751-e578-470f-bc50-1960476ae256",
+      "bom-ref": "0e14cfeb-f7f6-4144-a6da-d013d7593e1f",
       "type": "library",
       "name": "psr/container",
       "version": "2.0.2",
@@ -298,15 +120,49 @@
       ]
     },
     {
-      "bom-ref": "87ecf3b3-ad18-47d8-bea9-744419951262",
+      "bom-ref": "112b05a1-bb7e-4cfc-bc75-81030195f67e",
       "type": "library",
-      "name": "source-map-js",
-      "version": "1.2.1",
-      "purl": "pkg:npm/source-map-js@1.2.1",
+      "name": "nette/schema",
+      "version": "v1.3.5",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-2.0-only"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-3.0-only"
+          }
+        }
+      ],
+      "purl": "pkg:composer/nette/schema@v1.3.5",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "source-map-js@1.2.1"
+          "value": "nette/schema@v1.3.5"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "1359530f-1094-4bb6-88c8-813425864bb0",
+      "type": "library",
+      "name": "picomatch",
+      "version": "4.0.4",
+      "purl": "pkg:npm/picomatch@4.0.4",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "picomatch@4.0.4"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -315,7 +171,408 @@
       ]
     },
     {
-      "bom-ref": "a3843ead-7a9a-4874-9fc4-aaf330b8a9e7",
+      "bom-ref": "13a7a60f-963c-4329-8ec9-531a493ce7fd",
+      "type": "library",
+      "name": "symfony/polyfill-intl-normalizer",
+      "version": "v1.38.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/polyfill-intl-normalizer@v1.38.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-intl-normalizer@v1.38.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "15679115-7adc-4b84-a442-a92f6119fc4e",
+      "type": "application",
+      "name": "yarn.lock",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Class",
+          "value": "lang-pkgs"
+        },
+        {
+          "name": "aquasecurity:trivy:Type",
+          "value": "yarn"
+        }
+      ]
+    },
+    {
+      "bom-ref": "18fde157-27d0-45bf-a907-80da785962b9",
+      "type": "library",
+      "name": "league/flysystem-local",
+      "version": "3.31.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/league/flysystem-local@3.31.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/flysystem-local@3.31.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "1de3cd11-cc5e-4b5a-b5b0-19e17f11541c",
+      "type": "library",
+      "name": "symfony/yaml",
+      "version": "v8.1.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/yaml@v8.1.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/yaml@v8.1.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "2119ff58-f672-4d9d-8489-7cef1f538b2c",
+      "type": "library",
+      "name": "symfony/deprecation-contracts",
+      "version": "v3.7.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/deprecation-contracts@v3.7.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/deprecation-contracts@v3.7.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "279a8440-e568-46e5-bf32-634b38d68dc3",
+      "type": "library",
+      "name": "symfony/serializer",
+      "version": "v8.1.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/serializer@v8.1.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/serializer@v8.1.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "2a7ba3a4-652b-48e1-b1e2-7717ea931756",
+      "type": "library",
+      "name": "symfony/service-contracts",
+      "version": "v3.7.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/service-contracts@v3.7.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/service-contracts@v3.7.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "30718906-21f1-41b6-8b21-8d7e78af1ed6",
+      "type": "library",
+      "name": "symfony/yaml",
+      "version": "v8.1.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/yaml@v8.1.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/yaml@v8.1.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "39543dfb-336a-41b1-ba39-1b167f47e487",
+      "type": "library",
+      "name": "nette/schema",
+      "version": "v1.3.5",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-2.0-only"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-3.0-only"
+          }
+        }
+      ],
+      "purl": "pkg:composer/nette/schema@v1.3.5",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "nette/schema@v1.3.5"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "423e71ba-063b-4e0e-ae6e-397bc8261abd",
+      "type": "library",
+      "name": "symfony/polyfill-ctype",
+      "version": "v1.37.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/polyfill-ctype@v1.37.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-ctype@v1.37.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "432ba546-d2dd-4d32-943d-6069495fd1ee",
+      "type": "library",
+      "name": "mnapoli/silly",
+      "version": "1.10.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/mnapoli/silly@1.10.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "mnapoli/silly@1.10.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "5174a901-27ef-40dc-9a09-4f9091c6ae4a",
+      "type": "library",
+      "name": "",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "package.json"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "yarn"
+        }
+      ]
+    },
+    {
+      "bom-ref": "5827aca7-cbba-4643-9911-5f2497756072",
+      "type": "library",
+      "name": "php-di/invoker",
+      "version": "2.3.7",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/php-di/invoker@2.3.7",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "php-di/invoker@2.3.7"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "58ced510-9cea-496d-8e62-f859158d17d3",
+      "type": "library",
+      "name": "symfony/serializer",
+      "version": "v8.1.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/serializer@v8.1.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/serializer@v8.1.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "5a9d46d5-2af2-446f-aeaa-e86a89ebef42",
+      "type": "library",
+      "name": "nette/utils",
+      "version": "v4.1.4",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-2.0-only"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-3.0-only"
+          }
+        }
+      ],
+      "purl": "pkg:composer/nette/utils@v4.1.4",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "nette/utils@v4.1.4"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "5b464246-f166-4ca4-aae1-554009ccd931",
+      "type": "library",
+      "name": "brick/math",
+      "version": "0.18.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/brick/math@0.18.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "brick/math@0.18.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "61184aad-fcda-4334-ad27-eecbd18778f4",
+      "type": "application",
+      "name": "demos/composer.lock",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Class",
+          "value": "lang-pkgs"
+        },
+        {
+          "name": "aquasecurity:trivy:Type",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "6417168d-c9c8-4d43-83a2-8e4738ba2c1f",
       "type": "library",
       "name": "psr/log",
       "version": "3.0.2",
@@ -339,34 +596,10 @@
       ]
     },
     {
-      "bom-ref": "ae6d7e59-799c-4d85-b0d8-54cd20a0128b",
+      "bom-ref": "686ab251-96d0-41be-a56e-899f285594ca",
       "type": "library",
-      "name": "league/config",
-      "version": "v1.2.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/config@v1.2.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/config@v1.2.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "b39d225d-f199-4e7c-8cf5-8a763ef71314",
-      "type": "library",
-      "name": "league/flysystem-local",
-      "version": "3.31.0",
+      "name": "ramsey/uuid",
+      "version": "4.9.3",
       "licenses": [
         {
           "license": {
@@ -374,11 +607,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/league/flysystem-local@3.31.0",
+      "purl": "pkg:composer/ramsey/uuid@4.9.3",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "league/flysystem-local@3.31.0"
+          "value": "ramsey/uuid@4.9.3"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -387,103 +620,7 @@
       ]
     },
     {
-      "bom-ref": "c24e60d8-2897-49ea-9b7c-bef8590088ab",
-      "type": "library",
-      "name": "league/flysystem-local",
-      "version": "3.31.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/flysystem-local@3.31.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/flysystem-local@3.31.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "c3d8682e-307f-47b2-9861-68cde2b7884a",
-      "type": "library",
-      "name": "ramsey/collection",
-      "version": "2.1.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/ramsey/collection@2.1.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "ramsey/collection@2.1.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "c57b1ec2-3652-4e44-bade-c94e985b2b72",
-      "type": "library",
-      "name": "czproject/git-php",
-      "version": "v4.6.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        }
-      ],
-      "purl": "pkg:composer/czproject/git-php@v4.6.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "czproject/git-php@v4.6.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "c6927cb8-9a5f-4ef2-bf93-b262ec61cdcb",
-      "type": "library",
-      "name": "php-di/invoker",
-      "version": "2.3.7",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/php-di/invoker@2.3.7",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "php-di/invoker@2.3.7"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "cb159c02-7088-41f4-8fa9-58c87f52dc77",
+      "bom-ref": "7686f7fa-1ab1-46d5-8867-d2321b3f7f36",
       "type": "library",
       "name": "dflydev/dot-access-data",
       "version": "v3.0.3",
@@ -507,10 +644,10 @@
       ]
     },
     {
-      "bom-ref": "e2d5a319-3105-4320-96bc-cdf67a2934f2",
+      "bom-ref": "7d10de13-e9c7-47f4-a304-862812035d6d",
       "type": "library",
-      "name": "php-di/invoker",
-      "version": "2.3.7",
+      "name": "symfony/polyfill-mbstring",
+      "version": "v1.38.2",
       "licenses": [
         {
           "license": {
@@ -518,11 +655,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/php-di/invoker@2.3.7",
+      "purl": "pkg:composer/symfony/polyfill-mbstring@v1.38.2",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "php-di/invoker@2.3.7"
+          "value": "symfony/polyfill-mbstring@v1.38.2"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -531,7 +668,103 @@
       ]
     },
     {
-      "bom-ref": "e97362b1-6c28-4034-baee-d6cbc0487f96",
+      "bom-ref": "81619702-cf42-4f08-801c-b64230067c8b",
+      "type": "library",
+      "name": "source-map-js",
+      "version": "1.2.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:npm/source-map-js@1.2.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "source-map-js@1.2.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "827c80db-d859-4081-951c-2b8b75476041",
+      "type": "library",
+      "name": "symfony/service-contracts",
+      "version": "v3.7.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/service-contracts@v3.7.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/service-contracts@v3.7.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "8d9694aa-764e-4450-8ebf-dfb997d8cf97",
+      "type": "library",
+      "name": "symfony/polyfill-intl-grapheme",
+      "version": "v1.38.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/polyfill-intl-grapheme@v1.38.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-intl-grapheme@v1.38.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "99946dda-b287-4543-b6d6-1e84f2b22a54",
+      "type": "library",
+      "name": "league/config",
+      "version": "v1.2.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:composer/league/config@v1.2.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/config@v1.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "9ad9289f-31c4-4e5f-8202-05657c87325b",
       "type": "library",
       "name": "psr/container",
       "version": "2.0.2",
@@ -555,22 +788,106 @@
       ]
     },
     {
-      "bom-ref": "e9e40e7f-e124-4e93-9959-d040d3c6bd9e",
-      "type": "application",
-      "name": "demos/composer.lock",
-      "properties": [
+      "bom-ref": "9bd1481b-6f65-4fad-821c-198399136867",
+      "type": "library",
+      "name": "nette/utils",
+      "version": "v4.1.4",
+      "licenses": [
         {
-          "name": "aquasecurity:trivy:Class",
-          "value": "lang-pkgs"
+          "license": {
+            "id": "BSD-3-Clause"
+          }
         },
         {
-          "name": "aquasecurity:trivy:Type",
+          "license": {
+            "id": "GPL-2.0-only"
+          }
+        },
+        {
+          "license": {
+            "id": "GPL-3.0-only"
+          }
+        }
+      ],
+      "purl": "pkg:composer/nette/utils@v4.1.4",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "nette/utils@v4.1.4"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
           "value": "composer"
         }
       ]
     },
     {
-      "bom-ref": "ea90babd-3cf3-49cb-834a-8224e25ab106",
+      "bom-ref": "9e04ca2a-e813-4e74-afb3-e8a2309713c6",
+      "type": "library",
+      "name": "league/flysystem",
+      "version": "3.35.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/league/flysystem@3.35.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/flysystem@3.35.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "9ee6695c-a9c4-47ad-baee-5bb3a019f72d",
+      "type": "library",
+      "name": "source-map-js",
+      "version": "1.2.1",
+      "purl": "pkg:npm/source-map-js@1.2.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "source-map-js@1.2.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "yarn"
+        }
+      ]
+    },
+    {
+      "bom-ref": "a442527d-b67d-46d0-a394-925dfec1f8b3",
+      "type": "library",
+      "name": "symfony/polyfill-intl-normalizer",
+      "version": "v1.38.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/polyfill-intl-normalizer@v1.38.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-intl-normalizer@v1.38.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "a809cf0d-24a4-442f-9cda-100dd61147ad",
       "type": "library",
       "name": "ramsey/collection",
       "version": "2.1.1",
@@ -594,7 +911,286 @@
       ]
     },
     {
-      "bom-ref": "ee15778a-2b8b-420e-991e-885b88259405",
+      "bom-ref": "a95eaf19-4161-48b0-ac24-214277edbbce",
+      "type": "library",
+      "name": "symfony/polyfill-ctype",
+      "version": "v1.37.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/polyfill-ctype@v1.37.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-ctype@v1.37.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "abf03e56-8488-4767-945c-1391eab6e137",
+      "type": "library",
+      "name": "symfony/string",
+      "version": "v8.1.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/string@v8.1.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/string@v8.1.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "b116d09f-dbc4-43de-aad0-547b4191c018",
+      "type": "library",
+      "name": "symfony/string",
+      "version": "v8.1.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/string@v8.1.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/string@v8.1.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "b274c6eb-0529-40d2-bcc5-f218b0060c29",
+      "type": "library",
+      "name": "brick/math",
+      "version": "0.18.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/brick/math@0.18.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "brick/math@0.18.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "b7092c7f-d3fe-4905-ba56-8ad3a258f257",
+      "type": "library",
+      "name": "league/mime-type-detection",
+      "version": "1.17.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/league/mime-type-detection@1.17.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/mime-type-detection@1.17.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "bc401e46-b076-40bb-8baa-0d4d3f746a11",
+      "type": "application",
+      "name": "demos/blog/package-lock.json",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:Class",
+          "value": "lang-pkgs"
+        },
+        {
+          "name": "aquasecurity:trivy:Type",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "bf177356-2768-48b9-b515-bd91ad10dd20",
+      "type": "library",
+      "name": "mnapoli/silly",
+      "version": "1.10.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/mnapoli/silly@1.10.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "mnapoli/silly@1.10.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "c0dce98c-338c-4696-b6be-11950ef66338",
+      "type": "library",
+      "name": "league/mime-type-detection",
+      "version": "1.17.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/league/mime-type-detection@1.17.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/mime-type-detection@1.17.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "c3f393e7-a6b5-4291-8a9d-635d5a41353c",
+      "type": "library",
+      "name": "psr/log",
+      "version": "3.0.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/psr/log@3.0.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "psr/log@3.0.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "c9aaca07-b42c-4a2a-877e-0b595329e8de",
+      "type": "library",
+      "name": "symfony/polyfill-mbstring",
+      "version": "v1.38.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/polyfill-mbstring@v1.38.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-mbstring@v1.38.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "c9f3bfcb-85a9-454e-affb-7f63ca4300f6",
+      "type": "library",
+      "name": "czproject/git-php",
+      "version": "v4.6.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:composer/czproject/git-php@v4.6.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "czproject/git-php@v4.6.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "ca5ae8ee-cc50-4610-b5de-4a3621785cd2",
+      "type": "library",
+      "name": "ramsey/collection",
+      "version": "2.1.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/ramsey/collection@2.1.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "ramsey/collection@2.1.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "d8cf9e8b-6f69-46d1-b394-26abc6639e41",
       "type": "library",
       "name": "dflydev/dot-access-data",
       "version": "v3.0.3",
@@ -618,7 +1214,55 @@
       ]
     },
     {
-      "bom-ref": "ffe6788b-4b10-4c5d-9260-5c1e1f736851",
+      "bom-ref": "db95f3a6-f50f-4038-8a7d-e68dc0ab2ca2",
+      "type": "library",
+      "name": "picomatch",
+      "version": "4.0.4",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/picomatch@4.0.4",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "picomatch@4.0.4"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "npm"
+        }
+      ]
+    },
+    {
+      "bom-ref": "e2605ec2-6805-4d02-be77-fbde9ee35103",
+      "type": "library",
+      "name": "symfony/polyfill-intl-grapheme",
+      "version": "v1.38.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/polyfill-intl-grapheme@v1.38.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-intl-grapheme@v1.38.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "e628a598-99b8-47ea-b188-0bbeccfad8b4",
       "type": "library",
       "name": "league/config",
       "version": "v1.2.0",
@@ -634,6 +1278,102 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "league/config@v1.2.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "e8ac76f4-1587-408d-a0ac-3267f81bc2c4",
+      "type": "library",
+      "name": "league/flysystem",
+      "version": "3.35.2",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/league/flysystem@3.35.2",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/flysystem@3.35.2"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "e944b502-85ed-4495-ae3a-954ef5a36525",
+      "type": "library",
+      "name": "league/flysystem-local",
+      "version": "3.31.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/league/flysystem-local@3.31.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "league/flysystem-local@3.31.0"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "ecc35677-fa92-4170-92fb-9c4f544c4585",
+      "type": "library",
+      "name": "symfony/deprecation-contracts",
+      "version": "v3.7.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/deprecation-contracts@v3.7.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/deprecation-contracts@v3.7.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
+      "bom-ref": "f0fe9ee2-97b3-4bc5-a0b5-46a59816096b",
+      "type": "library",
+      "name": "czproject/git-php",
+      "version": "v4.6.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:composer/czproject/git-php@v4.6.0",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "czproject/git-php@v4.6.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -682,54 +1422,6 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "brianium/paratest@v7.20.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/brick/math@0.14.8",
-      "type": "library",
-      "name": "brick/math",
-      "version": "0.14.8",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/brick/math@0.14.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "brick/math@0.14.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/brick/math@0.18.0",
-      "type": "library",
-      "name": "brick/math",
-      "version": "0.18.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/brick/math@0.18.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "brick/math@0.18.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -1194,150 +1886,6 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/league/flysystem@3.33.0",
-      "type": "library",
-      "name": "league/flysystem",
-      "version": "3.33.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/flysystem@3.33.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/flysystem@3.33.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/league/flysystem@3.35.2",
-      "type": "library",
-      "name": "league/flysystem",
-      "version": "3.35.2",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/flysystem@3.35.2",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/flysystem@3.35.2"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/league/mime-type-detection@1.16.0",
-      "type": "library",
-      "name": "league/mime-type-detection",
-      "version": "1.16.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/mime-type-detection@1.16.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/mime-type-detection@1.16.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/league/mime-type-detection@1.17.0",
-      "type": "library",
-      "name": "league/mime-type-detection",
-      "version": "1.17.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/league/mime-type-detection@1.17.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "league/mime-type-detection@1.17.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/mnapoli/silly@1.10.1",
-      "type": "library",
-      "name": "mnapoli/silly",
-      "version": "1.10.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/mnapoli/silly@1.10.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "mnapoli/silly@1.10.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/mnapoli/silly@1.9.1",
-      "type": "library",
-      "name": "mnapoli/silly",
-      "version": "1.9.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/mnapoli/silly@1.9.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "mnapoli/silly@1.9.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
       "bom-ref": "pkg:composer/myclabs/deep-copy@1.13.4",
       "type": "library",
       "name": "myclabs/deep-copy",
@@ -1388,74 +1936,6 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "nette/robot-loader@v4.1.2"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/nette/utils@v4.1.3",
-      "type": "library",
-      "name": "nette/utils",
-      "version": "v4.1.3",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-2.0-only"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-3.0-only"
-          }
-        }
-      ],
-      "purl": "pkg:composer/nette/utils@v4.1.3",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "nette/utils@v4.1.3"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/nette/utils@v4.1.4",
-      "type": "library",
-      "name": "nette/utils",
-      "version": "v4.1.4",
-      "licenses": [
-        {
-          "license": {
-            "id": "BSD-3-Clause"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-2.0-only"
-          }
-        },
-        {
-          "license": {
-            "id": "GPL-3.0-only"
-          }
-        }
-      ],
-      "purl": "pkg:composer/nette/utils@v4.1.4",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "nette/utils@v4.1.4"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2064,54 +2544,6 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/ramsey/uuid@4.9.2",
-      "type": "library",
-      "name": "ramsey/uuid",
-      "version": "4.9.2",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/ramsey/uuid@4.9.2",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "ramsey/uuid@4.9.2"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/ramsey/uuid@4.9.3",
-      "type": "library",
-      "name": "ramsey/uuid",
-      "version": "4.9.3",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/ramsey/uuid@4.9.3",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "ramsey/uuid@4.9.3"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
       "bom-ref": "pkg:composer/react/cache@v1.2.0",
       "type": "library",
       "name": "react/cache",
@@ -2688,10 +3120,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/console@v7.4.8",
+      "bom-ref": "pkg:composer/symfony/console@v8.1.1",
       "type": "library",
       "name": "symfony/console",
-      "version": "v7.4.8",
+      "version": "v8.1.1",
       "licenses": [
         {
           "license": {
@@ -2699,11 +3131,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/symfony/console@v7.4.8",
+      "purl": "pkg:composer/symfony/console@v8.1.1",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/console@v7.4.8"
+          "value": "symfony/console@v8.1.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2728,54 +3160,6 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "symfony/dependency-injection@v7.4.14"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/deprecation-contracts@v3.6.0",
-      "type": "library",
-      "name": "symfony/deprecation-contracts",
-      "version": "v3.6.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/deprecation-contracts@v3.6.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/deprecation-contracts@v3.6.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/deprecation-contracts@v3.7.1",
-      "type": "library",
-      "name": "symfony/deprecation-contracts",
-      "version": "v3.7.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/deprecation-contracts@v3.7.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/deprecation-contracts@v3.7.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -2904,54 +3288,6 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/polyfill-ctype@v1.36.0",
-      "type": "library",
-      "name": "symfony/polyfill-ctype",
-      "version": "v1.36.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/polyfill-ctype@v1.36.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-ctype@v1.36.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/polyfill-ctype@v1.37.0",
-      "type": "library",
-      "name": "symfony/polyfill-ctype",
-      "version": "v1.37.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/polyfill-ctype@v1.37.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-ctype@v1.37.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
       "bom-ref": "pkg:composer/symfony/polyfill-deepclone@v1.40.0",
       "type": "library",
       "name": "symfony/polyfill-deepclone",
@@ -2968,150 +3304,6 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "symfony/polyfill-deepclone@v1.40.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/polyfill-intl-grapheme@v1.36.0",
-      "type": "library",
-      "name": "symfony/polyfill-intl-grapheme",
-      "version": "v1.36.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/polyfill-intl-grapheme@v1.36.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-intl-grapheme@v1.36.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/polyfill-intl-grapheme@v1.38.1",
-      "type": "library",
-      "name": "symfony/polyfill-intl-grapheme",
-      "version": "v1.38.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/polyfill-intl-grapheme@v1.38.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-intl-grapheme@v1.38.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/polyfill-intl-normalizer@v1.36.0",
-      "type": "library",
-      "name": "symfony/polyfill-intl-normalizer",
-      "version": "v1.36.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/polyfill-intl-normalizer@v1.36.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-intl-normalizer@v1.36.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/polyfill-intl-normalizer@v1.38.0",
-      "type": "library",
-      "name": "symfony/polyfill-intl-normalizer",
-      "version": "v1.38.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/polyfill-intl-normalizer@v1.38.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-intl-normalizer@v1.38.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/polyfill-mbstring@v1.36.0",
-      "type": "library",
-      "name": "symfony/polyfill-mbstring",
-      "version": "v1.36.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/polyfill-mbstring@v1.36.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-mbstring@v1.36.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/polyfill-mbstring@v1.38.2",
-      "type": "library",
-      "name": "symfony/polyfill-mbstring",
-      "version": "v1.38.2",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/polyfill-mbstring@v1.38.2",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/polyfill-mbstring@v1.38.2"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -3192,6 +3384,30 @@
       ]
     },
     {
+      "bom-ref": "pkg:composer/symfony/polyfill-php85@v1.38.1",
+      "type": "library",
+      "name": "symfony/polyfill-php85",
+      "version": "v1.38.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:composer/symfony/polyfill-php85@v1.38.1",
+      "properties": [
+        {
+          "name": "aquasecurity:trivy:PkgID",
+          "value": "symfony/polyfill-php85@v1.38.1"
+        },
+        {
+          "name": "aquasecurity:trivy:PkgType",
+          "value": "composer"
+        }
+      ]
+    },
+    {
       "bom-ref": "pkg:composer/symfony/process@v8.1.0",
       "type": "library",
       "name": "symfony/process",
@@ -3208,102 +3424,6 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "symfony/process@v8.1.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/serializer@v8.0.8",
-      "type": "library",
-      "name": "symfony/serializer",
-      "version": "v8.0.8",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/serializer@v8.0.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/serializer@v8.0.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/serializer@v8.1.1",
-      "type": "library",
-      "name": "symfony/serializer",
-      "version": "v8.1.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/serializer@v8.1.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/serializer@v8.1.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/service-contracts@v3.6.1",
-      "type": "library",
-      "name": "symfony/service-contracts",
-      "version": "v3.6.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/service-contracts@v3.6.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/service-contracts@v3.6.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/service-contracts@v3.7.1",
-      "type": "library",
-      "name": "symfony/service-contracts",
-      "version": "v3.7.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/service-contracts@v3.7.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/service-contracts@v3.7.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -3336,54 +3456,6 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/symfony/string@v8.0.8",
-      "type": "library",
-      "name": "symfony/string",
-      "version": "v8.0.8",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/string@v8.0.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/string@v8.0.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/string@v8.1.0",
-      "type": "library",
-      "name": "symfony/string",
-      "version": "v8.1.0",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/string@v8.1.0",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/string@v8.1.0"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
       "bom-ref": "pkg:composer/symfony/var-exporter@v8.1.1",
       "type": "library",
       "name": "symfony/var-exporter",
@@ -3400,54 +3472,6 @@
         {
           "name": "aquasecurity:trivy:PkgID",
           "value": "symfony/var-exporter@v8.1.1"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/yaml@v8.0.8",
-      "type": "library",
-      "name": "symfony/yaml",
-      "version": "v8.0.8",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/yaml@v8.0.8",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/yaml@v8.0.8"
-        },
-        {
-          "name": "aquasecurity:trivy:PkgType",
-          "value": "composer"
-        }
-      ]
-    },
-    {
-      "bom-ref": "pkg:composer/symfony/yaml@v8.1.1",
-      "type": "library",
-      "name": "symfony/yaml",
-      "version": "v8.1.1",
-      "licenses": [
-        {
-          "license": {
-            "id": "MIT"
-          }
-        }
-      ],
-      "purl": "pkg:composer/symfony/yaml@v8.1.1",
-      "properties": [
-        {
-          "name": "aquasecurity:trivy:PkgID",
-          "value": "symfony/yaml@v8.1.1"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -3528,10 +3552,10 @@
       ]
     },
     {
-      "bom-ref": "pkg:composer/twig/twig@v3.24.0",
+      "bom-ref": "pkg:composer/twig/twig@v3.28.0",
       "type": "library",
       "name": "twig/twig",
-      "version": "v3.24.0",
+      "version": "v3.28.0",
       "licenses": [
         {
           "license": {
@@ -3539,11 +3563,11 @@
           }
         }
       ],
-      "purl": "pkg:composer/twig/twig@v3.24.0",
+      "purl": "pkg:composer/twig/twig@v3.28.0",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "twig/twig@v3.24.0"
+          "value": "twig/twig@v3.28.0"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -3556,6 +3580,13 @@
       "type": "library",
       "name": "vardumper/dom-orm",
       "version": "dev-main",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
       "purl": "pkg:composer/vardumper/dom-orm@dev-main",
       "properties": [
         {
@@ -7776,15 +7807,15 @@
       ]
     },
     {
-      "bom-ref": "pkg:npm/tar@7.5.13",
+      "bom-ref": "pkg:npm/tar@7.5.16",
       "type": "library",
       "name": "tar",
-      "version": "7.5.13",
-      "purl": "pkg:npm/tar@7.5.13",
+      "version": "7.5.16",
+      "purl": "pkg:npm/tar@7.5.16",
       "properties": [
         {
           "name": "aquasecurity:trivy:PkgID",
-          "value": "tar@7.5.13"
+          "value": "tar@7.5.16"
         },
         {
           "name": "aquasecurity:trivy:PkgType",
@@ -8067,170 +8098,336 @@
   ],
   "dependencies": [
     {
-      "ref": "0756a05a-6c22-4ee6-b369-f56e7968b13b",
+      "ref": "0295afed-92f3-4663-9570-2d40275a9d57",
+      "dependsOn": [
+        "9ad9289f-31c4-4e5f-8202-05657c87325b"
+      ]
+    },
+    {
+      "ref": "0a391133-704e-452c-904e-2dddd11e5086",
+      "dependsOn": [
+        "a809cf0d-24a4-442f-9cda-100dd61147ad",
+        "b274c6eb-0529-40d2-bcc5-f218b0060c29"
+      ]
+    },
+    {
+      "ref": "0d6f960d-3da6-46f1-8e0f-3b71657f34da",
+      "dependsOn": [
+        "279a8440-e568-46e5-bf32-634b38d68dc3",
+        "30718906-21f1-41b6-8b21-8d7e78af1ed6",
+        "432ba546-d2dd-4d32-943d-6069495fd1ee",
+        "686ab251-96d0-41be-a56e-899f285594ca",
+        "ca5ae8ee-cc50-4610-b5de-4a3621785cd2",
+        "e628a598-99b8-47ea-b188-0bbeccfad8b4",
+        "e8ac76f4-1587-408d-a0ac-3267f81bc2c4",
+        "f0fe9ee2-97b3-4bc5-a0b5-46a59816096b",
+        "pkg:composer/brainmaestro/composer-git-hooks@dev-master",
+        "pkg:composer/fakerphp/faker@v1.24.1",
+        "pkg:composer/friendsofphp/php-cs-fixer@v3.95.13",
+        "pkg:composer/pestphp/pest@v4.7.5",
+        "pkg:composer/phpmd/phpmd@2.15.0",
+        "pkg:composer/phpstan/phpstan@2.2.5",
+        "pkg:composer/phpunit/phpunit@12.5.30",
+        "pkg:composer/rector/swiss-knife@2.4.8",
+        "pkg:composer/symplify/easy-coding-standard@12.6.2"
+      ]
+    },
+    {
+      "ref": "0e14cfeb-f7f6-4144-a6da-d013d7593e1f",
+      "dependsOn": []
+    },
+    {
+      "ref": "112b05a1-bb7e-4cfc-bc75-81030195f67e",
+      "dependsOn": [
+        "9bd1481b-6f65-4fad-821c-198399136867"
+      ]
+    },
+    {
+      "ref": "1359530f-1094-4bb6-88c8-813425864bb0",
+      "dependsOn": []
+    },
+    {
+      "ref": "13a7a60f-963c-4329-8ec9-531a493ce7fd",
+      "dependsOn": []
+    },
+    {
+      "ref": "15679115-7adc-4b84-a442-a92f6119fc4e",
+      "dependsOn": [
+        "5174a901-27ef-40dc-9a09-4f9091c6ae4a"
+      ]
+    },
+    {
+      "ref": "18fde157-27d0-45bf-a907-80da785962b9",
+      "dependsOn": [
+        "b7092c7f-d3fe-4905-ba56-8ad3a258f257",
+        "e8ac76f4-1587-408d-a0ac-3267f81bc2c4"
+      ]
+    },
+    {
+      "ref": "1de3cd11-cc5e-4b5a-b5b0-19e17f11541c",
+      "dependsOn": [
+        "a95eaf19-4161-48b0-ac24-214277edbbce"
+      ]
+    },
+    {
+      "ref": "2119ff58-f672-4d9d-8489-7cef1f538b2c",
+      "dependsOn": []
+    },
+    {
+      "ref": "279a8440-e568-46e5-bf32-634b38d68dc3",
+      "dependsOn": [
+        "423e71ba-063b-4e0e-ae6e-397bc8261abd",
+        "ecc35677-fa92-4170-92fb-9c4f544c4585"
+      ]
+    },
+    {
+      "ref": "2a7ba3a4-652b-48e1-b1e2-7717ea931756",
+      "dependsOn": [
+        "2119ff58-f672-4d9d-8489-7cef1f538b2c",
+        "9ad9289f-31c4-4e5f-8202-05657c87325b"
+      ]
+    },
+    {
+      "ref": "30718906-21f1-41b6-8b21-8d7e78af1ed6",
+      "dependsOn": [
+        "423e71ba-063b-4e0e-ae6e-397bc8261abd"
+      ]
+    },
+    {
+      "ref": "39543dfb-336a-41b1-ba39-1b167f47e487",
+      "dependsOn": [
+        "5a9d46d5-2af2-446f-aeaa-e86a89ebef42"
+      ]
+    },
+    {
+      "ref": "423e71ba-063b-4e0e-ae6e-397bc8261abd",
+      "dependsOn": []
+    },
+    {
+      "ref": "432ba546-d2dd-4d32-943d-6069495fd1ee",
+      "dependsOn": [
+        "0e14cfeb-f7f6-4144-a6da-d013d7593e1f",
+        "5827aca7-cbba-4643-9911-5f2497756072",
+        "pkg:composer/symfony/console@v7.4.14"
+      ]
+    },
+    {
+      "ref": "5174a901-27ef-40dc-9a09-4f9091c6ae4a",
       "dependsOn": [
         "pkg:npm/vitepress@1.6.4"
       ]
     },
     {
-      "ref": "0a0c5d9e-1917-4c15-8991-666be75f1c06",
-      "dependsOn": []
-    },
-    {
-      "ref": "1fc7870d-28e4-4c1c-b345-a65b64f502ee",
-      "dependsOn": []
-    },
-    {
-      "ref": "22ab787e-b561-4c2c-b54e-bb86c72a20c5",
+      "ref": "51edf1e1-6266-4e1f-a223-492f897ca863",
       "dependsOn": [
-        "pkg:composer/nette/utils@v4.1.4"
+        "0d6f960d-3da6-46f1-8e0f-3b71657f34da",
+        "15679115-7adc-4b84-a442-a92f6119fc4e",
+        "61184aad-fcda-4334-ad27-eecbd18778f4",
+        "bc401e46-b076-40bb-8baa-0d4d3f746a11"
       ]
     },
     {
-      "ref": "2fa32804-1dce-4e7d-b0f5-fad5274feb0b",
+      "ref": "5827aca7-cbba-4643-9911-5f2497756072",
       "dependsOn": [
-        "pkg:composer/nette/utils@v4.1.3"
+        "0e14cfeb-f7f6-4144-a6da-d013d7593e1f"
       ]
     },
     {
-      "ref": "3a20c0f4-543e-47d1-950f-a1228e0a183f",
+      "ref": "58ced510-9cea-496d-8e62-f859158d17d3",
       "dependsOn": [
-        "0756a05a-6c22-4ee6-b369-f56e7968b13b"
+        "2119ff58-f672-4d9d-8489-7cef1f538b2c",
+        "a95eaf19-4161-48b0-ac24-214277edbbce"
       ]
     },
     {
-      "ref": "4147738a-636d-4761-9288-e21599b1ad5f",
+      "ref": "5a9d46d5-2af2-446f-aeaa-e86a89ebef42",
       "dependsOn": []
     },
     {
-      "ref": "5a0e5143-502b-4ec5-ad21-adacb164116f",
+      "ref": "5b464246-f166-4ca4-aae1-554009ccd931",
+      "dependsOn": []
+    },
+    {
+      "ref": "61184aad-fcda-4334-ad27-eecbd18778f4",
+      "dependsOn": [
+        "pkg:composer/leafs/leaf@v4.4",
+        "pkg:composer/twig/twig@v3.28.0",
+        "pkg:composer/vardumper/dom-orm@dev-main"
+      ]
+    },
+    {
+      "ref": "6417168d-c9c8-4d43-83a2-8e4738ba2c1f",
+      "dependsOn": []
+    },
+    {
+      "ref": "686ab251-96d0-41be-a56e-899f285594ca",
+      "dependsOn": [
+        "5b464246-f166-4ca4-aae1-554009ccd931",
+        "ca5ae8ee-cc50-4610-b5de-4a3621785cd2"
+      ]
+    },
+    {
+      "ref": "7686f7fa-1ab1-46d5-8867-d2321b3f7f36",
+      "dependsOn": []
+    },
+    {
+      "ref": "7d10de13-e9c7-47f4-a304-862812035d6d",
+      "dependsOn": []
+    },
+    {
+      "ref": "81619702-cf42-4f08-801c-b64230067c8b",
+      "dependsOn": []
+    },
+    {
+      "ref": "827c80db-d859-4081-951c-2b8b75476041",
+      "dependsOn": [
+        "0e14cfeb-f7f6-4144-a6da-d013d7593e1f",
+        "ecc35677-fa92-4170-92fb-9c4f544c4585"
+      ]
+    },
+    {
+      "ref": "8d9694aa-764e-4450-8ebf-dfb997d8cf97",
+      "dependsOn": []
+    },
+    {
+      "ref": "99946dda-b287-4543-b6d6-1e84f2b22a54",
+      "dependsOn": [
+        "39543dfb-336a-41b1-ba39-1b167f47e487",
+        "7686f7fa-1ab1-46d5-8867-d2321b3f7f36"
+      ]
+    },
+    {
+      "ref": "9ad9289f-31c4-4e5f-8202-05657c87325b",
+      "dependsOn": []
+    },
+    {
+      "ref": "9bd1481b-6f65-4fad-821c-198399136867",
+      "dependsOn": []
+    },
+    {
+      "ref": "9e04ca2a-e813-4e74-afb3-e8a2309713c6",
+      "dependsOn": [
+        "c0dce98c-338c-4696-b6be-11950ef66338",
+        "e944b502-85ed-4495-ae3a-954ef5a36525"
+      ]
+    },
+    {
+      "ref": "9ee6695c-a9c4-47ad-baee-5bb3a019f72d",
+      "dependsOn": []
+    },
+    {
+      "ref": "a442527d-b67d-46d0-a394-925dfec1f8b3",
+      "dependsOn": []
+    },
+    {
+      "ref": "a809cf0d-24a4-442f-9cda-100dd61147ad",
+      "dependsOn": []
+    },
+    {
+      "ref": "a95eaf19-4161-48b0-ac24-214277edbbce",
+      "dependsOn": []
+    },
+    {
+      "ref": "abf03e56-8488-4767-945c-1391eab6e137",
+      "dependsOn": [
+        "a442527d-b67d-46d0-a394-925dfec1f8b3",
+        "a95eaf19-4161-48b0-ac24-214277edbbce",
+        "c9aaca07-b42c-4a2a-877e-0b595329e8de",
+        "e2605ec2-6805-4d02-be77-fbde9ee35103"
+      ]
+    },
+    {
+      "ref": "b116d09f-dbc4-43de-aad0-547b4191c018",
+      "dependsOn": [
+        "13a7a60f-963c-4329-8ec9-531a493ce7fd",
+        "423e71ba-063b-4e0e-ae6e-397bc8261abd",
+        "7d10de13-e9c7-47f4-a304-862812035d6d",
+        "8d9694aa-764e-4450-8ebf-dfb997d8cf97"
+      ]
+    },
+    {
+      "ref": "b274c6eb-0529-40d2-bcc5-f218b0060c29",
+      "dependsOn": []
+    },
+    {
+      "ref": "b7092c7f-d3fe-4905-ba56-8ad3a258f257",
+      "dependsOn": []
+    },
+    {
+      "ref": "bc401e46-b076-40bb-8baa-0d4d3f746a11",
       "dependsOn": [
         "pkg:npm/%40picocss/pico@2.1.1",
         "pkg:npm/sass@1.99.0"
       ]
     },
     {
-      "ref": "5f64cabc-138d-4bfc-9cae-0a2b9430023f",
-      "dependsOn": []
-    },
-    {
-      "ref": "61bd99a2-e087-4d13-97e7-102d3939684c",
-      "dependsOn": []
-    },
-    {
-      "ref": "6d1c4485-8a50-4821-8e69-3d7f60b7e51a",
+      "ref": "bf177356-2768-48b9-b515-bd91ad10dd20",
       "dependsOn": [
-        "61bd99a2-e087-4d13-97e7-102d3939684c",
-        "ea90babd-3cf3-49cb-834a-8224e25ab106",
-        "ffe6788b-4b10-4c5d-9260-5c1e1f736851",
-        "pkg:composer/brainmaestro/composer-git-hooks@dev-master",
-        "pkg:composer/fakerphp/faker@v1.24.1",
-        "pkg:composer/friendsofphp/php-cs-fixer@v3.95.13",
-        "pkg:composer/league/flysystem@3.35.2",
-        "pkg:composer/mnapoli/silly@1.10.1",
-        "pkg:composer/pestphp/pest@v4.7.5",
-        "pkg:composer/phpmd/phpmd@2.15.0",
-        "pkg:composer/phpstan/phpstan@2.2.5",
-        "pkg:composer/phpunit/phpunit@12.5.30",
-        "pkg:composer/ramsey/uuid@4.9.3",
-        "pkg:composer/rector/swiss-knife@2.4.8",
-        "pkg:composer/symfony/serializer@v8.1.1",
-        "pkg:composer/symfony/yaml@v8.1.1",
-        "pkg:composer/symplify/easy-coding-standard@12.6.2"
+        "0295afed-92f3-4663-9570-2d40275a9d57",
+        "9ad9289f-31c4-4e5f-8202-05657c87325b",
+        "pkg:composer/symfony/console@v8.1.1"
       ]
     },
     {
-      "ref": "80b8a751-e578-470f-bc50-1960476ae256",
+      "ref": "c0dce98c-338c-4696-b6be-11950ef66338",
       "dependsOn": []
     },
     {
-      "ref": "87ecf3b3-ad18-47d8-bea9-744419951262",
+      "ref": "c3f393e7-a6b5-4291-8a9d-635d5a41353c",
       "dependsOn": []
     },
     {
-      "ref": "90640914-8582-4dbe-8567-8f579e33a903",
+      "ref": "c9aaca07-b42c-4a2a-877e-0b595329e8de",
+      "dependsOn": []
+    },
+    {
+      "ref": "c9f3bfcb-85a9-454e-affb-7f63ca4300f6",
+      "dependsOn": []
+    },
+    {
+      "ref": "ca5ae8ee-cc50-4610-b5de-4a3621785cd2",
+      "dependsOn": []
+    },
+    {
+      "ref": "d8cf9e8b-6f69-46d1-b394-26abc6639e41",
+      "dependsOn": []
+    },
+    {
+      "ref": "db95f3a6-f50f-4038-8a7d-e68dc0ab2ca2",
+      "dependsOn": []
+    },
+    {
+      "ref": "e2605ec2-6805-4d02-be77-fbde9ee35103",
+      "dependsOn": []
+    },
+    {
+      "ref": "e628a598-99b8-47ea-b188-0bbeccfad8b4",
       "dependsOn": [
-        "3a20c0f4-543e-47d1-950f-a1228e0a183f",
-        "5a0e5143-502b-4ec5-ad21-adacb164116f",
-        "6d1c4485-8a50-4821-8e69-3d7f60b7e51a",
-        "e9e40e7f-e124-4e93-9959-d040d3c6bd9e"
+        "112b05a1-bb7e-4cfc-bc75-81030195f67e",
+        "d8cf9e8b-6f69-46d1-b394-26abc6639e41"
       ]
     },
     {
-      "ref": "a3843ead-7a9a-4874-9fc4-aaf330b8a9e7",
-      "dependsOn": []
-    },
-    {
-      "ref": "ae6d7e59-799c-4d85-b0d8-54cd20a0128b",
+      "ref": "e8ac76f4-1587-408d-a0ac-3267f81bc2c4",
       "dependsOn": [
-        "2fa32804-1dce-4e7d-b0f5-fad5274feb0b",
-        "cb159c02-7088-41f4-8fa9-58c87f52dc77"
+        "18fde157-27d0-45bf-a907-80da785962b9",
+        "b7092c7f-d3fe-4905-ba56-8ad3a258f257"
       ]
     },
     {
-      "ref": "b39d225d-f199-4e7c-8cf5-8a763ef71314",
+      "ref": "e944b502-85ed-4495-ae3a-954ef5a36525",
       "dependsOn": [
-        "pkg:composer/league/flysystem@3.35.2",
-        "pkg:composer/league/mime-type-detection@1.17.0"
+        "9e04ca2a-e813-4e74-afb3-e8a2309713c6",
+        "c0dce98c-338c-4696-b6be-11950ef66338"
       ]
     },
     {
-      "ref": "c24e60d8-2897-49ea-9b7c-bef8590088ab",
-      "dependsOn": [
-        "pkg:composer/league/flysystem@3.33.0",
-        "pkg:composer/league/mime-type-detection@1.16.0"
-      ]
-    },
-    {
-      "ref": "c3d8682e-307f-47b2-9861-68cde2b7884a",
+      "ref": "ecc35677-fa92-4170-92fb-9c4f544c4585",
       "dependsOn": []
     },
     {
-      "ref": "c57b1ec2-3652-4e44-bade-c94e985b2b72",
+      "ref": "f0fe9ee2-97b3-4bc5-a0b5-46a59816096b",
       "dependsOn": []
-    },
-    {
-      "ref": "c6927cb8-9a5f-4ef2-bf93-b262ec61cdcb",
-      "dependsOn": [
-        "80b8a751-e578-470f-bc50-1960476ae256"
-      ]
-    },
-    {
-      "ref": "cb159c02-7088-41f4-8fa9-58c87f52dc77",
-      "dependsOn": []
-    },
-    {
-      "ref": "e2d5a319-3105-4320-96bc-cdf67a2934f2",
-      "dependsOn": [
-        "e97362b1-6c28-4034-baee-d6cbc0487f96"
-      ]
-    },
-    {
-      "ref": "e97362b1-6c28-4034-baee-d6cbc0487f96",
-      "dependsOn": []
-    },
-    {
-      "ref": "e9e40e7f-e124-4e93-9959-d040d3c6bd9e",
-      "dependsOn": [
-        "pkg:composer/leafs/leaf@v4.4",
-        "pkg:composer/twig/twig@v3.24.0",
-        "pkg:composer/vardumper/dom-orm@dev-main"
-      ]
-    },
-    {
-      "ref": "ea90babd-3cf3-49cb-834a-8224e25ab106",
-      "dependsOn": []
-    },
-    {
-      "ref": "ee15778a-2b8b-420e-991e-885b88259405",
-      "dependsOn": []
-    },
-    {
-      "ref": "ffe6788b-4b10-4c5d-9260-5c1e1f736851",
-      "dependsOn": [
-        "22ab787e-b561-4c2c-b54e-bb86c72a20c5",
-        "ee15778a-2b8b-420e-991e-885b88259405"
-      ]
     },
     {
       "ref": "pkg:composer/brainmaestro/composer-git-hooks@dev-master",
@@ -8253,14 +8450,6 @@
       ]
     },
     {
-      "ref": "pkg:composer/brick/math@0.14.8",
-      "dependsOn": []
-    },
-    {
-      "ref": "pkg:composer/brick/math@0.18.0",
-      "dependsOn": []
-    },
-    {
       "ref": "pkg:composer/clue/ndjson-react@v1.3.0",
       "dependsOn": [
         "pkg:composer/react/stream@v1.4.0"
@@ -8277,7 +8466,7 @@
     {
       "ref": "pkg:composer/composer/xdebug-handler@3.0.5",
       "dependsOn": [
-        "1fc7870d-28e4-4c1c-b345-a65b64f502ee",
+        "c3f393e7-a6b5-4291-8a9d-635d5a41353c",
         "pkg:composer/composer/pcre@3.4.0"
       ]
     },
@@ -8302,8 +8491,8 @@
     {
       "ref": "pkg:composer/fakerphp/faker@v1.24.1",
       "dependsOn": [
-        "e97362b1-6c28-4034-baee-d6cbc0487f96",
-        "pkg:composer/symfony/deprecation-contracts@v3.7.1"
+        "0e14cfeb-f7f6-4144-a6da-d013d7593e1f",
+        "ecc35677-fa92-4170-92fb-9c4f544c4585"
       ]
     },
     {
@@ -8313,12 +8502,13 @@
     {
       "ref": "pkg:composer/filp/whoops@2.18.4",
       "dependsOn": [
-        "1fc7870d-28e4-4c1c-b345-a65b64f502ee"
+        "c3f393e7-a6b5-4291-8a9d-635d5a41353c"
       ]
     },
     {
       "ref": "pkg:composer/friendsofphp/php-cs-fixer@v3.95.13",
       "dependsOn": [
+        "7d10de13-e9c7-47f4-a304-862812035d6d",
         "pkg:composer/clue/ndjson-react@v1.3.0",
         "pkg:composer/composer/semver@3.4.4",
         "pkg:composer/composer/xdebug-handler@3.0.5",
@@ -8334,7 +8524,6 @@
         "pkg:composer/symfony/filesystem@v7.4.11",
         "pkg:composer/symfony/finder@v8.1.1",
         "pkg:composer/symfony/options-resolver@v8.1.0",
-        "pkg:composer/symfony/polyfill-mbstring@v1.38.2",
         "pkg:composer/symfony/polyfill-php80@v1.37.0",
         "pkg:composer/symfony/polyfill-php81@v1.38.1",
         "pkg:composer/symfony/polyfill-php84@v1.38.1",
@@ -8353,7 +8542,7 @@
     {
       "ref": "pkg:composer/leafs/exception@v3.7",
       "dependsOn": [
-        "a3843ead-7a9a-4874-9fc4-aaf330b8a9e7"
+        "6417168d-c9c8-4d43-83a2-8e4738ba2c1f"
       ]
     },
     {
@@ -8383,60 +8572,14 @@
       ]
     },
     {
-      "ref": "pkg:composer/league/flysystem@3.33.0",
-      "dependsOn": [
-        "c24e60d8-2897-49ea-9b7c-bef8590088ab",
-        "pkg:composer/league/mime-type-detection@1.16.0"
-      ]
-    },
-    {
-      "ref": "pkg:composer/league/flysystem@3.35.2",
-      "dependsOn": [
-        "b39d225d-f199-4e7c-8cf5-8a763ef71314",
-        "pkg:composer/league/mime-type-detection@1.17.0"
-      ]
-    },
-    {
-      "ref": "pkg:composer/league/mime-type-detection@1.16.0",
-      "dependsOn": []
-    },
-    {
-      "ref": "pkg:composer/league/mime-type-detection@1.17.0",
-      "dependsOn": []
-    },
-    {
-      "ref": "pkg:composer/mnapoli/silly@1.10.1",
-      "dependsOn": [
-        "e2d5a319-3105-4320-96bc-cdf67a2934f2",
-        "e97362b1-6c28-4034-baee-d6cbc0487f96",
-        "pkg:composer/symfony/console@v7.4.14"
-      ]
-    },
-    {
-      "ref": "pkg:composer/mnapoli/silly@1.9.1",
-      "dependsOn": [
-        "80b8a751-e578-470f-bc50-1960476ae256",
-        "c6927cb8-9a5f-4ef2-bf93-b262ec61cdcb",
-        "pkg:composer/symfony/console@v7.4.8"
-      ]
-    },
-    {
       "ref": "pkg:composer/myclabs/deep-copy@1.13.4",
       "dependsOn": []
     },
     {
       "ref": "pkg:composer/nette/robot-loader@v4.1.2",
       "dependsOn": [
-        "pkg:composer/nette/utils@v4.1.4"
+        "9bd1481b-6f65-4fad-821c-198399136867"
       ]
-    },
-    {
-      "ref": "pkg:composer/nette/utils@v4.1.3",
-      "dependsOn": []
-    },
-    {
-      "ref": "pkg:composer/nette/utils@v4.1.4",
-      "dependsOn": []
     },
     {
       "ref": "pkg:composer/nikic/php-parser@v5.8.0",
@@ -8459,10 +8602,10 @@
     {
       "ref": "pkg:composer/pdepend/pdepend@2.16.2",
       "dependsOn": [
+        "7d10de13-e9c7-47f4-a304-862812035d6d",
         "pkg:composer/symfony/config@v7.4.14",
         "pkg:composer/symfony/dependency-injection@v7.4.14",
-        "pkg:composer/symfony/filesystem@v7.4.11",
-        "pkg:composer/symfony/polyfill-mbstring@v1.38.2"
+        "pkg:composer/symfony/filesystem@v7.4.11"
       ]
     },
     {
@@ -8613,20 +8756,6 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/ramsey/uuid@4.9.2",
-      "dependsOn": [
-        "c3d8682e-307f-47b2-9861-68cde2b7884a",
-        "pkg:composer/brick/math@0.14.8"
-      ]
-    },
-    {
-      "ref": "pkg:composer/ramsey/uuid@4.9.3",
-      "dependsOn": [
-        "ea90babd-3cf3-49cb-834a-8224e25ab106",
-        "pkg:composer/brick/math@0.18.0"
-      ]
-    },
-    {
       "ref": "pkg:composer/react/cache@v1.2.0",
       "dependsOn": [
         "pkg:composer/react/promise@v3.3.0"
@@ -8676,12 +8805,12 @@
     {
       "ref": "pkg:composer/rector/swiss-knife@2.4.8",
       "dependsOn": [
+        "30718906-21f1-41b6-8b21-8d7e78af1ed6",
+        "9bd1481b-6f65-4fad-821c-198399136867",
         "pkg:composer/entropy/entropy@0.4.6",
         "pkg:composer/nette/robot-loader@v4.1.2",
-        "pkg:composer/nette/utils@v4.1.4",
         "pkg:composer/nikic/php-parser@v5.8.0",
         "pkg:composer/symfony/finder@v8.1.1",
-        "pkg:composer/symfony/yaml@v8.1.1",
         "pkg:composer/webmozart/assert@2.4.1"
       ]
     },
@@ -8759,45 +8888,38 @@
     {
       "ref": "pkg:composer/symfony/config@v7.4.14",
       "dependsOn": [
-        "pkg:composer/symfony/deprecation-contracts@v3.7.1",
-        "pkg:composer/symfony/filesystem@v7.4.11",
-        "pkg:composer/symfony/polyfill-ctype@v1.37.0"
+        "423e71ba-063b-4e0e-ae6e-397bc8261abd",
+        "ecc35677-fa92-4170-92fb-9c4f544c4585",
+        "pkg:composer/symfony/filesystem@v7.4.11"
       ]
     },
     {
       "ref": "pkg:composer/symfony/console@v7.4.14",
       "dependsOn": [
-        "pkg:composer/symfony/deprecation-contracts@v3.7.1",
-        "pkg:composer/symfony/polyfill-mbstring@v1.38.2",
-        "pkg:composer/symfony/service-contracts@v3.7.1",
-        "pkg:composer/symfony/string@v8.1.0"
+        "7d10de13-e9c7-47f4-a304-862812035d6d",
+        "827c80db-d859-4081-951c-2b8b75476041",
+        "b116d09f-dbc4-43de-aad0-547b4191c018",
+        "ecc35677-fa92-4170-92fb-9c4f544c4585"
       ]
     },
     {
-      "ref": "pkg:composer/symfony/console@v7.4.8",
+      "ref": "pkg:composer/symfony/console@v8.1.1",
       "dependsOn": [
-        "pkg:composer/symfony/deprecation-contracts@v3.6.0",
-        "pkg:composer/symfony/polyfill-mbstring@v1.36.0",
-        "pkg:composer/symfony/service-contracts@v3.6.1",
-        "pkg:composer/symfony/string@v8.0.8"
+        "2119ff58-f672-4d9d-8489-7cef1f538b2c",
+        "2a7ba3a4-652b-48e1-b1e2-7717ea931756",
+        "abf03e56-8488-4767-945c-1391eab6e137",
+        "c9aaca07-b42c-4a2a-877e-0b595329e8de",
+        "pkg:composer/symfony/polyfill-php85@v1.38.1"
       ]
     },
     {
       "ref": "pkg:composer/symfony/dependency-injection@v7.4.14",
       "dependsOn": [
-        "e97362b1-6c28-4034-baee-d6cbc0487f96",
-        "pkg:composer/symfony/deprecation-contracts@v3.7.1",
-        "pkg:composer/symfony/service-contracts@v3.7.1",
+        "0e14cfeb-f7f6-4144-a6da-d013d7593e1f",
+        "827c80db-d859-4081-951c-2b8b75476041",
+        "ecc35677-fa92-4170-92fb-9c4f544c4585",
         "pkg:composer/symfony/var-exporter@v8.1.1"
       ]
-    },
-    {
-      "ref": "pkg:composer/symfony/deprecation-contracts@v3.6.0",
-      "dependsOn": []
-    },
-    {
-      "ref": "pkg:composer/symfony/deprecation-contracts@v3.7.1",
-      "dependsOn": []
     },
     {
       "ref": "pkg:composer/symfony/event-dispatcher-contracts@v3.7.1",
@@ -8808,15 +8930,15 @@
     {
       "ref": "pkg:composer/symfony/event-dispatcher@v8.1.1",
       "dependsOn": [
-        "pkg:composer/symfony/deprecation-contracts@v3.7.1",
+        "ecc35677-fa92-4170-92fb-9c4f544c4585",
         "pkg:composer/symfony/event-dispatcher-contracts@v3.7.1"
       ]
     },
     {
       "ref": "pkg:composer/symfony/filesystem@v7.4.11",
       "dependsOn": [
-        "pkg:composer/symfony/polyfill-ctype@v1.37.0",
-        "pkg:composer/symfony/polyfill-mbstring@v1.38.2"
+        "423e71ba-063b-4e0e-ae6e-397bc8261abd",
+        "7d10de13-e9c7-47f4-a304-862812035d6d"
       ]
     },
     {
@@ -8826,43 +8948,11 @@
     {
       "ref": "pkg:composer/symfony/options-resolver@v8.1.0",
       "dependsOn": [
-        "pkg:composer/symfony/deprecation-contracts@v3.7.1"
+        "ecc35677-fa92-4170-92fb-9c4f544c4585"
       ]
     },
     {
-      "ref": "pkg:composer/symfony/polyfill-ctype@v1.36.0",
-      "dependsOn": []
-    },
-    {
-      "ref": "pkg:composer/symfony/polyfill-ctype@v1.37.0",
-      "dependsOn": []
-    },
-    {
       "ref": "pkg:composer/symfony/polyfill-deepclone@v1.40.0",
-      "dependsOn": []
-    },
-    {
-      "ref": "pkg:composer/symfony/polyfill-intl-grapheme@v1.36.0",
-      "dependsOn": []
-    },
-    {
-      "ref": "pkg:composer/symfony/polyfill-intl-grapheme@v1.38.1",
-      "dependsOn": []
-    },
-    {
-      "ref": "pkg:composer/symfony/polyfill-intl-normalizer@v1.36.0",
-      "dependsOn": []
-    },
-    {
-      "ref": "pkg:composer/symfony/polyfill-intl-normalizer@v1.38.0",
-      "dependsOn": []
-    },
-    {
-      "ref": "pkg:composer/symfony/polyfill-mbstring@v1.36.0",
-      "dependsOn": []
-    },
-    {
-      "ref": "pkg:composer/symfony/polyfill-mbstring@v1.38.2",
       "dependsOn": []
     },
     {
@@ -8878,77 +8968,24 @@
       "dependsOn": []
     },
     {
+      "ref": "pkg:composer/symfony/polyfill-php85@v1.38.1",
+      "dependsOn": []
+    },
+    {
       "ref": "pkg:composer/symfony/process@v8.1.0",
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/symfony/serializer@v8.0.8",
-      "dependsOn": [
-        "pkg:composer/symfony/polyfill-ctype@v1.36.0"
-      ]
-    },
-    {
-      "ref": "pkg:composer/symfony/serializer@v8.1.1",
-      "dependsOn": [
-        "pkg:composer/symfony/deprecation-contracts@v3.7.1",
-        "pkg:composer/symfony/polyfill-ctype@v1.37.0"
-      ]
-    },
-    {
-      "ref": "pkg:composer/symfony/service-contracts@v3.6.1",
-      "dependsOn": [
-        "80b8a751-e578-470f-bc50-1960476ae256",
-        "pkg:composer/symfony/deprecation-contracts@v3.6.0"
-      ]
-    },
-    {
-      "ref": "pkg:composer/symfony/service-contracts@v3.7.1",
-      "dependsOn": [
-        "e97362b1-6c28-4034-baee-d6cbc0487f96",
-        "pkg:composer/symfony/deprecation-contracts@v3.7.1"
-      ]
-    },
-    {
       "ref": "pkg:composer/symfony/stopwatch@v8.1.0",
       "dependsOn": [
-        "pkg:composer/symfony/service-contracts@v3.7.1"
-      ]
-    },
-    {
-      "ref": "pkg:composer/symfony/string@v8.0.8",
-      "dependsOn": [
-        "pkg:composer/symfony/polyfill-ctype@v1.36.0",
-        "pkg:composer/symfony/polyfill-intl-grapheme@v1.36.0",
-        "pkg:composer/symfony/polyfill-intl-normalizer@v1.36.0",
-        "pkg:composer/symfony/polyfill-mbstring@v1.36.0"
-      ]
-    },
-    {
-      "ref": "pkg:composer/symfony/string@v8.1.0",
-      "dependsOn": [
-        "pkg:composer/symfony/polyfill-ctype@v1.37.0",
-        "pkg:composer/symfony/polyfill-intl-grapheme@v1.38.1",
-        "pkg:composer/symfony/polyfill-intl-normalizer@v1.38.0",
-        "pkg:composer/symfony/polyfill-mbstring@v1.38.2"
+        "827c80db-d859-4081-951c-2b8b75476041"
       ]
     },
     {
       "ref": "pkg:composer/symfony/var-exporter@v8.1.1",
       "dependsOn": [
-        "pkg:composer/symfony/deprecation-contracts@v3.7.1",
+        "ecc35677-fa92-4170-92fb-9c4f544c4585",
         "pkg:composer/symfony/polyfill-deepclone@v1.40.0"
-      ]
-    },
-    {
-      "ref": "pkg:composer/symfony/yaml@v8.0.8",
-      "dependsOn": [
-        "pkg:composer/symfony/polyfill-ctype@v1.36.0"
-      ]
-    },
-    {
-      "ref": "pkg:composer/symfony/yaml@v8.1.1",
-      "dependsOn": [
-        "pkg:composer/symfony/polyfill-ctype@v1.37.0"
       ]
     },
     {
@@ -8969,24 +9006,24 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:composer/twig/twig@v3.24.0",
+      "ref": "pkg:composer/twig/twig@v3.28.0",
       "dependsOn": [
-        "pkg:composer/symfony/deprecation-contracts@v3.6.0",
-        "pkg:composer/symfony/polyfill-ctype@v1.36.0",
-        "pkg:composer/symfony/polyfill-mbstring@v1.36.0"
+        "2119ff58-f672-4d9d-8489-7cef1f538b2c",
+        "a95eaf19-4161-48b0-ac24-214277edbbce",
+        "c9aaca07-b42c-4a2a-877e-0b595329e8de"
       ]
     },
     {
       "ref": "pkg:composer/vardumper/dom-orm@dev-main",
       "dependsOn": [
-        "ae6d7e59-799c-4d85-b0d8-54cd20a0128b",
-        "c3d8682e-307f-47b2-9861-68cde2b7884a",
-        "c57b1ec2-3652-4e44-bade-c94e985b2b72",
-        "pkg:composer/league/flysystem@3.33.0",
-        "pkg:composer/mnapoli/silly@1.9.1",
-        "pkg:composer/ramsey/uuid@4.9.2",
-        "pkg:composer/symfony/serializer@v8.0.8",
-        "pkg:composer/symfony/yaml@v8.0.8"
+        "0a391133-704e-452c-904e-2dddd11e5086",
+        "1de3cd11-cc5e-4b5a-b5b0-19e17f11541c",
+        "58ced510-9cea-496d-8e62-f859158d17d3",
+        "99946dda-b287-4543-b6d6-1e84f2b22a54",
+        "9e04ca2a-e813-4e74-afb3-e8a2309713c6",
+        "a809cf0d-24a4-442f-9cda-100dd61147ad",
+        "bf177356-2768-48b9-b515-bd91ad10dd20",
+        "c9f3bfcb-85a9-454e-affb-7f63ca4300f6"
       ]
     },
     {
@@ -9351,7 +9388,7 @@
     {
       "ref": "pkg:npm/%40parcel/watcher@2.5.6",
       "dependsOn": [
-        "0a0c5d9e-1917-4c15-8991-666be75f1c06",
+        "db95f3a6-f50f-4038-8a7d-e68dc0ab2ca2",
         "pkg:npm/%40parcel/watcher-android-arm64@2.5.6",
         "pkg:npm/%40parcel/watcher-darwin-arm64@2.5.6",
         "pkg:npm/%40parcel/watcher-darwin-x64@2.5.6",
@@ -9580,7 +9617,7 @@
     {
       "ref": "pkg:npm/%40vue/compiler-core@3.5.32",
       "dependsOn": [
-        "87ecf3b3-ad18-47d8-bea9-744419951262",
+        "9ee6695c-a9c4-47ad-baee-5bb3a019f72d",
         "pkg:npm/%40babel/parser@7.29.2",
         "pkg:npm/%40vue/shared@3.5.32",
         "pkg:npm/entities@7.0.1",
@@ -9597,7 +9634,7 @@
     {
       "ref": "pkg:npm/%40vue/compiler-sfc@3.5.32",
       "dependsOn": [
-        "87ecf3b3-ad18-47d8-bea9-744419951262",
+        "9ee6695c-a9c4-47ad-baee-5bb3a019f72d",
         "pkg:npm/%40babel/parser@7.29.2",
         "pkg:npm/%40vue/compiler-core@3.5.32",
         "pkg:npm/%40vue/compiler-dom@3.5.32",
@@ -10133,7 +10170,7 @@
         "pkg:npm/nopt@9.0.0",
         "pkg:npm/proc-log@6.1.0",
         "pkg:npm/semver@7.7.4",
-        "pkg:npm/tar@7.5.13",
+        "pkg:npm/tar@7.5.16",
         "pkg:npm/tinyglobby@0.2.16",
         "pkg:npm/which@6.0.1"
       ]
@@ -10174,7 +10211,7 @@
     {
       "ref": "pkg:npm/postcss@8.5.10",
       "dependsOn": [
-        "87ecf3b3-ad18-47d8-bea9-744419951262",
+        "9ee6695c-a9c4-47ad-baee-5bb3a019f72d",
         "pkg:npm/nanoid@3.3.11",
         "pkg:npm/picocolors@1.1.1"
       ]
@@ -10254,7 +10291,7 @@
     {
       "ref": "pkg:npm/sass@1.99.0",
       "dependsOn": [
-        "5f64cabc-138d-4bfc-9cae-0a2b9430023f",
+        "81619702-cf42-4f08-801c-b64230067c8b",
         "pkg:npm/%40parcel/watcher@2.5.6",
         "pkg:npm/chokidar@4.0.3",
         "pkg:npm/immutable@5.1.5"
@@ -10328,7 +10365,7 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:npm/tar@7.5.13",
+      "ref": "pkg:npm/tar@7.5.16",
       "dependsOn": [
         "pkg:npm/%40isaacs/fs-minipass@4.0.1",
         "pkg:npm/chownr@3.0.0",
@@ -10340,7 +10377,7 @@
     {
       "ref": "pkg:npm/tinyglobby@0.2.16",
       "dependsOn": [
-        "4147738a-636d-4761-9288-e21599b1ad5f",
+        "1359530f-1094-4bb6-88c8-813425864bb0",
         "pkg:npm/fdir@6.5.0"
       ]
     },
@@ -10458,85 +10495,335 @@
   ],
   "vulnerabilities": [
     {
-      "id": "CVE-2026-24425",
+      "id": "CVE-2026-13149",
       "source": {
-        "name": "php-security-advisories",
-        "url": "https://github.com/FriendsOfPHP/security-advisories"
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
       },
       "ratings": [
         {
           "source": {
+            "name": "alma"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "amazon"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
             "name": "ghsa"
           },
-          "score": 8.8,
+          "score": 5.3,
           "severity": "high",
           "method": "CVSSv31",
-          "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
         },
         {
           "source": {
-            "name": "nvd"
+            "name": "oracle-oval"
           },
-          "score": 9.9,
-          "severity": "critical",
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 7.5,
+          "severity": "high",
           "method": "CVSSv31",
-          "vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H"
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
         },
         {
           "source": {
-            "name": "ubuntu"
+            "name": "rocky"
           },
-          "severity": "medium"
+          "severity": "high"
         }
       ],
       "cwes": [
-        693
+        400,
+        407
       ],
-      "description": "Twig versions 2.16.x and 3.9.0 through 3.25.x contain a sandbox bypass vulnerability when using a SourcePolicyInterface that allows attackers with template rendering capabilities to pass arbitrary PHP callables to sort, filter, map, and reduce filters. Attackers can exploit the runtime check that fails to use the current template source to bypass sandbox restrictions and execute arbitrary code when the sandbox is enabled through a source policy rather than globally.",
-      "recommendation": "Upgrade twig/twig to version 3.0.0, 3.26.0",
+      "description": "brace-expansion through 5.0.6 is vulnerable to denial of service. The expand() function exhibits exponential-time complexity in the number of consecutive non-expanding '{}' brace groups. An attacker who passes a crafted string to expand(), directly or transitively, can cause significant CPU consumption and event-loop blocking. The max option does not mitigate this, as it bounds the output size rather than the recursion work.",
+      "recommendation": "Upgrade brace-expansion to version 5.0.7, 1.1.16, 2.1.2",
       "advisories": [
         {
-          "url": "https://avd.aquasec.com/nvd/cve-2026-24425"
+          "url": "https://avd.aquasec.com/nvd/cve-2026-13149"
         },
         {
-          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-24425.yaml"
+          "url": "https://access.redhat.com/errata/RHSA-2026:47058"
         },
         {
-          "url": "https://github.com/twigphp/Twig"
+          "url": "https://access.redhat.com/security/cve/CVE-2026-13149"
         },
         {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0"
+          "url": "https://bugzilla.redhat.com/2494813"
         },
         {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-2q52-x2ff-qgfr"
+          "url": "https://bugzilla.redhat.com/2498116"
         },
         {
-          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-24425"
+          "url": "https://bugzilla.redhat.com/2498120"
         },
         {
-          "url": "https://symfony.com/blog/cve-2026-24425-possible-sandbox-bypass-when-using-a-source-policy"
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2494813"
         },
         {
-          "url": "https://symfony.com/cve-2026-24425"
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2498116"
         },
         {
-          "url": "https://ubuntu.com/security/notices/USN-8408-1"
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2498120"
         },
         {
-          "url": "https://www.cve.org/CVERecord?id=CVE-2026-24425"
+          "url": "https://creativecommons.org/licenses/by/4.0/"
         },
         {
-          "url": "https://www.vulncheck.com/advisories/twig-x-x-sandbox-bypass-via-sourcepolicyinterface"
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-13149"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-59873"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-59874"
+        },
+        {
+          "url": "https://errata.almalinux.org/9/ALSA-2026-47058.html"
+        },
+        {
+          "url": "https://errata.rockylinux.org/RLSA-2026:47058"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/commit/835d6be91201122d9adffb0c0c8c094189ace265"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/commit/c7e33ec13ac1a684c116720843ce24e208611754"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/commit/d74e63030c012e3b7ae81657b8d665619cd51b95"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/pull/122"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/pull/123"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/releases/tag/v1.1.16"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/releases/tag/v2.1.2"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/releases/tag/v5.0.7"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/security/advisories/GHSA-3jxr-9vmj-r5cp"
+        },
+        {
+          "url": "https://linux.oracle.com/cve/CVE-2026-13149.html"
+        },
+        {
+          "url": "https://linux.oracle.com/errata/ELSA-2026-48034.html"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-13149"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-13149"
+        },
+        {
+          "url": "https://www.npmjs.com/package/brace-expansion"
         }
       ],
-      "published": "2026-05-20T14:16:38+00:00",
-      "updated": "2026-06-17T10:23:03+00:00",
+      "published": "2026-06-30T10:16:34+00:00",
+      "updated": "2026-07-08T12:17:20+00:00",
       "affects": [
         {
-          "ref": "pkg:composer/twig/twig@v3.24.0",
+          "ref": "pkg:npm/brace-expansion@5.0.6",
           "versions": [
             {
-              "version": "v3.24.0",
+              "version": "5.0.6",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-14257",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "alma"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "oracle-oval"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "rocky"
+          },
+          "severity": "high"
+        }
+      ],
+      "cwes": [
+        400,
+        770
+      ],
+      "description": "brace-expansion through 5.0.7 is vulnerable to denial of service via memory exhaustion. The expand() function limits the number of results with a max option (default 100,000) but does not bound the length of each result string. By chaining multiple brace groups, an attacker keeps the result count under the limit while making each result progressively longer, so total memory scales with both count and string length until the process hits a fatal, uncatchable out-of-memory error. About 7.5 KB of input ('{a,b}'.repeat(1500)) crashes a default Node.js process. Any application that passes attacker-influenced strings to brace-expansion.expand() - directly or transitively via minimatch / glob brace patterns - can be crashed by a small request. Fixed in 5.0.8 by adding a maxLength option (default 4,000,000) that bounds accumulated output and intermediate arrays.",
+      "recommendation": "Upgrade brace-expansion to version 5.0.8, 3.0.3, 2.1.3, 1.1.17",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-14257"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:55603"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-14257"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2506433"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2507593"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2510722"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2510801"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2487258"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2487269"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2506433"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2507593"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2510722"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2510801"
+        },
+        {
+          "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-11822"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-11824"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-14257"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-54272"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-69152"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-69192"
+        },
+        {
+          "url": "https://errata.almalinux.org/9/ALSA-2026-55603.html"
+        },
+        {
+          "url": "https://errata.rockylinux.org/RLSA-2026:55603"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/commit/139d015104e71433ad52a41d19467c48ecbb2c7d"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/commit/a1bd33999ea75262c4749fff3bbb0d1372bd07b5"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/commit/cb4b9e47cc2ec777c14b2b4492fb431a56f6a031"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/commit/d13ff455a58b0d56704f0111e3c2a0b16ceb06eb"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/pull/129"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/pull/130"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/pull/136"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/security/advisories/GHSA-mh99-v99m-4gvg"
+        },
+        {
+          "url": "https://linux.oracle.com/cve/CVE-2026-14257.html"
+        },
+        {
+          "url": "https://linux.oracle.com/errata/ELSA-2026-58819.html"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-14257"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-14257"
+        },
+        {
+          "url": "https://www.npmjs.com/package/brace-expansion"
+        }
+      ],
+      "published": "2026-07-23T14:17:00+00:00",
+      "updated": "2026-08-27T18:52:15+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/brace-expansion@5.0.6",
+          "versions": [
+            {
+              "version": "5.0.6",
               "status": "affected"
             }
           ]
@@ -10610,7 +10897,7 @@
         }
       ],
       "published": "2026-04-07T20:16:30+00:00",
-      "updated": "2026-06-17T10:42:00+00:00",
+      "updated": "2026-07-24T21:10:00+00:00",
       "affects": [
         {
           "ref": "pkg:npm/vite@5.4.21",
@@ -10624,429 +10911,83 @@
       ]
     },
     {
-      "id": "CVE-2026-46633",
-      "source": {
-        "name": "php-security-advisories",
-        "url": "https://github.com/FriendsOfPHP/security-advisories"
-      },
-      "ratings": [],
-      "description": "### Description\n\n`Compiler::string()` escapes `\"`, `$`, `\\`, NUL and TAB when generating PHP double-quoted string literals, but does not escape single quotes. In `ModuleNode::compileConstructor()`, the template name from a `{% use %}` tag is compiled via `subcompile()` -> `string()` and placed inside a surrounding PHP single-quoted string literal. A template name containing a single quote terminates that surrounding string early, allowing arbitrary PHP expressions to be injected into the compiled cache file.\n\nThe injected code executes within the PHP process when the cache file is first loaded, bypassing the Twig sandbox entirely and achieving remote code execution. `SecurityPolicy` unconditionally allows `{% use %}` regardless of the configured `allowedTags`, so this primitive is reachable from sandboxed templates as well.\n\n### Resolution\n\n`Compiler::string()` now also escapes single quotes so that template names placed inside single-quoted PHP literals can no longer break out of the surrounding context.\n\n### Credits\n\nTwig would like to thank Anvil Secure in collaboration with Claude and Anthropic Research for reporting the issue and providing the fix.",
-      "recommendation": "Upgrade twig/twig to version 2.0.0, 3.0.0, 3.26.0",
-      "advisories": [
-        {
-          "url": "https://avd.aquasec.com/nvd/cve-2026-46633"
-        },
-        {
-          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-46633.yaml"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-7p85-w9px-jpjp"
-        },
-        {
-          "url": "https://symfony.com/cve-2026-46633"
-        }
-      ],
-      "affects": [
-        {
-          "ref": "pkg:composer/twig/twig@v3.24.0",
-          "versions": [
-            {
-              "version": "v3.24.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "CVE-2026-46634",
-      "source": {
-        "name": "php-security-advisories",
-        "url": "https://github.com/FriendsOfPHP/security-advisories"
-      },
-      "ratings": [
-        {
-          "source": {
-            "name": "ghsa"
-          },
-          "severity": "medium"
-        }
-      ],
-      "description": "### Description\n\nWhen the sandbox is enabled selectively via `SourcePolicyInterface` (and not globally), a sandboxed template that is allowed to call `template_from_string` and `include` can render an arbitrary inner template with no security policy enforcement.\n\n`Environment::createTemplate()` compiles the inner string under a synthesized name (`__string_template__<hash>`), so a name/path-based `SourcePolicy` returns `false` for it, and the inner template's `checkSecurity()` becomes a no-op. From a template the integrator believes is sandboxed, an attacker can use any tag/filter/function (including `constant()` to read secrets, or `|map(\"system\")` to execute shell commands).\n\n### Resolution\n\nThis is a configuration trap rather than a code bug: there is no legitimate use case for exposing `template_from_string` to untrusted template authors, and propagating the parent sandbox state through `template_from_string` would require invasive changes to `SourcePolicyInterface` semantics with their own risks.\n\nStarting with Twig 3.26.0, the documentation and the PHPDoc of `StringLoaderExtension::templateFromString()` explicitly warn against allowing `template_from_string` in a sandboxed environment (i.e. listing it in a `SecurityPolicy` allowed-functions list). Integrators using a `SourcePolicyInterface` MUST NOT allow `template_from_string` in their allowed functions; the safest option is not to register `StringLoaderExtension` at all when a sandbox is in use.\n\n### Credits\n\nTwig would like to thank Claude Mythos Preview (via Project Glasswing) for reporting the issue.",
-      "recommendation": "Upgrade twig/twig to version 3.26.0",
-      "advisories": [
-        {
-          "url": "https://avd.aquasec.com/nvd/cve-2026-46634"
-        },
-        {
-          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-46634.yaml"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-24x9-r6q4-q93w"
-        },
-        {
-          "url": "https://symfony.com/cve-2026-46634"
-        }
-      ],
-      "affects": [
-        {
-          "ref": "pkg:composer/twig/twig@v3.24.0",
-          "versions": [
-            {
-              "version": "v3.24.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "CVE-2026-46638",
-      "source": {
-        "name": "php-security-advisories",
-        "url": "https://github.com/FriendsOfPHP/security-advisories"
-      },
-      "ratings": [],
-      "description": "### Description\n\nThe fix for CVE-2024-45411 / GHSA-6j75-5wfj-gh66 added an explicit `$loaded->unwrap()->checkSecurity()` call in `CoreExtension::include()` so that a template already cached in `Environment::$loadedTemplates` is re-checked when included with `sandboxed = true`.\n\nThe deprecated but still functional `{% sandbox %}{% include ... %}{% endsandbox %}` tag path was not updated: it compiles to `enableSandbox(); yield from $this->load(...)->unwrap()->yield(...); disableSandbox();` with no `checkSecurity()` re-invocation. If the included template was loaded once outside the sandbox in the same `Environment` instance, its constructor (and therefore its compiled `checkSecurity()` call) already ran while `isSandboxed()` was `false`, so the tags/filters/functions allowlist enforced by `SecurityPolicy::checkSecurity()` is never applied.\n\nAn attacker who can author the included template gains access to every filter, function and tag registered in the environment, regardless of the sandbox policy.\n\n### Resolution\n\nThe compiled output of `{% sandbox %}{% include %}` now calls `checkSecurity()` on the loaded template, matching the behaviour of `CoreExtension::include()` with `sandboxed = true`.\n\n### Credits\n\nTwig would like to thank Claude Mythos Preview (via Project Glasswing) for reporting the issue and providing the fix.",
-      "recommendation": "Upgrade twig/twig to version 2.0.0, 3.0.0, 3.26.0",
-      "advisories": [
-        {
-          "url": "https://avd.aquasec.com/nvd/cve-2026-46638"
-        },
-        {
-          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-46638.yaml"
-        },
-        {
-          "url": "https://github.com/advisories/GHSA-6j75-5wfj-gh66"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-7fxw-r6jv-74c8"
-        },
-        {
-          "url": "https://symfony.com/cve-2026-46638"
-        }
-      ],
-      "affects": [
-        {
-          "ref": "pkg:composer/twig/twig@v3.24.0",
-          "versions": [
-            {
-              "version": "v3.24.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "CVE-2026-46639",
-      "source": {
-        "name": "php-security-advisories",
-        "url": "https://github.com/FriendsOfPHP/security-advisories"
-      },
-      "ratings": [],
-      "description": "### Description\n\nThe object-destructuring assignment syntax introduced in Twig 3.24.0 generates a call to `CoreExtension::getAttribute()` with the `$sandboxed` argument hardcoded to `false`, regardless of whether a `SandboxExtension` is active. This permanently disables the sandbox's property and method policy checks for every destructuring expression.\n\n`ObjectDestructuringSetBinary::compile()` emits:\n\n```php\nCoreExtension::getAttribute($this->env, $this->source, ..., \\Twig\\Template::ANY_CALL, false, false, false, ...);\n//                                                                                ^^^^^\n//                                                                       sandbox check never runs\n```\n\nWhereas `GetAttrExpression::compile()` correctly passes `$env->hasExtension(SandboxExtension::class)`.\n\nAn attacker with write access to a sandboxed Twig template can read any public property or invoke any public getter on objects passed to the template engine, bypassing `SecurityPolicy` restrictions. The exploit requires only the `{% do %}` tag to be in `allowedTags`, which is a common configuration.\n\n### Resolution\n\nThe destructuring compiler now forwards the active sandbox flag to `getAttribute()` so property/method allowlists are enforced.\n\n### Credits\n\nTwig would like to thank Anvil Secure in collaboration with Claude and Anthropic Research for reporting and fixing the issue.",
-      "recommendation": "Upgrade twig/twig to version 3.26.0",
-      "advisories": [
-        {
-          "url": "https://avd.aquasec.com/nvd/cve-2026-46639"
-        },
-        {
-          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-46639.yaml"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-mm6w-gr99-p3jj"
-        },
-        {
-          "url": "https://symfony.com/cve-2026-46639"
-        }
-      ],
-      "affects": [
-        {
-          "ref": "pkg:composer/twig/twig@v3.24.0",
-          "versions": [
-            {
-              "version": "v3.24.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "CVE-2026-46640",
-      "source": {
-        "name": "php-security-advisories",
-        "url": "https://github.com/FriendsOfPHP/security-advisories"
-      },
-      "ratings": [],
-      "description": "### Description\n\nThe `obj.(expr)` dynamic-attribute syntax (added in 3.15.0 as the replacement for the deprecated `attribute()` function) lets the attribute be an arbitrary expression. When the receiver is `_self` (or any `{% import %}` alias) and the parenthesised expression is a string literal, `DotExpressionParser` short-circuits to the macro-call path and concatenates the attacker-controlled string into a `MacroReferenceExpression` name with no identifier validation. `MacroReferenceExpression::compile()` then emits that name raw into the generated PHP source.\n\nAn attacker who can supply template source can inject arbitrary PHP into the compiled template and execute it at template-load time, before `checkSecurity()` is ever called. This is a complete bypass of `SandboxExtension`, including a globally-enabled sandbox with an empty `SecurityPolicy` allowlist.\n\n### Resolution\n\nThe parser now validates that the dynamic attribute resolves to a valid macro identifier before routing through `MacroReferenceExpression`, and the macro-reference compiler emits the name through a properly escaped path.\n\n### Credits\n\nTwig would like to thank Claude Mythos Preview (via Project Glasswing) for reporting the issue and providing the fix.",
-      "recommendation": "Upgrade twig/twig to version 3.26.0",
-      "advisories": [
-        {
-          "url": "https://avd.aquasec.com/nvd/cve-2026-46640"
-        },
-        {
-          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-46640.yaml"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-45vw-wh46-2vx8"
-        },
-        {
-          "url": "https://github.com/vladko312/extras/blob/main/CVE-2026-46640.py"
-        },
-        {
-          "url": "https://symfony.com/cve-2026-46640"
-        }
-      ],
-      "affects": [
-        {
-          "ref": "pkg:composer/twig/twig@v3.24.0",
-          "versions": [
-            {
-              "version": "v3.24.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "CVE-2026-47732",
-      "source": {
-        "name": "php-security-advisories",
-        "url": "https://github.com/FriendsOfPHP/security-advisories"
-      },
-      "ratings": [
-        {
-          "source": {
-            "name": "ghsa"
-          },
-          "severity": "high"
-        }
-      ],
-      "description": "### Description\n\n`SandboxNodeVisitor` enforces `SecurityPolicy::checkMethodAllowed()` for implicit `__toString()` calls by wrapping selected AST nodes in `CheckToStringNode`. The set of wrapped nodes is incomplete, and several Twig language constructs still trigger PHP string coercion on a `Stringable` operand without first consulting the policy. A sandboxed template author can therefore invoke `__toString()` on any object reachable in the render context, even when `__toString` on its class is not allowlisted.\n\nConfirmed bypass vectors:\n\n- Conditional expressions (`a ? b : c`, `a ?: b`, `a ?? b`) used as the input of a string-coercing filter or as a filter/function argument.\n- The `matches` operator and the loose comparison operators (`==`, `!=`, `<`, `>`, `<=`, `>=`, `<=>`), which coerce a `Stringable` operand to string and can be used as an oracle to recover the value byte by byte (no tag, filter or function needs to be allowlisted).\n- Twig tests in general (which were never policy-gated), in particular `is empty` which casts a `Stringable` value via `(string) $value` in `CoreExtension::testEmpty()`.\n- Null-coalesce expressions nested in concatenation, and the direct output of allowed functions or filters that return a `Stringable` object.\n- Arguments passed to allowed object methods, template-name expressions of template-loading tags (`include`, `extends`, `use`, ...), dynamic attribute/property names, and spread arguments from `Traversable` objects.\n- The `do` tag and the `..` range operator.\n\n### Resolution\n\nThe sandbox now wraps every child node that the parent will string-coerce at runtime, instead of relying on a hardcoded list of node types in `SandboxNodeVisitor`. A new `Twig\\Node\\CoercesChildrenToStringInterface` lets nodes declare which of their children must be guarded; core nodes (concatenation, comparison and range binaries, filter/function/test expressions, `do`, `include`, `extends`, `use`, ...) implement it. Spread arguments are materialised and policy-checked via the new `SandboxExtension::ensureSpreadAllowed()`, and dynamic attribute names are checked at runtime inside `CoreExtension::getAttribute()`.\n\n### Credits\n\nTwig would like to thank Anthropic Glasswing and El Kharoubi Iosif for reporting the issues, and Fabien Potencier for providing the fixes.",
-      "recommendation": "Upgrade twig/twig to version 2.0.0, 3.0.0, 3.26.0",
-      "advisories": [
-        {
-          "url": "https://avd.aquasec.com/nvd/cve-2026-47732"
-        },
-        {
-          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-47732.yaml"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.26.0"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-pr2w-4gpj-cpq4"
-        },
-        {
-          "url": "https://symfony.com/cve-2026-47732"
-        }
-      ],
-      "affects": [
-        {
-          "ref": "pkg:composer/twig/twig@v3.24.0",
-          "versions": [
-            {
-              "version": "v3.24.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "CVE-2026-48806",
-      "source": {
-        "name": "php-security-advisories",
-        "url": "https://github.com/FriendsOfPHP/security-advisories"
-      },
-      "ratings": [
-        {
-          "source": {
-            "name": "ghsa"
-          },
-          "severity": "medium"
-        }
-      ],
-      "description": "### Description\n\nThis is a residual bypass of CVE-2026-47732 / GHSA-pr2w-4gpj-cpq4 left after the initial fix for unguarded `__toString()` calls.\n\nIn 3.26.0 the sandbox visitor was extended to wrap every child node that its parent will string-coerce at runtime with `CheckToStringNode`, gated by the new `CoercesChildrenToStringInterface`. `ArrayExpression` did not implement the interface for its mapping keys: when a dynamic key expression resolves to a `Stringable` object, `ArrayExpression::compile()` emits a raw `(string)` cast (via `StringCastUnary` for `ContextVariable` keys, and no cast at all for richer key expressions). PHP then invokes `__toString()` directly, without ever calling `SandboxExtension::ensureToStringAllowed()`.\n\nA sandboxed template author can therefore trigger `__toString()` on any object reachable in the render context by using it as a dynamic mapping key, for example:\n\n```twig\n{% set arr = {(obj): \"value\"} %}\n```\n\nDirect output of the same object is correctly blocked, which makes this a clear policy enforcement gap. The reliable demonstrated impact is unauthorised disclosure of data returned by `__toString()`.\n\n### Resolution\n\n`ArrayExpression` now declares its dynamic mapping keys as string-coercion sites through `CoercesChildrenToStringInterface`, so the sandbox visitor wraps them with `CheckToStringNode` and the policy is consulted before PHP coerces the key to a string. The compiler also keeps an explicit `(string)` cast around the wrapped expression so PHP type errors on non-string keys are preserved.\n\nAs a side effect, any expression is now accepted as a dynamic mapping key (not only context variables); this is documented as a new feature on the 3.x branch.\n\n### Credits\n\nTwig would like to thank El Kharoubi Iosif for reporting the issue and Fabien Potencier for providing the fix.",
-      "recommendation": "Upgrade twig/twig to version 2.0.0, 3.0.0, 3.27.0",
-      "advisories": [
-        {
-          "url": "https://avd.aquasec.com/nvd/cve-2026-48806"
-        },
-        {
-          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-48806.yaml"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.27.0"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-5v5v-ww74-355v"
-        },
-        {
-          "url": "https://symfony.com/blog/cve-2026-48806-sandbox-tostring-policy-bypass-via-dynamic-mapping-keys"
-        }
-      ],
-      "affects": [
-        {
-          "ref": "pkg:composer/twig/twig@v3.24.0",
-          "versions": [
-            {
-              "version": "v3.24.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "CVE-2026-48807",
-      "source": {
-        "name": "php-security-advisories",
-        "url": "https://github.com/FriendsOfPHP/security-advisories"
-      },
-      "ratings": [
-        {
-          "source": {
-            "name": "ghsa"
-          },
-          "severity": "medium"
-        }
-      ],
-      "description": "### Description\n\nThis is a residual bypass of CVE-2026-47732 / GHSA-pr2w-4gpj-cpq4 left after the initial fix for unguarded `__toString()` calls. It covers two related coercion points that were not caught by the original patch.\n\n**`Traversable` in `join` and `replace` filters.** `SandboxExtension::ensureToStringAllowed()` recurses into PHP arrays so that a `Stringable` object hidden inside an array argument cannot be string-coerced without consulting the security policy. The recursion stops at PHP arrays: a `Traversable` value passed at the same position is not materialised, so its contents are not policy-checked. `CoreExtension::join()` and `CoreExtension::replace()` later materialise such `Traversable` inputs through `self::toArray()` and feed them to `implode()` / `strtr()`, both of which implicitly call `__toString()` on contained `Stringable` objects. The bypass also reproduces when the container implements both `Stringable` and `Traversable`: the container's own `__toString()` is policy-checked, but the elements yielded by `getIterator()` are not, and the consuming filters still coerce them to string.\n\n**`in` and `not in` operators.** `InBinary` and `NotInBinary` compile to `CoreExtension::inFilter()`, which falls through to PHP's `<=>` operator when comparing a string with a `Stringable` object. PHP coerces the object to string via `__toString()` without the sandbox policy being consulted. Beyond the direct side effect, `in` can also be used as a content-leak oracle: each probe against an attacker-chosen needle leaks one bit of equality, and chained probes can reconstruct the string returned by `__toString()` even when every method is denied. The bypass reproduces with both array and `Traversable` haystacks, and on both operand sides.\n\nA sandboxed template author who is allowed to call `join` / `replace`, or to use the `in` / `not in` operators, can therefore trigger a disallowed `__toString()` method on objects reachable from the render context, even when that method is not on `SecurityPolicy::$allowedMethods`. The bypass reproduces both under global sandbox mode and when sandboxing is enabled through `SourcePolicyInterface`.\n\n### Resolution\n\n`SandboxExtension::ensureToStringAllowed()` now also recurses into `Traversable` operands when sandboxing is active for the current source: each value is materialised once and run through the same array-recursion path, so the policy is consulted before the filter implementation can coerce contained objects to strings. This applies to plain `Traversable` operands as well as to containers that implement both `Stringable` and `Traversable`: the container's own `__toString()` is still policy-checked, and the yielded elements are additionally checked. The materialisation is guarded by `isSandboxed($source)` so that non-sandboxed code paths do not pay the cost or change generator-exhaustion semantics.\n\n`InBinary` and `NotInBinary` now implement `Twig\\Node\\CoercesChildrenToStringInterface` and declare both operands as string-coerced, so `SandboxNodeVisitor` wraps each operand in `CheckToStringNode`. The policy is consulted before `CoreExtension::inFilter()` reaches PHP's `<=>` operator, matching the existing protection on the other comparison binaries (`Equal`, `Less`, `Greater`, `Spaceship`, ...).\n\n### Credits\n\nTwig would like to thank Vincent55 Yang and Fabien Potencier for reporting the issues and Fabien Potencier for providing the fix.",
-      "recommendation": "Upgrade twig/twig to version 2.0.0, 3.0.0, 3.27.0",
-      "advisories": [
-        {
-          "url": "https://avd.aquasec.com/nvd/cve-2026-48807"
-        },
-        {
-          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-48807.yaml"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.27.0"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-8x9c-rmqh-456c"
-        },
-        {
-          "url": "https://symfony.com/blog/cve-2026-48807-sandbox-tostring-policy-bypass-via-traversable-in-join-replace-and-in-not-in-operators"
-        }
-      ],
-      "affects": [
-        {
-          "ref": "pkg:composer/twig/twig@v3.24.0",
-          "versions": [
-            {
-              "version": "v3.24.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "CVE-2026-48808",
-      "source": {
-        "name": "php-security-advisories",
-        "url": "https://github.com/FriendsOfPHP/security-advisories"
-      },
-      "ratings": [
-        {
-          "source": {
-            "name": "ghsa"
-          },
-          "severity": "medium"
-        }
-      ],
-      "description": "### Description\n\nThis is a residual bypass of CVE-2026-46635 / GHSA-vcc8-phrv-43wj that only affects sandboxing enabled through `SourcePolicyInterface` (and not the regular global sandbox mode).\n\n`CoreExtension::column()` receives the active sandbox state via the `needs_is_sandboxed` channel as a boolean `$isSandboxed`, but then routes the per-element property reads through `SandboxExtension::checkPropertyAllowed()` without forwarding the current `Source`. `SandboxExtension::checkPropertyAllowed()` re-evaluates `isSandboxed($source)` internally; with `$source = null` the `SourcePolicyInterface`-driven decision is lost, the method short-circuits to \"not sandboxed\", and the property allowlist is never consulted.\n\nA template author whose sandbox is gated by a `SourcePolicyInterface` and who has `column` on their `allowedFilters` list can therefore read any public or magic property of any object reachable in the render context, regardless of `SecurityPolicy::$allowedProperties`. Direct attribute access to the same property is blocked, and the same payload is also blocked under global sandbox mode, which makes this a clear policy enforcement gap rather than a configuration issue.\n\n### Resolution\n\n`CoreExtension::column()` no longer goes through the `SandboxExtension` wrapper for the property check. It calls the security policy directly: the per-source decision is already captured by the `$isSandboxed` boolean computed at the call site, so the property allowlist is enforced consistently for both global and source-policy sandboxing.\n\n### Credits\n\nTwig would like to thank Vincent55 Yang for reporting the issue and Fabien Potencier for providing the fix.",
-      "recommendation": "Upgrade twig/twig to version 2.0.0, 3.0.0, 3.27.0",
-      "advisories": [
-        {
-          "url": "https://avd.aquasec.com/nvd/cve-2026-48808"
-        },
-        {
-          "url": "https://github.com/FriendsOfPHP/security-advisories/blob/master/twig/twig/CVE-2026-48808.yaml"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.27.0"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-h8vq-8gpg-mhcg"
-        },
-        {
-          "url": "https://symfony.com/blog/cve-2026-48808-sandbox-property-allowlist-bypass-via-the-column-filter-under-sourcepolicyinterface"
-        }
-      ],
-      "affects": [
-        {
-          "ref": "pkg:composer/twig/twig@v3.24.0",
-          "versions": [
-            {
-              "version": "v3.24.0",
-              "status": "affected"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "CVE-2026-49981",
+      "id": "CVE-2026-45623",
       "source": {
         "name": "ghsa",
-        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Acomposer"
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
       },
-      "ratings": [],
-      "description": "### Description\n\nThe per-template filter, tag and function allow-list check is compiled into the `checkSecurity()` method of each `Template` subclass and was invoked once from the constructor, gated by `SandboxExtension::isSandboxed($source)`. `Template` instances are then cached on the `Environment` in `$loadedTemplates`, so the verdict computed at construction time was sticky for the rest of the process.\n\nAny later change of sandbox state on the same `Environment` left that cached verdict in place: toggling `SandboxExtension::enableSandbox()`/`disableSandbox()`, swapping the policy via `setSecurityPolicy()`, a `SourcePolicyInterface` decision flip, or simply having a parent, macro or included template pre-instantiated outside the sandbox before a sandboxed render reached it. In all of these cases, the filters, tags and functions used by the affected template kept running with the original (typically empty) check, bypassing the `SecurityPolicy` allow-list.\n\nMethod, property and `__toString` allow-lists are not affected: they are enforced at every call site at runtime through `SandboxExtension::checkMethodAllowed()`, `checkPropertyAllowed()` and `ensureToStringAllowed()`, which re-read the current state on every call.\n\nLong-lived workers (FrankenPHP, RoadRunner, Symfony Messenger consumers, FPM with hot autoloading) that share a single `Environment` between sandboxed and non-sandboxed renders are the most exposed: a single non-sandboxed render of a shared layout pre-warms its `Template` instance, after which any later sandboxed render that extends, uses, includes or imports from that layout silently skips the filter/tag/function allow-list for the pre-warmed instance.\n\n### Resolution\n\nThe allow-list check is no longer run from the constructor. `Template` gains a public `ensureSecurityChecked()` method that calls the compiled `checkSecurity()` only when `SandboxExtension::isSandboxed($source)` returns true for the current source, and it is invoked at every entry point that can reach a `Template` instance whose security has not yet been verified against the current state: `Template::yield()`, `Template::yieldBlock()` (on the resolved block template, which covers `extends`, `use`, traits and parent blocks), `Template::getParent()` (which evaluates user code when the parent name is dynamic) and `Template::getTemplateForMacro()` (on the resolved macro template).\n\nThe explicit `checkSecurity()` calls previously emitted by `IncludeNode` and `CoreExtension::include()` are removed: the included template's own `yield()` now re-runs the check against the current sandbox state. The compiled `checkSecurity()` body is a cheap walk over compile-time-static arrays, so the per-render cost is negligible. Old cached compiled PHP files keep working unchanged: the constructor-time call they still contain is idempotent.\n\n### Credits\n\nTwig would like to thank Fabien Potencier for reporting and fixing the issue.",
-      "recommendation": "Upgrade twig/twig to version 3.27.0",
-      "advisories": [
+      "ratings": [
         {
-          "url": "https://avd.aquasec.com/nvd/cve-2026-49981"
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
         },
         {
-          "url": "https://github.com/twigphp/Twig"
+          "source": {
+            "name": "nvd"
+          },
+          "score": 9.1,
+          "severity": "critical",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H"
         },
         {
-          "url": "https://github.com/twigphp/Twig/releases/tag/v3.27.0"
-        },
-        {
-          "url": "https://github.com/twigphp/Twig/security/advisories/GHSA-529h-vh3j-85hq"
+          "source": {
+            "name": "redhat"
+          },
+          "score": 7.5,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
         }
       ],
+      "cwes": [
+        22,
+        200
+      ],
+      "description": "PostCSS takes a CSS file and provides an API to analyze and modify its rules by transforming the rules into an Abstract Syntax Tree. In versions 8.5.11 and prior, the PreviousMap parses the /*# sourceMappingURL=PATH */ comment from any CSS string passed to process() and dereferences PATH against the local filesystem with no scheme, allowlist, or traversal check. An attacker who controls the CSS input can cause the host process to read any file readable by Node and leak the first ~10 bytes of its content through the resulting JSON.parse SyntaxError message. The bug also yields a precise file-existence oracle and a controllable-read primitive that may be combined with large-file targets for DoS. The behaviour is triggered with PostCSS's default options — no from, no map, no plugins required — and is therefore reachable from any pipeline that runs untrusted CSS through PostCSS (CMS themes, user-uploaded styles, browser-extension/userstyle processors, build pipelines for third-party packages, blog comment renderers, etc.). This issue has been fixed in version 8.5.12.",
+      "recommendation": "Upgrade postcss to version 8.5.12",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-45623"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-45623"
+        },
+        {
+          "url": "https://github.com/postcss/postcss"
+        },
+        {
+          "url": "https://github.com/postcss/postcss/commit/aaec7b78b3ce2792585b4b300ef1bd5dd5b3e8ad"
+        },
+        {
+          "url": "https://github.com/postcss/postcss/commit/c64b7488d2731dfa16213739b42c34faf5a9eba3"
+        },
+        {
+          "url": "https://github.com/postcss/postcss/releases/tag/8.5.12"
+        },
+        {
+          "url": "https://github.com/postcss/postcss/security/advisories/GHSA-6g55-p6wh-862q"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45623"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-45623"
+        }
+      ],
+      "published": "2026-07-27T18:16:55+00:00",
+      "updated": "2026-08-07T00:13:41+00:00",
       "affects": [
         {
-          "ref": "pkg:composer/twig/twig@v3.24.0",
+          "ref": "pkg:npm/postcss@8.5.10",
           "versions": [
             {
-              "version": "v3.24.0",
+              "version": "8.5.10",
               "status": "affected"
             }
           ]
@@ -11060,6 +11001,15 @@
         "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
       },
       "ratings": [
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+        },
         {
           "source": {
             "name": "nvd"
@@ -11085,6 +11035,9 @@
         },
         {
           "url": "https://github.com/vitejs/vite/security/advisories/GHSA-fx2h-pf6j-xcff"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53571"
         }
       ],
       "published": "2026-06-22T18:16:44+00:00",
@@ -11159,7 +11112,704 @@
       ]
     },
     {
-      "id": "CVE-2026-53655",
+      "id": "CVE-2026-54272",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "alma"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "oracle-oval"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 7.2,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N"
+        },
+        {
+          "source": {
+            "name": "rocky"
+          },
+          "severity": "high"
+        }
+      ],
+      "cwes": [
+        20,
+        918
+      ],
+      "description": "ip-address is a library for parsing and manipulating IPv4 and IPv6 addresses in JavaScript. Versions 10.1.1 through 10.2.0 are vulnerable to SSRF through misclassification of IPv4-mapped/NAT64 IPv6 addresses. Address6.getType() classifies an address by matching it against a table of known IPv6 special-use prefixes, returning Global unicast when nothing matches. That table had no entry for the IPv4-mapped range (::ffff:0:0/96), so every mapped address fell through to Global unicast; NAT64 addresses matched their own NAT64 … labels. The boolean checks isLoopback, isUnspecified, and isMulticast compared getType() against a fixed label and so returned false, while isLinkLocal and isULA checked only the native IPv6 ranges. The library already exposed isMapped4() and to4(), but did not apply them inside these checks, so a mapped or NAT64 address was never normalized to its embedded IPv4 address before classification. For IPv4-mapped addresses the host OS routes to the IPv4 stack, so the misclassification is reachable on any dual-stack host. For NAT64, the classification bypass is unconditional but end-to-end reachability additionally requires a NAT64/DNS64 gateway in the deployment network.This issue has been fixed in version 10.2.1.",
+      "recommendation": "Upgrade ip-address to version 10.2.1",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-54272"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:55603"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-54272"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2506433"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2507593"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2510722"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2510801"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2487258"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2487269"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2506433"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2507593"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2510722"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2510801"
+        },
+        {
+          "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-11822"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-11824"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-14257"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-54272"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-69152"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-69192"
+        },
+        {
+          "url": "https://errata.almalinux.org/9/ALSA-2026-55603.html"
+        },
+        {
+          "url": "https://errata.rockylinux.org/RLSA-2026:55603"
+        },
+        {
+          "url": "https://github.com/beaugunderson/ip-address"
+        },
+        {
+          "url": "https://github.com/beaugunderson/ip-address/commit/4a1f613f4c1bec915677dea923c10aaa09361ef9"
+        },
+        {
+          "url": "https://github.com/beaugunderson/ip-address/releases/tag/v10.2.1"
+        },
+        {
+          "url": "https://github.com/beaugunderson/ip-address/security/advisories/GHSA-22jq-vg5j-6vgg"
+        },
+        {
+          "url": "https://linux.oracle.com/cve/CVE-2026-54272.html"
+        },
+        {
+          "url": "https://linux.oracle.com/errata/ELSA-2026-58819.html"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-54272"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-54272"
+        }
+      ],
+      "published": "2026-07-27T18:16:56+00:00",
+      "updated": "2026-09-09T20:50:00+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/ip-address@10.2.0",
+          "versions": [
+            {
+              "version": "10.2.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-59871",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "amazon"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 5.3,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+        },
+        {
+          "source": {
+            "name": "nvd"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 5.3,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+        }
+      ],
+      "cwes": [
+        704
+      ],
+      "description": "node-tar is a tar archive manipulation library for Node.js. Prior to 7.5.18, node-tar coerces all-digit PAX path and linkpath values in src/pax.ts to JavaScript numbers, causing downstream path handling such as normalizeWindowsPath(entry.path).split('/') to throw an uncaught TypeError. This issue is fixed in version 7.5.18.",
+      "recommendation": "Upgrade tar to version 7.5.18",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-59871"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-59871"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/commit/e02a4e9e013c4be95302e2eb2047a942b883c27b"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/releases/tag/v7.5.18"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/security/advisories/GHSA-w8wr-v893-vjvp"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59871"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-59871"
+        }
+      ],
+      "published": "2026-07-08T16:16:33+00:00",
+      "updated": "2026-07-10T19:02:55+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/tar@7.5.16",
+          "versions": [
+            {
+              "version": "7.5.16",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-59873",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "alma"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "amazon"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 7.5,
+          "severity": "critical",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "nvd"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "oracle-oval"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "rocky"
+          },
+          "severity": "high"
+        }
+      ],
+      "cwes": [
+        770
+      ],
+      "description": "node-tar is a tar archive manipulation library for Node.js. Prior to 7.5.19, node-tar does not enforce hard upper bounds on total decompressed data, entry counts, or decompression ratio in extraction and parsing paths such as src/extract.ts, allowing a small crafted gzip bomb to exhaust disk space and CPU. This issue is fixed in version 7.5.19.",
+      "recommendation": "Upgrade tar to version 7.5.19",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-59873"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:47058"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-59873"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2494813"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2498116"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2498120"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2494813"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2498116"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2498120"
+        },
+        {
+          "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-13149"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-59873"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-59874"
+        },
+        {
+          "url": "https://errata.almalinux.org/9/ALSA-2026-47058.html"
+        },
+        {
+          "url": "https://errata.rockylinux.org/RLSA-2026:47058"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/commit/2812e9338665659b183aa7226518c307044957d3"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/releases/tag/v7.5.19"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/security/advisories/GHSA-23hp-3jrh-7fpw"
+        },
+        {
+          "url": "https://linux.oracle.com/cve/CVE-2026-59873.html"
+        },
+        {
+          "url": "https://linux.oracle.com/errata/ELSA-2026-48034.html"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59873"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-59873"
+        }
+      ],
+      "published": "2026-07-08T16:16:33+00:00",
+      "updated": "2026-07-10T18:57:17+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/tar@7.5.16",
+          "versions": [
+            {
+              "version": "7.5.16",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-59874",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "alma"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "amazon"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "nvd"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "oracle-oval"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "rocky"
+          },
+          "severity": "high"
+        }
+      ],
+      "cwes": [
+        835
+      ],
+      "description": "node-tar is a tar archive manipulation library for Node.js. Prior to 7.5.18, tar.replace accepts a checksum-valid tar header with a negative base-256 encoded entry size, causing the archive scanner to make no progress while repeatedly parsing the same header. This issue is fixed in version 7.5.18.",
+      "recommendation": "Upgrade tar to version 7.5.18",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-59874"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:47058"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-59874"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2494813"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2498116"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2498120"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2494813"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2498116"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2498120"
+        },
+        {
+          "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-13149"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-59873"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-59874"
+        },
+        {
+          "url": "https://errata.almalinux.org/9/ALSA-2026-47058.html"
+        },
+        {
+          "url": "https://errata.rockylinux.org/RLSA-2026:47058"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/commit/9e78bf058b2c22dd4d52e00d8922d5c06fc2f7b5"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/releases/tag/v7.5.18"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/security/advisories/GHSA-8x88-c5mf-7j5w"
+        },
+        {
+          "url": "https://linux.oracle.com/cve/CVE-2026-59874.html"
+        },
+        {
+          "url": "https://linux.oracle.com/errata/ELSA-2026-48034.html"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59874"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-59874"
+        }
+      ],
+      "published": "2026-07-08T16:16:33+00:00",
+      "updated": "2026-07-10T18:54:12+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/tar@7.5.16",
+          "versions": [
+            {
+              "version": "7.5.16",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-59875",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "amazon"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 5.3,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 5.3,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+        }
+      ],
+      "cwes": [
+        248
+      ],
+      "description": "node-tar is a tar archive manipulation library for Node.js. Prior to 7.5.17, node-tar does not strip NUL bytes from PAX path and linkpath records in src/pax.ts, allowing a crafted archive with values to reach fs.lstat or fs.open and terminate the process with an uncaught exception. This issue is fixed in version 7.5.17.",
+      "recommendation": "Upgrade tar to version 7.5.17",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-59875"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-59875"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/commit/7a635c29f5edbf083557374d43984273ecfed5b3"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/releases/tag/v7.5.17"
+        },
+        {
+          "url": "https://github.com/isaacs/node-tar/security/advisories/GHSA-gvwx-54wh-qm9j"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59875"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-59875"
+        }
+      ],
+      "published": "2026-07-08T16:16:34+00:00",
+      "updated": "2026-07-10T19:10:59+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/tar@7.5.16",
+          "versions": [
+            {
+              "version": "7.5.16",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-59879",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "nvd"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 7.5,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+      ],
+      "cwes": [
+        190,
+        400,
+        835,
+        1284
+      ],
+      "description": "Immutable.js provides many Persistent Immutable data structures. Prior to 4.3.9 and 5.1.8, List#set, List#setSize, List#setIn, List#updateIn, and the functional set, setIn, and updateIn mishandle an index or size in the range 2 ** 30 to 2 ** 31 in setListBounds in src/List.js, causing an empty List to enter an uncatchable infinite loop, a populated List to allocate without bound until process abort, or setSize to silently wrap large values. This issue is fixed in versions 4.3.9 and 5.1.8.",
+      "recommendation": "Upgrade immutable to version 4.3.9, 5.1.8",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-59879"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-59879"
+        },
+        {
+          "url": "https://github.com/immutable-js/immutable-js"
+        },
+        {
+          "url": "https://github.com/immutable-js/immutable-js/commit/a1a1ee412dcaa380ab325196283d06594ffe4b84"
+        },
+        {
+          "url": "https://github.com/immutable-js/immutable-js/commit/f0bc997d8eb9886aff2236635aa210a95a04304a"
+        },
+        {
+          "url": "https://github.com/immutable-js/immutable-js/releases/tag/v4.3.9"
+        },
+        {
+          "url": "https://github.com/immutable-js/immutable-js/releases/tag/v5.1.8"
+        },
+        {
+          "url": "https://github.com/immutable-js/immutable-js/security/advisories/GHSA-v56q-mh7h-f735"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59879"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-59879"
+        }
+      ],
+      "published": "2026-07-08T17:17:26+00:00",
+      "updated": "2026-07-10T18:48:54+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/immutable@5.1.5",
+          "versions": [
+            {
+              "version": "5.1.5",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-59880",
       "source": {
         "name": "ghsa",
         "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
@@ -11169,54 +11819,905 @@
           "source": {
             "name": "nvd"
           },
-          "score": 5.5,
-          "severity": "medium",
+          "score": 7.5,
+          "severity": "high",
           "method": "CVSSv31",
-          "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N"
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+      ],
+      "cwes": [
+        407
+      ],
+      "description": "Immutable.js provides many Persistent Immutable data structures. Prior to 4.3.9 and 5.1.8, Immutable.Map and Immutable.Set keep keys that share the same 32-bit hash in a HashCollisionNode collision bucket that is scanned linearly, allowing an attacker who controls keys inserted into a Map, such as through Immutable.Map(obj), Immutable.fromJS(obj), state.merge(userObject), or mergeDeep, to craft many colliding keys and degrade insertion and lookup to consume disproportionate CPU. This issue is fixed in versions 4.3.9 and 5.1.8.",
+      "recommendation": "Upgrade immutable to version 4.3.9, 5.1.8, 3.8.4",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-59880"
+        },
+        {
+          "url": "https://github.com/immutable-js/immutable-js"
+        },
+        {
+          "url": "https://github.com/immutable-js/immutable-js/commit/3dd7e5655012597a41873e328bf9142a8901527b"
+        },
+        {
+          "url": "https://github.com/immutable-js/immutable-js/commit/e51d49fc612ded5ec4dfb94ff294d22074269b0f"
+        },
+        {
+          "url": "https://github.com/immutable-js/immutable-js/releases/tag/v3.8.4"
+        },
+        {
+          "url": "https://github.com/immutable-js/immutable-js/releases/tag/v4.3.9"
+        },
+        {
+          "url": "https://github.com/immutable-js/immutable-js/releases/tag/v5.1.8"
+        },
+        {
+          "url": "https://github.com/immutable-js/immutable-js/security/advisories/GHSA-xvcm-6775-5m9r"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-59880"
+        }
+      ],
+      "published": "2026-07-08T16:16:34+00:00",
+      "updated": "2026-07-10T18:49:51+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/immutable@5.1.5",
+          "versions": [
+            {
+              "version": "5.1.5",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-67213",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 5.9,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "nvd"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
         },
         {
           "source": {
             "name": "redhat"
           },
-          "score": 6.1,
-          "severity": "medium",
+          "score": 7.5,
+          "severity": "high",
           "method": "CVSSv31",
-          "vector": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:L/I:H/A:N"
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
         }
       ],
       "cwes": [
-        436
+        835
       ],
-      "description": "node-tar is a full-featured Tar for Node.js. Prior to 7.5.16, tar (node-tar) applies a PAX extended header's size= record (and other PAX overrides) to the next header entry of any type, including intermediary metadata headers such as a GNU long-name (L) or long-link (K) entry. Per POSIX pax, a PAX extended header (x) describes the next file entry, not the intermediary extension headers that may sit between the x header and the file it annotates. Because node-tar lets the PAX size override the byte length of an intervening L/K/x header, an attacker can desynchronize node-tar's stream cursor relative to every other mainstream tar implementation (GNU tar, libarchive/bsdtar, Python tarfile, and the now-fixed tar-rs / astral-tokio-tar). The result is a tar parser interpretation differential (CWE-436): a single crafted archive yields a different set of members under node-tar than under the reference tar tools. An attacker can use this to hide a member from one parser while it is visible to another, which defeats security tooling whose scanner and extractor disagree on archive contents (e.g. a malware/secret scanner that lists entries with one library while a downstream step extracts with another) This vulnerability is fixed in 7.5.16.",
-      "recommendation": "Upgrade tar to version 7.5.16",
+      "description": "nanoid (Nano ID) before 5.1.6 contains an infinite loop in the customAlphabet and customRandom functions. When these functions are configured with a size of 0, the internal generation loop never satisfies its exit condition and spins indefinitely, hanging the calling thread. An application that passes an unvalidated, attacker-controlled size of 0 to these functions is exposed to a denial-of-service condition.",
+      "recommendation": "Upgrade nanoid to version 3.3.18, 5.1.6",
       "advisories": [
         {
-          "url": "https://avd.aquasec.com/nvd/cve-2026-53655"
+          "url": "https://avd.aquasec.com/nvd/cve-2026-67213"
         },
         {
-          "url": "https://access.redhat.com/security/cve/CVE-2026-53655"
+          "url": "https://access.redhat.com/security/cve/CVE-2026-67213"
+        },
+        {
+          "url": "https://github.com/ai/nanoid"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/commit/cb3626d0f3342fdf179cd425fd9c4fbb92c7d0e7"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/commit/e10f8d40ce9d1ab47f66d65a16b48086432730d0"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/commit/f9d13f150847d117877adee3460a46eceb0cf49b"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/releases/tag/3.3.17"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/releases/tag/3.3.18"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/releases/tag/5.1.6"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-67213"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-67213"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/nanoid-before-infinite-loop-via-zero-size-in-customalphabet-and-customrandom"
+        }
+      ],
+      "published": "2026-07-29T14:16:34+00:00",
+      "updated": "2026-08-18T14:26:16+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/nanoid@3.3.11",
+          "versions": [
+            {
+              "version": "3.3.11",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-67214",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 5.9,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "nvd"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+      ],
+      "cwes": [
+        835
+      ],
+      "description": "nanoid (Nano ID) before 3.3.16 and 5.1.16 contains an infinite loop in the customAlphabet and nanoid functions of its non-secure module (nanoid/non-secure). When these functions are given a negative size, the loop counter is decremented from a negative value and never reaches its termination condition, spinning indefinitely and hanging the calling thread. An application that passes an unvalidated, attacker-controlled negative size to these functions is exposed to a denial-of-service condition.",
+      "recommendation": "Upgrade nanoid to version 3.3.16, 5.1.16",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-67214"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-67214"
+        },
+        {
+          "url": "https://github.com/ai/nanoid"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/commit/6ccc67bbaba71d3d77a21d9b636f4171a268ce49"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/commit/e835c9b71eab832bc6106944bdd26ea96cf2c66d"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/pull/600"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/pull/601"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/releases/tag/3.3.16"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/releases/tag/5.1.16"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-67214"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-67214"
+        },
+        {
+          "url": "https://www.vulncheck.com/advisories/nanoid-before-infinite-loop-via-negative-size-in-non-secure-module"
+        }
+      ],
+      "published": "2026-07-29T14:16:35+00:00",
+      "updated": "2026-08-26T17:53:53+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/nanoid@3.3.11",
+          "versions": [
+            {
+              "version": "3.3.11",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-69152",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "alma"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "oracle-oval"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "rocky"
+          },
+          "severity": "high"
+        }
+      ],
+      "cwes": [
+        400,
+        770
+      ],
+      "description": "The brace-expansion library generates arbitrary strings containing a common prefix and suffix. Prior to 1.1.18, 2.1.4, 3.0.6, and 5.0.9, expand() does not apply maxLength while constructing comma-alternative intermediate arrays or padded sequences, allowing attacker-controlled input to exhaust memory or block the event loop. The fix for CVE-2026-14257 is bypassed by the vulnerability. This issue is fixed in versions 1.1.18, 2.1.4, 3.0.6, and 5.0.9.",
+      "recommendation": "Upgrade brace-expansion to version 1.1.18, 2.1.4, 3.0.6, 5.0.9",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-69152"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:55603"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-69152"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2506433"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2507593"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2510722"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2510801"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2487258"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2487269"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2506433"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2507593"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2510722"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2510801"
+        },
+        {
+          "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-11822"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-11824"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-14257"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-54272"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-69152"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-69192"
+        },
+        {
+          "url": "https://errata.almalinux.org/9/ALSA-2026-55603.html"
+        },
+        {
+          "url": "https://errata.rockylinux.org/RLSA-2026:55603"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/commit/139d015104e71433ad52a41d19467c48ecbb2c7d"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/commit/1e30c930238d7162802d88a94189182def178dac"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/commit/688a99eeaab02627c2b89ba8ba4821fecfa659cf"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/commit/cb4b9e47cc2ec777c14b2b4492fb431a56f6a031"
+        },
+        {
+          "url": "https://github.com/juliangruber/brace-expansion/security/advisories/GHSA-rgw5-rvv9-x895"
+        },
+        {
+          "url": "https://linux.oracle.com/cve/CVE-2026-69152.html"
+        },
+        {
+          "url": "https://linux.oracle.com/errata/ELSA-2026-58819.html"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69152"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-69152"
+        }
+      ],
+      "published": "2026-08-03T17:16:45+00:00",
+      "updated": "2026-08-05T14:58:28+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/brace-expansion@5.0.6",
+          "versions": [
+            {
+              "version": "5.0.6",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-69153",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "nvd"
+          },
+          "score": 5.3,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 5.3,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+        }
+      ],
+      "cwes": [
+        22,
+        200
+      ],
+      "description": "PostCSS takes a CSS file and provides an API to analyze and modify its rules by transforming the rules into an Abstract Syntax Tree. Prior to 8.5.19, if from is unset, an attacker can cause PreviousMap.loadFile() to read an unintended source-map file by supplying an absolute or directory-traversal sourceMappingURL. The resulting map’s sources and sourcesContent may then be exposed to the application. This issue is fixed in version 8.5.19.",
+      "recommendation": "Upgrade postcss to version 8.5.23",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-69153"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-69153"
+        },
+        {
+          "url": "https://github.com/postcss/postcss"
+        },
+        {
+          "url": "https://github.com/postcss/postcss/commit/7beca139e70f9075c6b19700fcb00dd8033e5da8"
+        },
+        {
+          "url": "https://github.com/postcss/postcss/releases/tag/8.5.19"
+        },
+        {
+          "url": "https://github.com/postcss/postcss/security/advisories/GHSA-fxqj-rqcc-2cmp"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69153"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-69153"
+        }
+      ],
+      "published": "2026-08-03T17:16:46+00:00",
+      "updated": "2026-08-05T14:58:45+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/postcss@8.5.10",
+          "versions": [
+            {
+              "version": "8.5.10",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-69192",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "alma"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "oracle-oval"
+          },
+          "severity": "high"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 8.6,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N"
+        },
+        {
+          "source": {
+            "name": "rocky"
+          },
+          "severity": "high"
+        }
+      ],
+      "cwes": [
+        20,
+        918
+      ],
+      "description": "ip-address is a library for parsing and manipulating IPv4 and IPv6 addresses in JavaScript. Prior to 10.3.1, Address4 accepts an octet written with a leading zero and decodes it as decimal, while the WHATWG URL host parser, inet_aton, and getaddrinfo all decode a leading zero as octal. The library and the network stack therefore disagree about which host a string names. new Address4('012.0.0.1') reports correctForm() of 12.0.0.1 and isPrivate() of false, but fetch('http://012.0.0.1/') connects to 10.0.0.1. An application that builds a network trust-boundary decision on these checks, for example a filter intended to block Server-Side Request Forgery, or SSRF, will classify an internal target as external and allow the request. The defect is in the parse gate rather than in any one classifier, so every consumer of Address4 inherits it: isPrivate(), isLoopback(), isLinkLocal(), isCGNAT(), isInSubnet(), isHostInSubnet(), and correctForm() are all computed from the mis-decoded octets. This issue is fixed in version 10.3.1.",
+      "recommendation": "Upgrade ip-address to version 10.3.1",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-69192"
+        },
+        {
+          "url": "https://access.redhat.com/errata/RHSA-2026:55603"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-69192"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2506433"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2507593"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2510722"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/2510801"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2487258"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2487269"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2506433"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2507593"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2510722"
+        },
+        {
+          "url": "https://bugzilla.redhat.com/show_bug.cgi?id=2510801"
+        },
+        {
+          "url": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-11822"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-11824"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-14257"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-54272"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-69152"
+        },
+        {
+          "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2026-69192"
+        },
+        {
+          "url": "https://errata.almalinux.org/9/ALSA-2026-55603.html"
+        },
+        {
+          "url": "https://errata.rockylinux.org/RLSA-2026:55603"
+        },
+        {
+          "url": "https://github.com/beaugunderson/ip-address"
+        },
+        {
+          "url": "https://github.com/beaugunderson/ip-address/commit/56368cb3d66c73ba0ee9b6b834fd31b22c2fd71e"
+        },
+        {
+          "url": "https://github.com/beaugunderson/ip-address/releases/tag/v10.3.1"
+        },
+        {
+          "url": "https://github.com/beaugunderson/ip-address/security/advisories/GHSA-mwp4-54f8-5fhr"
+        },
+        {
+          "url": "https://linux.oracle.com/cve/CVE-2026-69192.html"
+        },
+        {
+          "url": "https://linux.oracle.com/errata/ELSA-2026-58819.html"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69192"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-69192"
+        }
+      ],
+      "published": "2026-08-03T20:17:29+00:00",
+      "updated": "2026-09-10T20:30:11+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/ip-address@10.2.0",
+          "versions": [
+            {
+              "version": "10.2.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-69198",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 5.3,
+          "severity": "medium",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+        }
+      ],
+      "cwes": [
+        20,
+        918
+      ],
+      "description": "ip-address is a library for parsing and manipulating IPv4 and IPv6 addresses in JavaScript. From 10.1.1 until 10.2.2, every special-use classification method is built on isInSubnet, which short-circuits to false whenever the address's own subnet mask is shorter than the reference range's mask. That mask comes verbatim from the CIDR suffix on the parsed input, so appending a suffix such as /0 suppresses classification entirely: isLoopback(), isPrivate(), isLinkLocal(), isCGNAT(), isMulticast(), isUnspecified(), isBroadcast(), isULA(), and getType() all report an internal address as unremarkable, while correctForm() and address still return the real internal target. An application that builds a network trust-boundary decision on these checks, for example a filter intended to block Server-Side Request Forgery, or SSRF, may therefore treat an internal target as external and allow the request. The underlying bit comparison is correct, and mask(n) already returns the first n bits of the full parsed address independently of subnetMask; the defect is solely that the containment guard sits in the classification path. This issue is fixed in version 10.2.2.",
+      "recommendation": "Upgrade ip-address to version 10.2.2",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-69198"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-69198"
+        },
+        {
+          "url": "https://github.com/beaugunderson/ip-address"
+        },
+        {
+          "url": "https://github.com/beaugunderson/ip-address/commit/488fe9bc7c35363b4b090494fc38c266d217740d"
+        },
+        {
+          "url": "https://github.com/beaugunderson/ip-address/releases/tag/v10.2.2"
+        },
+        {
+          "url": "https://github.com/beaugunderson/ip-address/security/advisories/GHSA-4xrf-jv44-h6hh"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-69198"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-69198"
+        }
+      ],
+      "published": "2026-08-03T20:17:30+00:00",
+      "updated": "2026-09-10T20:30:11+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/ip-address@10.2.0",
+          "versions": [
+            {
+              "version": "10.2.0",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-73086",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 7.4,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 7.4,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N"
+        }
+      ],
+      "cwes": [
+        190
+      ],
+      "description": "nanoid is a secure, URL-friendly, unique string ID generator for JavaScript. Prior to versions 3.3.12 and 5.1.11, the nanoid(size) function in index.js and index.cjs coerces the user-influenced size parameter to a signed 32-bit integer, allowing a value of 2147483648 to become -2147483648 and corrupt the process-wide CSPRNG poolOffset in fillPool(), which causes subsequent session tokens, CSRF tokens, API keys, and unique identifiers to become the deterministic string \"uuuuuuuuuuuuuuuuuuuuu\" until the process restarts. This issue is fixed in versions 3.3.12 and 5.1.11.",
+      "recommendation": "Upgrade nanoid to version 3.3.12, 5.1.11",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-73086"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-73086"
+        },
+        {
+          "url": "https://github.com/ai/nanoid"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/commit/7087969281cab8ba8ae3babf1894e819068b3bb4"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/commit/821dfed7b5db7f88e92f56c60eef32c8135077c3"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/commit/b0036ed60dc9facd7f1191a50dfb3076500202ac"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/releases/tag/3.3.12"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/releases/tag/5.1.11"
+        },
+        {
+          "url": "https://github.com/ai/nanoid/security/advisories/GHSA-xwg4-73v4-xw9w"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73086"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-73086"
+        }
+      ],
+      "published": "2026-08-11T17:19:16+00:00",
+      "updated": "2026-09-09T20:46:02+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/nanoid@3.3.11",
+          "versions": [
+            {
+              "version": "3.3.11",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-73566",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+      ],
+      "cwes": [
+        400,
+        674
+      ],
+      "description": "node-tar is a tar archive manipulation library for Node.js. Prior to 7.5.21, node-tar's filesFilter in src/list.ts uses the recursive mapHas helper to walk an archive entry path upward with path.dirname() and no segment cap when tar.t(...) or tar.x(...) receives a non-empty member-selection list. A crafted GNU L or PAX x long-path header with thousands of slash-separated segments reaches this.filter(entry.path, entry) in Parser[CONSUMEHEADER] in src/parse.ts before Unpack[CHECKPATH] applies maxDepth, causing an uncatchable RangeError stack overflow that terminates asynchronous and streaming Node.js consumers. This issue is fixed in version 7.5.21.",
+      "recommendation": "Upgrade tar to version 7.5.21",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-73566"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-73566"
         },
         {
           "url": "https://github.com/isaacs/node-tar"
         },
         {
-          "url": "https://github.com/isaacs/node-tar/security/advisories/GHSA-vmf3-w455-68vh"
+          "url": "https://github.com/isaacs/node-tar/commit/631ae59121bf8fc8a22bbae35f074cb9b789cd4a"
         },
         {
-          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-53655"
+          "url": "https://github.com/isaacs/node-tar/releases/tag/v7.5.21"
         },
         {
-          "url": "https://www.cve.org/CVERecord?id=CVE-2026-53655"
+          "url": "https://github.com/isaacs/node-tar/security/advisories/GHSA-r292-9mhp-454m"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73566"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-73566"
         }
       ],
-      "published": "2026-06-22T16:16:38+00:00",
-      "updated": "2026-06-26T20:03:47+00:00",
+      "published": "2026-08-13T18:18:19+00:00",
+      "updated": "2026-08-18T02:17:29+00:00",
       "affects": [
         {
-          "ref": "pkg:npm/tar@7.5.13",
+          "ref": "pkg:npm/tar@7.5.16",
           "versions": [
             {
-              "version": "7.5.13",
+              "version": "7.5.16",
+              "status": "affected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CVE-2026-73646",
+      "source": {
+        "name": "ghsa",
+        "url": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+      },
+      "ratings": [
+        {
+          "source": {
+            "name": "ghsa"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+        },
+        {
+          "source": {
+            "name": "redhat"
+          },
+          "score": 7.5,
+          "severity": "high",
+          "method": "CVSSv31",
+          "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+        }
+      ],
+      "cwes": [
+        22
+      ],
+      "description": "PostCSS takes a CSS file and provides an API to analyze and modify its rules by transforming the rules into an Abstract Syntax Tree. Prior to 8.5.18, lib/previous-map.js loadMap() passes attacker-controlled sourceMappingURL values to join(dirname(opts.from), annotation), and loadFile() permits traversed or absolute .map paths, allowing untrusted CSS processed without map: false to disclose sourcesContent from arbitrary reachable .map files through result.map. This issue is fixed in version 8.5.18.",
+      "recommendation": "Upgrade postcss to version 8.5.18",
+      "advisories": [
+        {
+          "url": "https://avd.aquasec.com/nvd/cve-2026-73646"
+        },
+        {
+          "url": "https://access.redhat.com/security/cve/CVE-2026-73646"
+        },
+        {
+          "url": "https://github.com/postcss/postcss"
+        },
+        {
+          "url": "https://github.com/postcss/postcss/commit/95663d3eb7ba26f4854dd19d3b4f4425760cf56c"
+        },
+        {
+          "url": "https://github.com/postcss/postcss/releases/tag/8.5.18"
+        },
+        {
+          "url": "https://github.com/postcss/postcss/security/advisories/GHSA-r28c-9q8g-f849"
+        },
+        {
+          "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-73646"
+        },
+        {
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-73646"
+        }
+      ],
+      "published": "2026-08-17T16:17:47+00:00",
+      "updated": "2026-08-17T17:16:51+00:00",
+      "affects": [
+        {
+          "ref": "pkg:npm/postcss@8.5.10",
+          "versions": [
+            {
+              "version": "8.5.10",
               "status": "affected"
             }
           ]
