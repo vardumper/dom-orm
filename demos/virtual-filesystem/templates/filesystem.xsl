@@ -137,7 +137,9 @@
                     <pre id="raw-xml-pre"><code class="language-xml" id="raw-xml-display"><xsl:value-of select="$raw-xml"/></code></pre>
                 </div>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
-                <script>hljs.highlightElement(document.getElementById('raw-xml-display'));</script>
+                <!-- Initial syntax highlighting is performed by assets/js/filesystem.js
+                     (highlightAll on DOMContentLoaded). Doing it here too would set
+                     data-highlighted, causing highlightAll to no-op and log an error. -->
             </body>
         </html>
     </xsl:template>

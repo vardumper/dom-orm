@@ -35,8 +35,19 @@ final class BlogManager
     public function findAllArticles(): array
     {
         $collection = (new EntityRepository(Article::class))->findAll();
+        if ($collection === null) {
+            return [];
+        }
 
-        return $collection !== null ? $collection->toArray() : [];
+        // Newest first. The repository returns items in document (insertion)
+        // order, so sort by createdAt descending. usort() is stable on PHP 8+,
+        // so articles sharing a timestamp keep their original relative order.
+        $articles = array_values($collection->toArray());
+        usort($articles, static function (Article $a, Article $b): int {
+            return $b->getCreatedAt() <=> $a->getCreatedAt();
+        });
+
+        return $articles;
     }
 
     public function findArticle(string $id): ?Article

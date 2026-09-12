@@ -19,7 +19,14 @@ async function reloadView() {
       const codeEl = document.getElementById('raw-xml-display');
       if (codeEl) {
         codeEl.textContent = xml;
-        if (window.hljs) hljs.highlightElement(codeEl);
+        if (window.hljs) {
+          // highlight.js refuses to re-highlight a block that still carries the
+          // `data-highlighted` marker from a previous pass (it silently no-ops).
+          // Clear it so the updated XML is highlighted again instead of losing
+          // its syntax highlighting on every change.
+          codeEl.removeAttribute('data-highlighted');
+          hljs.highlightElement(codeEl);
+        }
       }
     } else {
       console.error('api/xml failed:', xmlRes.status, await xmlRes.text());

@@ -19,3 +19,4 @@ events.log
 /coverage-report-integration
 data.xml.lock
 cache.php
+/.dsh
