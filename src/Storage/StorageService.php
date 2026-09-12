@@ -14,6 +14,12 @@ class StorageService
      */
     private $lockHandle = null;
 
+    /**
+     * Resolved local directory of the underlying adapter (null for non-local
+     * adapters). Used to cheaply stat the data file for a fingerprint.
+     */
+    private ?string $localLocation = null;
+
     public function __construct(
         private readonly Filesystem $filesystem,
         private readonly string $filename,
@@ -40,7 +46,44 @@ class StorageService
             $config->get('dom-orm.lock_file')
         );
 
-        return new self(new Filesystem($adapter), $filename, $lockFile);
+        $service = new self(new Filesystem($adapter), $filename, $lockFile);
+        if ($adapterClass === LocalFilesystemAdapter::class) {
+            $service->localLocation = \is_array($options) ? self::resolveLocalLocation($options) : null;
+        }
+
+        return $service;
+    }
+
+    /**
+     * Returns a fingerprint of the data file so callers can detect external changes.
+     *
+     * The SHA-256 hash (computed from the decoded contents) is authoritative for
+     * correctness across every adapter. `size`/`mtime` are cheap metadata signals
+     * for local filesystems and are null when unavailable; they never replace the
+     * hash check — an equal-length edit within the same clock second would slip
+     * past a size/mtime comparison alone. Returns null when the data file cannot
+     * be read.
+     *
+     * @return array{size: int, mtime: ?int, hash: string}|null
+     */
+    public function fingerprint(): ?array
+    {
+        $contents = $this->read();
+
+        $fingerprint = [
+            'size' => \strlen($contents),
+            'mtime' => null,
+            'hash' => hash('sha256', $contents),
+        ];
+
+        if ($this->localLocation !== null) {
+            $path = $this->localLocation . DIRECTORY_SEPARATOR . $this->filename;
+            if (\is_file($path)) {
+                $fingerprint['mtime'] = (int)\filemtime($path);
+            }
+        }
+
+        return $fingerprint;
     }
 
     public function read(): string

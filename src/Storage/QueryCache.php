@@ -74,8 +74,20 @@ final class QueryCache
             return null;
         }
 
-        /** @var array<string, array<string, array<string, mixed>>> */
-        return require $path;
+        /** @var array<string, mixed> $cache */
+        $cache = require $path;
+
+        // If the source data file changed since this cache was written (for example
+        // a cron job replaced data.xml), rebuild from the current data so reads stay
+        // correct while keeping subsequent requests served from the fresh cache.
+        if (self::isStale($cache)) {
+            self::build();
+
+            /** @var array<string, mixed> $cache */
+            $cache = require $path;
+        }
+
+        return $cache;
     }
 
     /**
@@ -101,6 +113,19 @@ final class QueryCache
     {
         $path = self::requireCachePath();
         $cache = self::buildCacheArray($dom);
+
+        // Record a fingerprint of the source data file so any external edit
+        // to it (such as a cron-swapped data.xml) is detected on the next read
+        // and the cache is rebuilt automatically instead of serving stale data.
+        $fingerprint = StorageService::fromConfig()->fingerprint();
+        if ($fingerprint !== null) {
+            $cache['__meta'] = [
+                'data_file' => (string)getConfig()->get('dom-orm.filename'),
+                'size' => $fingerprint['size'],
+                'mtime' => $fingerprint['mtime'],
+                'hash' => $fingerprint['hash'],
+            ];
+        }
 
         $dir = \dirname($path);
         if (!\is_dir($dir)) {
@@ -311,6 +336,45 @@ final class QueryCache
         return [
             'data' => $data,
         ];
+    }
+
+    /**
+     * Returns true when the cache was built from a different version of the data
+     * file than the one currently on disk. A missing/legacy fingerprint (no stored
+     * hash) is treated as stale so it is rebuilt exactly once.
+     *
+     * @param array<string, mixed> $cache
+     */
+    private static function isStale(array $cache): bool
+    {
+        $stored = $cache['__meta'] ?? null;
+
+        if (!\is_array($stored) || !isset($stored['hash']) || !\is_string($stored['hash'])) {
+            return true;
+        }
+
+        $current = self::currentDataFingerprint();
+        if ($current === null) {
+            // Cannot fingerprint the data file — prefer a fresh read over serving
+            // potentially stale content.
+            return true;
+        }
+
+        return $stored['hash'] !== $current['hash'];
+    }
+
+    /**
+     * Fingerprint of the current data file, or null when it cannot be read.
+     *
+     * @return array{size: int, mtime: ?int, hash: string}|null
+     */
+    private static function currentDataFingerprint(): ?array
+    {
+        try {
+            return StorageService::fromConfig()->fingerprint();
+        } catch (\Throwable) {
+            return null;
+        }
     }
 
     /**

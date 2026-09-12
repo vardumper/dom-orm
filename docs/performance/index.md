@@ -72,7 +72,26 @@ $users = $repo->findBy(['name' => 'Alice']);  // in-memory filter over cache
 Queries involving encrypted sensitive fields fall back to XPath automatically (the cache
 stores ciphertext, which cannot be matched without knowing the plaintext).
 
-#### 4. Flush the cache
+#### 4. Automatic staleness detection
+
+Every cache file records a `__meta` block with a SHA-256 fingerprint of the data file it was
+built from (`data_file`, `size`, `mtime`, `hash`). On every read the cache is checked against
+the current data file before it is served:
+
+- **Data changed externally** — if the fingerprint no longer matches (for example a cron job
+  or a manual edit replaced `data.xml` between writes), the cache is **rebuilt automatically**
+  from the current data and the fresh cache is served. No manual `build-cache` needed, and no
+  stale data is served.
+- **Legacy cache** — a cache with no fingerprint (written before this feature) is treated as
+  stale and rebuilt once.
+- **Fingerprint matches** — the cache is served as-is; there is no rebuild and no extra cost
+  beyond the cheap fingerprint comparison.
+
+This keeps reads correct when the XML is modified outside of DOM ORM, while preserving the
+fast, in-memory read path for the common case. The fingerprint is written whenever the cache
+is built (via `build-cache` or on `on_persist`), and verified on every subsequent read.
+
+#### 5. Flush the cache
 
 ```bash
 ./vendor/bin/dom-orm flush-cache

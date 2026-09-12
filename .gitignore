@@ -19,4 +19,6 @@ events.log
 /coverage-report-integration
 data.xml.lock
 cache.php
+# Test/debug runtime dirs under storage/ (leaked fixtures if a test crashes)
+storage/cache-*
 /.dsh
