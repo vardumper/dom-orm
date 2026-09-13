@@ -141,8 +141,13 @@ it('rebuilds the cache when the stored fingerprint no longer matches', function 
         $originalHash = $cache['__meta']['hash'];
 
         // Tamper the stored hash to simulate a cache written for different data.
+        // The data file's mtime is backdated so the stat-first fast path is
+        // bypassed (size + mtime differ from the stored meta) and the hash
+        // comparison actually runs — a tampered hash alone with unchanged
+        // size + mtime is intentionally treated as "file unchanged" now.
         $cache['__meta']['hash'] = \str_repeat('0', 64);
         \file_put_contents($location . '/cache.php', "<?php\n\nreturn " . \var_export($cache, true) . ";\n");
+        \touch(staleDataFile($location), \time() - 3600);
 
         $loaded = QueryCache::load();
         expect($loaded)->not->toBeNull();

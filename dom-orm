@@ -59,6 +59,7 @@ $app->command('list', function (ConsoleOutputInterface $output) {
     $output->writeln('<fg=green>migrate</>          Apply fragment rename/removal maps to XML.');
     $output->writeln('<fg=green>perf</>             Run a performance benchmark (seed + query).');
     $output->writeln('<fg=green>schema-validate</>  Validate the database schema.');
+    $output->writeln('<fg=green>warm-cache</>       Build (if needed) and warm the query cache in opcache.');
 });
 
 $app->command('init', function (ConsoleOutputInterface $output) {
@@ -159,29 +160,100 @@ $app->command('flush-cache', function (ConsoleOutputInterface $output) {
     $output->writeln('Done.');
 });
 
+$app->command('warm-cache', function (ConsoleOutputInterface $output) {
+    if (!QueryCache::isEnabled()) {
+        $output->writeln('<fg=yellow>cache_path is not set in dom-orm.php — nothing to do.</>');
+
+        return;
+    }
+
+    if (!QueryCache::exists()) {
+        $output->writeln('Cache file missing — building it first...');
+        QueryCache::build();
+    }
+
+    // Require both cache files so their compiled opcodes land in opcache (and in
+    // opcache.file_cache when configured). The returned arrays are discarded —
+    // only the compiled form is what we want to warm.
+    $warmed = [];
+    foreach ([QueryCache::getCachePath(), QueryCache::getIndexPath()] as $path) {
+        if ($path !== null && \is_file($path)) {
+            require $path;
+            $warmed[] = $path;
+        }
+    }
+
+    if (!\function_exists('opcache_get_status')) {
+        $output->writeln('<fg=yellow>opcache extension not loaded — files were parsed but not cached.</>');
+        $output->writeln('Done.');
+
+        return;
+    }
+
+    // true = include the per-script map (available in all supported PHP versions).
+    $status = \opcache_get_status(true);
+    if ($status === false) {
+        $output->writeln('<fg=yellow>opcache is disabled in this SAPI — files were parsed but not cached.</>');
+        $output->writeln('Run with <fg=green>php -d opcache.enable_cli=1</> (CLI) or enable opcache for your web SAPI.');
+        $output->writeln('Done.');
+
+        return;
+    }
+
+    $stats = $status['opcache_statistics'];
+    $output->writeln(\sprintf(
+        'opcache: %d MB shared memory in use, %d/%d scripts cached.',
+        (int)($stats['used_memory'] / 1048576),
+        $stats['num_cached_scripts'],
+        $stats['max_cached_scripts']
+    ));
+
+    foreach ($warmed as $path) {
+        $entry = $status['scripts'][$path] ?? null;
+        if ($entry === null) {
+            $output->writeln(\sprintf('<fg=yellow>NOT cached: %s</> — check opcache.max_file_size and opcache.memory_consumption.', $path));
+        } else {
+            // memory_consumption (PHP 8.5+) vs memory_consumed (PHP <= 8.4).
+            $mem = $entry['memory_consumption'] ?? $entry['memory_consumed'] ?? 0;
+            $output->writeln(\sprintf('<fg=green>cached: %s</> (%.1f KB, %d hits)', $path, $mem / 1024, $entry['hits']));
+        }
+    }
+
+    $output->writeln('Done.');
+});
+
 $app->command('diagnose', function (ConsoleOutputInterface $output) {
     $output->writeln('Diagnose database...');
     Diagnose::run();
 });
 
 $app->command(
-    'perf [--count=] [--sample=] [--keep] [--in-memory] [--compare-adapters]',
-    function (?int $count, ?int $sample, bool $keep, bool $inMemory, bool $compareAdapters, ConsoleOutputInterface $output): void {
-        $count  = $count  ?? 100_000;
+    'perf [--count=] [--sample=] [--iterations=] [--keep] [--in-memory] [--compare-adapters] [--json]',
+    function (?int $count, ?int $sample, ?int $iterations, bool $keep, bool $inMemory, bool $compareAdapters, bool $json, ConsoleOutputInterface $output): void {
+        $count = $count ?? 100_000;
         $sample = $sample ?? 50;
+        $iterations = $iterations ?? 30;
 
         $sep = \str_repeat('─', 54);
 
+        if ($json) {
+            $s = Perf::run($count, $sample, $keep, $inMemory, $iterations);
+            $output->writeln(\json_encode($s, \JSON_PRETTY_PRINT));
+
+            return;
+        }
+
         $output->writeln("\n<fg=cyan;options=bold>DOM-ORM Performance Report</>\n{$sep}");
         $output->writeln(\sprintf(
-            '<fg=yellow>Entities : %s  |  One-by-one sample : %s</>',
+            '<fg=yellow>Entities : %s  |  One-by-one sample : %s  |  Read iterations : %s</>',
             \number_format($count),
             \number_format($sample),
+            \number_format($iterations),
         ));
         $output->writeln('');
         $output->writeln("<options=bold>Running… (this may take a minute)</>\n");
 
-        $s  = Perf::run($count, $sample, $keep, $inMemory);
+        $s = Perf::run($count, $sample, $keep, $inMemory, $iterations);
         $ms = static fn (float $v): string => \number_format($v, 2) . ' ms';
         $adapterLabel = $s['adapter'] === 'in_memory' ? 'InMemoryFilesystemAdapter' : 'LocalFilesystemAdapter';
 
@@ -198,7 +270,8 @@ $app->command(
         $output->writeln('<options=bold>[WRITE — one-by-one]</>');
         $output->writeln(\sprintf(
             '  Sample (%d entities)  : <fg=green>%s</> total  (<fg=green>%s</> each)',
-            $sample, $ms($s['one_by_one_sample_ms']),
+            $sample,
+            $ms($s['one_by_one_sample_ms']),
             \number_format($s['one_by_one_per_entity_ms'], 4) . ' ms',
         ));
         $output->writeln(\sprintf(
@@ -212,7 +285,8 @@ $app->command(
         $output->writeln('<options=bold>[WRITE — batch (persistBatch → one save)]</>');
         $output->writeln(\sprintf(
             '  %s entities     : <fg=green>%s</> total  (<fg=green>%s</> each)',
-            \number_format($count), $ms($s['batch_total_ms']),
+            \number_format($count),
+            $ms($s['batch_total_ms']),
             \number_format($s['batch_per_entity_ms'], 4) . ' ms',
         ));
         $output->writeln(\sprintf('  Resulting XML size  : <fg=green>%s KB</>', \number_format($s['batch_xml_kb'])));
@@ -221,11 +295,28 @@ $app->command(
             $s['one_by_one_estimated_total_ms'] / \max($s['batch_total_ms'], 0.001),
         ));
 
+        $stat = static function (string $label, array $st, array $cachedSt) use ($output): void {
+            $output->writeln(\sprintf(
+                '  %-22s median <fg=green>%8.3f ms</> (p95 %8.3f)  |  cached median <fg=green>%8.3f ms</>  (<fg=cyan>%.1f×</>)',
+                $label,
+                $st['median_ms'],
+                $st['p95_ms'],
+                $cachedSt['median_ms'],
+                $st['median_ms'] / \max($cachedSt['median_ms'], 0.0001),
+            ));
+        };
+
         $output->writeln('');
         $output->writeln('<options=bold>[READ — XPath (no cache)]</>');
-        $output->writeln(\sprintf('  findAll()           : <fg=green>%s</>', $ms($s['find_all_ms'])));
-        $output->writeln(\sprintf('  find() by id        : <fg=green>%s</>', $ms($s['find_one_ms'])));
-        $output->writeln(\sprintf('  findOneBy() by name : <fg=green>%s</>', $ms($s['find_one_by_ms'])));
+        $output->writeln(\sprintf('  findAll()           : <fg=green>%s</>  (cold: includes XML load + parse)', $ms($s['find_all_ms'])));
+        $stat('find() by id', $s['find_by_id'], $s['cache_find_by_id']);
+        $stat('findOneBy() by email', $s['find_one_by'], $s['cache_find_one_by']);
+        $stat('findBy() by city', $s['find_by'], $s['cache_find_by']);
+        $output->writeln(\sprintf(
+            '  <fg=gray>find() uses %d distinct random IDs; findBy() matches %d rows.</fg>',
+            $s['iterations'],
+            $s['lookup_city_rows'],
+        ));
 
         $output->writeln('');
         $output->writeln('<options=bold>[READ — PHP query cache]</>');
@@ -234,16 +325,6 @@ $app->command(
             '  findAll()           : <fg=green>%s</>  (<fg=cyan>%.1f×</> speedup)',
             $ms($s['cache_find_all_ms']),
             $s['find_all_ms'] / \max($s['cache_find_all_ms'], 0.001),
-        ));
-        $output->writeln(\sprintf(
-            '  find() by id        : <fg=green>%s</>  (<fg=cyan>%.1f×</> speedup)',
-            $ms($s['cache_find_one_ms']),
-            $s['find_one_ms'] / \max($s['cache_find_one_ms'], 0.001),
-        ));
-        $output->writeln(\sprintf(
-            '  findOneBy() by name : <fg=green>%s</>  (<fg=cyan>%.1f×</> speedup)',
-            $ms($s['cache_find_one_by_ms']),
-            $s['find_one_by_ms'] / \max($s['cache_find_one_by_ms'], 0.001),
         ));
 
         if ($compareAdapters) {

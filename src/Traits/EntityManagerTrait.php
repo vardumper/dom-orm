@@ -29,11 +29,34 @@ trait EntityManagerTrait
 
     private bool $initialized = false;
 
+    private bool $domLoaded = false;
+
     private ?EncryptionService $encryption = null;
 
+    /**
+     * Initializes the shared services (storage, serializer, encryption).
+     *
+     * The XML data file is NOT loaded here: parsing the (potentially large) DOM
+     * is deferred until a query or write actually needs it, so cache-backed
+     * reads never pay for the file load + parse.
+     */
     public function init(): void
     {
         $this->initializeServices();
+    }
+
+    /**
+     * Loads the XML data file into the DOM when it has not been loaded yet.
+     *
+     * Read paths that can be served from the query cache should never need to
+     * call this; XPath queries and all write paths do.
+     */
+    public function ensureDomLoaded(): void
+    {
+        if ($this->domLoaded) {
+            return;
+        }
+
         $this->loadData();
     }
 
@@ -148,9 +171,7 @@ trait EntityManagerTrait
             $this->storage->lock();
             $lockedHere = true;
 
-            if (!isset($this->data)) {
-                $this->loadData();
-            }
+            $this->ensureDomLoaded();
         }
 
         try {
@@ -222,6 +243,7 @@ trait EntityManagerTrait
 
         $this->data = $xml;
         $this->xpath = new \DOMXPath($xml);
+        $this->domLoaded = true;
     }
 
     private function withWriteLock(callable $callback): void

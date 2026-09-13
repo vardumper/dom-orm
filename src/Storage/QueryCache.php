@@ -7,33 +7,69 @@ namespace DOM\ORM\Storage;
 use function DOM\ORM\getConfig;
 
 /**
- * Read-only query cache backed by a PHP opcache-friendly file.
+ * Read-only query cache backed by opcache-friendly PHP files.
  *
- * Cache format (written to cache_path):
+ * Format 2 (current) splits the cache into two files, both derived from the
+ * configured cache_path:
  *
- *   <?php return [
- *       'user' => [
- *           '__idx' => [
+ *   payload  (cache_path)            : all entity data, no indexes
+ *       <?php return [
+ *           'user' => [
+ *               'uuid1' => ['@id' => 'uuid1', '@type' => 'user', 'name' => 'Alice', ...],
+ *           ],
+ *           '__meta' => ['format' => 2, 'hash' => '...', ...],
+ *       ];
+ *
+ *   index    (cache_path with "-index" before the extension, e.g. cache-index.php)
+ *       <?php return [
+ *           'user' => [
  *               'name' => ['Alice' => ['uuid1'], 'Bob' => ['uuid2']],
  *               'city' => ['Berlin' => ['uuid1', 'uuid3'], ...],
  *           ],
- *           'uuid1' => ['@id' => 'uuid1', '@type' => 'user', 'name' => 'Alice', ...],
- *       ],
- *   ];
+ *           '__meta' => ['format' => 2, 'hash' => '...', 'encrypted' => [...], ...],
+ *       ];
  *
- * The '__idx' sub-key holds per-field inverted indexes (non-encrypted fields only).
- * The inner item arrays match the shape produced by SchemaDecoder::decodeItem(),
- * so they can be fed directly back into SchemaDenormalizer after wrapping:
+ * The index holds per-field inverted indexes (non-encrypted fields only), so
+ * findBy()/findOneBy() can resolve candidate IDs — and answer non-matching
+ * criteria with an empty result — without loading the payload file (or the
+ * XML data file). Legacy format 1 (single file with '__idx' inside the payload)
+ * is detected on load and rebuilt exactly once.
+ *
+ * Item arrays match the shape produced by SchemaDecoder::decodeItem(), so they
+ * can be fed directly back into SchemaDenormalizer after wrapping:
  *   ['data' => [['item-{id}' => $itemData]]]
  */
 final class QueryCache
 {
+    private const FORMAT = 2;
+
     /**
      * Returns the configured cache file path, or null if cache is not configured.
      */
     public static function getCachePath(): ?string
     {
         return getConfig()->get('dom-orm.cache_path');
+    }
+
+    /**
+     * Returns the path of the inverted-index file, or null if cache is not configured.
+     */
+    public static function getIndexPath(): ?string
+    {
+        $path = self::getCachePath();
+        if ($path === null) {
+            return null;
+        }
+
+        $dir = \dirname($path);
+        $name = \basename($path);
+        if (\str_ends_with($name, '.php')) {
+            $name = \substr($name, 0, -4) . '-index.php';
+        } else {
+            $name .= '-index.php';
+        }
+
+        return $dir . \DIRECTORY_SEPARATOR . $name;
     }
 
     /**
@@ -53,7 +89,7 @@ final class QueryCache
     }
 
     /**
-     * Returns true when the cache file exists on disk.
+     * Returns true when the payload cache file exists on disk.
      */
     public static function exists(): bool
     {
@@ -63,7 +99,7 @@ final class QueryCache
     }
 
     /**
-     * Loads and returns the full cache array, or null if the file does not exist.
+     * Loads and returns the payload cache array, or null if the file does not exist.
      *
      * @return array<string, array<string, array<string, mixed>>>|null
      */
@@ -91,10 +127,38 @@ final class QueryCache
     }
 
     /**
-     * Scans the XML data file and writes a fresh PHP cache file to cache_path.
+     * Loads and returns the inverted-index array, or null if the file does not exist.
      *
-     * The generated file is a plain PHP return statement, making it eligible for
-     * opcache compilation on first load.
+     * The index is small compared to the payload: findBy()/findOneBy() use it to
+     * resolve candidate IDs (or prove a non-match) without loading the payload.
+     *
+     * @return array<string, array<string, array<string, list<string>>>>|null
+     */
+    public static function loadIndex(): ?array
+    {
+        $path = self::getIndexPath();
+        if ($path === null || !\file_exists($path)) {
+            return null;
+        }
+
+        /** @var array<string, mixed> $index */
+        $index = require $path;
+
+        if (self::isStale($index)) {
+            self::build();
+
+            /** @var array<string, mixed> $index */
+            $index = require $path;
+        }
+
+        return $index;
+    }
+
+    /**
+     * Scans the XML data file and writes fresh payload + index cache files.
+     *
+     * The generated files are plain PHP return statements, making them eligible
+     * for opcache compilation on first load.
      */
     public static function build(): void
     {
@@ -112,38 +176,86 @@ final class QueryCache
     public static function buildFromDom(\DOMDocument $dom): void
     {
         $path = self::requireCachePath();
-        $cache = self::buildCacheArray($dom);
+        $indexPath = self::getIndexPath();
+        if ($indexPath === null) {
+            throw new \RuntimeException('Could not derive the cache index path from the configured cache_path.');
+        }
+
+        $payload = [];
+        $index = [];
+        $encrypted = [];
+
+        $xpath = new \DOMXPath($dom);
+        /** @var \DOMNodeList<\DOMNode> $items */
+        $items = $xpath->query('//item') ?: new \DOMNodeList();
+
+        foreach ($items as $item) {
+            if (!$item instanceof \DOMElement) {
+                continue;
+            }
+
+            $id = $item->getAttribute('id');
+            $type = $item->getAttribute('type');
+
+            if ($id === '' || $type === '') {
+                continue;
+            }
+
+            $itemData = self::decodeItemElement($item);
+            $payload[$type][$id] = $itemData;
+
+            // Build inverted index for every non-encrypted, non-group fragment.
+            foreach ($itemData as $field => $value) {
+                if ($field === '@id' || $field === '@type') {
+                    continue;
+                }
+                if (\is_array($value)) {
+                    // Encrypted values are ['value' => ..., 'searchable-hash' => ...];
+                    // group collections are lists of items. Neither is indexed;
+                    // encrypted fields are remembered so findBy() knows to fall
+                    // back to XPath (searchable-hash matching) for them.
+                    if (isset($value['value'])) {
+                        $encrypted[$type][$field] = true;
+                    }
+
+                    continue;
+                }
+                $index[$type][$field][(string)$value][] = $id;
+            }
+        }
 
         // Record a fingerprint of the source data file so any external edit
         // to it (such as a cron-swapped data.xml) is detected on the next read
         // and the cache is rebuilt automatically instead of serving stale data.
         $fingerprint = StorageService::fromConfig()->fingerprint();
+        $meta = [
+            'format' => self::FORMAT,
+            'data_file' => (string)getConfig()->get('dom-orm.filename'),
+        ];
         if ($fingerprint !== null) {
-            $cache['__meta'] = [
-                'data_file' => (string)getConfig()->get('dom-orm.filename'),
-                'size' => $fingerprint['size'],
-                'mtime' => $fingerprint['mtime'],
-                'hash' => $fingerprint['hash'],
-            ];
+            $meta['size'] = $fingerprint['size'];
+            $meta['mtime'] = $fingerprint['mtime'];
+            $meta['hash'] = $fingerprint['hash'];
         }
 
-        $dir = \dirname($path);
-        if (!\is_dir($dir)) {
-            \mkdir($dir, 0755, true);
-        }
+        $payload['__meta'] = $meta;
+        $indexMeta = $meta;
+        $indexMeta['encrypted'] = $encrypted;
+        $index['__meta'] = $indexMeta;
 
-        $exported = \var_export($cache, true);
-        \file_put_contents($path, "<?php\n\nreturn {$exported};\n");
+        self::writeAtomic($path, "<?php\n\nreturn " . \var_export($payload, true) . ";\n");
+        self::writeAtomic($indexPath, "<?php\n\nreturn " . \var_export($index, true) . ";\n");
     }
 
     /**
-     * Deletes the cache file if it exists.
+     * Deletes the cache files (payload + index) if they exist.
      */
     public static function flush(): void
     {
-        $path = self::getCachePath();
-        if ($path !== null && \file_exists($path)) {
-            \unlink($path);
+        foreach ([self::getCachePath(), self::getIndexPath()] as $path) {
+            if ($path !== null && \file_exists($path)) {
+                \unlink($path);
+            }
         }
     }
 
@@ -154,7 +266,7 @@ final class QueryCache
     /**
      * Find a single item by entity type and ID.
      *
-     * @param array<string, array<string, mixed>> $cache
+     * @param array<string, array<string, array<string, mixed>>> $cache
      * @return array{data: list<array<string, array<string, mixed>>>}|null
      */
     public static function findById(array $cache, string $type, string $id): ?array
@@ -179,7 +291,7 @@ final class QueryCache
     /**
      * Return all items for an entity type.
      *
-     * @param array<string, array<string, mixed>> $cache
+     * @param array<string, array<string, array<string, mixed>>> $cache
      * @return array{data: list<array<string, array<string, mixed>>>}|null
      */
     public static function findAll(array $cache, string $type): ?array
@@ -191,7 +303,7 @@ final class QueryCache
 
         $data = [];
         foreach ($typeData as $id => $itemData) {
-            // Skip the internal index bucket.
+            // Skip the internal index bucket (legacy format 1 payloads).
             if ($id === '__idx') {
                 continue;
             }
@@ -210,17 +322,143 @@ final class QueryCache
     }
 
     /**
+     * Resolve the candidate IDs for a set of equality criteria using the
+     * inverted index alone — no payload (and no XML) access needed.
+     *
+     * Returns:
+     *  - a (possibly empty) list of candidate IDs, or
+     *  - null when the index cannot answer (an encrypted criterion is present)
+     *    and the caller must fall back to XPath.
+     *
+     * @param array<string, array<string, array<string, list<string>>>> $index
+     * @param array<string, scalar> $criteria
+     * @return list<string>|null
+     */
+    public static function findByIndex(array $index, string $type, array $criteria): ?array
+    {
+        $typeIdx = $index[$type] ?? null;
+        if ($typeIdx === null) {
+            // The index is fresh (stale files are rebuilt on load): a missing
+            // type means the data file holds no items of this type.
+            return [];
+        }
+
+        /** @var array<string, bool> $encrypted */
+        $encrypted = $index['__meta']['encrypted'][$type] ?? [];
+
+        // Handle id as a special key — no index needed.
+        $idFilter = null;
+        if (isset($criteria['id'])) {
+            $idFilter = (string)$criteria['id'];
+            unset($criteria['id']);
+        }
+
+        // Start with null = "all IDs" and narrow down with each criterion.
+        $candidateIds = null;
+
+        foreach ($criteria as $field => $value) {
+            $strValue = (string)$value;
+
+            if (!isset($typeIdx[$field])) {
+                // Not indexed: encrypted fields need XPath (searchable-hash);
+                // anything else (unknown field, group collection) matches nothing.
+                if (isset($encrypted[$field])) {
+                    return null;
+                }
+
+                return [];
+            }
+
+            // O(1) value lookup in the inverted index.
+            $matchingIds = $typeIdx[$field][$strValue] ?? [];
+            if (\count($matchingIds) === 0) {
+                return [];
+            }
+
+            // Intersect with the running candidate set.
+            if ($candidateIds === null) {
+                $candidateIds = \array_flip($matchingIds);
+            } else {
+                $candidateIds = \array_intersect_key($candidateIds, \array_flip($matchingIds));
+                if (\count($candidateIds) === 0) {
+                    return [];
+                }
+            }
+        }
+
+        // Apply id filter.
+        if ($idFilter !== null) {
+            if ($candidateIds === null) {
+                $candidateIds = [
+                    $idFilter => true,
+                ];
+            } elseif (!isset($candidateIds[$idFilter])) {
+                return [];
+            } else {
+                $candidateIds = [
+                    $idFilter => true,
+                ];
+            }
+        }
+
+        if ($candidateIds === null) {
+            // No criteria at all — degenerate case: every id of the type.
+            $all = [];
+            foreach ($typeIdx as $fieldBuckets) {
+                foreach ($fieldBuckets as $ids) {
+                    foreach ($ids as $id) {
+                        $all[$id] = true;
+                    }
+                }
+            }
+
+            return \array_keys($all);
+        }
+
+        return \array_keys($candidateIds);
+    }
+
+    /**
+     * Materialise the payload entries for a set of IDs (in the given order),
+     * shaped for SchemaDenormalizer. Missing IDs are skipped.
+     *
+     * @param array<string, array<string, array<string, mixed>>> $cache
+     * @param list<string> $ids
+     * @return array{data: list<array<string, array<string, mixed>>>}
+     */
+    public static function findByIds(array $cache, string $type, array $ids): array
+    {
+        $typeData = $cache[$type] ?? null;
+        if ($typeData === null) {
+            return [
+                'data' => [],
+            ];
+        }
+
+        $data = [];
+        foreach ($ids as $id) {
+            $itemData = $typeData[$id] ?? null;
+            if ($itemData === null) {
+                continue;
+            }
+            $data[] = [
+                'item-' . $id => $itemData,
+            ];
+        }
+
+        return [
+            'data' => $data,
+        ];
+    }
+
+    /**
      * Find items matching all criteria using the per-field inverted index where possible.
      *
-     * Strategy:
-     *  1. For each non-encrypted criterion, look up the '__idx' sub-key to get a candidate
-     *     set of IDs (O(1) hash lookup).  Intersect candidate sets across all criteria.
-     *  2. If any criterion maps to an encrypted field (array value), return null so the
-     *     caller falls back to XPath which can match on searchable-hash.
-     *  3. If a criterion field has no index entry at all (no matching value), return an
-     *     empty-result immediately without scanning any items.
+     * Kept for backwards compatibility with format 1 (monolithic) cache arrays
+     * that still carry the '__idx' bucket. Format 2 payloads hold no index:
+     * callers should use findByIndex() + findByIds() instead.
      *
-     * @param array<string, array<string, mixed>> $cache
+     * @param array<string, array<string, array<string, mixed>>> $cache
      * @param array<string, scalar> $criteria
      * @return array{data: list<array<string, array<string, mixed>>>}|null  null = fall back to XML
      */
@@ -228,6 +466,11 @@ final class QueryCache
     {
         $typeData = $cache[$type] ?? null;
         if ($typeData === null) {
+            return null;
+        }
+
+        // Format 2 payloads carry no index — this method cannot answer.
+        if (!isset($typeData['__idx'])) {
             return null;
         }
 
@@ -242,7 +485,7 @@ final class QueryCache
         // Start with null = "all IDs" and narrow down with each criterion.
         $candidateIds = null; // null means "not yet restricted"
 
-        $idx = $typeData['__idx'] ?? [];
+        $idx = $typeData['__idx'];
 
         foreach ($criteria as $field => $value) {
             $strValue = (string)$value;
@@ -340,8 +583,19 @@ final class QueryCache
 
     /**
      * Returns true when the cache was built from a different version of the data
-     * file than the one currently on disk. A missing/legacy fingerprint (no stored
-     * hash) is treated as stale so it is rebuilt exactly once.
+     * file than the one currently on disk, or when it uses a legacy format.
+     * A missing/legacy fingerprint (no stored hash) is treated as stale so it
+     * is rebuilt exactly once.
+     *
+     * Stat-first fast path: when the stored size + mtime match the current data
+     * file, the file is unchanged and the expensive full-file SHA-256
+     * (fingerprint()) is skipped. This turns the per-request staleness check
+     * from "read + hash the whole data file" into a single stat() call.
+     *
+     * Known trade-off: an external rewrite that keeps BOTH the same size and the
+     * same mtime (i.e. happens within the same clock second) is not detected by
+     * the fast path. The hash fallback below still runs whenever size or mtime
+     * differ, so only that exact corner case can serve one stale response.
      *
      * @param array<string, mixed> $cache
      */
@@ -351,6 +605,23 @@ final class QueryCache
 
         if (!\is_array($stored) || !isset($stored['hash']) || !\is_string($stored['hash'])) {
             return true;
+        }
+
+        // Format 2 = split payload/index files. Anything older is rebuilt once.
+        if (($stored['format'] ?? 1) !== self::FORMAT) {
+            return true;
+        }
+
+        // Stat-first: unchanged size + mtime => unchanged file, skip the hash.
+        if (isset($stored['size'], $stored['mtime'])) {
+            $stat = StorageService::fromConfig()->stat();
+            if (
+                $stat !== null
+                && (int)$stored['size'] === $stat['size']
+                && (int)$stored['mtime'] === (int)$stat['mtime']
+            ) {
+                return false;
+            }
         }
 
         $current = self::currentDataFingerprint();
@@ -378,46 +649,29 @@ final class QueryCache
     }
 
     /**
-     * @return array<string, array<string, array<string, mixed>>>
+     * Writes $contents to $path atomically (temp file + rename) so readers
+     * never observe a partially written cache file.
      */
-    private static function buildCacheArray(\DOMDocument $dom): array
+    private static function writeAtomic(string $path, string $contents): void
     {
-
-        $cache = [];
-        $xpath = new \DOMXPath($dom);
-        /** @var \DOMNodeList<\DOMNode> $items */
-        $items = $xpath->query('//item') ?: new \DOMNodeList();
-
-        foreach ($items as $item) {
-            if (!$item instanceof \DOMElement) {
-                continue;
-            }
-
-            $id = $item->getAttribute('id');
-            $type = $item->getAttribute('type');
-
-            if ($id === '' || $type === '') {
-                continue;
-            }
-
-            $itemData = self::decodeItemElement($item);
-
-            $cache[$type][$id] = $itemData;
-
-            // Build inverted index for every non-encrypted, non-reserved fragment.
-            foreach ($itemData as $field => $value) {
-                if ($field === '@id' || $field === '@type') {
-                    continue;
-                }
-                // Encrypted fields are arrays — skip them.
-                if (\is_array($value)) {
-                    continue;
-                }
-                $cache[$type]['__idx'][$field][(string)$value][] = $id;
-            }
+        $dir = \dirname($path);
+        if (!\is_dir($dir) && !\mkdir($dir, 0755, true) && !\is_dir($dir)) {
+            throw new \RuntimeException(\sprintf('Failed to create cache directory: %s', $dir));
         }
 
-        return $cache;
+        $tmp = $path . '.tmp-' . \getmypid();
+        if (\file_put_contents($tmp, $contents) === false) {
+            throw new \RuntimeException(\sprintf('Failed to write cache file: %s', $path));
+        }
+
+        if (!\rename($tmp, $path)) {
+            // rename() over an existing file fails on some platforms (e.g. Windows).
+            if (!\copy($tmp, $path) || !\unlink($tmp)) {
+                @\unlink($tmp);
+
+                throw new \RuntimeException(\sprintf('Failed to write cache file: %s', $path));
+            }
+        }
     }
 
     /**

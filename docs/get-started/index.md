@@ -39,7 +39,10 @@ To change the location, configure a Flysystem adapter. Be aware that concurrency
 ];
 ```
 
-To keep XML only in process memory (no disk write), use the built-in in-memory adapter:
+To keep XML only in process memory (no disk write), use the built-in in-memory adapter.
+It never writes to disk — you load, operate and flush the XML yourself; see
+[Concurrency → Built-in in-memory adapter](/features/concurrency.html#built-in-in-memory-adapter)
+for the intended workflow:
 
 ```php
 // config/dom-orm.php

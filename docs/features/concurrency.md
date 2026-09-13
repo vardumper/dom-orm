@@ -54,11 +54,32 @@ Use one of these patterns when running against remote storage:
 ## Built-in in-memory adapter
 
 When using `DOM\\ORM\\Storage\\InMemoryFilesystemAdapter`, XML is kept only in PHP process memory.
-This is useful when another layer loads XML from a database and persists it back later.
+The adapter **never writes to disk** — the "file" only exists as a string in memory. It is a
+scratchpad for a unit of work, not a persistent store: you load, operate, and flush it yourself.
 
-- Data is process-local and disappears when the PHP process ends.
+The intended workflow:
+
+1. Load existing XML from your own durable store (e.g. a database column) into the adapter.
+2. Run any number of `persist()`/read operations in-process — no disk I/O, no lock file.
+3. Read the final XML back out and store it in your durable store yourself — you control the
+   transaction/locking (e.g. database row/advisory lock).
+4. Call `InMemoryFilesystemAdapter::reset($location)` to release the memory.
+
+```php
+// at the end of the request/job
+$xml = DOM\ORM\Storage\StorageService::fromConfig()->read();
+file_put_contents('/path/to/real-storage/data.xml', $xml); // or a DB column
+DOM\ORM\Storage\InMemoryFilesystemAdapter::reset('pagebuilder-runtime');
+```
+
+Notes:
+
+- Data is process-local: it survives multiple `StorageService` instantiations within one PHP
+  process (console commands, queue workers, a single request with many writes), but disappears
+  when the process ends and is never shared across processes.
 - No cross-process locking or shared state is provided.
-- Use your own transaction/lock strategy in the external store (e.g. database row/advisory lock).
+- Good fit: page builders assembling a tree in memory, long-running console/queue jobs, and
+  tests that should not touch disk.
 
 ## Practical guidance
 

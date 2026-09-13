@@ -23,6 +23,12 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
     private ?array $queryCache = null;
     private bool $queryCacheLoaded = false;
 
+    /**
+     * @var array<string, array<string, array<string, list<string>>>>|null
+     */
+    private ?array $queryIndex = null;
+    private bool $queryIndexLoaded = false;
+
     public function __construct(string $entityType)
     {
         $this->entityType = $entityType;
@@ -122,13 +128,25 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
             return $this->findAll();
         }
 
-        // Check query cache before paying for XPath predicate construction.
-        $cache = $this->getQueryCache();
-        if ($cache !== null) {
-            // QueryCache::findBy returns null when it detects encrypted criteria — fall through to XPath.
-            $array = QueryCache::findBy($cache, $this->entityType, $criteria);
-            if ($array !== null) {
-                return $this->serializer->denormalize($array, $this->entityClass);
+        // Resolve candidate IDs from the inverted index before paying for the
+        // payload (or the DOM): a non-matching criterion answers with an empty
+        // result without loading anything but the small index file.
+        $index = $this->getQueryIndex();
+        if ($index !== null) {
+            $ids = QueryCache::findByIndex($index, $this->entityType, $criteria);
+            if ($ids !== null) {
+                if ($ids === []) {
+                    return null;
+                }
+                $cache = $this->getQueryCache();
+                if ($cache !== null) {
+                    $array = QueryCache::findByIds($cache, $this->entityType, $ids);
+                    if ($array['data'] === []) {
+                        return null;
+                    }
+
+                    return $this->serializer->denormalize($array, $this->entityClass);
+                }
             }
         }
 
@@ -163,15 +181,27 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
             return $this->find((string)$criteria['id']);
         }
 
-        // Check query cache before XPath predicate construction.
-        $cache = $this->getQueryCache();
-        if ($cache !== null) {
-            $array = QueryCache::findBy($cache, $this->entityType, $criteria);
-            if ($array !== null) {
-                /** @var Collection<EntityInterface>|null $collection */
-                $collection = $this->serializer->denormalize($array, $this->entityClass);
+        // Resolve the first candidate ID from the inverted index before paying
+        // for the payload (or the DOM); a non-match answers from the index alone.
+        $index = $this->getQueryIndex();
+        if ($index !== null) {
+            $ids = QueryCache::findByIndex($index, $this->entityType, $criteria);
+            if ($ids !== null) {
+                if ($ids === []) {
+                    return null;
+                }
+                $cache = $this->getQueryCache();
+                if ($cache !== null) {
+                    $array = QueryCache::findByIds($cache, $this->entityType, [$ids[0]]);
+                    if ($array['data'] === []) {
+                        return null;
+                    }
 
-                return ($collection === null || $collection->count() < 1) ? null : $collection->first();
+                    /** @var Collection<EntityInterface>|null $collection */
+                    $collection = $this->serializer->denormalize($array, $this->entityClass);
+
+                    return ($collection === null || $collection->count() < 1) ? null : $collection->first();
+                }
             }
         }
 
@@ -221,7 +251,7 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
     }
 
     /**
-     * Returns the loaded query cache array, or null if cache is not enabled/available.
+     * Returns the loaded payload cache array, or null if cache is not enabled/available.
      * The result is memoised for the lifetime of this repository instance.
      *
      * @return array<string, array<string, array<string, mixed>>>|null
@@ -238,10 +268,30 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
     }
 
     /**
+     * Returns the loaded inverted-index array, or null if cache is not enabled/available.
+     * The result is memoised for the lifetime of this repository instance.
+     *
+     * @return array<string, array<string, array<string, list<string>>>>|null
+     */
+    private function getQueryIndex(): ?array
+    {
+        if ($this->queryIndexLoaded) {
+            return $this->queryIndex;
+        }
+        $this->queryIndexLoaded = true;
+        $this->queryIndex = QueryCache::isEnabled() ? QueryCache::loadIndex() : null;
+
+        return $this->queryIndex;
+    }
+
+    /**
      * @return \DOMNodeList<\DOMNode>|null
      */
     private function queryNodes(string $query): ?\DOMNodeList
     {
+        // The DOM is loaded lazily: only XPath fallbacks (and writes) pay for
+        // the file load + parse, never cache-backed reads.
+        $this->ensureDomLoaded();
         $nodes = $this->xpath->query($query);
 
         return ($nodes === false) ? null : $nodes;

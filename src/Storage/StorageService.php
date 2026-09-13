@@ -86,6 +86,54 @@ class StorageService
         return $fingerprint;
     }
 
+    /**
+     * Returns cheap metadata (size + mtime) for the data file WITHOUT reading its
+     * contents.
+     *
+     * Used for the stat-first staleness check: when size and mtime are unchanged
+     * since the cache was built, the data file is the same and the expensive
+     * full-file SHA-256 fingerprint (fingerprint()) can be skipped entirely.
+     *
+     * Returns null when the file does not exist or the adapter cannot provide
+     * metadata — callers must then fall back to the full fingerprint.
+     *
+     * @return array{size: int, mtime: ?int}|null
+     */
+    public function stat(): ?array
+    {
+        if ($this->localLocation !== null) {
+            $path = $this->localLocation . DIRECTORY_SEPARATOR . $this->filename;
+            if (\is_file($path)) {
+                $info = @\stat($path);
+                if ($info !== false) {
+                    return [
+                        'size' => $info['size'],
+                        'mtime' => $info['mtime'],
+                    ];
+                }
+            }
+
+            return null;
+        }
+
+        try {
+            if (!$this->filesystem->fileExists($this->filename)) {
+                return null;
+            }
+
+            // Flysystem v3. On v2 this throws (no fileSize method), which is
+            // caught below and degrades to the full-fingerprint fallback.
+            $size = (int)$this->filesystem->fileSize($this->filename);
+
+            return [
+                'size' => $size,
+                'mtime' => $this->filesystem->lastModified($this->filename),
+            ];
+        } catch (\Throwable) {
+            return null;
+        }
+    }
+
     public function read(): string
     {
         return $this->filesystem->read($this->filename);
