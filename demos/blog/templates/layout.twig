@@ -35,8 +35,115 @@
     }
     #xml-viewer-bar strong { color: #fff; }
     #xml-viewer-bar .stat { opacity: 0.7; }
+    #xml-viewer-bar .stat.badge {
+      opacity: 1;
+      font-weight: 700;
+      padding: 0.1rem 0.55rem;
+      border-radius: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    #xml-viewer-bar .stat.badge.is-warm {
+      background: rgba(76, 175, 80, 0.18);
+      color: #a5d6a7;
+    }
+    #xml-viewer-bar .stat.badge.is-cold {
+      background: rgba(255, 152, 0, 0.18);
+      color: #ffcc80;
+    }
     #raw-xml-pre { margin: 0; border-radius: 0; flex: 1; overflow: auto; }
     #raw-xml-pre code.hljs { font-size: 0.75em; border-radius: 0; padding: 0.75rem 1rem; min-height: 100%; }
+
+    /* ── Demo hint (fixed admin sidebar) ──────────────────────────────────── */
+    .demo-hint {
+      position: fixed;
+      top: 50%;
+      left: 1rem;
+      width: 22rem;
+      max-width: calc(100vw - 2rem);
+      transform: translateY(-50%);
+      z-index: 100;
+      padding: 1rem 1.25rem 1rem 1rem;
+      border-radius: 0.6rem;
+      background: #f7edc9;
+      color: #4b3a12;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+      border-left: 5px solid #e6c24a;
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+    .demo-hint .demo-hint-body { margin: 0; }
+    .demo-hint .demo-hint-body strong { color: #6a4a00; }
+    .demo-hint a { color: #8a5a00; font-weight: 700; text-decoration: underline; }
+    .demo-hint a:hover { color: #5f3d00; }
+    .demo-hint .demo-hint-link {
+      all: unset;
+      display: inline-block;
+      cursor: pointer;
+      color: #8a5a00;
+      font-weight: 700;
+      text-decoration: underline;
+      padding: 0;
+      background: none;
+      border: none;
+    }
+    .demo-hint .demo-hint-link:hover { color: #5f3d00; }
+    .demo-hint-close {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.4rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      margin: 0;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.06);
+      cursor: pointer;
+      color: #7a5f1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .demo-hint-close svg { width: 0.7rem; height: 0.7rem; display: block; }
+    .demo-hint-close:hover { background: rgba(0, 0, 0, 0.12); }
+    .demo-hint.is-hidden { display: none; }
+    .demo-hint .demo-hint-badge {
+      margin-left: 0.25rem;
+      padding: 0.1rem 0.5rem;
+      border-radius: 1rem;
+      background: #e6c24a;
+      color: #3d2f08;
+      font-size: 0.75rem;
+      font-weight: 700;
+      vertical-align: middle;
+    }
+    /* Mobile: full-width bottom strip (never hidden) instead of the left panel. */
+    @media (max-width: 767px) {
+      .demo-hint {
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        max-width: none;
+        transform: none;
+        border-radius: 0;
+        border-left: none;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.6rem 2.5rem 0.6rem 1rem;
+      }
+      .demo-hint .demo-hint-body { text-align: center; }
+      .demo-hint .demo-hint-badge { margin-left: 0; }
+      .demo-hint .demo-hint-close {
+        top: auto;
+        right: 0.5rem;
+        bottom: 0.5rem;
+      }
+    }
   </style>
   {% block head_extra %}{% endblock %}
 </head>
@@ -91,6 +198,8 @@
     </ul>
   </nav>
   <!-- /Nav -->
+
+  {% block notice %}{% endblock %}
 
   <main>
     {% block content %}{% endblock %}
@@ -207,6 +316,10 @@
   <div id="xml-viewer">
     <div id="xml-viewer-bar">
       <strong>Raw XML</strong>
+      <span class="stat badge {{ twigCacheWarm ? 'is-warm' : 'is-cold' }}">
+        {{ twigCacheWarm ? 'cache warm' : 'cache cold' }}
+      </span>
+      <span class="stat" id="client-load-ms">— ms</span>
       <span class="stat">{{ elapsed_ms() }} ms</span>
       <span class="stat">{{ memory_mb() }} MB</span>
     </div>
@@ -214,6 +327,43 @@
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
   <script>hljs.highlightElement(document.querySelector('#raw-xml-pre code'));</script>
+  <script>
+    // Client-side "initiated → fully rendered" timing.
+    // Measures from navigation start until the window load event fires (all
+    // resources downloaded and rendered) — the true end-to-end cost of the page.
+    (function () {
+      function setSlot(ms) {
+        var el = document.getElementById('client-load-ms');
+        if (!el || !isFinite(ms) || ms < 0) return;
+        el.textContent = Math.round(ms) + ' ms';
+        el.title = 'Navigation start → window load (all resources)';
+      }
+      function paintClientLoad() {
+        var entries = performance.getEntriesByType('navigation');
+        var nav = entries && entries[0];
+        if (nav && typeof nav.navigationStart === 'number') {
+          // loadEventEnd is only populated *after* the load handler finishes
+          // running, so while it is still 0 use "now" (≈ the load instant).
+          var end = (typeof nav.loadEventEnd === 'number' && nav.loadEventEnd > 0)
+            ? nav.loadEventEnd
+            : performance.now();
+          setSlot(end - nav.navigationStart);
+          return;
+        }
+        // Fallback: Navigation Timing Level 1 (deprecated but widely available).
+        var timing = performance.timing;
+        if (timing && typeof timing.navigationStart === 'number') {
+          var endFallback = (timing.loadEventEnd > 0) ? timing.loadEventEnd : Date.now();
+          setSlot(endFallback - timing.navigationStart);
+        }
+      }
+      if (document.readyState === 'complete') {
+        paintClientLoad();
+      } else {
+        window.addEventListener('load', paintClientLoad);
+      }
+    })();
+  </script>
   {% endif %}
 </body>
 </html>

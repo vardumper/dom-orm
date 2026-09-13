@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 $startTime = microtime(true);
 
+// Page caching (serving a static HTML snapshot) is on by default. Set
+// VFS_PAGE_CACHE=0 to render fresh on every request so the stats reflect the
+// true cost.
+$vfsPageCacheEnabled = in_array(strtolower((string)getenv('VFS_PAGE_CACHE')), ['', '1', 'true', 'on', 'yes'], true);
+
 use DOM\ORM\Storage\StorageService;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -74,7 +79,7 @@ function renderHtml(): string
     $proc = getXsltProcessor(__DIR__ . '/templates/filesystem.xsl');
     $proc->setParameter('', 'raw-xml', $xml);
     $proc->setParameter('', 'elapsed-ms', (string)(int)round((microtime(true) - $GLOBALS['startTime']) * 1000));
-    $proc->setParameter('', 'memory-mb', number_format(memory_get_usage(true) / 1048576, 1));
+    $proc->setParameter('', 'memory-mb', number_format(memory_get_peak_usage(true) / 1048576, 1));
 
     return (string)$proc->transformToXML($doc);
 }
@@ -133,17 +138,26 @@ function jsonError(string $message, int $status = 400): never
 
 // ── Routes ───────────────────────────────────────────────────────────────────
 
-app()->get('/', function () {
+app()->get('/', function () use ($vfsPageCacheEnabled) {
     $cacheFile = __DIR__ . '/storage/page-cache.html';
-    if (is_file($cacheFile)) {
+    $fromCache = $vfsPageCacheEnabled && is_file($cacheFile);
+    if ($fromCache) {
         header('X-Cache: HIT');
-        readfile($cacheFile);
+        // The cache badge uses a sentinel (see filesystem.xsl) so this snapshot
+        // can stamp its own state ("hit") rather than echoing what was cached
+        // on the original miss.
+        echo str_replace('__CACHE_STATE__', 'hit', (string)\file_get_contents($cacheFile));
 
         return;
     }
+    header('X-Cache: MISS');
     $html = renderHtml();
-    file_put_contents($cacheFile, $html);
-    echo $html;
+    // Show the correct state to the browser, but keep the sentinel in the
+    // cached copy so later hits can still stamp "hit" onto it.
+    echo str_replace('__CACHE_STATE__', 'miss', $html);
+    if ($vfsPageCacheEnabled) {
+        \file_put_contents($cacheFile, $html);
+    }
 });
 
 // Folder endpoints ────────────────────────────────────────────────────────────

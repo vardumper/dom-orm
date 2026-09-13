@@ -34,6 +34,22 @@
                     #xml-viewer-bar { padding: 0.3rem 1rem; background: #21252b; color: #abb2bf; font-size: 0.75rem; flex-shrink: 0; border-top: 2px solid #3d4148; display: flex; gap: 1.5rem; align-items: center; }
                     #xml-viewer-bar strong { color: #fff; }
                     #xml-viewer-bar .stat { opacity: 0.7; }
+                    #xml-viewer-bar .stat.badge {
+                      opacity: 1;
+                      font-weight: 700;
+                      padding: 0.1rem 0.55rem;
+                      border-radius: 0.9rem;
+                      text-transform: uppercase;
+                      letter-spacing: 0.03em;
+                    }
+                    #xml-viewer-bar .stat.badge.hit {
+                      background: rgba(76, 175, 80, 0.18);
+                      color: #a5d6a7;
+                    }
+                    #xml-viewer-bar .stat.badge.miss {
+                      background: rgba(255, 152, 0, 0.18);
+                      color: #ffcc80;
+                    }
                     #raw-xml-pre { margin: 0; border-radius: 0; flex: 1; overflow: auto; }
                     #raw-xml-pre code.hljs { font-size: 0.75em; padding: 0.75rem 1rem; border-radius: 0; }
                     tr:hover td { background-color: #f0f0f0; }
@@ -133,6 +149,8 @@
                         <strong>Raw XML</strong>
                         <span class="stat"><xsl:value-of select="$elapsed-ms"/> ms</span>
                         <span class="stat"><xsl:value-of select="$memory-mb"/> MB</span>
+                        <span class="stat badge cache-badge __CACHE_STATE__" data-cache-state="__CACHE_STATE__">__CACHE_STATE__</span>
+                        <span class="stat" id="client-load-ms">— ms</span>
                     </div>
                     <pre id="raw-xml-pre"><code class="language-xml" id="raw-xml-display"><xsl:value-of select="$raw-xml"/></code></pre>
                 </div>
@@ -140,6 +158,45 @@
                 <!-- Initial syntax highlighting is performed by assets/js/filesystem.js
                      (highlightAll on DOMContentLoaded). Doing it here too would set
                      data-highlighted, causing highlightAll to no-op and log an error. -->
+                <script>
+                    // Client-side "initiated → fully rendered" timing.
+                    // Measures from navigation start until the window load event
+                    // fires (all resources downloaded and rendered) — the true
+                    // end-to-end cost of the page.
+                    (function () {
+                        function setSlot(ms) {
+                            var el = document.getElementById('client-load-ms');
+                            if (!el || !isFinite(ms) || ms &lt; 0) return;
+                            el.textContent = Math.round(ms) + ' ms';
+                            el.title = 'Navigation start \u2192 window load (all resources)';
+                        }
+                        function paintClientLoad() {
+                            var entries = performance.getEntriesByType('navigation');
+                            var nav = entries &amp;&amp; entries[0];
+                            if (nav &amp;&amp; typeof nav.navigationStart === 'number') {
+                                // loadEventEnd is only populated *after* the load handler
+                                // finishes running, so while it is still 0 use "now"
+                                // (≈ the load instant).
+                                var end = (typeof nav.loadEventEnd === 'number' &amp;&amp; nav.loadEventEnd > 0)
+                                    ? nav.loadEventEnd
+                                    : performance.now();
+                                setSlot(end - nav.navigationStart);
+                                return;
+                            }
+                            // Fallback: Navigation Timing Level 1 (deprecated but widely available).
+                            var timing = performance.timing;
+                            if (timing &amp;&amp; typeof timing.navigationStart === 'number') {
+                                var endFallback = (timing.loadEventEnd > 0) ? timing.loadEventEnd : Date.now();
+                                setSlot(endFallback - timing.navigationStart);
+                            }
+                        }
+                        if (document.readyState === 'complete') {
+                            paintClientLoad();
+                        } else {
+                            window.addEventListener('load', paintClientLoad);
+                        }
+                    })();
+                </script>
             </body>
         </html>
     </xsl:template>

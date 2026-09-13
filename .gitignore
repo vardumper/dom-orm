@@ -19,6 +19,9 @@ events.log
 /coverage-report-integration
 data.xml.lock
 cache.php
+# Blog demo: pristine reset backup + auto-reset timer (regenerated at runtime)
+/demos/blog/storage/data.xml.seed
+/demos/blog/storage/reset-timestamp
 # Test/debug runtime dirs under storage/ (leaked fixtures if a test crashes)
 storage/cache-*
 /.dsh

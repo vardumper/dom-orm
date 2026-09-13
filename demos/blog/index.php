@@ -60,6 +60,31 @@ if (!\is_file($storageDir . '/data.xml')) {
     );
 }
 
+// ── Demo auto-reset ──────────────────────────────────────────────────────────
+// The blog is a shared, live demo. Every 10 minutes the stored state is restored
+// to the pristine seed so every visitor starts from the same content.
+$seedPath = $storageDir . '/data.xml.seed';
+$resetStamp = $storageDir . '/reset-timestamp';
+$resetSeconds = 10 * 60; // 10 minutes
+
+// Persist a pristine backup of the seeded data for later resets.
+if (!\is_file($seedPath) && \is_file($storageDir . '/data.xml')) {
+    \copy($storageDir . '/data.xml', $seedPath);
+}
+
+// Restore the pristine data whenever 10 minutes have passed since the last reset.
+$now = \time();
+$lastReset = \is_file($resetStamp) ? (int)\file_get_contents($resetStamp) : 0;
+if ($lastReset === 0 || ($now - $lastReset) >= $resetSeconds) {
+    if (\is_file($seedPath)) {
+        \copy($seedPath, $storageDir . '/data.xml');
+    }
+    \file_put_contents($resetStamp, (string)$now);
+}
+
+// Unix timestamp (seconds) of the next scheduled reset, for the UI countdown.
+$resetAt = $lastReset === 0 ? $now + $resetSeconds : $lastReset + $resetSeconds;
+
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 function jsonOk(array $data, int $status = 200): never
@@ -122,21 +147,42 @@ if (str_starts_with($assetUri, '/assets/')) {
 }
 
 // ── Twig setup ───────────────────────────────────────────────────────────────
+// Twig caching is on by default so the demo stays snappy: compiled templates are
+// stored under storage/twig-cache and reused on later requests. Set
+// BLOG_TWIG_CACHE=0 to disable it so every request recompiles and the render time
+// reflects the true (uncached) cost.
+
+$twigCacheDir = __DIR__ . '/storage/twig-cache';
+$cacheSetting = strtolower((string)getenv('BLOG_TWIG_CACHE'));
+$cacheEnabled = in_array($cacheSetting, ['', '1', 'true', 'on', 'yes'], true);
 
 $twig = new \Twig\Environment(
     new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates'),
     [
         'autoescape' => 'html',
-        'cache' => __DIR__ . '/storage/twig-cache',
+        'cache' => $cacheEnabled ? $twigCacheDir : false,
+        'debug' => !$cacheEnabled,
     ],
 );
 $twig->addGlobal('basePath', $basePath);
+
+// Is the twig template cache warm (compiled templates already on disk)?
+$twigCacheWarm = false;
+if (\is_dir($twigCacheDir)) {
+    foreach (\glob($twigCacheDir . '/*') ?: [] as $entry) {
+        if (\is_file($entry) || \glob($entry . '/*') !== false) {
+            $twigCacheWarm = true;
+            break;
+        }
+    }
+}
+$twig->addGlobal('twigCacheWarm', $twigCacheWarm);
 
 $twig->addFunction(new \Twig\TwigFunction('elapsed_ms', function () use (&$startTime): int {
     return (int)round((microtime(true) - $startTime) * 1000);
 }));
 $twig->addFunction(new \Twig\TwigFunction('memory_mb', function (): string {
-    return number_format(memory_get_usage(true) / 1048576, 1);
+    return number_format(memory_get_peak_usage(true) / 1048576, 1);
 }));
 
 // ── Routes ───────────────────────────────────────────────────────────────────
@@ -154,11 +200,12 @@ function loadRawXml(): string
     return (string)$dom->saveXML();
 }
 
-app()->get('/', function () use ($twig) {
+app()->get('/', function () use ($twig, $resetAt) {
     $articles = (new BlogManager())->findAllArticles();
     echo $twig->render('index.twig', [
         'articles' => $articles,
         'rawXml' => loadRawXml(),
+        'resetAt' => $resetAt,
     ]);
 });
 
