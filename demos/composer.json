@@ -5,7 +5,7 @@
   "require": {
     "php": ">=8.3 <8.6",
     "leafs/leaf": "^3.0 || ^4.0 || ^5.0",
-    "twig/twig": "^3.0",
+    "twig/twig": "^3.28",
     "vardumper/dom-orm": "dev-main"
   },
   "repositories": [

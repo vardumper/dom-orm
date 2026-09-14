@@ -119,6 +119,15 @@ jobs:
             sudo find ${{ steps.deploy_target.outputs.path }} -type f -exec chmod 644 {} \; && \
             sudo find ${{ steps.deploy_target.outputs.path }} -type d -exec chmod 755 {} \;"
 
+      - name: Clear compiled and cached demo output on the remote
+        run: |
+          set -euo pipefail
+
+          path="${{ steps.deploy_target.outputs.path }}"
+
+          sudo rm -rf "$path/blog/storage/twig-cache"
+          sudo rm -f "$path/virtual-filesystem/storage/page-cache.html"
+
       - name: Clean up SSH key
         if: always()
         run: rm -f ~/.ssh/id_rsa
