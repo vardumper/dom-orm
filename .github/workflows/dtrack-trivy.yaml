@@ -1,6 +1,5 @@
 name: Workflow for Depency Track and Trivy
 env:
-  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 on:
   push:
@@ -15,7 +14,7 @@ on:
       - 'composer.lock'
   workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -45,15 +44,9 @@ jobs:
       - name: Create CycloneDX SBOM with Trivy
         run: trivy fs --skip-files 'vendor/rector/swiss-knife/vendor/composer/installed.json,vendor/symplify/easy-coding-standard/vendor/composer/installed.json,**/yarn.lock,**/package-lock.json,**/package.json' --format cyclonedx --include-dev-deps --output sbom.json --severity HIGH,CRITICAL,MEDIUM --scanners vuln,license,secret --debug ./
 
-      - name: Commit SBOM if changed
-        run: |
-            git config --global user.name 'github-actions[bot]'
-            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-            git add sbom.json
-            git commit -am "sbom.json updated" --no-verify || exit 1
-            git push origin HEAD:${BRANCH_NAME} -f
-        continue-on-error: false
-
+      # The SBOM is pushed to Dependency Track directly; it is no longer
+      # committed back to the branch. Committing it post-release would move the
+      # branch past the tag and break Packagist's stable-version immutability.
       - name: Push SBOM to Dependency Track
         run: |
           curl --fail -L -X "POST" "${{ secrets.DTRACK_API_URL }}" \

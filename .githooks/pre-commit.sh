@@ -200,6 +200,17 @@ if $HAS_PEST; then
         && RUN php bin/merge-clover.php clover.xml clover.unit.xml clover.integration.xml; then
         git add clover.unit.xml clover.integration.xml clover.xml
         printf "${GREEN}Clover reports updated (unit, integration, merged) at $(date '+%Y-%m-%d %H:%M:%S')${NC}\n"
+
+        # Generate the coverage badge so it is committed before the release tag
+        # (Packagist locks the source reference of a published stable version, so
+        # the badge must not be committed back to the branch after the tag).
+        if RUN php bin/generate-coverage-badge.php clover.xml coverage.svg; then
+          git add coverage.svg
+          printf "${GREEN}Coverage badge updated at $(date '+%Y-%m-%d %H:%M:%S')${NC}\n"
+        else
+          printf "${RED}Badge generation failed${NC}\n"
+          PASS=false
+        fi
       else
         printf "${RED}Coverage generation/merge failed${NC}\n"
         PASS=false

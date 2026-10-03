@@ -12,7 +12,7 @@ on:
     workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -25,47 +25,10 @@ jobs:
         with:
           php-version: '8.4'
 
-      - name: Generate code coverage badge
+      # The badge is generated and committed by the pre-commit hook
+      # (.githooks/pre-commit.sh) so it is part of the release commit, not a
+      # post-release push. Packagist locks the source reference of a published
+      # stable version, so committing the badge back to the branch after the
+      # tag would move the reference and break downstream installs.
+      - name: Generate code coverage badge (verification only)
         run: php bin/generate-coverage-badge.php clover.xml coverage.svg
-
-      - name: Commit badge
-        if: github.event_name != 'pull_request'
-        env:
-          SSH_SIGNING_PRIVATE_KEY: ${{ secrets.SSH_SIGNING_KEY }}
-        run: |
-            git config --global user.name 'Erik Pöhler'
-            git config --global user.email 'admin@teuton.mx'
-
-            if [ -n "$SSH_SIGNING_PRIVATE_KEY" ]; then
-              KEY_PATH="$RUNNER_TEMP/sign_key"
-              PUB_KEY_PATH="$RUNNER_TEMP/sign_key.pub"
-
-              printf '%s\n' "$SSH_SIGNING_PRIVATE_KEY" > "$KEY_PATH"
-              chmod 600 "$KEY_PATH"
-
-              # Derive public key and use it as signing identity for Git SSH signatures.
-              ssh-keygen -y -f "$KEY_PATH" > "$PUB_KEY_PATH"
-              chmod 644 "$PUB_KEY_PATH"
-
-              eval "$(ssh-agent -s)"
-              ssh-add "$KEY_PATH"
-
-              git config --global gpg.format ssh
-              git config --global user.signingkey "$PUB_KEY_PATH"
-              git config --global commit.gpgsign true
-            else
-              echo "SSH_SIGNING_KEY is not set; committing without signing."
-              git config --global --unset-all user.signingkey || true
-              git config --global commit.gpgsign false
-            fi
-
-            git add coverage.svg
-
-            if git diff --staged --quiet; then
-              echo "No badge changes to commit."
-              exit 0
-            fi
-
-            git commit -m "chore: coverage.svg badge updated" --no-verify
-            git push --no-verify
-        continue-on-error: true # do not fail if nothing changed

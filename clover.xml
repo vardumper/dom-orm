@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1791071203">
-  <project timestamp="1791071203" name="Clover Coverage">
+<coverage generated="1791071823">
+  <project timestamp="1791071823" name="Clover Coverage">
     <package name="DOM\ORM\Command">
       <file name="/home/erik-poehler/Sites/dom-orm/src/Command/Backup.php">
         <class name="DOM\ORM\Command\Backup" namespace="DOM\ORM\Command">
@@ -617,14 +617,14 @@
         <class name="DOM\ORM\Entity\AbstractEntity" namespace="DOM\ORM\Entity">
           <metrics complexity="10" methods="10" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="15" coveredstatements="14" elements="25" coveredelements="23"/>
         </class>
-        <line num="29" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="128"/>
-        <line num="31" type="stmt" count="128"/>
-        <line num="32" type="stmt" count="128"/>
+        <line num="29" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="129"/>
+        <line num="31" type="stmt" count="129"/>
+        <line num="32" type="stmt" count="129"/>
         <line num="35" type="method" name="getId" visibility="public" complexity="1" crap="1" count="61"/>
         <line num="37" type="stmt" count="61"/>
-        <line num="40" type="method" name="setId" visibility="public" complexity="1" crap="1" count="74"/>
-        <line num="42" type="stmt" count="74"/>
-        <line num="44" type="stmt" count="74"/>
+        <line num="40" type="method" name="setId" visibility="public" complexity="1" crap="1" count="75"/>
+        <line num="42" type="stmt" count="75"/>
+        <line num="44" type="stmt" count="75"/>
         <line num="47" type="method" name="getDeletedAt" visibility="public" complexity="1" crap="1" count="54"/>
         <line num="49" type="stmt" count="54"/>
         <line num="52" type="method" name="setDeletedAt" visibility="public" complexity="1" crap="1" count="1"/>
@@ -660,26 +660,26 @@
         <class name="DOM\ORM\Mapping\EntityClassResolver" namespace="DOM\ORM\Mapping">
           <metrics complexity="12" methods="4" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="24" coveredstatements="18" elements="28" coveredelements="20"/>
         </class>
-        <line num="36" type="method" name="classForEntityType" visibility="public" complexity="3" crap="3" count="26"/>
-        <line num="38" type="stmt" count="26"/>
+        <line num="36" type="method" name="classForEntityType" visibility="public" complexity="3" crap="3" count="27"/>
+        <line num="38" type="stmt" count="27"/>
         <line num="39" type="stmt" count="2"/>
         <line num="40" type="stmt" count="2"/>
-        <line num="43" type="stmt" count="26"/>
+        <line num="43" type="stmt" count="27"/>
         <line num="44" type="stmt" count="11"/>
-        <line num="48" type="stmt" count="16"/>
-        <line num="50" type="stmt" count="16"/>
+        <line num="48" type="stmt" count="17"/>
+        <line num="50" type="stmt" count="17"/>
         <line num="56" type="method" name="entityTypeForClass" visibility="public" complexity="3" crap="12" count="1"/>
         <line num="58" type="stmt" count="1"/>
         <line num="59" type="stmt" count="0"/>
         <line num="62" type="stmt" count="1"/>
         <line num="63" type="stmt" count="0"/>
         <line num="66" type="stmt" count="1"/>
-        <line num="69" type="method" name="warmUp" visibility="public" complexity="2" crap="2" count="18"/>
-        <line num="71" type="stmt" count="18"/>
-        <line num="72" type="stmt" count="18"/>
-        <line num="76" type="method" name="primeClass" visibility="private" complexity="4" crap="4.02" count="18"/>
-        <line num="78" type="stmt" count="18"/>
-        <line num="79" type="stmt" count="18"/>
+        <line num="69" type="method" name="warmUp" visibility="public" complexity="2" crap="2" count="19"/>
+        <line num="71" type="stmt" count="19"/>
+        <line num="72" type="stmt" count="19"/>
+        <line num="76" type="method" name="primeClass" visibility="private" complexity="4" crap="4.02" count="19"/>
+        <line num="78" type="stmt" count="19"/>
+        <line num="79" type="stmt" count="19"/>
         <line num="82" type="stmt" count="18"/>
         <line num="83" type="stmt" count="18"/>
         <line num="84" type="stmt" count="18"/>
@@ -1666,30 +1666,30 @@
       </file>
       <file name="/home/erik-poehler/Sites/dom-orm/src/Storage/Hydrator.php">
         <class name="DOM\ORM\Storage\Hydrator" namespace="DOM\ORM\Storage">
-          <metrics complexity="18" methods="5" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="41" coveredstatements="30" elements="46" coveredelements="33"/>
+          <metrics complexity="18" methods="5" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="41" coveredstatements="33" elements="46" coveredelements="36"/>
         </class>
         <line num="35" type="method" name="getGeneratedDir" visibility="public" complexity="2" crap="2" count="25"/>
         <line num="37" type="stmt" count="25"/>
-        <line num="38" type="stmt" count="2"/>
-        <line num="39" type="stmt" count="2"/>
+        <line num="38" type="stmt" count="3"/>
+        <line num="39" type="stmt" count="3"/>
         <line num="42" type="stmt" count="25"/>
         <line num="45" type="method" name="pathFor" visibility="public" complexity="1" crap="1" count="18"/>
         <line num="47" type="stmt" count="18"/>
-        <line num="53" type="method" name="loadFunctions" visibility="public" complexity="2" crap="2" count="61"/>
-        <line num="55" type="stmt" count="61"/>
-        <line num="56" type="stmt" count="59"/>
+        <line num="53" type="method" name="loadFunctions" visibility="public" complexity="2" crap="2" count="63"/>
+        <line num="55" type="stmt" count="63"/>
+        <line num="56" type="stmt" count="61"/>
         <line num="58" type="stmt" count="2"/>
         <line num="59" type="stmt" count="2"/>
-        <line num="67" type="method" name="get" visibility="public" complexity="9" crap="12.00" count="61"/>
-        <line num="69" type="stmt" count="61"/>
-        <line num="71" type="stmt" count="61"/>
-        <line num="73" type="stmt" count="61"/>
-        <line num="74" type="stmt" count="43"/>
-        <line num="75" type="stmt" count="44"/>
-        <line num="76" type="stmt" count="43"/>
-        <line num="79" type="stmt" count="18"/>
-        <line num="80" type="stmt" count="18"/>
-        <line num="81" type="stmt" count="0"/>
+        <line num="67" type="method" name="get" visibility="public" complexity="9" crap="11.01" count="63"/>
+        <line num="69" type="stmt" count="63"/>
+        <line num="71" type="stmt" count="63"/>
+        <line num="73" type="stmt" count="63"/>
+        <line num="74" type="stmt" count="44"/>
+        <line num="75" type="stmt" count="45"/>
+        <line num="76" type="stmt" count="44"/>
+        <line num="79" type="stmt" count="19"/>
+        <line num="80" type="stmt" count="19"/>
+        <line num="81" type="stmt" count="1"/>
         <line num="84" type="stmt" count="18"/>
         <line num="85" type="stmt" count="18"/>
         <line num="87" type="stmt" count="18"/>
@@ -1705,16 +1705,16 @@
         <line num="107" type="stmt" count="18"/>
         <line num="108" type="stmt" count="20"/>
         <line num="109" type="stmt" count="18"/>
-        <line num="116" type="method" name="readFileHash" visibility="private" complexity="4" crap="4.84" count="18"/>
-        <line num="118" type="stmt" count="18"/>
-        <line num="119" type="stmt" count="0"/>
-        <line num="122" type="stmt" count="18"/>
-        <line num="123" type="stmt" count="18"/>
+        <line num="116" type="method" name="readFileHash" visibility="private" complexity="4" crap="4.03" count="20"/>
+        <line num="118" type="stmt" count="20"/>
+        <line num="119" type="stmt" count="1"/>
+        <line num="122" type="stmt" count="19"/>
+        <line num="123" type="stmt" count="19"/>
         <line num="124" type="stmt" count="0"/>
-        <line num="127" type="stmt" count="18"/>
+        <line num="127" type="stmt" count="19"/>
         <line num="128" type="stmt" count="18"/>
-        <line num="131" type="stmt" count="0"/>
-        <metrics loc="131" ncloc="131" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="41" coveredstatements="30" elements="46" coveredelements="35" complexity="18"/>
+        <line num="131" type="stmt" count="1"/>
+        <metrics loc="131" ncloc="131" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="41" coveredstatements="33" elements="46" coveredelements="38" complexity="18"/>
       </file>
       <file name="/home/erik-poehler/Sites/dom-orm/src/Storage/HydratorGenerator.php">
         <class name="DOM\ORM\Storage\HydratorGenerator" namespace="DOM\ORM\Storage">
@@ -2543,7 +2543,7 @@
         <line num="215" type="stmt" count="49"/>
         <metrics loc="215" ncloc="215" classes="1" methods="12" coveredmethods="12" conditionals="0" coveredconditionals="0" statements="77" coveredstatements="68" elements="89" coveredelements="80" complexity="35"/>
       </file>
-      <metrics complexity="337" methods="88" coveredmethods="88" conditionals="0" coveredconditionals="0" statements="838" coveredstatements="758" elements="926" coveredelements="846" classes="7" loc="2174" ncloc="2174"/>
+      <metrics complexity="337" methods="88" coveredmethods="88" conditionals="0" coveredconditionals="0" statements="838" coveredstatements="761" elements="926" coveredelements="849" classes="7" loc="2174" ncloc="2174"/>
     </package>
     <file name="/home/erik-poehler/Sites/dom-orm/src/Storage/HydratorFunctions.php">
       <line num="17" type="stmt" count="1"/>
@@ -3126,6 +3126,6 @@
       <line num="243" type="stmt" count="1"/>
       <metrics loc="245" ncloc="221" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="129" coveredstatements="128" elements="129" coveredelements="128"/>
     </file>
-    <metrics files="49" loc="6172" ncloc="6172" classes="45" methods="259" coveredmethods="250" conditionals="0" coveredconditionals="0" statements="2382" coveredstatements="2159" elements="2641" coveredelements="2409" complexity="956"/>
+    <metrics files="49" loc="6172" ncloc="6172" classes="45" methods="259" coveredmethods="250" conditionals="0" coveredconditionals="0" statements="2382" coveredstatements="2162" elements="2641" coveredelements="2412" complexity="956"/>
   </project>
 </coverage>
