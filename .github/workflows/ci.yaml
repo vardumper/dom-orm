@@ -36,4 +36,4 @@ jobs:
         run: composer config extra.symfony.require "${{ matrix.symfony-require }}"
 
       - name: Resolve dependencies
-        run: composer update --no-interaction --no-progress --prefer-dist --no-scripts
+        run: composer update --no-interaction --no-progress --prefer-dist --no-scripts --no-dev
