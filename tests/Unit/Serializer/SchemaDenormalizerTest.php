@@ -153,8 +153,20 @@ it('denormalizes one-to-many group items into entity instances, not raw arrays',
                     '@type' => 'rel_post',
                     'title' => 'Hello',
                     'comments' => [
-                        ['item-comment-1' => ['@id' => 'comment-1', '@type' => 'rel_comment', 'body' => 'First']],
-                        ['item-comment-2' => ['@id' => 'comment-2', '@type' => 'rel_comment', 'body' => 'Second']],
+                        [
+                            'item-comment-1' => [
+                                '@id' => 'comment-1',
+                                '@type' => 'rel_comment',
+                                'body' => 'First',
+                            ],
+                        ],
+                        [
+                            'item-comment-2' => [
+                                '@id' => 'comment-2',
+                                '@type' => 'rel_comment',
+                                'body' => 'Second',
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -176,7 +188,7 @@ it('re-normalizing a denormalized one-to-many entity does not throw', function (
     // Regression test: after denormalization, group items must be entity objects so
     // that SchemaNormalizer::normalize() can call get_class() on them without error.
     $denormalizer = new SchemaDenormalizer();
-    $normalizer   = new SchemaNormalizer();
+    $normalizer = new SchemaNormalizer();
     $data = [
         'data' => [
             [
@@ -185,7 +197,13 @@ it('re-normalizing a denormalized one-to-many entity does not throw', function (
                     '@type' => 'rel_post',
                     'title' => 'Round-trip',
                     'comments' => [
-                        ['item-comment-3' => ['@id' => 'comment-3', '@type' => 'rel_comment', 'body' => 'Only comment']],
+                        [
+                            'item-comment-3' => [
+                                '@id' => 'comment-3',
+                                '@type' => 'rel_comment',
+                                'body' => 'Only comment',
+                            ],
+                        ],
                     ],
                 ],
             ],

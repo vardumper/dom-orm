@@ -13,7 +13,7 @@ This example is to illustrate how a filesystem tree can be persisted with DOM-OR
 3. You wouldn't want to actually store file content in a XML file which is read to memory. This potentially crashes PHP or may consume too much memory. It's an example. 
 4. The Demo is reset automatically. It uses XSLT for rendering the XML directly.
 
-## A minmal blog
+## A minimal blog
 
 ![blog](https://dom-orm.erikpoehler.com/blog/assets/images/blog.png)
 
@@ -24,5 +24,5 @@ This example illustrates how to store Article, Image and Comment entities into a
 ### Explanation
 1. In the Demo, you see a basic blog theme with Twig rendered templates.
 2. Head to [Admin](https://dom-orm.erikpoehler.com/blog/admin) in order to add or delete posts and comments.
-3. A not on images: in the demo we save base64 encoded binary data in the DOM ORM XML. When DOM ORM reads the XML it stores it into memory, so artificially bloating the XML is an anti-pattern. In production you would simply store a path to the file. 
+3. A note on images: in the demo we save base64 encoded binary data in the DOM ORM XML. When DOM ORM reads the XML it stores it into memory, so artificially bloating the XML is an anti-pattern. In production you would simply store a path to the file. 
 4. The Demo is reset automatically.

@@ -58,14 +58,18 @@ function restoreCacheEnv(array $saved): void
 
 function cleanupLocation(string $location): void
 {
-    foreach (\glob($location . '/*') ?: [] as $file) {
-        if (\is_file($file) || \is_link($file)) {
-            \unlink($file);
-        }
+    if (!\is_dir($location)) {
+        return;
     }
-    if (\is_dir($location)) {
-        \rmdir($location);
+    // Recursively remove: the chunked cache lives in a cache/ subdirectory.
+    $iterator = new \RecursiveIteratorIterator(
+        new \RecursiveDirectoryIterator($location, \FilesystemIterator::SKIP_DOTS),
+        \RecursiveIteratorIterator::CHILD_FIRST,
+    );
+    foreach ($iterator as $item) {
+        $item->isDir() ? \rmdir($item->getPathname()) : \unlink($item->getPathname());
     }
+    \rmdir($location);
 }
 
 /**
@@ -137,22 +141,22 @@ it('rebuilds the cache when the stored fingerprint no longer matches', function 
 
     try {
         QueryCache::build();
-        $cache = (require $location . '/cache.php');
-        $originalHash = $cache['__meta']['hash'];
+        $meta = (require $location . '/cache/meta.php');
+        $originalHash = $meta['hash'];
 
         // Tamper the stored hash to simulate a cache written for different data.
         // The data file's mtime is backdated so the stat-first fast path is
         // bypassed (size + mtime differ from the stored meta) and the hash
         // comparison actually runs — a tampered hash alone with unchanged
         // size + mtime is intentionally treated as "file unchanged" now.
-        $cache['__meta']['hash'] = \str_repeat('0', 64);
-        \file_put_contents($location . '/cache.php', "<?php\n\nreturn " . \var_export($cache, true) . ";\n");
+        $meta['hash'] = \str_repeat('0', 64);
+        \file_put_contents($location . '/cache/meta.php', "<?php\n\nreturn " . \var_export($meta, true) . ";\n");
         \touch(staleDataFile($location), \time() - 3600);
 
         $loaded = QueryCache::load();
         expect($loaded)->not->toBeNull();
-        expect($loaded['__meta']['hash'])->toBe($originalHash);          // rebuilt to the correct hash
-        expect($loaded['__meta']['hash'])->not->toBe(\str_repeat('0', 64));
+        expect($loaded->meta()['hash'])->toBe($originalHash);          // rebuilt to the correct hash
+        expect($loaded->meta()['hash'])->not->toBe(\str_repeat('0', 64));
     } finally {
         finishTest($location, $saved);
     }
@@ -164,13 +168,12 @@ it('treats a legacy cache without a fingerprint as stale', function (): void {
 
     try {
         QueryCache::build();
-        $cache = (require $location . '/cache.php');
-        unset($cache['__meta']); // emulate an old cache predating the fingerprint feature
-        \file_put_contents($location . '/cache.php', "<?php\n\nreturn " . \var_export($cache, true) . ";\n");
+        // Emulate a cache predating the fingerprint feature: no meta file.
+        \unlink($location . '/cache/meta.php');
 
         $loaded = QueryCache::load();
         expect($loaded)->not->toBeNull();
-        expect($loaded['__meta']['hash'])->toBe(StorageService::fromConfig()->fingerprint()['hash']);
+        expect($loaded->meta()['hash'])->toBe(StorageService::fromConfig()->fingerprint()['hash']);
     } finally {
         finishTest($location, $saved);
     }
@@ -182,12 +185,12 @@ it('serves a cache whose fingerprint still matches without rebuilding', function
 
     try {
         QueryCache::build();
-        $before = (require $location . '/cache.php');
+        $before = (require $location . '/cache/meta.php');
 
         $loaded = QueryCache::load();
         expect($loaded)->not->toBeNull();
         // Identical fingerprint => no rebuild, meta untouched.
-        expect($loaded['__meta']['hash'])->toBe($before['__meta']['hash']);
+        expect($loaded->meta()['hash'])->toBe($before['hash']);
     } finally {
         finishTest($location, $saved);
     }

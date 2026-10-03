@@ -1,0 +1,31 @@
+{
+    "env": {
+        "php": "8.5.4",
+        "libxml": "2.15.2",
+        "opcache_enabled": true
+    },
+    "cache_build_ms": 764.9,
+    "cached_findall": {
+        "runs": 10,
+        "require": 0.33,
+        "arraybuild": 9.25,
+        "denorm": 687.24,
+        "total": 696.68
+    },
+    "cached_find_one": {
+        "runs": 10,
+        "require": 0.16,
+        "findbyid": 0.21,
+        "denorm": 0.02,
+        "total": 0.39
+    },
+    "nocache_findall": {
+        "runs": 10,
+        "read": 6.93,
+        "loadxml": 75.28,
+        "xpath": 85.31,
+        "decode": 390.31,
+        "denorm": 671.7,
+        "total": 1232.29
+    }
+}

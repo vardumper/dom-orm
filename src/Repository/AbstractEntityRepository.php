@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Repository;
 
-use DOM\ORM\Encryption\EncryptionService;
-use DOM\ORM\{Entity\EntityInterface, Serializer\Encoder\SchemaEncoder, Traits\EntityManagerTrait};
-use DOM\ORM\Storage\QueryCache;
+use DOM\ORM\{Encryption\EncryptionService, Entity\EntityInterface, Serializer\Encoder\SchemaEncoder, Storage\ChunkStore, Storage\QueryCache, Traits\EntityManagerTrait};
 use Ramsey\Collection\Collection;
 
 abstract class AbstractEntityRepository implements EntityRepositoryInterface
@@ -17,10 +15,7 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
     private string $entityClass;
     private ?EncryptionService $encryption = null;
 
-    /**
-     * @var array<string, array<string, array<string, mixed>>>|null
-     */
-    private ?array $queryCache = null;
+    private ?ChunkStore $queryCache = null;
     private bool $queryCacheLoaded = false;
 
     /**
@@ -70,6 +65,31 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
         $array = $this->serializer->decode($nodes, SchemaEncoder::FORMAT);
 
         return $this->serializer->denormalize($array, $this->entityClass);
+    }
+
+    /**
+     * Like findAll(), but returns a lazily-hydrated collection (Phase 3):
+     * only the id list is loaded up front, entities hydrate on first access.
+     * Memory stays flat in the number of records touched, not records found.
+     */
+    public function findAllLazy(): ?LazyCollection
+    {
+        $cache = $this->getQueryCache();
+        if ($cache !== null) {
+            $ids = $cache->ids($this->entityType);
+            if ($ids === []) {
+                return null;
+            }
+
+            return LazyCollection::fromStore($cache, $this->entityType, $this->entityClass, $this->serializer);
+        }
+
+        $collection = $this->findAll();
+        if ($collection === null || $collection->count() < 1) {
+            return null;
+        }
+
+        return LazyCollection::fromEntities($collection->toArray(), $this->entityClass);
     }
 
     public function find(string $id): ?EntityInterface
@@ -128,9 +148,9 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
             return $this->findAll();
         }
 
-        // Resolve candidate IDs from the inverted index before paying for the
-        // payload (or the DOM): a non-matching criterion answers with an empty
-        // result without loading anything but the small index file.
+        /** Resolve candidate IDs from the inverted index before paying for the */
+        /** payload (or the DOM): a non-matching criterion answers with an empty */
+        /** result without loading anything but the small index file. */
         $index = $this->getQueryIndex();
         if ($index !== null) {
             $ids = QueryCache::findByIndex($index, $this->entityType, $criteria);
@@ -172,6 +192,53 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
     }
 
     /**
+     * Like findBy(), but returns a lazily-hydrated collection (Phase 3).
+     *
+     * Candidate ids are resolved from the inverted index; entities hydrate on
+     * first access. orderBy/limit/offset require materialization, so when any
+     * is set this falls back to wrapping the materialized result.
+     *
+     * @param array<string, scalar> $criteria
+     * @param array<string, 'ASC'|'DESC'>|null $orderBy
+     */
+    public function findByLazy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): ?LazyCollection
+    {
+        if ($orderBy !== null || $limit !== null || $offset !== null) {
+            $collection = $this->findBy($criteria, $orderBy, $limit, $offset);
+            if ($collection === null || $collection->count() < 1) {
+                return null;
+            }
+
+            return LazyCollection::fromEntities($collection->toArray(), $this->entityClass);
+        }
+
+        if (empty($criteria)) {
+            return $this->findAllLazy();
+        }
+
+        $index = $this->getQueryIndex();
+        if ($index !== null) {
+            $ids = QueryCache::findByIndex($index, $this->entityType, $criteria);
+            if ($ids !== null) {
+                if ($ids === []) {
+                    return null;
+                }
+                $cache = $this->getQueryCache();
+                if ($cache !== null) {
+                    return LazyCollection::fromStore($cache, $this->entityType, $this->entityClass, $this->serializer, $ids);
+                }
+            }
+        }
+
+        $collection = $this->findBy($criteria);
+        if ($collection === null || $collection->count() < 1) {
+            return null;
+        }
+
+        return LazyCollection::fromEntities($collection->toArray(), $this->entityClass);
+    }
+
+    /**
      * @param array<string, scalar> $criteria
      * @param array<string, 'ASC'|'DESC'>|null $orderBy
      */
@@ -181,8 +248,8 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
             return $this->find((string)$criteria['id']);
         }
 
-        // Resolve the first candidate ID from the inverted index before paying
-        // for the payload (or the DOM); a non-match answers from the index alone.
+        /** Resolve the first candidate ID from the inverted index before paying */
+        /** for the payload (or the DOM); a non-match answers from the index alone. */
         $index = $this->getQueryIndex();
         if ($index !== null) {
             $ids = QueryCache::findByIndex($index, $this->entityType, $criteria);
@@ -251,12 +318,10 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
     }
 
     /**
-     * Returns the loaded payload cache array, or null if cache is not enabled/available.
+     * Returns the loaded chunked-cache store, or null if cache is not enabled/available.
      * The result is memoised for the lifetime of this repository instance.
-     *
-     * @return array<string, array<string, array<string, mixed>>>|null
      */
-    private function getQueryCache(): ?array
+    private function getQueryCache(): ?ChunkStore
     {
         if ($this->queryCacheLoaded) {
             return $this->queryCache;
@@ -289,8 +354,8 @@ abstract class AbstractEntityRepository implements EntityRepositoryInterface
      */
     private function queryNodes(string $query): ?\DOMNodeList
     {
-        // The DOM is loaded lazily: only XPath fallbacks (and writes) pay for
-        // the file load + parse, never cache-backed reads.
+        /** The DOM is loaded lazily: only XPath fallbacks (and writes) pay for */
+        /** the file load + parse, never cache-backed reads. */
         $this->ensureDomLoaded();
         $nodes = $this->xpath->query($query);
 

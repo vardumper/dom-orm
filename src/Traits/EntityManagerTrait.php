@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Traits;
 
-use DOM\ORM\Command\Export;
-use DOM\ORM\Encryption\EncryptionService;
-use DOM\ORM\{Entity\EntityInterface, Serializer\Encoder\SchemaDecoder, Serializer\Encoder\SchemaEncoder, Serializer\Normalizer\SchemaDenormalizer, Serializer\Normalizer\SchemaNormalizer, Serializer\SchemaSerializer, Storage\StorageService};
-use DOM\ORM\Storage\QueryCache;
+use DOM\ORM\{Command\Export, Encryption\EncryptionService, Entity\EntityInterface, Serializer\Encoder\SchemaDecoder, Serializer\Encoder\SchemaEncoder, Serializer\Normalizer\SchemaDenormalizer, Serializer\Normalizer\SchemaNormalizer, Serializer\SchemaSerializer, Storage\QueryCache, Storage\StorageService};
 use DOM\ORM\Vcs\VcsService;
 use League\Flysystem\UnableToReadFile;
 
@@ -75,7 +72,7 @@ trait EntityManagerTrait
         $this->withWriteLock(function () use ($entity, $parent): void {
             $allowedParentPaths = $this->resolveAllowedParentPaths($entity);
 
-            // Resolve an XPath string to a node inside the current (freshly loaded) DOM.
+            /** Resolve an XPath string to a node inside the current (freshly loaded) DOM. */
             if (\is_string($parent)) {
                 $nodes = $this->xpath->query($parent);
                 $resolved = ($nodes !== false) ? $nodes->item(0) : null;
@@ -85,7 +82,7 @@ trait EntityManagerTrait
                 $parent = $resolved;
             }
 
-            // Single allowedParentPath: auto-resolve; auto-create the group when missing.
+            /** Single allowedParentPath: auto-resolve; auto-create the group when missing. */
             if (\is_array($allowedParentPaths) && \count($allowedParentPaths) === 1) {
                 $nodes = $this->xpath->query($allowedParentPaths[0]);
                 $resolved = ($nodes === false) ? null : $nodes->item(0);
@@ -98,12 +95,12 @@ trait EntityManagerTrait
                 $parent = $resolved;
             }
 
-            // Multiple allowedParentPaths with no explicit parent: caller must decide.
+            /** Multiple allowedParentPaths with no explicit parent: caller must decide. */
             if (\is_array($allowedParentPaths) && \count($allowedParentPaths) > 1 && $parent === null) {
                 throw new \InvalidArgumentException('This entity has several possible parent locations. Please provide a valid parent node or XPath string.');
             }
 
-            // No allowedParentPaths and no explicit parent: fall back to document root.
+            /** No allowedParentPaths and no explicit parent: fall back to document root. */
             if ($parent === null) {
                 $parent = $this->data->documentElement;
             }
@@ -114,7 +111,7 @@ trait EntityManagerTrait
             $tmp->loadXML($xml);
             $importedNode = $this->data->importNode($tmp->documentElement, true);
 
-            // Upsert: replace the existing node if one with the same id already exists.
+            /** Upsert: replace the existing node if one with the same id already exists. */
             $existing = $this->xpath->query(\sprintf('//*[@id="%s"]', $entity->getId()));
             if ($existing !== false && $existing->length > 0 && ($existingNode = $existing->item(0)) !== null) {
                 $existingNode->parentNode?->replaceChild($importedNode, $existingNode);
@@ -223,7 +220,7 @@ trait EntityManagerTrait
         try {
             $this->encryption = EncryptionService::fromConfig();
         } catch (\RuntimeException) {
-            // No encryption_key configured — encryption silently disabled
+            /** No encryption_key configured — encryption silently disabled */
         }
 
         $this->serializer = self::$sharedSerializer ??= $this->getSerializer();

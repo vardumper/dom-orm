@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Storage;
 
-use League\Flysystem\Filesystem;
-use League\Flysystem\Local\LocalFilesystemAdapter;
+use League\Flysystem\{Filesystem, Local\LocalFilesystemAdapter};
 use function DOM\ORM\getConfig;
 
 class StorageService
@@ -121,8 +120,8 @@ class StorageService
                 return null;
             }
 
-            // Flysystem v3. On v2 this throws (no fileSize method), which is
-            // caught below and degrades to the full-fingerprint fallback.
+            /** Flysystem v3. On v2 this throws (no fileSize method), which is */
+            /** caught below and degrades to the full-fingerprint fallback. */
             $size = (int)$this->filesystem->fileSize($this->filename);
 
             return [

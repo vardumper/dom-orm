@@ -31,7 +31,7 @@ export default defineConfig({
           { text: 'Headless DB', link: '/features/headless-db' },
           { text: 'Encryption', link: '/features/encryption' },
           { text: 'Concurrency', link: '/features/concurrency' },
-          { text: 'XSLT & XPath', link: '/features#xslt-xpath' },
+          { text: 'XSLT & XPath', link: '/get-started#xslt' },
           { text: 'Unit Tests', link: '/features/tests' },
         ]
       },

@@ -3,19 +3,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Storage;
 
-use League\Flysystem\Config;
-use League\Flysystem\FileAttributes;
-use League\Flysystem\FilesystemAdapter;
-use League\Flysystem\StorageAttributes;
-use League\Flysystem\UnableToCopyFile;
-use League\Flysystem\UnableToCreateDirectory;
-use League\Flysystem\UnableToDeleteDirectory;
-use League\Flysystem\UnableToDeleteFile;
-use League\Flysystem\UnableToMoveFile;
-use League\Flysystem\UnableToReadFile;
-use League\Flysystem\UnableToRetrieveMetadata;
-use League\Flysystem\UnableToWriteFile;
-use League\Flysystem\Visibility;
+use League\Flysystem\{Config, FileAttributes, FilesystemAdapter, StorageAttributes, UnableToCopyFile, UnableToCreateDirectory, UnableToDeleteDirectory, UnableToDeleteFile, UnableToMoveFile, UnableToReadFile, UnableToRetrieveMetadata, UnableToWriteFile, Visibility};
 
 /**
  * Process-local in-memory Flysystem adapter.
@@ -38,7 +26,7 @@ final class InMemoryFilesystemAdapter implements FilesystemAdapter
 
     public function __construct(?string $location = null)
     {
-        // The optional location value becomes an in-memory namespace.
+        /** The optional location value becomes an in-memory namespace. */
         $this->bucketKey = $location ?? '__default__';
 
         if (!isset(self::$buckets[$this->bucketKey])) {

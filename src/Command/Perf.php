@@ -4,19 +4,13 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Command;
 
-use DOM\ORM\Entity\AbstractEntity;
-use DOM\ORM\Mapping\Fragment;
-use DOM\ORM\Mapping\Item;
-use DOM\ORM\Repository\EntityRepository;
-use DOM\ORM\Storage\InMemoryFilesystemAdapter;
-use DOM\ORM\Storage\QueryCache;
-use DOM\ORM\Traits\EntityManagerTrait;
+use DOM\ORM\{Entity\AbstractEntity, Mapping\Fragment, Mapping\Item, Repository\EntityRepository, Storage\InMemoryFilesystemAdapter, Storage\QueryCache, Traits\EntityManagerTrait};
 use Faker\Factory as FakerFactory;
 use League\Flysystem\Local\LocalFilesystemAdapter;
 
-// ---------------------------------------------------------------------------
-// Inline entity — only exists for the perf run, lives alongside the command.
-// ---------------------------------------------------------------------------
+/** --------------------------------------------------------------------------- */
+/** Inline entity — only exists for the perf run, lives alongside the command. */
+/** --------------------------------------------------------------------------- */
 
 #[Item(entityType: 'perf_user')]
 class PerfUser extends AbstractEntity
@@ -76,9 +70,9 @@ class PerfUser extends AbstractEntity
     }
 }
 
-// ---------------------------------------------------------------------------
-// Repository — thin wrapper so EntityRepository can resolve PerfUser.
-// ---------------------------------------------------------------------------
+/** --------------------------------------------------------------------------- */
+/** Repository — thin wrapper so EntityRepository can resolve PerfUser. */
+/** --------------------------------------------------------------------------- */
 
 class PerfUserRepository extends EntityRepository
 {
@@ -88,9 +82,9 @@ class PerfUserRepository extends EntityRepository
     }
 }
 
-// ---------------------------------------------------------------------------
-// Helper trait for a self-contained manager inside the command.
-// ---------------------------------------------------------------------------
+/** --------------------------------------------------------------------------- */
+/** Helper trait for a self-contained manager inside the command. */
+/** --------------------------------------------------------------------------- */
 
 class PerfManager
 {
@@ -120,9 +114,9 @@ class PerfManager
     }
 }
 
-// ---------------------------------------------------------------------------
-// The command itself.
-// ---------------------------------------------------------------------------
+/** --------------------------------------------------------------------------- */
+/** The command itself. */
+/** --------------------------------------------------------------------------- */
 
 class Perf
 {
@@ -136,9 +130,9 @@ class Perf
      */
     public static function run(int $count = 100_000, int $sampleSize = 50, bool $keepStorage = false, bool $useInMemory = false, int $iterations = 30): array
     {
-        // Benchmarking 100k entities needs more RAM than the PHP default.
-        // Only raise the limit when it is below 1G, so larger runs can be
-        // started with a higher limit, e.g. `php -d memory_limit=4G dom-orm perf --count=500000`.
+        /** Benchmarking 100k entities needs more RAM than the PHP default. */
+        /** Only raise the limit when it is below 1G, so larger runs can be */
+        /** started with a higher limit, e.g. `php -d memory_limit=4G dom-orm perf --count=500000`. */
         if (self::memoryLimitBytes() < 1_073_741_824) {
             \ini_set('memory_limit', '1G');
         }
@@ -150,7 +144,7 @@ class Perf
         $configFile = \getcwd() . '/dom-orm.php';
         $adapterClass = $useInMemory ? InMemoryFilesystemAdapter::class : LocalFilesystemAdapter::class;
 
-        // ---- Write a temporary dom-orm.php config -------------------------
+        /** ---- Write a temporary dom-orm.php config ------------------------- */
         $prevConfig = \file_exists($configFile) ? \file_get_contents($configFile) : null;
 
         if (!\is_dir($storageDir)) {
@@ -187,13 +181,13 @@ class Perf
             ],
         ], true) . ';');
 
-        // Reset shared singletons so the new config is picked up.
+        /** Reset shared singletons so the new config is picked up. */
         self::resetSharedSingletons();
 
         $faker = FakerFactory::create();
-        $faker->seed(42); // reproducible run
+        $faker->seed(42); /** reproducible run */
 
-        // ---- Generate all entities ----------------------------------------
+        /** ---- Generate all entities ---------------------------------------- */
         $sample = [];
         $ids = [];
         $emails = [];
@@ -210,27 +204,27 @@ class Perf
             $sample[] = $entity;
         }
 
-        // Pick a lookup email that is unique in the dataset (fair findOneBy).
+        /** Pick a lookup email that is unique in the dataset (fair findOneBy). */
         $emailCounts = \array_count_values($emails);
         $lookupEmail = \array_search(1, $emailCounts, true);
         if ($lookupEmail === false) {
             $lookupEmail = $emails[0];
         }
 
-        // Pick a city whose occurrence count is close to the median (fair findBy collection).
+        /** Pick a city whose occurrence count is close to the median (fair findBy collection). */
         $cityCountsSorted = $cityCounts;
         \asort($cityCountsSorted);
         $medianCount = \array_values($cityCountsSorted)[(int)\floor(\count($cityCountsSorted) / 2)];
         $lookupCity = \array_search($medianCount, $cityCounts, true);
         $lookupCityCount = (int)$medianCount;
 
-        // Distinct random IDs for the repeated find() iterations.
+        /** Distinct random IDs for the repeated find() iterations. */
         $idPool = \range(0, $count - 1);
         \shuffle($idPool);
         $lookupIds = \array_map(static fn (int $i): string => $ids[$i], \array_slice($idPool, 0, $iterations));
 
-        // ---- 1. ONE-BY-ONE baseline (sample only) -------------------------
-        // Write a fresh empty XML for the one-by-one sample run.
+        /** ---- 1. ONE-BY-ONE baseline (sample only) ------------------------- */
+        /** Write a fresh empty XML for the one-by-one sample run. */
         $initializeStorage();
         self::resetSharedSingletons();
 
@@ -243,7 +237,7 @@ class Perf
         $oneByOnePer = $oneByOneMs / $sampleSize;
         $oneByOneEstMs = $oneByOnePer * $count;
 
-        // ---- 2. BATCH INSERT (all $count entities) ------------------------
+        /** ---- 2. BATCH INSERT (all $count entities) ------------------------ */
         $initializeStorage();
         self::resetSharedSingletons();
 
@@ -254,12 +248,12 @@ class Perf
         $batchPer = $batchMs / $count;
         $batchXmlKb = \file_exists($storageFile) ? (int)(\filesize($storageFile) / 1024) : 0;
 
-        // ---- 3. QUERY — XPath (no cache) ---------------------------------
+        /** ---- 3. QUERY — XPath (no cache) --------------------------------- */
         self::resetSharedSingletons();
 
         $repo = new PerfUserRepository();
 
-        // Cold read: first query in the process includes loading + parsing the XML.
+        /** Cold read: first query in the process includes loading + parsing the XML. */
         $t2 = \hrtime(true);
         $all = $repo->findAll();
         $findAllMs = (\hrtime(true) - $t2) / 1_000_000;
@@ -274,7 +268,7 @@ class Perf
             'city' => $city,
         ]));
 
-        // ---- 4. QUERY — PHP cache ----------------------------------------
+        /** ---- 4. QUERY — PHP cache ---------------------------------------- */
         $t5 = \hrtime(true);
         QueryCache::build();
         $cacheBuildMs = (\hrtime(true) - $t5) / 1_000_000;
@@ -296,7 +290,7 @@ class Perf
             'city' => $city,
         ]));
 
-        // ---- Cleanup -------------------------------------------------------
+        /** ---- Cleanup ------------------------------------------------------- */
         if (!$keepStorage) {
             foreach ([$storageFile, $cacheFile] as $f) {
                 if (\file_exists($f)) {
@@ -312,7 +306,7 @@ class Perf
             }
         }
 
-        // Restore the previous config (or remove the temp one).
+        /** Restore the previous config (or remove the temp one). */
         if ($prevConfig !== null) {
             \file_put_contents($configFile, $prevConfig);
         } elseif (\file_exists($configFile)) {

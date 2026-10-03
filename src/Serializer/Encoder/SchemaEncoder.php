@@ -34,8 +34,8 @@ class SchemaEncoder implements EncoderInterface
             throw new \InvalidArgumentException('Only arrays are supported.');
         }
 
-        // Reset encoder document for each top-level encode call so state does not leak
-        // between successive persist() operations that share one serializer instance.
+        /** Reset encoder document for each top-level encode call so state does not leak */
+        /** between successive persist() operations that share one serializer instance. */
         if (!isset($context['parentNode'])) {
             $dom = new \DOMDocument('1.0', 'UTF-8');
             $dom->formatOutput = true;

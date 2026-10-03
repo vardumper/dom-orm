@@ -1,7 +1,7 @@
 # Performance
 
 ## No overhead
-DOM-ORM can actually be faster than a regular database because it operates as an in-memory data structure for read operations. We are talking microseconds instead of milliseconds. This is achieved by eliminating network latency and disk I/O. On the downside, a large XML file (a large databse) also leads to increased memory consumption, and slower write/pre-compile operations.
+DOM-ORM can actually be faster than a regular database because it operates as an in-memory data structure for read operations. We are talking microseconds instead of milliseconds. This is achieved by eliminating network latency and disk I/O. On the downside, a large XML file (a large database) also leads to increased memory consumption, and slower write/pre-compile operations.
 
 ## Measured performance (5K–50K records)
 
@@ -38,10 +38,11 @@ Takeaways:
   PostgreSQL (22.4) — vs 0.34 ms as raw PDO.
 - **Without opcache the gap is real** (109 ms vs 16.5–22.4 ms vs 0.34 ms
   @50K) — opcache is the prerequisite for the competitive position.
-- **`findAll()` is the weak spot** (624 ms cold → 487 ms opcache-warm @50K):
-  opcache caches compiled opcodes, not evaluated arrays, so the payload array
-  is rebuilt per request. Chunked cache (roadmap Phase 2) is the structural
-  fix; raw SQLite owns bulk reads (27.8 ms @50K, 178–203 ms through an ORM).
+- **`findAll()` is the weak spot**: opcache caches compiled opcodes, not
+  evaluated arrays, so the payload array is rebuilt per request. The chunked
+  cache (Phase 2, done) cut the array-build cost ~4×, and lazy result sets
+  (Phase 3, done — `findAllLazy()`) avoid materializing it entirely; raw SQLite
+  owns bulk reads (27.8 ms @50K, 178–203 ms through an ORM).
 - **Batch writes beat the networked Doctrine engines 3–5×** (0.019 ms/entity
   @50K vs 0.057 PostgreSQL / 0.071 MariaDB; Doctrine+SQLite 0.026).
 - Methodology note: the raw PDO SQLite worker returns raw
@@ -50,25 +51,29 @@ Takeaways:
   like-for-like ORM comparison. Doctrine+SQLite is the fair one.
 
 ## Hash Maps and Query Cache
-Under the hood, every DOM-ORM Repository method makes use of a pre-compiled in-memory PHP hash map. 
-The PHP array cache generates a PHP file that PHP's opcache can pre-compile, giving O(1) ID
-lookups and fast in-memory scans without XPath overhead. 
+Under the hood, every DOM-ORM Repository method makes use of a pre-compiled in-memory PHP hash map.
+The cache is a set of small PHP files that opcache can pre-compile, giving O(1) ID
+lookups and fast in-memory scans without XPath overhead.
 
-Two files are written, both derived from `cache_path` (e.g. `storage/cache.php` →
-`storage/cache-index.php`):
+The cache is written as a **chunked directory** derived from `cache_path`
+(e.g. `storage/cache.php` → `storage/cache/`):
 
-```php
-// cache.php — the payload: all entity data
-<?php return [
-    'user' => [
-        'uuid1' => ['@id' => 'uuid1', '@type' => 'user', 'name' => 'Alice', ...],
-    ],
-    '__meta' => ['format' => 2, 'data_file' => 'data.xml', 'size' => ..., 'mtime' => ..., 'hash' => '...'],
-];
+```text
+storage/cache/
+  meta.php     — the __meta fingerprint (format, data_file, size, mtime, hash)
+  index.php    — per-field inverted indexes (non-encrypted fields only) + __meta
+  all.php      — the full payload, one require, used by full scans (findAll)
+  ids.php      — ordered id list per type (small; powers LazyCollection count())
+  {00..ff}.php — 256 shard files: {type => {id => itemData}}
 ```
 
+Each shard holds the items whose `crc32(id) & 0xff` maps to that shard, so a point
+lookup (`find($id)`) loads exactly one shard (~1/256th of the data) instead of the
+whole payload. Full scans load `all.php` in a single `require` so `findAll()` does not
+pay a 256-shard fan-out.
+
 ```php
-// cache-index.php — per-field inverted indexes (non-encrypted fields only)
+// index.php — per-field inverted indexes (non-encrypted fields only)
 <?php return [
     'user' => [
         'name' => ['Alice' => ['uuid1'], 'Bob' => ['uuid2']],
@@ -82,7 +87,7 @@ The item arrays match the shape produced by `SchemaDecoder::decodeItem()`, so th
 fed directly back into `SchemaDenormalizer`, which speeds up lookups by bypassing costly
 XPath queries. Because the indexes live in their own file, `findBy()`/`findOneBy()` can
 resolve candidate IDs — or answer a non-matching criterion with an empty result — without
-loading the payload file (or the XML data file). Encrypted fields are listed in the index
+loading the payload shards (or the XML data file). Encrypted fields are listed in the index
 `__meta.encrypted` block so such queries fall back to XPath (searchable-hash matching).
 Legacy single-file caches (with `'__idx'` inside the payload) are detected on load and
 rebuilt exactly once.
@@ -126,8 +131,8 @@ Once the cache file exists, `EntityRepository::find()`, `findAll()`, `findBy()`,
 
 ```php
 $repo = new EntityRepository(User::class);
-$user = $repo->find('uuid1');        // reads from cache.php
-$users = $repo->findBy(['name' => 'Alice']);  // in-memory filter over cache
+$user = $repo->find('uuid1');        // loads one shard (O(1) point lookup)
+$users = $repo->findBy(['name' => 'Alice']);  // index-backed, in-memory
 ```
 
 Queries involving encrypted sensitive fields fall back to XPath automatically (the cache
@@ -174,9 +179,9 @@ rebuilt or deleted at any point.
 
 ### CLI Command
 ```bash
-./dom-orm build-cache   # build (or rebuild) the query cache from the XML
-./dom-orm flush-cache   # delete the query cache files
-./dom-orm warm-cache    # build (if needed) + warm opcache, prints per-file status
+./vendor/bin/dom-orm build-cache   # build (or rebuild) the query cache from the XML
+./vendor/bin/dom-orm flush-cache   # delete the query cache files
+./vendor/bin/dom-orm warm-cache    # build (if needed) + warm opcache, prints per-file status
 ```
 
 ## Batch Inserts

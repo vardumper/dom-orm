@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Serializer\Normalizer;
 
-use DOM\ORM\Encryption\EncryptionService;
-use DOM\ORM\{Entity\AbstractEntity, Entity\EntityInterface, Serializer\Encoder\SchemaEncoder, Traits\AttributeResolverTrait};
-use DOM\ORM\Mapping\Fragment;
+use DOM\ORM\{Encryption\EncryptionService, Entity\AbstractEntity, Entity\EntityInterface, Mapping\Fragment, Serializer\Encoder\SchemaEncoder, Storage\Hydrator, Traits\AttributeResolverTrait};
 use Ramsey\Collection\Collection;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
+use function DOM\ORM\getConfig;
 
 class SchemaDenormalizer implements DenormalizerInterface
 {
@@ -24,6 +23,15 @@ class SchemaDenormalizer implements DenormalizerInterface
 
     private const DATETIME_ATTRIBUTES = ['createdAt', 'updatedAt', 'deletedAt'];
 
+    /**
+     * Hydrate one row, preferring the compiled mapper when available.
+     *
+     * @var array<string, callable|null>
+     */
+    private array $mapperCache = [];
+
+    private static ?bool $hydratorCompiled = null;
+
     public function __construct(
         private readonly ?EncryptionService $encryption = null,
     ) {
@@ -32,8 +40,8 @@ class SchemaDenormalizer implements DenormalizerInterface
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         if (\is_subclass_of($type, AbstractEntity::class)) {
-            // Prime attribute cache for the requested root type so entityType lookups
-            // also work when the class was only referenced as a class-string.
+            /** Prime attribute cache for the requested root type so entityType lookups */
+            /** also work when the class was only referenced as a class-string. */
             $this->resolveEntityType($type);
         }
 
@@ -104,9 +112,60 @@ class SchemaDenormalizer implements DenormalizerInterface
     private function instantiateEntity(array $data): EntityInterface
     {
         $entityData = $data[\array_key_first($data)];
+        $entityType = $entityData['@type'] ?? null;
+
+        if ($entityType !== null) {
+            $mapper = $this->getMapper($entityType);
+            if ($mapper !== null) {
+                return $mapper($data);
+            }
+        }
+
+        return $this->instantiateEntityReflection($data);
+    }
+
+    /**
+     * Return the compiled mapper for the entity type (cached per instance), or
+     * null to use the reflection path.
+     */
+    private function getMapper(string $entityType): ?callable
+    {
+        if (\array_key_exists($entityType, $this->mapperCache)) {
+            return $this->mapperCache[$entityType];
+        }
+
+        if (!$this->hydratorAllowsCompiled()) {
+            return $this->mapperCache[$entityType] = null;
+        }
+
+        $mapper = Hydrator::get($entityType, $this->encryption, fn (array $row): EntityInterface => $this->instantiateEntityReflection($row));
+
+        return $this->mapperCache[$entityType] = $mapper;
+    }
+
+    private function hydratorAllowsCompiled(): bool
+    {
+        /** getConfig() rebuilds the full schema on every call, so read the mode */
+        /** once and cache it (it does not change mid-process). */
+        if (self::$hydratorCompiled === null) {
+            self::$hydratorCompiled = getConfig()->get('dom-orm.hydrator') !== 'reflection';
+        }
+
+        return self::$hydratorCompiled;
+    }
+
+    /**
+     * Reflection-based hydration (the original path). Kept as the fallback when
+     * no compiled mapper is available for the entity type.
+     *
+     * @param array<string, array<string, mixed>> $data
+     */
+    private function instantiateEntityReflection(array $data): EntityInterface
+    {
+        $entityData = $data[\array_key_first($data)];
         $entityClass = $this->getEntityByEntityType($entityData['@type']);
 
-        // Apply FragmentMap: rename keys and drop nulls before any hydration.
+        /** Apply FragmentMap: rename keys and drop nulls before any hydration. */
         $fragmentMap = $this->resolveFragmentMap($entityClass);
         if ($fragmentMap !== []) {
             foreach ($fragmentMap as $oldName => $newName) {
@@ -114,20 +173,20 @@ class SchemaDenormalizer implements DenormalizerInterface
                     continue;
                 }
                 if ($newName !== null && !\array_key_exists($newName, $entityData)) {
-                    // Rename: move value to new key so existing hydration logic handles it.
+                    /** Rename: move value to new key so existing hydration logic handles it. */
                     $entityData[$newName] = $entityData[$oldName];
                 }
-                // Drop the legacy key in both rename and removal cases.
+                /** Drop the legacy key in both rename and removal cases. */
                 unset($entityData[$oldName]);
             }
         }
 
-        // Unwrap single-entity groups: transform decoded group arrays into entity instances.
+        /** Unwrap single-entity groups: transform decoded group arrays into entity instances. */
         $groups = $this->resolveGroups($entityClass);
         if ($groups !== null) {
             foreach ($groups as [$groupEntity, $groupType, $propName, $isSingle]) {
-                // Prime entity-type cache for nested relation targets referenced
-                // as class-strings in #[Group(entity: ...)] metadata.
+                /** Prime entity-type cache for nested relation targets referenced */
+                /** as class-strings in #[Group(entity: ...)] metadata. */
                 $this->resolveEntityType($groupEntity);
 
                 $key = $groupType ?? $propName;
@@ -200,8 +259,8 @@ class SchemaDenormalizer implements DenormalizerInterface
                 continue;
             }
 
-            // Constructor args are already hydrated (and potentially decrypted)
-            // above, so avoid reprocessing/redecryption via setters.
+            /** Constructor args are already hydrated (and potentially decrypted) */
+            /** above, so avoid reprocessing/redecryption via setters. */
             if (\array_key_exists($key, $constructorArgs)) {
                 continue;
             }
@@ -227,12 +286,12 @@ class SchemaDenormalizer implements DenormalizerInterface
             }
 
             $method = 'set' . \ucfirst($key);
-            // Guard against orphaned fragments whose setter no longer exists.
+            /** Guard against orphaned fragments whose setter no longer exists. */
             if (!\method_exists($ret, $method)) {
                 continue;
             }
 
-            // Cast string back to the setter's declared scalar type when possible.
+            /** Cast string back to the setter's declared scalar type when possible. */
             if (\is_string($value)) {
                 $setterRef = new \ReflectionMethod($ret, $method);
                 $setterParams = $setterRef->getParameters();

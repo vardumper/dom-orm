@@ -13,8 +13,8 @@ You already know what an ORM is. You have worked with Eloquent or Doctrine.
 ## Entities
 In an ORM, entities are PHP objects that map directly to database tables. Furthermore, entities are used to interact with the database table. For example to save or update an entity. 
 
-## Respositories
-Respositories are also used to interact with the database, mainly to find entities `findAll()`, `find()`, `findBy()`, `findOneBy()` but also to `remove()`
+## Repositories
+Repositories are also used to interact with the database, mainly to find entities `findAll()`, `find()`, `findBy()`, `findOneBy()` but also to `remove()`
 
 ## Installation
 
@@ -87,6 +87,8 @@ Supported environment variables:
 - `DOM_ORM_ENCRYPTION_KEY`
 - `DOM_ORM_CACHE_PATH`
 - `DOM_ORM_CACHE_STRATEGY` (`manual` or `on_persist`)
+- `DOM_ORM_CACHE_MAX_BYTES` (int, LRU eviction budget in bytes; default `67108864`)
+- `DOM_ORM_HYDRATOR` (`auto`, `reflection`, or `compiled`)
 - `DOM_ORM_VERSIONING` (`true/false`, `1/0`, `yes/no`, `on/off`)
 - `DOM_ORM_VERSION_CONTROL` (`git` or `hg`)
 - `DOM_ORM_VERSION_CONTROL_PUSH` (`manual` or `on_persist`)

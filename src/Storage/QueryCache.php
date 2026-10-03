@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Storage;
 
+use DOM\ORM\Mapping\EntityClassResolver;
 use function DOM\ORM\getConfig;
 
 /**
@@ -73,6 +74,19 @@ final class QueryCache
     }
 
     /**
+     * Returns the chunked-cache directory (Phase 2), or null if cache is not configured.
+     */
+    public static function getChunkDir(): ?string
+    {
+        $path = self::getCachePath();
+        if ($path === null) {
+            return null;
+        }
+
+        return ChunkStore::dirFor($path);
+    }
+
+    /**
      * Returns the configured cache strategy: 'manual' (default) or 'on_persist'.
      */
     public static function getStrategy(): string
@@ -89,41 +103,42 @@ final class QueryCache
     }
 
     /**
-     * Returns true when the payload cache file exists on disk.
+     * Returns true when the chunked cache (meta file) exists on disk.
      */
     public static function exists(): bool
     {
-        $path = self::getCachePath();
+        $dir = self::getChunkDir();
 
-        return $path !== null && \file_exists($path);
+        return $dir !== null && (new ChunkStore($dir))->exists();
     }
 
     /**
-     * Loads and returns the payload cache array, or null if the file does not exist.
+     * Loads and returns the chunked-cache store, or null if it does not exist.
      *
-     * @return array<string, array<string, array<string, mixed>>>|null
+     * If the source data file changed since the cache was written (for example a
+     * cron job replaced data.xml), rebuild from the current data so reads stay
+     * correct while keeping subsequent requests served from the fresh cache.
      */
-    public static function load(): ?array
+    public static function load(): ?ChunkStore
     {
-        $path = self::getCachePath();
-        if ($path === null || !\file_exists($path)) {
+        $dir = self::getChunkDir();
+        if ($dir === null) {
             return null;
         }
 
-        /** @var array<string, mixed> $cache */
-        $cache = require $path;
-
-        // If the source data file changed since this cache was written (for example
-        // a cron job replaced data.xml), rebuild from the current data so reads stay
-        // correct while keeping subsequent requests served from the fresh cache.
-        if (self::isStale($cache)) {
-            self::build();
-
-            /** @var array<string, mixed> $cache */
-            $cache = require $path;
+        $store = new ChunkStore($dir);
+        if (!$store->exists()) {
+            return null;
         }
 
-        return $cache;
+        if (self::isStale([
+            '__meta' => $store->meta(),
+        ])) {
+            self::build();
+            $store = new ChunkStore($dir);
+        }
+
+        return $store;
     }
 
     /**
@@ -136,22 +151,24 @@ final class QueryCache
      */
     public static function loadIndex(): ?array
     {
-        $path = self::getIndexPath();
-        if ($path === null || !\file_exists($path)) {
+        $dir = self::getChunkDir();
+        if ($dir === null) {
             return null;
         }
 
-        /** @var array<string, mixed> $index */
-        $index = require $path;
-
-        if (self::isStale($index)) {
-            self::build();
-
-            /** @var array<string, mixed> $index */
-            $index = require $path;
+        $store = new ChunkStore($dir);
+        if (!$store->exists()) {
+            return null;
         }
 
-        return $index;
+        if (self::isStale([
+            '__meta' => $store->meta(),
+        ])) {
+            self::build();
+            $store = new ChunkStore($dir);
+        }
+
+        return $store->index();
     }
 
     /**
@@ -204,16 +221,18 @@ final class QueryCache
             $itemData = self::decodeItemElement($item);
             $payload[$type][$id] = $itemData;
 
-            // Build inverted index for every non-encrypted, non-group fragment.
+            /** Build inverted index for every non-encrypted, non-group fragment. */
             foreach ($itemData as $field => $value) {
                 if ($field === '@id' || $field === '@type') {
                     continue;
                 }
                 if (\is_array($value)) {
-                    // Encrypted values are ['value' => ..., 'searchable-hash' => ...];
-                    // group collections are lists of items. Neither is indexed;
-                    // encrypted fields are remembered so findBy() knows to fall
-                    // back to XPath (searchable-hash matching) for them.
+                    /**
+                     * Encrypted values are ['value' => ..., 'searchable-hash' => ...];
+                     * group collections are lists of items. Neither is indexed;
+                     * encrypted fields are remembered so findBy() knows to fall
+                     * back to XPath (searchable-hash matching) for them.
+                     */
                     if (isset($value['value'])) {
                         $encrypted[$type][$field] = true;
                     }
@@ -224,9 +243,11 @@ final class QueryCache
             }
         }
 
-        // Record a fingerprint of the source data file so any external edit
-        // to it (such as a cron-swapped data.xml) is detected on the next read
-        // and the cache is rebuilt automatically instead of serving stale data.
+        /**
+         * Record a fingerprint of the source data file so any external edit
+         * to it (such as a cron-swapped data.xml) is detected on the next read
+         * and the cache is rebuilt automatically instead of serving stale data.
+         */
         $fingerprint = StorageService::fromConfig()->fingerprint();
         $meta = [
             'format' => self::FORMAT,
@@ -243,15 +264,40 @@ final class QueryCache
         $indexMeta['encrypted'] = $encrypted;
         $index['__meta'] = $indexMeta;
 
-        self::writeAtomic($path, "<?php\n\nreturn " . \var_export($payload, true) . ";\n");
-        self::writeAtomic($indexPath, "<?php\n\nreturn " . \var_export($index, true) . ";\n");
+        /** Phase 2: write the chunked cache (256 shard files + meta + index) so */
+        /** point lookups load a single shard instead of the whole payload. */
+        $dir = self::getChunkDir();
+        if ($dir === null) {
+            throw new \RuntimeException('Could not derive the chunk cache directory from the configured cache_path.');
+        }
+        ChunkStore::build($dir, $payload, $index);
+
+        /** Remove the legacy monolith payload + index files (format 2 single file). */
+        foreach ([$path, $indexPath] as $legacy) {
+            if (\file_exists($legacy)) {
+                \unlink($legacy);
+            }
+        }
+
+        /**
+         * Emit a compiled hydration mapper for every entity type in the data
+         * (and recursively for their group targets) so reads can hydrate
+         * without per-field reflection. Failures here are non-fatal: the
+         * denormalizer falls back to the reflection path.
+         */
+        self::generateHydrators($payload);
     }
 
     /**
-     * Deletes the cache files (payload + index) if they exist.
+     * Deletes the chunked cache (and any legacy monolith files) if they exist.
      */
     public static function flush(): void
     {
+        $dir = self::getChunkDir();
+        if ($dir !== null) {
+            ChunkStore::clearDir($dir);
+        }
+
         foreach ([self::getCachePath(), self::getIndexPath()] as $path) {
             if ($path !== null && \file_exists($path)) {
                 \unlink($path);
@@ -259,24 +305,20 @@ final class QueryCache
         }
     }
 
-    // -----------------------------------------------------------------------
-    // Query helpers — return arrays shaped for SchemaDenormalizer
-    // -----------------------------------------------------------------------
+    /** ----------------------------------------------------------------------- */
+    /** Query helpers — return arrays shaped for SchemaDenormalizer */
+    /** ----------------------------------------------------------------------- */
 
     /**
      * Find a single item by entity type and ID.
      *
-     * @param array<string, array<string, array<string, mixed>>> $cache
+     * Loads only the shard that owns $id (Phase 2), not the whole payload.
+     *
      * @return array{data: list<array<string, array<string, mixed>>>}|null
      */
-    public static function findById(array $cache, string $type, string $id): ?array
+    public static function findById(ChunkStore $cache, string $type, string $id): ?array
     {
-        $typeData = $cache[$type] ?? null;
-        if ($typeData === null) {
-            return null;
-        }
-
-        $itemData = $typeData[$id] ?? null;
+        $itemData = $cache->findById($type, $id);
         if ($itemData === null) {
             return null;
         }
@@ -291,29 +333,20 @@ final class QueryCache
     /**
      * Return all items for an entity type.
      *
-     * @param array<string, array<string, array<string, mixed>>> $cache
      * @return array{data: list<array<string, array<string, mixed>>>}|null
      */
-    public static function findAll(array $cache, string $type): ?array
+    public static function findAll(ChunkStore $cache, string $type): ?array
     {
-        $typeData = $cache[$type] ?? null;
-        if ($typeData === null || \count($typeData) === 0) {
+        $typeData = $cache->findAll($type);
+        if (\count($typeData) === 0) {
             return null;
         }
 
         $data = [];
         foreach ($typeData as $id => $itemData) {
-            // Skip the internal index bucket (legacy format 1 payloads).
-            if ($id === '__idx') {
-                continue;
-            }
             $data[] = [
                 'item-' . $id => $itemData,
             ];
-        }
-
-        if (\count($data) === 0) {
-            return null;
         }
 
         return [
@@ -338,30 +371,30 @@ final class QueryCache
     {
         $typeIdx = $index[$type] ?? null;
         if ($typeIdx === null) {
-            // The index is fresh (stale files are rebuilt on load): a missing
-            // type means the data file holds no items of this type.
+            /** The index is fresh (stale files are rebuilt on load): a missing */
+            /** type means the data file holds no items of this type. */
             return [];
         }
 
         /** @var array<string, bool> $encrypted */
         $encrypted = $index['__meta']['encrypted'][$type] ?? [];
 
-        // Handle id as a special key — no index needed.
+        /** Handle id as a special key — no index needed. */
         $idFilter = null;
         if (isset($criteria['id'])) {
             $idFilter = (string)$criteria['id'];
             unset($criteria['id']);
         }
 
-        // Start with null = "all IDs" and narrow down with each criterion.
+        /** Start with null = "all IDs" and narrow down with each criterion. */
         $candidateIds = null;
 
         foreach ($criteria as $field => $value) {
             $strValue = (string)$value;
 
             if (!isset($typeIdx[$field])) {
-                // Not indexed: encrypted fields need XPath (searchable-hash);
-                // anything else (unknown field, group collection) matches nothing.
+                /** Not indexed: encrypted fields need XPath (searchable-hash); */
+                /** anything else (unknown field, group collection) matches nothing. */
                 if (isset($encrypted[$field])) {
                     return null;
                 }
@@ -369,13 +402,13 @@ final class QueryCache
                 return [];
             }
 
-            // O(1) value lookup in the inverted index.
+            /** O(1) value lookup in the inverted index. */
             $matchingIds = $typeIdx[$field][$strValue] ?? [];
             if (\count($matchingIds) === 0) {
                 return [];
             }
 
-            // Intersect with the running candidate set.
+            /** Intersect with the running candidate set. */
             if ($candidateIds === null) {
                 $candidateIds = \array_flip($matchingIds);
             } else {
@@ -386,7 +419,7 @@ final class QueryCache
             }
         }
 
-        // Apply id filter.
+        /** Apply id filter. */
         if ($idFilter !== null) {
             if ($candidateIds === null) {
                 $candidateIds = [
@@ -402,7 +435,7 @@ final class QueryCache
         }
 
         if ($candidateIds === null) {
-            // No criteria at all — degenerate case: every id of the type.
+            /** No criteria at all — degenerate case: every id of the type. */
             $all = [];
             foreach ($typeIdx as $fieldBuckets) {
                 foreach ($fieldBuckets as $ids) {
@@ -422,28 +455,22 @@ final class QueryCache
      * Materialise the payload entries for a set of IDs (in the given order),
      * shaped for SchemaDenormalizer. Missing IDs are skipped.
      *
-     * @param array<string, array<string, array<string, mixed>>> $cache
+     * Loads only the shards that own the requested IDs (Phase 2).
+     *
      * @param list<string> $ids
      * @return array{data: list<array<string, array<string, mixed>>>}
      */
-    public static function findByIds(array $cache, string $type, array $ids): array
+    public static function findByIds(ChunkStore $cache, string $type, array $ids): array
     {
-        $typeData = $cache[$type] ?? null;
-        if ($typeData === null) {
-            return [
-                'data' => [],
-            ];
-        }
+        $typeData = $cache->findByIds($type, $ids);
 
         $data = [];
         foreach ($ids as $id) {
-            $itemData = $typeData[$id] ?? null;
-            if ($itemData === null) {
-                continue;
+            if (isset($typeData[$id])) {
+                $data[] = [
+                    'item-' . $id => $typeData[$id],
+                ];
             }
-            $data[] = [
-                'item-' . $id => $itemData,
-            ];
         }
 
         return [
@@ -469,54 +496,54 @@ final class QueryCache
             return null;
         }
 
-        // Format 2 payloads carry no index — this method cannot answer.
+        /** Format 2 payloads carry no index — this method cannot answer. */
         if (!isset($typeData['__idx'])) {
             return null;
         }
 
-        // Handle id as a special key — direct hash lookup, no index needed.
+        /** Handle id as a special key — direct hash lookup, no index needed. */
         $idFilter = null;
         if (isset($criteria['id'])) {
             $idFilter = (string)$criteria['id'];
             unset($criteria['id']);
         }
 
-        // Determine the candidate ID set via the inverted index.
-        // Start with null = "all IDs" and narrow down with each criterion.
-        $candidateIds = null; // null means "not yet restricted"
+        /** Determine the candidate ID set via the inverted index. */
+        /** Start with null = "all IDs" and narrow down with each criterion. */
+        $candidateIds = null; /** null means "not yet restricted" */
 
         $idx = $typeData['__idx'];
 
         foreach ($criteria as $field => $value) {
             $strValue = (string)$value;
 
-            // Check whether this field is indexed at all.
+            /** Check whether this field is indexed at all. */
             if (!isset($idx[$field])) {
-                // Field not in index — could be encrypted or simply missing.
-                // Peek at the first item to detect encrypted fields.
+                /** Field not in index — could be encrypted or simply missing. */
+                /** Peek at the first item to detect encrypted fields. */
                 foreach ($typeData as $peekId => $peekData) {
                     if ($peekId === '__idx') {
                         continue;
                     }
                     $peekField = $peekData[$field] ?? null;
                     if (\is_array($peekField)) {
-                        // Encrypted — signal caller to use XPath.
+                        /** Encrypted — signal caller to use XPath. */
                         return null;
                     }
 
-                    // Non-encrypted but value not in index = no matches.
+                    /** Non-encrypted but value not in index = no matches. */
                     return [
                         'data' => [],
                     ];
                 }
 
-                // Empty type.
+                /** Empty type. */
                 return [
                     'data' => [],
                 ];
             }
 
-            // O(1) value lookup in the inverted index.
+            /** O(1) value lookup in the inverted index. */
             $matchingIds = $idx[$field][$strValue] ?? [];
             if (\count($matchingIds) === 0) {
                 return [
@@ -524,7 +551,7 @@ final class QueryCache
                 ];
             }
 
-            // Intersect with the running candidate set.
+            /** Intersect with the running candidate set. */
             if ($candidateIds === null) {
                 $candidateIds = \array_flip($matchingIds);
             } else {
@@ -537,7 +564,7 @@ final class QueryCache
             }
         }
 
-        // Apply id filter.
+        /** Apply id filter. */
         if ($idFilter !== null) {
             if ($candidateIds === null) {
                 $candidateIds = [
@@ -554,7 +581,7 @@ final class QueryCache
             }
         }
 
-        // Materialise the result from the candidate set.
+        /** Materialise the result from the candidate set. */
         $data = [];
         $source = ($candidateIds !== null) ? \array_keys($candidateIds) : \array_keys($typeData);
         foreach ($source as $id) {
@@ -579,6 +606,53 @@ final class QueryCache
         return [
             'data' => $data,
         ];
+    }
+
+    /**
+     * Generate compiled hydrator mappers for all entity types present in the
+     * payload, recursing into group targets.
+     *
+     * @param array<string, mixed> $payload
+     */
+    private static function generateHydrators(array $payload): void
+    {
+        $generated = [];
+        foreach (\array_keys($payload) as $type) {
+            if ($type === '__meta') {
+                continue;
+            }
+            self::generateTypeAndGroups((string)$type, $generated);
+        }
+    }
+
+    /**
+     * @param array<string, bool> $generated
+     */
+    private static function generateTypeAndGroups(string $type, array &$generated): void
+    {
+        if (isset($generated[$type])) {
+            return;
+        }
+        $generated[$type] = true;
+
+        $class = EntityClassResolver::classForEntityType($type);
+        if ($class === null) {
+            return;
+        }
+
+        try {
+            HydratorGenerator::generateForClass($class, Hydrator::getGeneratedDir());
+        } catch (\Throwable) {
+            /** Non-fatal: the denormalizer falls back to reflection. */
+            return;
+        }
+
+        foreach (HydratorGenerator::metaForClass($class)['groups'] as [$groupEntityClass]) {
+            $groupType = EntityClassResolver::entityTypeForClass($groupEntityClass);
+            if ($groupType !== null) {
+                self::generateTypeAndGroups($groupType, $generated);
+            }
+        }
     }
 
     /**
@@ -607,12 +681,12 @@ final class QueryCache
             return true;
         }
 
-        // Format 2 = split payload/index files. Anything older is rebuilt once.
+        /** Format 2 = split payload/index files. Anything older is rebuilt once. */
         if (($stored['format'] ?? 1) !== self::FORMAT) {
             return true;
         }
 
-        // Stat-first: unchanged size + mtime => unchanged file, skip the hash.
+        /** Stat-first: unchanged size + mtime => unchanged file, skip the hash. */
         if (isset($stored['size'], $stored['mtime'])) {
             $stat = StorageService::fromConfig()->stat();
             if (
@@ -626,8 +700,8 @@ final class QueryCache
 
         $current = self::currentDataFingerprint();
         if ($current === null) {
-            // Cannot fingerprint the data file — prefer a fresh read over serving
-            // potentially stale content.
+            /** Cannot fingerprint the data file — prefer a fresh read over serving */
+            /** potentially stale content. */
             return true;
         }
 
@@ -645,32 +719,6 @@ final class QueryCache
             return StorageService::fromConfig()->fingerprint();
         } catch (\Throwable) {
             return null;
-        }
-    }
-
-    /**
-     * Writes $contents to $path atomically (temp file + rename) so readers
-     * never observe a partially written cache file.
-     */
-    private static function writeAtomic(string $path, string $contents): void
-    {
-        $dir = \dirname($path);
-        if (!\is_dir($dir) && !\mkdir($dir, 0755, true) && !\is_dir($dir)) {
-            throw new \RuntimeException(\sprintf('Failed to create cache directory: %s', $dir));
-        }
-
-        $tmp = $path . '.tmp-' . \getmypid();
-        if (\file_put_contents($tmp, $contents) === false) {
-            throw new \RuntimeException(\sprintf('Failed to write cache file: %s', $path));
-        }
-
-        if (!\rename($tmp, $path)) {
-            // rename() over an existing file fails on some platforms (e.g. Windows).
-            if (!\copy($tmp, $path) || !\unlink($tmp)) {
-                @\unlink($tmp);
-
-                throw new \RuntimeException(\sprintf('Failed to write cache file: %s', $path));
-            }
         }
     }
 
@@ -693,7 +741,7 @@ final class QueryCache
 
             if ($child->nodeName === 'fragment') {
                 $name = $child->getAttribute('name');
-                // Preserve searchable-hash attribute when present (encrypted fields)
+                /** Preserve searchable-hash attribute when present (encrypted fields) */
                 $hash = $child->getAttribute('searchable-hash');
                 $value = $child->nodeValue;
 

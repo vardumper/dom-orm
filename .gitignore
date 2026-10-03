@@ -32,3 +32,9 @@ storage/cache-*
 benchmarks/
 blog-post-dom-orm.html
 blog-post-dom-orm.md
+demos/*/node_modules
+demos/*/.yarn/*
+**/storage/*.lock
+**/storage/cache/
+**/storage/generated/
+.profile/data/

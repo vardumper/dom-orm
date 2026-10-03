@@ -8,11 +8,16 @@ use CzProject\GitPhp\Git;
 
 final class GitAdapter implements VcsAdapterInterface
 {
+    public function __construct(
+        private readonly string $binary = 'git',
+    ) {
+    }
+
     public function checkInstalled(): bool
     {
-        $result = @\shell_exec('git --version 2>&1');
+        $result = @\shell_exec(\escapeshellarg($this->binary) . ' --version 2>&1');
 
-        return $result !== null && \str_starts_with(\trim($result), 'git version');
+        return $result !== null && \str_starts_with(\trim($result), $this->binary . ' version');
     }
 
     public function addAll(string $repoPath): void

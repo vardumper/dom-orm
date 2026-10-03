@@ -22,6 +22,8 @@ function getConfig(): Configuration
             'encryption_key' => Expect::string()->nullable()->default(null),
             'cache_path' => Expect::string()->nullable()->default(null),
             'cache_strategy' => Expect::anyOf('manual', 'on_persist')->default('manual'),
+            'cache_max_bytes' => Expect::int()->default(67108864),
+            'hydrator' => Expect::anyOf('auto', 'reflection', 'compiled')->default('auto'),
             'versioning' => Expect::bool()->default(false),
             'version_control' => Expect::anyOf('git', 'hg')->default('git'),
             'version_control_push' => Expect::anyOf('manual', 'on_persist')->default('manual'),
@@ -74,6 +76,8 @@ function getConfig(): Configuration
  * - DOM_ORM_ENCRYPTION_KEY
  * - DOM_ORM_CACHE_PATH
  * - DOM_ORM_CACHE_STRATEGY (manual|on_persist)
+ * - DOM_ORM_CACHE_MAX_BYTES (int, LRU eviction budget in bytes)
+ * - DOM_ORM_HYDRATOR (auto|reflection|compiled)
  * - DOM_ORM_VERSIONING (bool)
  * - DOM_ORM_VERSION_CONTROL (git|hg)
  * - DOM_ORM_VERSION_CONTROL_PUSH (manual|on_persist)
@@ -126,6 +130,16 @@ function getEnvConfig(): array
     $cacheStrategy = envValue('DOM_ORM_CACHE_STRATEGY');
     if ($cacheStrategy !== null) {
         $domOrm['cache_strategy'] = $cacheStrategy;
+    }
+
+    $cacheMaxBytes = envValue('DOM_ORM_CACHE_MAX_BYTES');
+    if ($cacheMaxBytes !== null && \is_numeric($cacheMaxBytes)) {
+        $domOrm['cache_max_bytes'] = (int)$cacheMaxBytes;
+    }
+
+    $hydrator = envValue('DOM_ORM_HYDRATOR');
+    if ($hydrator !== null) {
+        $domOrm['hydrator'] = $hydrator;
     }
 
     $versioning = envBool('DOM_ORM_VERSIONING');

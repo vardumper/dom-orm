@@ -8,8 +8,8 @@ namespace DOM\ORM\Mapping;
 final class Fragment
 {
     public const STORAGE_STRATEGY_INLINE = 'inline';
-    private const STORAGE_STRATEGY_STANDALONE = 'standalone';
     public const DATA_TYPE_JSON_SCALAR = 'json_scalar';
+    private const STORAGE_STRATEGY_STANDALONE = 'standalone';
 
     public function __construct(
         public ?string $fragmentName = null,

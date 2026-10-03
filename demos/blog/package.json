@@ -1,4 +1,7 @@
 {
+  "workspaces": [
+    "demos/*"
+  ],
   "name": "dom-orm-blog-demo",
   "private": true,
   "scripts": {

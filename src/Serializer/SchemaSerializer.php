@@ -2,12 +2,9 @@
 
 namespace DOM\ORM\Serializer;
 
-use DOM\ORM\Serializer\Encoder\SchemaDecoder;
-use DOM\ORM\Serializer\Encoder\SchemaEncoder;
-use DOM\ORM\Serializer\Normalizer\SchemaDenormalizer;
-use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use DOM\ORM\Serializer\Encoder\{SchemaDecoder, SchemaEncoder};
+use DOM\ORM\Serializer\Normalizer\{SchemaDenormalizer, SchemaNormalizer};
+use Symfony\Component\Serializer\Normalizer\{DenormalizerInterface, NormalizerInterface};
 
 class SchemaSerializer implements NormalizerInterface, DenormalizerInterface
 {

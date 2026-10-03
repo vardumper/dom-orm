@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Serializer\Normalizer;
 
-use DOM\ORM\Encryption\EncryptedValue;
-use DOM\ORM\Encryption\EncryptionService;
-use DOM\ORM\{Entity\AbstractEntity, Traits\AttributeResolverTrait};
-use DOM\ORM\Mapping\Fragment;
+use DOM\ORM\{Encryption\EncryptedValue, Encryption\EncryptionService, Entity\AbstractEntity, Mapping\Fragment, Traits\AttributeResolverTrait};
 use Ramsey\Collection\Collection;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -72,7 +69,7 @@ class SchemaNormalizer implements NormalizerInterface
                 $value = (string)$value;
             }
 
-            // Encrypt sensitive string properties when an EncryptionService is configured
+            /** Encrypt sensitive string properties when an EncryptionService is configured */
             if (
                 $this->encryption !== null
                 && \is_string($value)
@@ -109,7 +106,7 @@ class SchemaNormalizer implements NormalizerInterface
             }
 
             if ($value instanceof AbstractEntity) {
-                // Single entity relation — store as a group with one item
+                /** Single entity relation — store as a group with one item */
                 $data['item-' . $object->getId()][$name][] = $this->normalize($value);
             } elseif (\is_array($value) || $value instanceof Collection || \is_iterable($value)) {
                 foreach ($value as $item) {

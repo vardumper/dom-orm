@@ -1,7 +1,7 @@
 # Opcache & Cold Lookups
 
-The benchmark model for the [performance comparison](../compare/) is a **cold
-per-request** measurement: every query runs in a fresh PHP process, so every
+The benchmark model for the performance comparison (data in `benchmarks/compare/`)
+is a **cold per-request** measurement: every query runs in a fresh PHP process, so every
 run pays disk read + compile for the cache files. A real web deployment
 (php-fpm / Apache) is different: **opcache persists across requests**, so only
 the first request after a deploy/restart is cold — every later request serves
@@ -13,7 +13,7 @@ and what it does and does not fix.
 
 ## What opcache does (and does not) fix
 
-For a `require` of `cache.php` / `cache-index.php`:
+For a `require` of the cache files (a shard, `all.php`, or `index.php`):
 
 | Cost | Without opcache | With opcache (warm) |
 |---|---|---|
@@ -27,7 +27,9 @@ Two honest caveats:
 1. **The array is rebuilt per request.** Opcache stores the *compiled script*,
    not the evaluated return value. `require` still executes the script, so a
    monolithic 500K payload costs ~100s of ms + ~300 MB per worker even when
-   "warm". Chunking (Phase 2) is what removes this residual.
+   "warm". The chunked cache (Phase 2, done) removes most of this: a point
+   lookup requires one small shard, and `findAllLazy()` (Phase 3, done) avoids
+   materializing the payload at all.
 2. **The shared memory holds the compiled dataset.** For a whole-dataset file
    the opcache entry is roughly the size of the file itself (the constant pool
    holds every field value). That is the all-or-nothing in-memory model —
@@ -50,13 +52,13 @@ shared memory is only inherited across `fork()` — see [Verifying](#verifying-o
 Point lookups become **size-independent (~2 ms flat from 5K to 50K)** — the
 same shape as the databases, and at 50K faster than Doctrine+MariaDB (3.4 ms)
 and Doctrine+PostgreSQL (9.0 ms); only SQLite is quicker (0.36 ms). `findAll()`
-improves only ~1.3× (624 → 487 ms @50K) because of caveat 1 above (per-request
-array rebuild). Full data: `benchmarks/compare/analysis/`.
+is still allocation-bound (the payload array is rebuilt per request — caveat 1),
+so it improves only ~1.3× through the chunked cache; `findAllLazy()` sidesteps
+the materialization entirely. Full data: `benchmarks/compare/analysis/`.
 
 ## Recommended settings
 
-Drop-in file: [`deploy/opcache.ini`](../../deploy/opcache.ini). The important
-dials:
+Drop-in file: `deploy/opcache.ini` (in the repository root). The important dials:
 
 | Setting | Value | Why |
 |---|---|---|
@@ -151,12 +153,14 @@ not fit: check `opcache.memory_consumption` and `opcache.max_file_size`.
 ## When opcache is not enough
 
 If the warm per-request cost (array rebuild + per-process memory) is still too
-high for your dataset, the fix is structural, not configurational:
+high for your dataset, the fix is structural, not configurational. Both of the
+two structural fixes are now implemented:
 
-- **Phase 2** (chunked cache + LRU): a cold `find()` loads the index + one
-  small chunk → cold ≈ warm (ms range), and shared memory holds only what is
-  hot.
-- **Phase 3** (SAX streaming + lazy result sets): `findAll()` without
-  materializing the dataset.
+- **Chunked cache (Phase 2, done):** a `find()` loads the index + one small
+  shard → cold ≈ warm (ms range), and shared memory holds only what is hot.
+- **Lazy result sets (Phase 3, done):** `findAllLazy()` / `findByLazy()` return
+  a `LazyCollection` that hydrates on first access, so a full scan no longer
+  materializes the whole dataset (16.3 MB vs ~114 MB @50K).
 
-See [roadmap.md](roadmap.md).
+See [roadmap.md](roadmap.md) for the phase history and [plan.md](plan.md) for
+the measured results.

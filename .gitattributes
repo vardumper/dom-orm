@@ -1,5 +1,5 @@
 docs/ export-ignore
-examples/ export-ignore
+demos/ export-ignore
 tests/ export-ignore
 .gitignore export-ignore
 .yarnrc export-ignore

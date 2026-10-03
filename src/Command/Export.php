@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Command;
 
-use DOM\ORM\Entity\AbstractEntity;
-use DOM\ORM\Mapping\Exclude;
-use DOM\ORM\Mapping\Fragment;
-use DOM\ORM\Mapping\Item;
-use DOM\ORM\Storage\StorageService;
+use DOM\ORM\{Entity\AbstractEntity, Mapping\Exclude, Mapping\Fragment, Mapping\Item, Storage\StorageService};
 use Symfony\Component\Yaml\Yaml;
 use function DOM\ORM\getConfig;
 
@@ -145,7 +141,7 @@ class Export
                 if (\in_array($name, $excluded, true)) {
                     continue;
                 }
-                // Omit internal searchable-hash meta — export only the (possibly encrypted) value.
+                /** Omit internal searchable-hash meta — export only the (possibly encrypted) value. */
                 $row[$name] = $child->nodeValue;
             }
 

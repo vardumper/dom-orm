@@ -27,16 +27,9 @@ it('GitAdapter reports git as installed when git binary is on PATH', function ()
 });
 
 it('GitAdapter::checkInstalled returns false when given an unknown binary', function (): void {
-    // We monkey-patch by sub-classing to redirect the check to a binary that
-    // will never exist, so we can assert the false-path deterministically.
-    $adapter = new class() extends GitAdapter {
-        public function checkInstalled(): bool
-        {
-            $result = @\shell_exec('__dom_orm_nonexistent_binary__ --version 2>&1');
-
-            return $result !== null && \str_starts_with(\trim((string)$result), '__dom_orm_nonexistent_binary__ version');
-        }
-    };
+    // Inject a binary that will never exist so we can assert the false-path
+    // deterministically (GitAdapter is final, so we cannot sub-class it).
+    $adapter = new GitAdapter('__dom_orm_nonexistent_binary__');
 
     expect($adapter->checkInstalled())->toBeFalse();
 });

@@ -3,11 +3,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Storage;
 
-use League\Flysystem\DirectoryAttributes;
-use League\Flysystem\FileAttributes;
-use League\Flysystem\InvalidVisibilityProvided;
-use League\Flysystem\StorageAttributes;
-use League\Flysystem\Visibility;
+use League\Flysystem\{DirectoryAttributes, FileAttributes, InvalidVisibilityProvided, StorageAttributes, Visibility};
 
 final class InMemoryPathHelper
 {

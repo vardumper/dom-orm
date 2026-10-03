@@ -7,5 +7,5 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
-  "packageManager": "yarn@4.14.0"
+  "packageManager": "yarn@4.18.1"
 }

@@ -1,0 +1,198 @@
+{
+    "env": {
+        "php_version": "8.5.4",
+        "libxml_version": "2.15.2",
+        "xdebug": "develop",
+        "opcache_loaded": true,
+        "opcache_enabled": false,
+        "opcache_validate_timestamps": "1",
+        "opcache_enable_cli": "0",
+        "query_cache": "disabled (DOM_ORM_CACHE_PATH unset)",
+        "dataset": "\/home\/erik-poehler\/Sites\/dom-orm\/.profile\/data\/data.xml",
+        "dataset_bytes": 17831288,
+        "records": 50000,
+        "lookup_id": "35323035353936653763653331636364"
+    },
+    "warmup": {
+        "cold_repo_construct_ms": 4674.677,
+        "cold_first_findall_ms": 1534659.383,
+        "warm_repo_construct_ms": 235.327
+    },
+    "findall": {
+        "runs": 10,
+        "read_us": {
+            "median_ms": -1381941.9,
+            "p95_ms": -1361731.397,
+            "min_ms": -1426643.428,
+            "max_ms": -1361731.397,
+            "per_record_us": -27638.838
+        },
+        "loadXml_us": {
+            "median_ms": 78846.027,
+            "p95_ms": 79111.431,
+            "min_ms": 77345.884,
+            "max_ms": 79111.431,
+            "per_record_us": 1576.921
+        },
+        "newXPath_us": {
+            "median_ms": 4.919,
+            "p95_ms": 6.693,
+            "min_ms": 3.847,
+            "max_ms": 6.693,
+            "per_record_us": 0.098
+        },
+        "xpath_us": {
+            "median_ms": 65818.892,
+            "p95_ms": 67199.793,
+            "min_ms": 63710.027,
+            "max_ms": 67199.793,
+            "per_record_us": 1316.378
+        },
+        "decode_us": {
+            "median_ms": 383460.829,
+            "p95_ms": 391315.682,
+            "min_ms": 365629.978,
+            "max_ms": 391315.682,
+            "per_record_us": 7669.217
+        },
+        "denorm_us": {
+            "median_ms": 867347.717,
+            "p95_ms": 890380.501,
+            "min_ms": 846265.572,
+            "max_ms": 890380.501,
+            "per_record_us": 17346.954
+        },
+        "total_us": {
+            "median_ms": 1435885.162,
+            "p95_ms": 1446146.106,
+            "min_ms": 1383823.924,
+            "max_ms": 1446146.106,
+            "per_record_us": 28717.703
+        },
+        "bucket_parse": {
+            "median_ms": -1303816.854,
+            "p95_ms": -1284381.135,
+            "min_ms": -1347792.482,
+            "max_ms": -1284381.135,
+            "per_record_us": -26076.337
+        },
+        "bucket_xpath": {
+            "median_ms": 65818.892,
+            "p95_ms": 67199.793,
+            "min_ms": 63710.027,
+            "max_ms": 67199.793,
+            "per_record_us": 1316.378
+        },
+        "bucket_hydration": {
+            "median_ms": 1244834.086,
+            "p95_ms": 1281696.183,
+            "min_ms": 1218063.246,
+            "max_ms": 1281696.183,
+            "per_record_us": 24896.682
+        },
+        "bucket_total": {
+            "median_ms": 1435885.162,
+            "p95_ms": 1446146.106,
+            "min_ms": 1383823.924,
+            "max_ms": 1446146.106,
+            "per_record_us": 28717.703
+        },
+        "residual_total_minus_phases": {
+            "median_ms": 1436103.235,
+            "p95_ms": 1446351.254
+        }
+    },
+    "find_by_id": {
+        "runs": 30,
+        "read_us": {
+            "median_ms": -149857.891,
+            "p95_ms": -149033.79,
+            "min_ms": -198258.21,
+            "max_ms": -148832.81,
+            "per_record_us": -149857891
+        },
+        "loadXml_us": {
+            "median_ms": 77515.172,
+            "p95_ms": 105379.747,
+            "min_ms": 76776.367,
+            "max_ms": 127736.687,
+            "per_record_us": 77515172
+        },
+        "newXPath_us": {
+            "median_ms": 4.168,
+            "p95_ms": 5.881,
+            "min_ms": 3.427,
+            "max_ms": 5.962,
+            "per_record_us": 4168
+        },
+        "xpath_us": {
+            "median_ms": 71864.781,
+            "p95_ms": 73306.289,
+            "min_ms": 70178.877,
+            "max_ms": 76443.421,
+            "per_record_us": 71864781
+        },
+        "decode_us": {
+            "median_ms": 50.378,
+            "p95_ms": 53.063,
+            "min_ms": 47.973,
+            "max_ms": 54.255,
+            "per_record_us": 50378
+        },
+        "denorm_us": {
+            "median_ms": 104.313,
+            "p95_ms": 111.236,
+            "min_ms": 99.894,
+            "max_ms": 113.35,
+            "per_record_us": 104313
+        },
+        "total_us": {
+            "median_ms": 156550.094,
+            "p95_ms": 158238.444,
+            "min_ms": 155323.413,
+            "max_ms": 159496.917,
+            "per_record_us": 156550094
+        },
+        "bucket_parse": {
+            "median_ms": -72191.946,
+            "p95_ms": -71805.365,
+            "min_ms": -76779.393,
+            "max_ms": -70516.443,
+            "per_record_us": -72191946
+        },
+        "bucket_xpath": {
+            "median_ms": 71864.781,
+            "p95_ms": 73306.289,
+            "min_ms": 70178.877,
+            "max_ms": 76443.421,
+            "per_record_us": 71864781
+        },
+        "bucket_hydration": {
+            "median_ms": 156.303,
+            "p95_ms": 163.788,
+            "min_ms": 149.36,
+            "max_ms": 165.942,
+            "per_record_us": 156303
+        },
+        "bucket_total": {
+            "median_ms": 156550.094,
+            "p95_ms": 158238.444,
+            "min_ms": 155323.413,
+            "max_ms": 159496.917,
+            "per_record_us": 156550094
+        },
+        "residual_total_minus_phases": {
+            "median_ms": 156731.156,
+            "p95_ms": 158416.85
+        }
+    },
+    "memory": {
+        "start_bytes": 4194304,
+        "after_findall_bytes": 176160768,
+        "peak_after_findall_bytes": 211836928,
+        "after_find_bytes": 176160768,
+        "peak_after_find_bytes": 211836928,
+        "peak_after_findall_mb": 202.02,
+        "peak_after_find_mb": 202.02
+    }
+}

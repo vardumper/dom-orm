@@ -5,9 +5,10 @@ Doctrine + MariaDB) using a **cold per-request model**: every measured query run
 PHP process (fresh file load / DB connection / EntityManager), 30 iterations, medians.
 Results and charts live in `benchmarks/compare/`.
 
-This roadmap tracks the remaining optimization phases. Phase 1 is done; phases 2–5 are
-planned. Each phase ends with a green test suite (pest, phpstan, ecs) and a re-baselined
-benchmark run recorded in `benchmarks/compare/charts/SUMMARY.md`.
+This roadmap tracks the optimization phases. **Phases 1, 2, 3, and 5 are done; phases 4
+and 6 are deferred.** Each completed phase ended with a green test suite (pest, phpstan,
+ecs) and a re-baselined benchmark run recorded in `benchmarks/compare/charts/`. Measured
+results live in [plan.md](plan.md).
 
 ## Phase 1 — Quick wins (done)
 
@@ -32,52 +33,48 @@ Measured effect (cold cache backend, median ms @500k entities):
 The remaining gap to databases is dominated by loading the monolithic payload file and by
 materializing full result sets. That is what phases 2 and 3 target.
 
-## Phase 2 — Chunked cache + LRU eviction
+## Phase 2 — Chunked cache (done)
 
-**Goal:** a cold `find()` should load one small chunk, not the whole payload.
+**Goal:** a `find()` should load one small chunk, not the whole payload.
 
-- **Chunked payload format.** Replace the monolithic `cache.php` with per-entity chunk
-  files, sharded: `chunks/{type}/{id[0:2]}/{id}.php` (one `return [...]` per file →
-  opcache-friendly, individually evictable). `cache-index.php` stays the lookup layer
-  (id → field values + chunk path).
-- **`QueryCache` API.** Add `put(type, id, itemData)`, `get(type, id)`, `delete(type, id)`,
-  `evict(maxBytes)`; new `cache_max_bytes` config (`DOM_ORM_CACHE_MAX_BYTES`, default
-  e.g. 64 MB).
-- **LRU bookkeeping + eviction.** LRU state in a small `cache-lru.php` file (id →
-  last-access tick), updated on hit; eviction deletes the coldest chunk files when the
-  budget is exceeded and prunes index entries for evicted ids. LRU is best-effort across
-  processes (flock around index/lru updates, same lock as writes); a missed chunk falls
-  back to an XML read + chunk write (self-healing).
-- **Files:** `src/Storage/QueryCache.php`, `src/Storage/StorageService.php` (multi-file
-  atomic write helper), `src/helpers.php` (new config keys).
-- **Risk:** index/chunk divergence under concurrent writers — mitigated by the existing
-  flock plus a "chunk missing → rebuild from XML" fallback; add concurrency tests.
+- **Chunked payload format.** The monolithic `cache.php` was replaced by a chunked
+  directory under `{cache_path}/../cache/`: `meta.php` (fingerprint), `index.php`
+  (inverted index), `all.php` (full payload for scans), `ids.php` (ordered id list),
+  and 256 shard files `{00..ff}.php` keyed by `crc32(id) & 0xff`. A point lookup loads
+  exactly one shard (~1/256th of the data); a full scan loads `all.php` in one `require`
+  so `findAll()` does not pay a 256-shard fan-out.
+- **Why crc32, not `substr(id, 0, 2)`:** DOM-ORM ids are hex-encoded ASCII, so the first
+  two chars only span 16 values — `crc32` spreads any distribution across all 256 shards.
+- **Files:** `src/Storage/ChunkStore.php` (new), `src/Storage/QueryCache.php`,
+  `src/helpers.php` (`cache_max_bytes` config key, default 64 MB).
+- **Result:** `find($id)` 100 ms → 0.39 ms (256×); `findAll()` 968 ms → 697 ms (1.39×).
+- **Deferred:** LRU eviction (`cache_max_bytes` is configured but not yet enforced) and
+  the `put`/`get`/`delete`/`evict` per-entity cache API.
 
-## Phase 3 — SAX streaming + lazy result sets
+## Phase 3 — Lazy result sets (done)
 
-**Goal:** `findAll()` should not materialize the whole dataset (memory peak 2.9 GB @500k).
+**Goal:** `findAll()` should not materialize the whole dataset.
 
-- **`XmlStreamReader` (XMLReader).** New `src/Storage/XmlStreamReader.php` streams
-  `<item>` elements one at a time (O(1) memory), reusing the existing decode logic
-  (nested `<group>`, `searchable-hash`). Used by cache/index build (replaces DOM+XPath),
-  targeted single-entity extraction for `find($id)`, and lazy iteration.
 - **Lazy result sets.** New `src/Repository/LazyCollection.php`
-  (`IteratorAggregate + Countable + ArrayAccess` over a generator; `count()` is
-  lazy-cached, documented O(n)). New additive repository methods:
+  (`IteratorAggregate + Countable + ArrayAccess` over the `ChunkStore` + the ordered
+  `ids.php`; `count()` is O(1)). New additive repository methods:
   `findAllLazy(): ?LazyCollection`, `findByLazy(array $criteria, ...): ?LazyCollection`.
   Existing `findAll()`/`findBy()` keep their exact signatures and materialized behavior.
-- **Risk:** XMLReader has no XPath — group nesting and attribute edge cases need
-  dedicated tests against the existing DOM decoder (same output for a corpus of files).
-  Consumers expecting `Ramsey\Collection` stay on the old methods.
+  `get()` / `first()` / `last()` / `map()` / `filter()` hydrate on first access and cache;
+  memory is flat in records *touched*, not records *found*.
+- **Result:** `findAllLazy()` 50 K is 16.3 MB vs 114 MB materialized (−86%); 500 K lazy is
+  115.8 MB vs ~1.1 GB materialized.
+- **Deferred:** SAX streaming (`XmlStreamReader` via XMLReader) and ghost objects. The
+  lazy collection alone meets the memory gate, so neither was needed for this scope.
 
-## Phase 4 — Write-through incremental invalidation
+## Phase 4 — Write-through incremental invalidation (deferred)
 
 **Goal:** a write should update the cache in O(entity + index), not rebuild it
 (full rebuild costs 7–10 s per write @500k with `on_persist`).
 
 - **New `cache_strategy = 'incremental'`** (alongside `manual`, `on_persist`; default
   stays `manual`):
-  - `persist()` → upsert the entity's chunk + update `cache-index.php` (diff old vs new
+  - `persist()` → upsert the entity's shard + update `index.php` (diff old vs new
     field values, move the id between value buckets).
   - `removeById()` → delete chunk + prune index buckets.
   - `persistBatch()` → collect all diffs, one index rewrite at the end (protects the
@@ -89,24 +86,23 @@ materializing full result sets. That is what phases 2 and 3 target.
 
 ## Phase 5 — Prove it
 
-- **Extend the benchmark.** New ops in `benchmarks/compare/worker.php`: `find_all_lazy`
-  (iterate + count) and `find_by_chunked` (chunked-cache find), measured in the same cold
-  per-request model. Re-run the full suite at all 5 sizes; regenerate the 4 charts +
-  `SUMMARY.md`; add a before/after panel per feature.
-- **Acceptance targets** (from the Phase 1 baseline):
+- **Benchmark harness.** `benchmarks/compare/phase5-bench.php` (time gates, median of 10,
+  opcache-warm), `phase5-memory.php` (memory in fresh processes), and
+  `phase5-generate.php` (500 K dataset). Results recorded in
+  `benchmarks/compare/charts/PHASE5-GATES.md`.
+- **Acceptance gates (50 K, opcache-warm):**
 
-| target | baseline (Phase 1) | target |
-|---|---|---|
-| cold find() @500k | 1219 ms | < 50 ms |
-| findAll() @500k memory | 2.9 GB peak | < 500 MB |
-| incremental write @500k | ~8 s (on_persist) | < 100 ms |
+| gate | target | actual | status |
+|---|---|---|---|
+| `find($id)` latency | ≤ 10 ms | 0.02 ms | ✅ (5015×) |
+| `findAll()` cached | ≤ 320 ms | 718 ms | ❌ unreachable (allocation floor ~1.37×) |
+| memory (materialized) | < 100 MB | 114.1 MB | ❌ |
+| memory (lazy) | < 100 MB | 16.3 MB | ✅ |
+| 500 K lazy sanity | — | 115.8 MB (vs ~1.1 GB) | ✅ |
 
-- **Quality gates:** pest unit tests per feature (chunked cache CRUD + eviction, index
-  coherence, streamer parity with the DOM decoder, LazyCollection semantics, incremental
-  invalidation incl. a concurrent-writer test), plus the existing `composer test`,
-  `phpstan`, `ecs` gates.
+- **Quality gates:** pest (182 passed, 0 failed), phpstan, and ecs all green.
 
-## Phase 6 — Resident runtime support (Swoole / RoadRunner)
+## Phase 6 — Resident runtime support (Swoole / RoadRunner) (deferred)
 
 **Goal:** in a long-lived worker runtime, a request should pay the warm
 in-process numbers (0.011 ms lookups), not the per-request numbers.
@@ -134,18 +130,21 @@ rebuild, no stat, no require.
   alive across requests; rebuild the cache on deploy (not per request);
   `on_persist` stays viable because writes happen in the same resident process.
 
-## Sequencing
+## Status summary
 
-| Phase | Depends on | Can run parallel with |
-|---|---|---|
-| 2 (chunked cache + LRU) | 1 | 3 |
-| 3 (SAX + lazy results) | — | 2 |
-| 4 (incremental writes) | 2 | — |
-| 5 (benchmark + gates) | 2–4 | — |
-| 6 (resident runtimes) | 1 | 2–5 |
+| Phase | Status |
+|---|---|
+| 1 (quick wins) | done |
+| 2 (chunked cache) | done (LRU eviction deferred) |
+| 3 (lazy result sets) | done (SAX streaming + ghosts deferred) |
+| 4 (incremental writes) | deferred |
+| 5 (benchmark + gates) | done |
+| 6 (resident runtimes) | deferred |
 
-## Open questions (answer before starting phase 2)
+## Decisions (resolved)
 
-1. LRU budget default: 64 MB? Evict by bytes, chunk count, or both?
-2. Chunk sharding: 2-hex prefix (256 shards) or 1 hex (16 shards) for smaller datasets?
-3. Should `findBy` support `IN`/prefix patterns, or stay equality-only (as today)?
+1. LRU budget default: **64 MB** (`cache_max_bytes`, `DOM_ORM_CACHE_MAX_BYTES`) — configured,
+   enforcement deferred with Phase 4.
+2. Chunk sharding: **256 shards** via `crc32(id) & 0xff` (not a 2-hex prefix, which only
+   spans 16 values for hex-encoded ids).
+3. `findBy` stays **equality-only** (as today).

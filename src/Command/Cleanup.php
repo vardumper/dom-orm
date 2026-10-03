@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Command;
 
-use DOM\ORM\Entity\AbstractEntity;
-use DOM\ORM\Mapping\Fragment;
-use DOM\ORM\Mapping\FragmentMap;
-use DOM\ORM\Mapping\Item;
-use DOM\ORM\Storage\StorageService;
+use DOM\ORM\{Entity\AbstractEntity, Mapping\Fragment, Mapping\FragmentMap, Mapping\Item, Storage\StorageService};
 
 /**
  * Removes orphaned <fragment> nodes from the XML — i.e. fragments whose name no
@@ -58,9 +54,9 @@ class Cleanup
                 continue;
             }
 
-            // Compute the set of fragment names that are "live" for this entity:
-            // all current #[Fragment] names PLUS all rename *targets* in #[FragmentMap]
-            // (so a fragment just migrated to 'newName' is not immediately removed).
+            /** Compute the set of fragment names that are "live" for this entity: */
+            /** all current #[Fragment] names PLUS all rename *targets* in #[FragmentMap] */
+            /** (so a fragment just migrated to 'newName' is not immediately removed). */
             $liveNames = self::resolveLiveFragmentNames($entityClass);
 
             $toRemove = [];
@@ -105,7 +101,7 @@ class Cleanup
         $names = [];
         $ref = new \ReflectionClass($class);
 
-        // Current declared fragment names.
+        /** Current declared fragment names. */
         $parentClass = $ref->getParentClass();
         $properties = \array_merge($ref->getProperties(), ($parentClass !== false) ? $parentClass->getProperties() : []);
         foreach ($properties as $property) {
@@ -115,7 +111,7 @@ class Cleanup
             }
         }
 
-        // Rename targets from FragmentMap (allow recently-migrated names to survive).
+        /** Rename targets from FragmentMap (allow recently-migrated names to survive). */
         foreach ($ref->getAttributes(FragmentMap::class) as $attr) {
             foreach ($attr->newInstance()->map as $newName) {
                 if ($newName !== null) {

@@ -172,7 +172,9 @@ it('save-time cache rebuilds can export configured formats', function () use (&$
     $manager = new TestEntityManager();
     $manager->persist(new Tag('Exported', 'export-id'));
 
-    expect(\getcwd() . '/storage/cache.php')->toBeFile();
+    // Phase 2: the cache is a chunked directory (meta + index + shards + all),
+    // not a single cache.php file.
+    expect(\getcwd() . '/storage/cache/meta.php')->toBeFile();
     expect(\getcwd() . '/storage/export.json')->toBeFile();
     expect(\getcwd() . '/storage/export.php')->toBeFile();
     expect((string)\file_get_contents(\getcwd() . '/storage/export.json'))->toContain('export-id');

@@ -1,0 +1,55 @@
+{
+    "env": {
+        "php": "8.5.4",
+        "libxml": "2.15.2",
+        "opcache_enabled": true,
+        "records": 50000
+    },
+    "cache_build_ms": 722.6,
+    "find_ms": 0.02,
+    "findAll_ms": 718.43,
+    "findBy_ms": 0.02,
+    "findOneBy_ms": 0.02,
+    "materialized_memory_mb": 114.1,
+    "lazy_memory_mb": 16.3,
+    "lazy_memory_after_touch_1k_mb": 16.3,
+    "lazy_500k_memory_mb": 115.8,
+    "lazy_count": 50000,
+    "baseline": {
+        "find_ms": 100.31,
+        "findAll_ms": 968.23,
+        "findAll_memory_mb": 202
+    },
+    "gates": {
+        "find_le_10ms": {
+            "target": 10,
+            "actual": 0.02,
+            "pass": true
+        },
+        "find_10x": {
+            "target": 10,
+            "actual": 5015.5,
+            "pass": true
+        },
+        "findAll_le_320ms": {
+            "target": 320,
+            "actual": 718.43,
+            "pass": false
+        },
+        "findAll_3x": {
+            "target": 3,
+            "actual": 1.35,
+            "pass": false
+        },
+        "memory_lt_100mb": {
+            "target": 100,
+            "actual": 114.1,
+            "pass": false
+        },
+        "lazy_memory_lt_100mb": {
+            "target": 100,
+            "actual": 16.3,
+            "pass": true
+        }
+    }
+}

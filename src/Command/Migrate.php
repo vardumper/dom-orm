@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace DOM\ORM\Command;
 
-use DOM\ORM\Entity\AbstractEntity;
-use DOM\ORM\Mapping\Fragment;
-use DOM\ORM\Mapping\FragmentMap;
-use DOM\ORM\Mapping\Item;
-use DOM\ORM\Storage\StorageService;
+use DOM\ORM\{Entity\AbstractEntity, Mapping\Fragment, Mapping\FragmentMap, Mapping\Item, Storage\StorageService};
 
 /**
  * Applies all #[FragmentMap] rename/removal declarations to the live XML.
@@ -40,7 +36,7 @@ class Migrate
 
         $xpath = new \DOMXPath($dom);
 
-        // Build entity-type → class map from all declared entities.
+        /** Build entity-type → class map from all declared entities. */
         $typeToClass = self::buildTypeToClassMap();
 
         $stats = [
@@ -73,23 +69,23 @@ class Migrate
                 \assert($oldFragment instanceof \DOMElement);
 
                 if ($newName !== null) {
-                    // Check if new fragment already exists (conflict: new wins).
+                    /** Check if new fragment already exists (conflict: new wins). */
                     $newFragments = $xpath->query(\sprintf('fragment[@name="%s"]', $newName), $item);
                     if ($newFragments !== false && $newFragments->length > 0) {
-                        // Remove orphaned old fragment (new already present).
+                        /** Remove orphaned old fragment (new already present). */
                         if (!$dryRun) {
                             $item->removeChild($oldFragment);
                         }
                         $stats['removed']++;
                     } else {
-                        // Rename: update name attribute in place.
+                        /** Rename: update name attribute in place. */
                         if (!$dryRun) {
                             $oldFragment->setAttribute('name', $newName);
                         }
                         $stats['renamed']++;
                     }
                 } else {
-                    // Removal: delete the fragment.
+                    /** Removal: delete the fragment. */
                     if (!$dryRun) {
                         $item->removeChild($oldFragment);
                     }
