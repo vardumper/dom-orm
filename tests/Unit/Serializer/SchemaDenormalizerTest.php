@@ -7,7 +7,7 @@ use DOM\ORM\Entity\AbstractEntity;
 use DOM\ORM\Serializer\Normalizer\SchemaDenormalizer;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use Ramsey\Collection\Collection;
-use Tests\Fixtures\{JsonScalarArrayFragmentEntity, MigratingPerson, RelComment, RelPost, RelProfile, RelUserSingle, SensitiveUser, SetterHydratedEntity, Tag, TypedFieldEntity};
+use Tests\Fixtures\{JsonScalarArrayFragmentEntity, MigratingPerson, NoFragmentEntity, RelComment, RelPost, RelProfile, RelUserSingle, SensitiveUser, SetterHydratedEntity, Tag, TypedFieldEntity};
 
 // Canonical decoded array structure produced by SchemaDecoder/SchemaEncoder::decode
 function makeTagData(string $id = 'abc123', string $name = 'TestTag', string $createdAt = '2024-01-01T00:00:00+00:00'): array
@@ -587,5 +587,90 @@ describe('reflection-mode hydration', function () use (&$prevCompiled, &$prevHyd
         ];
         $entity = $denormalizer->denormalize($data, MigratingPerson::class, SchemaNormalizer::FORMAT)->first();
         expect($entity->getName())->toBe('Jane Doe');
+    });
+
+    it('throws when a JSON scalar fragment contains invalid JSON', function (): void {
+        $denormalizer = new SchemaDenormalizer();
+        $data = [
+            'data' => [
+                [
+                    'item-js-err' => [
+                        '@id' => 'js-err',
+                        '@type' => 'json_scalar_array_fragment_entity',
+                        'payload' => '{invalid json',
+                    ],
+                ],
+            ],
+        ];
+        expect(fn () => $denormalizer->denormalize($data, JsonScalarArrayFragmentEntity::class, SchemaNormalizer::FORMAT)->first())
+            ->toThrow(\InvalidArgumentException::class);
+    });
+
+    it('throws when a JSON scalar fragment decodes to a non-array', function (): void {
+        $denormalizer = new SchemaDenormalizer();
+        $data = [
+            'data' => [
+                [
+                    'item-js-scalar' => [
+                        '@id' => 'js-scalar',
+                        '@type' => 'json_scalar_array_fragment_entity',
+                        'payload' => '"just a string"',
+                    ],
+                ],
+            ],
+        ];
+        expect(fn () => $denormalizer->denormalize($data, JsonScalarArrayFragmentEntity::class, SchemaNormalizer::FORMAT)->first())
+            ->toThrow(\InvalidArgumentException::class);
+    });
+
+    it('decodes a nested JSON scalar array via reflection', function (): void {
+        $denormalizer = new SchemaDenormalizer();
+        $data = [
+            'data' => [
+                [
+                    'item-js-nested' => [
+                        '@id' => 'js-nested',
+                        '@type' => 'json_scalar_array_fragment_entity',
+                        'payload' => \json_encode([
+                            [
+                                'a' => 1,
+                                'b' => 'two',
+                            ],
+                            [
+                                'c' => 3,
+                            ],
+                        ]),
+                    ],
+                ],
+            ],
+        ];
+        /** @var JsonScalarArrayFragmentEntity $entity */
+        $entity = $denormalizer->denormalize($data, JsonScalarArrayFragmentEntity::class, SchemaNormalizer::FORMAT)->first();
+        expect($entity->getPayload())->toBe([
+            [
+                'a' => 1,
+                'b' => 'two',
+            ],
+            [
+                'c' => 3,
+            ],
+        ]);
+    });
+
+    it('hydrates an entity with no fragments via reflection', function (): void {
+        $denormalizer = new SchemaDenormalizer();
+        $data = [
+            'data' => [
+                [
+                    'item-nofrag' => [
+                        '@id' => 'nofrag-1',
+                        '@type' => 'no_fragment_entity',
+                    ],
+                ],
+            ],
+        ];
+        $entity = $denormalizer->denormalize($data, NoFragmentEntity::class, SchemaNormalizer::FORMAT)->first();
+        expect($entity)->toBeInstanceOf(NoFragmentEntity::class);
+        expect($entity->getId())->toBe('nofrag-1');
     });
 });
