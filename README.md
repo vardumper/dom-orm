@@ -17,14 +17,14 @@ DOM ORM is a lightweight, zero-setup, XML-based persistence layer for small data
 
 ## Features
 
-- Very Lightweight, zero-setup persistence — entities live in a single XML file, no database server
-- In-Memory, Local and Remote Storage via Flysystem (S3, Azure, Google Cloud, (S)FTP).
+- Very Lightweight, zero-setup persistence — entities live in a single XML file, the single source of truth.
+- In-Memory (process runtime), Local file and Remote Storage via Flysystem (S3, Azure, Google Cloud, (S)FTP).
 - Relationships: one-to-one, one-to-many, many-to-one, and many-to-many.
 - Lazy Resultsets, fast reads, Schema evolution
 - Git / Mercurial versioning out of the box.
 - Field-level AES-256-GCM encryption via `#[Sensitive]`, with searchable HMAC hashes.
 - Export to JSON, YAML, and XML.
-- Support for PHP 8.3, 8.4, 8.5, 8.6
+- Works with PHP 8.3, 8.4, 8.5 and 8.6
 
 ## Installation
 
