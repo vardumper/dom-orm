@@ -121,3 +121,25 @@ it('decode extracts fragment name and value correctly', function (): void {
     expect($itemData['@type'])->toBe('tag');
     expect($itemData['@id'])->toBe('id1');
 });
+
+it('decode with a group root returns the group items keyed by type', function (): void {
+    $encoder = new SchemaEncoder();
+    $xml = '<group type="comments"><item type="comment" id="c1"><fragment name="body"><![CDATA[Hi]]></fragment></item></group>';
+    $result = $encoder->decode($xml, SchemaEncoder::FORMAT);
+    expect($result)->toBeArray()->toHaveKey('comments');
+    expect($result['comments'])->toBeArray()->toHaveLength(1);
+});
+
+it('decode throws when the XML does not comply with the schema', function (): void {
+    $encoder = new SchemaEncoder();
+    $xml = '<data><item></item></data>';
+
+    \set_error_handler(static fn () => true, E_WARNING);
+
+    try {
+        expect(fn () => $encoder->decode($xml, SchemaEncoder::FORMAT))
+            ->toThrow(\InvalidArgumentException::class);
+    } finally {
+        \restore_error_handler();
+    }
+});

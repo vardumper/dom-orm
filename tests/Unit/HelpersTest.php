@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use DOM\ORM\Storage\InMemoryFilesystemAdapter;
 use League\Flysystem\Local\LocalFilesystemAdapter;
-use function DOM\ORM\getConfig;
+use function DOM\ORM\{envBool, envBoolOrString, getConfig};
 
 const DOM_ORM_ENV_KEYS = [
     'DOM_ORM_FLYSYSTEM_ADAPTER',
@@ -13,6 +13,8 @@ const DOM_ORM_ENV_KEYS = [
     'DOM_ORM_ENCRYPTION_KEY',
     'DOM_ORM_CACHE_PATH',
     'DOM_ORM_CACHE_STRATEGY',
+    'DOM_ORM_CACHE_MAX_BYTES',
+    'DOM_ORM_HYDRATOR',
     'DOM_ORM_VERSIONING',
     'DOM_ORM_VERSION_CONTROL',
     'DOM_ORM_VERSION_CONTROL_PUSH',
@@ -98,4 +100,45 @@ it('supports selecting the built-in in-memory adapter via environment', function
         ->and($config->get('dom-orm.flysystem.config'))->toBe([
             'location' => getcwd() . '/storage',
         ]);
+});
+
+it('builds a config fragment from every supported environment variable', function (): void {
+    \putenv('DOM_ORM_FLYSYSTEM_ADAPTER=' . InMemoryFilesystemAdapter::class);
+    \putenv('DOM_ORM_FLYSYSTEM_LOCATION=/tmp/env-storage');
+    \putenv('DOM_ORM_FILENAME=env-data.xml');
+    \putenv('DOM_ORM_LOCK_FILE=/tmp/env-lock');
+    \putenv('DOM_ORM_ENCRYPTION_KEY=env-key');
+    \putenv('DOM_ORM_CACHE_PATH=/tmp/env-cache');
+    \putenv('DOM_ORM_CACHE_STRATEGY=on_persist');
+    \putenv('DOM_ORM_CACHE_MAX_BYTES=1024');
+    \putenv('DOM_ORM_HYDRATOR=reflection');
+    \putenv('DOM_ORM_VERSIONING=true');
+    \putenv('DOM_ORM_VERSION_CONTROL=hg');
+    \putenv('DOM_ORM_VERSION_CONTROL_PUSH=on_persist');
+    \putenv('DOM_ORM_EXPORT_ON_PERSIST_FILE=/tmp/env-export');
+    \putenv('DOM_ORM_EXPORT_ON_PERSIST_XML=1');
+    \putenv('DOM_ORM_EXPORT_ON_PERSIST_YAML=1');
+    \putenv('DOM_ORM_EXPORT_ON_PERSIST_JSON=1');
+    \putenv('DOM_ORM_EXPORT_ON_PERSIST_PHP=1');
+
+    $config = getConfig();
+
+    expect($config->get('dom-orm.lock_file'))->toBe('/tmp/env-lock')
+        ->and($config->get('dom-orm.cache_strategy'))->toBe('on_persist')
+        ->and($config->get('dom-orm.cache_max_bytes'))->toBe(1024)
+        ->and($config->get('dom-orm.hydrator'))->toBe('reflection')
+        ->and($config->get('dom-orm.version_control'))->toBe('hg')
+        ->and($config->get('dom-orm.version_control_push'))->toBe('on_persist')
+        ->and($config->get('dom-orm.export_on_persist.file'))->toBe('/tmp/env-export')
+        ->and($config->get('dom-orm.export_on_persist.xml'))->toBeTrue()
+        ->and($config->get('dom-orm.export_on_persist.yaml'))->toBeTrue()
+        ->and($config->get('dom-orm.export_on_persist.php'))->toBeTrue();
+});
+
+it('envBool returns null for unrecognized values and envBoolOrString returns the raw string', function (): void {
+    \putenv('DOM_ORM_VERSIONING=maybe');
+    expect(envBool('DOM_ORM_VERSIONING'))->toBeNull();
+
+    \putenv('DOM_ORM_EXPORT_ON_PERSIST_XML=/custom/path');
+    expect(envBoolOrString('DOM_ORM_EXPORT_ON_PERSIST_XML'))->toBe('/custom/path');
 });
