@@ -4,7 +4,9 @@
     <a href="https://packagist.org/packages/vardumper/dom-orm" rel="nofollow">
         <img src="https://poser.pugx.org/vardumper/dom-orm/v/stable" alt="Latest Stable Version" />
     </a>
-    <img src="https://img.shields.io/packagist/dt/vardumper/dom-orm" alt="Total Downloads" />
+    <a href="https://packagist.org/packages/vardumper/dom-orm" rel="nofollow">
+        <img src="https://img.shields.io/packagist/dt/vardumper/dom-orm" alt="Total Downloads" />
+    </a>
     <img src="https://img.shields.io/badge/license-mit-red" alt="License" />
     <img src="https://img.shields.io/badge/unit%20tests-passing-green?style=flat&amp;color=%234c1" style="max-width: 100%;">
     <img src="https://raw.githubusercontent.com/vardumper/dom-orm/refs/heads/main/coverage.svg">
@@ -15,16 +17,14 @@ DOM ORM is a lightweight, zero-setup, XML-based persistence layer for small data
 
 ## Features
 
-- A very lightweight approach to persisting data into a single XML file.
-- Supports exporting to headless-friendly formats such as JSON, YAML, XML
-- Supports Versioning in Git or Mercurial out of the box.
-- Handles concurrency with flock() when used with local file strage 
-- Supports local and remote storage via Flysystem (S3, Azure, Google Cloud, (S)FTP, etc.).
-- Ships with a built-in in-memory Flysystem adapter for process-local XML storage.
-- Supports one-to-one, one-to-many, many-to-one, and many-to-many patterns.
-- Supports AES-256-GCM field-level encryption via `#[Sensitive]` with searchable HMAC hashes.
-- Supports schema evolution (rename/remove fragments) via `#[FragmentMap]` and CLI commands.
-- Fully tested (Unit, Integration)
+- Very Lightweight, zero-setup persistence — entities live in a single XML file, no database server
+- In-Memory, Local and Remote Storage via Flysystem (S3, Azure, Google Cloud, (S)FTP).
+- Relationships: one-to-one, one-to-many, many-to-one, and many-to-many.
+- Lazy Resultsets, fast reads, Schema evolution
+- Git / Mercurial versioning out of the box.
+- Field-level AES-256-GCM encryption via `#[Sensitive]`, with searchable HMAC hashes.
+- Export to JSON, YAML, and XML.
+- Support for PHP 8.3, 8.4, 8.5, 8.6
 
 ## Installation
 
