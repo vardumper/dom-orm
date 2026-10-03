@@ -49,6 +49,12 @@ median of 10.
 - `Vcs\GitAdapter` is now `final` with an injectable git binary
   (constructor `private readonly string $binary = 'git'`), resolving the
   pre-existing Vcs test failure. The full test suite is now green.
+- `ChunkStore::findByIds()` no longer casts numeric string shard keys to
+  integers (which broke `loadShard()`); it now dedupes the shard list with
+  `array_unique()` before loading.
+- `SchemaDenormalizer::supportsDenormalization()` detects XML by its leading
+  `<` instead of running `simplexml_load_string()`, eliminating parser warnings
+  for JSON/YAML payloads and a latent `TypeError` on non-string input.
 
 ### Performance
 
