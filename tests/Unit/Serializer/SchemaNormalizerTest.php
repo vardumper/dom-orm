@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 use DOM\ORM\Entity\AbstractEntity;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
-use Tests\Fixtures\RelProfile;
-use Tests\Fixtures\RelUserSingle;
-use Tests\Fixtures\Tag;
+use Tests\Fixtures\{JsonScalarArrayFragmentEntity, RelProfile, RelUserSingle, Tag};
 
 it('normalizes a Tag entity to the expected array structure', function (): void {
     $normalizer = new SchemaNormalizer();
@@ -91,4 +89,27 @@ it('throws when a non-entity non-iterable value is given for a #[Group] property
     // so we verify the exception message contains the type instead)
     expect(fn () => $normalizer->normalize(new RelUserSingle('x', null, 'u1'), SchemaNormalizer::FORMAT))
         ->not->toThrow(\InvalidArgumentException::class);
+});
+
+it('supportsNormalization accepts a Traversable of entities', function (): void {
+    $normalizer = new SchemaNormalizer();
+    $traversable = new \ArrayIterator([new Tag('test')]);
+    expect($normalizer->supportsNormalization($traversable, SchemaNormalizer::FORMAT))->toBeTrue();
+});
+
+it('supportsNormalization returns true for an array of entities', function (): void {
+    $normalizer = new SchemaNormalizer();
+    expect($normalizer->supportsNormalization([new Tag('test')], SchemaNormalizer::FORMAT))->toBeTrue();
+});
+
+it('supportsNormalization returns false for an array containing a non-entity', function (): void {
+    $normalizer = new SchemaNormalizer();
+    expect($normalizer->supportsNormalization([new Tag('test'), 'not-an-entity'], SchemaNormalizer::FORMAT))->toBeFalse();
+});
+
+it('throws when a JSON scalar fragment contains a non-scalar value', function (): void {
+    $normalizer = new SchemaNormalizer();
+    $entity = new JsonScalarArrayFragmentEntity([new \stdClass()], 'js-1');
+    expect(fn () => $normalizer->normalize($entity, SchemaNormalizer::FORMAT))
+        ->toThrow(\InvalidArgumentException::class);
 });

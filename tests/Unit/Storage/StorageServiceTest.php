@@ -77,6 +77,30 @@ it('fromConfig returns a StorageService instance', function (): void {
     expect(StorageService::fromConfig())->toBeInstanceOf(StorageService::class);
 });
 
+it('stat returns null when the local file does not exist', function () use (&$storage): void {
+    if (!$storage instanceof StorageService) {
+        throw new RuntimeException('Storage test fixture was not initialized.');
+    }
+
+    expect($storage->stat())->toBeNull();
+});
+
+it('stat returns size and mtime for a remote (in-memory) file', function (): void {
+    \putenv('DOM_ORM_FLYSYSTEM_ADAPTER=' . InMemoryFilesystemAdapter::class);
+
+    try {
+        $storage = StorageService::fromConfig();
+        $storage->write('<data />');
+        $stat = $storage->stat();
+        expect($stat)->toBeArray();
+        expect($stat)->toHaveKey('size');
+        expect($stat)->toHaveKey('mtime');
+        expect($stat['size'])->toBeGreaterThan(0);
+    } finally {
+        \putenv('DOM_ORM_FLYSYSTEM_ADAPTER');
+    }
+});
+
 it('fromConfig supports the built-in in-memory adapter via env', function (): void {
     \putenv('DOM_ORM_FLYSYSTEM_ADAPTER=' . InMemoryFilesystemAdapter::class);
 

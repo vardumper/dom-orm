@@ -15,29 +15,35 @@ use DOM\ORM\Storage\InMemoryFilesystemAdapter;
 
 class_exists(Perf::class); /** load Perf.php so PerfManager is defined for the guard. */
 
-/** @var array<class-string, array{sharedStorage: ?object, sharedSerializer: ?object}> */
-const MANAGER_CLASSES = [PerfManager::class, AbstractEntityRepository::class];
+/** @var array<class-string, list<string>> */
+const MANAGER_CLASSES = [
+    PerfManager::class => ['sharedStorage', 'sharedSerializer'],
+    AbstractEntityRepository::class => ['sharedStorage', 'sharedSerializer'],
+];
 
-beforeEach(function (): void {
-    $this->perfState = [
+$perfState = null;
+
+beforeEach(function () use (&$perfState): void {
+    $perfState = [
         'buckets' => (new \ReflectionProperty(InMemoryFilesystemAdapter::class, 'buckets'))->getValue(null),
         'managers' => [],
     ];
 
-    foreach (MANAGER_CLASSES as $class) {
-        $this->perfState['managers'][$class] = [
-            'sharedStorage' => (new \ReflectionProperty($class, 'sharedStorage'))->getValue(null),
-            'sharedSerializer' => (new \ReflectionProperty($class, 'sharedSerializer'))->getValue(null),
-        ];
+    foreach (MANAGER_CLASSES as $class => $props) {
+        $perfState['managers'][$class] = [];
+        foreach ($props as $prop) {
+            $perfState['managers'][$class][$prop] = (new \ReflectionProperty($class, $prop))->getValue(null);
+        }
     }
 });
 
-afterEach(function (): void {
-    (new \ReflectionProperty(InMemoryFilesystemAdapter::class, 'buckets'))->setValue(null, $this->perfState['buckets']);
+afterEach(function () use (&$perfState): void {
+    (new \ReflectionProperty(InMemoryFilesystemAdapter::class, 'buckets'))->setValue(null, $perfState['buckets']);
 
-    foreach ($this->perfState['managers'] as $class => $state) {
-        (new \ReflectionProperty($class, 'sharedStorage'))->setValue(null, $state['sharedStorage']);
-        (new \ReflectionProperty($class, 'sharedSerializer'))->setValue(null, $state['sharedSerializer']);
+    foreach ($perfState['managers'] as $class => $props) {
+        foreach ($props as $prop => $value) {
+            (new \ReflectionProperty($class, $prop))->setValue(null, $value);
+        }
     }
 });
 

@@ -13,10 +13,13 @@
     <a href="https://dtrack.erikpoehler.us/projects/4e028df9-0be3-4c3d-b383-7b1468262c27"><img src="https://dtrack.erikpoehler.us/api/v1/badge/vulns/project/4e028df9-0be3-4c3d-b383-7b1468262c27?apiKey=odt_nG83W_EAcQZkk6b5KqknIVoK8nfNjSz38Ompnn" ></a>
 </p>
 
-DOM ORM is a lightweight, zero-setup, XML-based persistence layer for small datasets in PHP projects. It stores entities in a single XML document, so you can start without a database server.
+DOM ORM is a lightweight, zero-setup, XML-based persistence layer for small to medium size datasets in PHP projects. It stores entities in a single XML document, allowing you to use relational data without the need to install a database server or driver.
 
 ## Features
 
+- A PHP-native object-relational-mapper - without the need of a database.
+- It operates mainly in-memory to reduce file reads/writes as much as possible.
+- For small datasets (<100K), it beats all Doctrine ORM drivers (MariaDB, MySQL, Postgres, SQLite, etc.) in find by ID lookups.
 - Very Lightweight, zero-setup persistence — entities live in a single XML file, the single source of truth.
 - In-Memory (process runtime), Local file and Remote Storage via Flysystem (S3, Azure, Google Cloud, (S)FTP).
 - Relationships: one-to-one, one-to-many, many-to-one, and many-to-many.

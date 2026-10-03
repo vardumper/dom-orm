@@ -7,7 +7,7 @@ use DOM\ORM\Entity\AbstractEntity;
 use DOM\ORM\Serializer\Normalizer\SchemaDenormalizer;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use Ramsey\Collection\Collection;
-use Tests\Fixtures\{JsonScalarArrayFragmentEntity, MigratingPerson, RelComment, RelPost, RelProfile, RelUserSingle, SensitiveUser, Tag, TypedFieldEntity};
+use Tests\Fixtures\{JsonScalarArrayFragmentEntity, MigratingPerson, RelComment, RelPost, RelProfile, RelUserSingle, SensitiveUser, SetterHydratedEntity, Tag, TypedFieldEntity};
 
 // Canonical decoded array structure produced by SchemaDecoder/SchemaEncoder::decode
 function makeTagData(string $id = 'abc123', string $name = 'TestTag', string $createdAt = '2024-01-01T00:00:00+00:00'): array
@@ -360,4 +360,232 @@ it('denormalize renames and drops fragments via the fragment map', function (): 
     ];
     $entity = $denormalizer->denormalize($data, MigratingPerson::class, SchemaNormalizer::FORMAT)->first();
     expect($entity->getName())->toBe('Jane Doe');
+});
+
+/**
+ * The compiled hydrator is the default, so the reflection fallback
+ * (instantiateEntityReflection and its helpers) is only reached when the
+ * hydrator is forced to "reflection" mode. Exercise that path end to end.
+ */
+$prevCompiled = null;
+$prevHydratorEnv = false;
+
+describe('reflection-mode hydration', function () use (&$prevCompiled, &$prevHydratorEnv): void {
+    $hydratorCompiled = new \ReflectionProperty(SchemaDenormalizer::class, 'hydratorCompiled');
+
+    beforeEach(function () use ($hydratorCompiled, &$prevCompiled, &$prevHydratorEnv): void {
+        $prevCompiled = $hydratorCompiled->getValue(null);
+        $prevHydratorEnv = \getenv('DOM_ORM_HYDRATOR');
+        $hydratorCompiled->setValue(null, null);
+        \putenv('DOM_ORM_HYDRATOR=reflection');
+    });
+
+    afterEach(function () use ($hydratorCompiled, &$prevCompiled, &$prevHydratorEnv): void {
+        \putenv($prevHydratorEnv === false ? 'DOM_ORM_HYDRATOR' : 'DOM_ORM_HYDRATOR=' . $prevHydratorEnv);
+        $hydratorCompiled->setValue(null, $prevCompiled);
+    });
+
+    it('hydrates a basic entity and casts scalars', function (): void {
+        $denormalizer = new SchemaDenormalizer();
+        $collection = $denormalizer->denormalize(makeTagData('refl-1', 'ReflTag'), Tag::class, SchemaNormalizer::FORMAT);
+        expect($collection->first())->toBeInstanceOf(Tag::class);
+        expect($collection->first()->getName())->toBe('ReflTag');
+    });
+
+    it('hydrates one-to-many groups into entity instances', function (): void {
+        $denormalizer = new SchemaDenormalizer();
+        $data = [
+            'data' => [
+                [
+                    'item-post-r' => [
+                        '@id' => 'post-r',
+                        '@type' => 'rel_post',
+                        'title' => 'Refl Post',
+                        'comments' => [
+                            [
+                                'item-comment-r' => [
+                                    '@id' => 'comment-r',
+                                    '@type' => 'rel_comment',
+                                    'body' => 'Refl comment',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        /** @var RelPost $post */
+        $post = $denormalizer->denormalize($data, RelPost::class, SchemaNormalizer::FORMAT)->first();
+        expect($post->getComments())->toHaveCount(1);
+        expect($post->getComments()[0])->toBeInstanceOf(RelComment::class);
+        expect($post->getComments()[0]->getBody())->toBe('Refl comment');
+    });
+
+    it('decrypts sensitive fragments', function (): void {
+        $encryption = new EncryptionService('test-sensitive-key-32-bytes-long!');
+        $denormalizer = new SchemaDenormalizer($encryption);
+        $data = [
+            'data' => [
+                [
+                    'item-sens-r' => [
+                        '@id' => 'sens-r',
+                        '@type' => 'sensitive_user',
+                        'username' => 'alice',
+                        'email' => $encryption->encrypt('alice@example.com'),
+                        'password' => $encryption->encrypt('secret'),
+                    ],
+                ],
+            ],
+        ];
+        $entity = $denormalizer->denormalize($data, SensitiveUser::class, SchemaNormalizer::FORMAT)->first();
+        expect($entity->getEmail())->toBe('alice@example.com');
+        expect($entity->getPassword())->toBe('secret');
+    });
+
+    it('decodes a JSON scalar array fragment', function (): void {
+        $denormalizer = new SchemaDenormalizer();
+        $data = [
+            'data' => [
+                [
+                    'item-js-r' => [
+                        '@id' => 'js-r',
+                        '@type' => 'json_scalar_array_fragment_entity',
+                        'payload' => \json_encode([
+                            'a' => 1,
+                            'b' => 'two',
+                            'c' => null,
+                        ]),
+                    ],
+                ],
+            ],
+        ];
+        $entity = $denormalizer->denormalize($data, JsonScalarArrayFragmentEntity::class, SchemaNormalizer::FORMAT)->first();
+        expect($entity->getPayload())->toBe([
+            'a' => 1,
+            'b' => 'two',
+            'c' => null,
+        ]);
+    });
+
+    it('applies the fragment map (rename and drop)', function (): void {
+        $denormalizer = new SchemaDenormalizer();
+        $data = [
+            'data' => [
+                [
+                    'item-mig-r' => [
+                        '@id' => 'mig-r',
+                        '@type' => 'migrating_person',
+                        'fullName' => 'Jane Doe',
+                        'legacyBio' => 'old bio',
+                    ],
+                ],
+            ],
+        ];
+        $entity = $denormalizer->denormalize($data, MigratingPerson::class, SchemaNormalizer::FORMAT)->first();
+        expect($entity->getName())->toBe('Jane Doe');
+    });
+
+    it('hydrates non-constructor fragments via setters with casts, decryption, and JSON decoding', function (): void {
+        $encryption = new EncryptionService('test-sensitive-key-32-bytes-long!');
+        $denormalizer = new SchemaDenormalizer($encryption);
+        $data = [
+            'data' => [
+                [
+                    'item-set-1' => [
+                        '@id' => 'set-1',
+                        '@type' => 'setter_hydrated_entity',
+                        'name' => 'Alice',
+                        'label' => 'My Label',
+                        'secret' => $encryption->encrypt('top-secret'),
+                        'payload' => \json_encode([
+                            'x' => 1,
+                            'y' => 'two',
+                        ]),
+                        'updatedAt' => '2024-06-01T12:00:00+00:00',
+                        'count' => '42',
+                        'score' => '3.14',
+                        'active' => '1',
+                        'orphaned' => 'no-setter',
+                    ],
+                ],
+            ],
+        ];
+        /** @var SetterHydratedEntity $entity */
+        $entity = $denormalizer->denormalize($data, SetterHydratedEntity::class, SchemaNormalizer::FORMAT)->first();
+        expect($entity->getName())->toBe('Alice');
+        expect($entity->getLabel())->toBe('My Label');
+        expect($entity->getSecret())->toBe('top-secret');
+        expect($entity->getPayload())->toBe([
+            'x' => 1,
+            'y' => 'two',
+        ]);
+        expect($entity->getUpdatedAt())->toBeInstanceOf(\DateTimeImmutable::class);
+        expect($entity->getCount())->toBe(42);
+        expect($entity->getScore())->toBe(3.14);
+        expect($entity->isActive())->toBeTrue();
+    });
+
+    it('hydrates a single-entity group into an instance via reflection', function (): void {
+        $denormalizer = new SchemaDenormalizer();
+        $data = [
+            'data' => [
+                [
+                    'item-user-single-r' => [
+                        '@id' => 'user-single-r',
+                        '@type' => 'rel_user_single',
+                        'username' => 'bob',
+                        'profile' => [
+                            [
+                                'item-profile-r' => [
+                                    '@id' => 'profile-r',
+                                    '@type' => 'rel_profile',
+                                    'bio' => 'Bob bio',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+        /** @var RelUserSingle $user */
+        $user = $denormalizer->denormalize($data, RelUserSingle::class, SchemaNormalizer::FORMAT)->first();
+        expect($user->getProfile())->toBeInstanceOf(RelProfile::class);
+        expect($user->getProfile()->getBio())->toBe('Bob bio');
+    });
+
+    it('skips a group whose key is absent via reflection', function (): void {
+        $denormalizer = new SchemaDenormalizer();
+        $data = [
+            'data' => [
+                [
+                    'item-post-r2' => [
+                        '@id' => 'post-r2',
+                        '@type' => 'rel_post',
+                        'title' => 'No Comments',
+                    ],
+                ],
+            ],
+        ];
+        /** @var RelPost $post */
+        $post = $denormalizer->denormalize($data, RelPost::class, SchemaNormalizer::FORMAT)->first();
+        expect($post->getTitle())->toBe('No Comments');
+        expect($post->getComments())->toHaveCount(0);
+    });
+
+    it('skips a fragment-map rename when the legacy key is absent via reflection', function (): void {
+        $denormalizer = new SchemaDenormalizer();
+        $data = [
+            'data' => [
+                [
+                    'item-mig-r2' => [
+                        '@id' => 'mig-r2',
+                        '@type' => 'migrating_person',
+                        'name' => 'Jane Doe',
+                    ],
+                ],
+            ],
+        ];
+        $entity = $denormalizer->denormalize($data, MigratingPerson::class, SchemaNormalizer::FORMAT)->first();
+        expect($entity->getName())->toBe('Jane Doe');
+    });
 });
