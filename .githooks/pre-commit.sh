@@ -112,8 +112,8 @@ if $HAS_PHPSTAN; then
   if [ -z "$CHANGED_FILES" ]; then
         printf "\nNo PHP file in this commit. Skipping PHPStan.\n"
   else
-    # Filter out files excluded by phpstan.neon (vendor/, tests/, flex/)
-    PHPSTAN_FILES=$(echo "$CHANGED_FILES" | tr ' ' '\n' | grep -v '^vendor/' | grep -v '^tests/' | grep -v '^flex/' | grep -v '^demos/vendor/' | tr '\n' ' ' | xargs)
+    # Filter out files excluded by phpstan.neon (vendor/, tests/, flex/, .profile/ generated)
+    PHPSTAN_FILES=$(echo "$CHANGED_FILES" | tr ' ' '\n' | grep -v '^vendor/' | grep -v '^tests/' | grep -v '^flex/' | grep -v '^demos/vendor/' | grep -v '^\.profile/' | tr '\n' ' ' | xargs)
     if [ -z "$PHPSTAN_FILES" ]; then
         printf "\nNo analysable PHP files in this commit. Skipping PHPStan.\n"
     elif RUN $PHPSTAN analyse -c ./phpstan.neon --ansi --memory-limit=1G $PHPSTAN_FILES; then

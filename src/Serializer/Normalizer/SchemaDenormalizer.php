@@ -64,7 +64,7 @@ class SchemaDenormalizer implements DenormalizerInterface
         ?string $format = null,
         array $context = []
     ): bool {
-        $isXml = (\simplexml_load_string($data) !== false);
+        $isXml = \is_string($data) && \str_starts_with(\ltrim($data), '<');
         if ($isXml || $data instanceof \DOMDocument) {
             throw new \InvalidArgumentException(sprintf('You don\'t need to pass XML directly to the denormalize() method. Please use the decode() method of %s instead.', SchemaEncoder::class));
         }

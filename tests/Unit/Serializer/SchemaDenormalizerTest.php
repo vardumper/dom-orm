@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
+use DOM\ORM\Encryption\EncryptionService;
 use DOM\ORM\Entity\AbstractEntity;
 use DOM\ORM\Serializer\Normalizer\SchemaDenormalizer;
 use DOM\ORM\Serializer\Normalizer\SchemaNormalizer;
 use Ramsey\Collection\Collection;
-use Tests\Fixtures\RelComment;
-use Tests\Fixtures\RelPost;
-use Tests\Fixtures\RelProfile;
-use Tests\Fixtures\RelUserSingle;
-use Tests\Fixtures\Tag;
+use Tests\Fixtures\{JsonScalarArrayFragmentEntity, MigratingPerson, RelComment, RelPost, RelProfile, RelUserSingle, SensitiveUser, Tag, TypedFieldEntity};
 
 // Canonical decoded array structure produced by SchemaDecoder/SchemaEncoder::decode
 function makeTagData(string $id = 'abc123', string $name = 'TestTag', string $createdAt = '2024-01-01T00:00:00+00:00'): array
@@ -216,4 +213,151 @@ it('re-normalizing a denormalized one-to-many entity does not throw', function (
 
     // Must not throw "get_class(): Argument #1 must be of type object, array given"
     expect(fn () => $normalizer->normalize($post, SchemaNormalizer::FORMAT))->not->toThrow(\TypeError::class);
+});
+
+it('supportsDenormalization rejects raw XML strings', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    expect(fn () => $denormalizer->supportsDenormalization('<data />', Tag::class, SchemaNormalizer::FORMAT))
+        ->toThrow(\InvalidArgumentException::class);
+});
+
+it('supportsDenormalization accepts JSON strings', function (): void {
+    expect((new SchemaDenormalizer())->supportsDenormalization('{"a": 1}', Tag::class, SchemaNormalizer::FORMAT))->toBeTrue();
+});
+
+it('supportsDenormalization accepts YAML strings', function (): void {
+    expect((new SchemaDenormalizer())->supportsDenormalization("a: 1\nb: two", Tag::class, SchemaNormalizer::FORMAT))->toBeTrue();
+});
+
+it('supportsDenormalization accepts the array type with the schema format', function (): void {
+    /** "a: b: c" is neither valid JSON nor valid YAML, so the type/format check decides. */
+    expect((new SchemaDenormalizer())->supportsDenormalization('a: b: c', 'array', SchemaNormalizer::FORMAT))->toBeTrue();
+});
+
+it('supportsDenormalization rejects other types and formats', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    expect($denormalizer->supportsDenormalization('a: b: c', 'array', 'json'))->toBeFalse();
+    expect($denormalizer->supportsDenormalization('a: b: c', Tag::class, SchemaNormalizer::FORMAT))->toBeFalse();
+});
+
+it('denormalize casts string scalars to int, float, and bool', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    $data = [
+        'data' => [
+            [
+                'item-typed-1' => [
+                    '@id' => 'typed-1',
+                    '@type' => 'typed_entity',
+                    'label' => 'Test',
+                    'count' => '42',
+                    'ratio' => '3.14',
+                    'active' => '1',
+                ],
+            ],
+        ],
+    ];
+    $entity = $denormalizer->denormalize($data, TypedFieldEntity::class, SchemaNormalizer::FORMAT)->first();
+    expect($entity->getCount())->toBe(42);
+    expect($entity->getRatio())->toBe(3.14);
+    expect($entity->getActive())->toBeTrue();
+});
+
+it('denormalize decodes a JSON scalar array fragment', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    $data = [
+        'data' => [
+            [
+                'item-js-1' => [
+                    '@id' => 'js-1',
+                    '@type' => 'json_scalar_array_fragment_entity',
+                    'payload' => \json_encode([
+                        'a' => 1,
+                        'b' => 'two',
+                        'c' => null,
+                    ]),
+                ],
+            ],
+        ],
+    ];
+    $entity = $denormalizer->denormalize($data, JsonScalarArrayFragmentEntity::class, SchemaNormalizer::FORMAT)->first();
+    expect($entity->getPayload())->toBe([
+        'a' => 1,
+        'b' => 'two',
+        'c' => null,
+    ]);
+});
+
+it('denormalize throws for a JSON scalar fragment that is not valid JSON', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    $data = [
+        'data' => [
+            [
+                'item-js-2' => [
+                    '@id' => 'js-2',
+                    '@type' => 'json_scalar_array_fragment_entity',
+                    'payload' => 'not-json',
+                ],
+            ],
+        ],
+    ];
+    expect(fn () => $denormalizer->denormalize($data, JsonScalarArrayFragmentEntity::class, SchemaNormalizer::FORMAT))
+        ->toThrow(\InvalidArgumentException::class);
+});
+
+it('denormalize throws for a JSON scalar fragment that is not an array', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    $data = [
+        'data' => [
+            [
+                'item-js-3' => [
+                    '@id' => 'js-3',
+                    '@type' => 'json_scalar_array_fragment_entity',
+                    'payload' => '42',
+                ],
+            ],
+        ],
+    ];
+    /** A bare JSON scalar decodes to a non-array, so decoding must reject it. */
+    expect(fn () => $denormalizer->denormalize($data, JsonScalarArrayFragmentEntity::class, SchemaNormalizer::FORMAT))
+        ->toThrow(\InvalidArgumentException::class);
+});
+
+it('denormalize decrypts sensitive fragments when an encryption service is present', function (): void {
+    $encryption = new EncryptionService('test-sensitive-key-32-bytes-long!');
+    $denormalizer = new SchemaDenormalizer($encryption);
+    $data = [
+        'data' => [
+            [
+                'item-sens-1' => [
+                    '@id' => 'sens-1',
+                    '@type' => 'sensitive_user',
+                    'username' => 'alice',
+                    'email' => $encryption->encrypt('alice@example.com'),
+                    'password' => $encryption->encrypt('secret'),
+                ],
+            ],
+        ],
+    ];
+    $entity = $denormalizer->denormalize($data, SensitiveUser::class, SchemaNormalizer::FORMAT)->first();
+    expect($entity->getUsername())->toBe('alice');
+    expect($entity->getEmail())->toBe('alice@example.com');
+    expect($entity->getPassword())->toBe('secret');
+});
+
+it('denormalize renames and drops fragments via the fragment map', function (): void {
+    $denormalizer = new SchemaDenormalizer();
+    $data = [
+        'data' => [
+            [
+                'item-mig-1' => [
+                    '@id' => 'mig-1',
+                    '@type' => 'migrating_person',
+                    'fullName' => 'Jane Doe',
+                    'legacyBio' => 'old bio',
+                ],
+            ],
+        ],
+    ];
+    $entity = $denormalizer->denormalize($data, MigratingPerson::class, SchemaNormalizer::FORMAT)->first();
+    expect($entity->getName())->toBe('Jane Doe');
 });

@@ -164,10 +164,10 @@ final class ChunkStore
         $result = [];
         $shards = [];
         foreach ($ids as $id) {
-            $shards[self::shardFor($id)] = true;
+            $shards[] = self::shardFor($id);
         }
 
-        foreach (\array_keys($shards) as $shard) {
+        foreach (\array_unique($shards) as $shard) {
             $shardData = $this->loadShard($shard);
             if (!isset($shardData[$type])) {
                 continue;
