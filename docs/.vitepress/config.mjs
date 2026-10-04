@@ -9,6 +9,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Get Started', link: '/get-started' },
+      { text: 'Frameworks', link: '/frameworks/symfony' },
       { text: 'Examples', link: '/usage-examples' }
     ],
 
@@ -41,6 +42,21 @@ export default defineConfig({
           { text: 'No overhead', link: '/performance#no-overhead' },
           { text: 'Hash Maps & Cache', link: '/performance/#hash-maps-and-query-cache' },
           { text: 'Batch Inserts', link: '/performance#batch-inserts' },
+        ]
+      },
+      {
+        text: 'Frameworks',
+        items: [
+          { text: 'Symfony', link: '/frameworks/symfony' },
+          { text: 'Laravel', link: '/frameworks/laravel' },
+          { text: 'CakePHP', link: '/frameworks/cakephp' },
+          { text: 'CodeIgniter 4', link: '/frameworks/codeigniter' },
+          { text: 'Yii', link: '/frameworks/yii' },
+          { text: 'Phalcon', link: '/frameworks/phalcon' },
+          { text: 'Leaf PHP', link: '/frameworks/leaf' },
+          { text: 'Slim', link: '/frameworks/slim' },
+          { text: 'Mezzio', link: '/frameworks/mezzio' },
+          { text: 'Laminas', link: '/frameworks/laminas' },
         ]
       }
 
