@@ -62,6 +62,27 @@ $builder->addDefinitions([
 return $builder->build();
 ```
 
+## Entity
+
+A minimal entity to work with:
+
+```php
+// src/Entity/Tag.php
+use DOM\ORM\Entity\AbstractEntity;
+use DOM\ORM\Mapping as ORM;
+
+#[ORM\Item(entityType: 'tag')]
+class Tag extends AbstractEntity
+{
+    public function __construct(
+        #[ORM\Fragment]
+        private string $name,
+    ) {
+        parent::__construct();
+    }
+}
+```
+
 ## Usage
 
 Resolve the service from the container in a route handler:

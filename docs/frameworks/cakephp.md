@@ -1,6 +1,6 @@
 # CakePHP
 
-Wire DOM-ORM into a [CakePHP](https://book.cakephp.org) 4/5 app. CakePHP controllers
+Wire DOM-ORM into a [CakePHP](https://book.cakephp.org) 5 app. CakePHP controllers
 are classes, so just add `EntityManagerTrait` to the controller.
 
 ## Installation
@@ -27,6 +27,27 @@ Create `config/dom-orm.php` (DOM-ORM auto-loads it from the working directory):
 ];
 ```
 
+## Entity
+
+A minimal entity to work with:
+
+```php
+// src/Entity/Tag.php
+use DOM\ORM\Entity\AbstractEntity;
+use DOM\ORM\Mapping as ORM;
+
+#[ORM\Item(entityType: 'tag')]
+class Tag extends AbstractEntity
+{
+    public function __construct(
+        #[ORM\Fragment]
+        private string $name,
+    ) {
+        parent::__construct();
+    }
+}
+```
+
 ## Usage
 
 Add the trait to the controller — no container registration needed. The trait
@@ -40,7 +61,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use DOM\ORM\{EntityRepository, Mapping\Item};
+use App\Entity\Tag;
+use DOM\ORM\EntityRepository;
 use DOM\ORM\Traits\EntityManagerTrait;
 
 class TagController extends AppController

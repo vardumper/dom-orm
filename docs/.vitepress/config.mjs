@@ -51,7 +51,7 @@ export default defineConfig({
           { text: 'Laravel', link: '/frameworks/laravel' },
           { text: 'CakePHP', link: '/frameworks/cakephp' },
           { text: 'CodeIgniter 4', link: '/frameworks/codeigniter' },
-          { text: 'Yii', link: '/frameworks/yii' },
+          { text: 'Yii 3', link: '/frameworks/yii' },
           { text: 'Phalcon', link: '/frameworks/phalcon' },
           { text: 'Leaf PHP', link: '/frameworks/leaf' },
           { text: 'Slim', link: '/frameworks/slim' },

@@ -1,6 +1,6 @@
 # Symfony
 
-Wire DOM-ORM into a Symfony app (5.4+, 6.x, 7.x). The library is framework-agnostic —
+Wire DOM-ORM into a [Symfony](https://symfony.com) 8 app. The library is framework-agnostic —
 just add `EntityManagerTrait` to any service (controllers are services too).
 
 ## Installation
@@ -31,6 +31,27 @@ Create `config/dom-orm.php` (DOM-ORM auto-loads it from the working directory):
 > Use `getenv()` as above, or set `DOM_ORM_ENCRYPTION_KEY` and let DOM-ORM's env
 > config take over.
 
+## Entity
+
+A minimal entity to work with:
+
+```php
+// src/Entity/Tag.php
+use DOM\ORM\Entity\AbstractEntity;
+use DOM\ORM\Mapping as ORM;
+
+#[ORM\Item(entityType: 'tag')]
+class Tag extends AbstractEntity
+{
+    public function __construct(
+        #[ORM\Fragment]
+        private string $name,
+    ) {
+        parent::__construct();
+    }
+}
+```
+
 ## Usage
 
 Add the trait to any service — no wrapper class needed. The trait auto-initializes
@@ -44,7 +65,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use DOM\ORM\{EntityRepository, Mapping\Item};
+use App\Entity\Tag;
+use DOM\ORM\EntityRepository;
 use DOM\ORM\Traits\EntityManagerTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 

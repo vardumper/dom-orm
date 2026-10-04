@@ -1,6 +1,6 @@
 # Leaf PHP
 
-Wire DOM-ORM into a [Leaf PHP](https://leafphp.dev) app (4.x, 5.x). Leaf's route
+Wire DOM-ORM into a [Leaf PHP](https://leafphp.dev) 5 app. Leaf's route
 handlers are closures, so register a small service that uses `EntityManagerTrait`
 in the app container.
 
@@ -58,6 +58,27 @@ return [
         'domOrm' => Orm::class,
     ],
 ];
+```
+
+## Entity
+
+A minimal entity to work with:
+
+```php
+// app/Entity/Tag.php
+use DOM\ORM\Entity\AbstractEntity;
+use DOM\ORM\Mapping as ORM;
+
+#[ORM\Item(entityType: 'tag')]
+class Tag extends AbstractEntity
+{
+    public function __construct(
+        #[ORM\Fragment]
+        private string $name,
+    ) {
+        parent::__construct();
+    }
+}
 ```
 
 ## Usage

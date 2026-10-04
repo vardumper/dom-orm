@@ -1,6 +1,6 @@
 # Laravel
 
-Wire DOM-ORM into a Laravel app (9+, 10.x, 11.x, 12.x). The library is framework-agnostic —
+Wire DOM-ORM into a [Laravel](https://laravel.com) 13 app. The library is framework-agnostic —
 just add `EntityManagerTrait` to any class (controllers, services, jobs, etc.).
 
 ## Installation
@@ -27,6 +27,27 @@ Create `config/dom-orm.php` (DOM-ORM auto-loads it from the working directory):
 ];
 ```
 
+## Entity
+
+A minimal entity to work with:
+
+```php
+// app/Models/Tag.php
+use DOM\ORM\Entity\AbstractEntity;
+use DOM\ORM\Mapping as ORM;
+
+#[ORM\Item(entityType: 'tag')]
+class Tag extends AbstractEntity
+{
+    public function __construct(
+        #[ORM\Fragment]
+        private string $name,
+    ) {
+        parent::__construct();
+    }
+}
+```
+
 ## Usage
 
 Add the trait to any class — no service provider needed. The trait auto-initializes
@@ -40,7 +61,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use DOM\ORM\{EntityRepository, Mapping\Item};
+use App\Models\Tag;
+use DOM\ORM\EntityRepository;
 use DOM\ORM\Traits\EntityManagerTrait;
 
 class TagController extends Controller

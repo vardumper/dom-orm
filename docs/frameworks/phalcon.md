@@ -28,6 +28,27 @@ Create `config/dom-orm.php` (DOM-ORM auto-loads it from the working directory):
 ];
 ```
 
+## Entity
+
+A minimal entity to work with:
+
+```php
+// app/Models/Tag.php
+use DOM\ORM\Entity\AbstractEntity;
+use DOM\ORM\Mapping as ORM;
+
+#[ORM\Item(entityType: 'tag')]
+class Tag extends AbstractEntity
+{
+    public function __construct(
+        #[ORM\Fragment]
+        private string $name,
+    ) {
+        parent::__construct();
+    }
+}
+```
+
 ## Usage
 
 Add the trait to the controller — no DI registration needed. The trait
@@ -39,7 +60,7 @@ auto-initializes on first use:
 
 declare(strict_types=1);
 
-use DOM\ORM\{EntityRepository, Mapping\Item};
+use DOM\ORM\EntityRepository;
 use DOM\ORM\Traits\EntityManagerTrait;
 use Phalcon\Mvc\Controller;
 
