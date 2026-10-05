@@ -42,3 +42,39 @@ Extensive Documentation has been made [available here](https://vardumper.github.
 ## Demos
  - [Virtual Filesystem](https://dom-orm.erikpoehler.com/virtual-filesystem/)
  - [Blog](https://dom-orm.erikpoehler.com/blog/)
+
+## TLDR;
+Entity:
+```php
+// src/Entity/Tag.php
+use DOM\ORM\Entity\AbstractEntity;
+use DOM\ORM\Mapping as ORM;
+
+#[ORM\Item(entityType: 'tag')]
+class Tag extends AbstractEntity
+{
+    public function __construct(
+        #[ORM\Fragment]
+        private string $name
+    ) {
+        parent::__construct();
+    }
+}
+```
+Persistence:
+```php
+use DOM\ORM\Traits\EntityManagerTrait;
+$this->persist(new Tag('Tagname'));
+```
+Storage:
+```xml
+<item type="tag" id="e34cbf80edaf490aa39113254b6cdfa9">
+  <fragment name="name"><![CDATA[Tagname]]></fragment>
+  <fragment name="createdAt"><![CDATA[2024-06-17T06:30:37+00:00]]></fragment>
+</item>
+```
+Query (and hydrate):
+```php
+$tag = (new EntityRepository(Tag::class))->findOneBy(['name' => 'Tagname']);
+echo $tag->getName();
+```
