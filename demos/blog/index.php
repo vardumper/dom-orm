@@ -12,6 +12,8 @@ require __DIR__ . '/models/Image.php';
 require __DIR__ . '/models/Article.php';
 require __DIR__ . '/service/BlogManager.php';
 
+use DOM\ORM\Storage\QueryCache;
+
 \putenv('DOM_ORM_FLYSYSTEM_LOCATION=' . __DIR__ . '/storage');
 \putenv('DOM_ORM_FILENAME=data.xml');
 \putenv('DOM_ORM_CACHE_PATH=' . __DIR__ . '/storage/cache.php');
@@ -84,6 +86,11 @@ if ($lastReset === 0 || ($now - $lastReset) >= $resetSeconds) {
 
 // Unix timestamp (seconds) of the next scheduled reset, for the UI countdown.
 $resetAt = $lastReset === 0 ? $now + $resetSeconds : $lastReset + $resetSeconds;
+
+/** Build the query cache on first run after a fresh deploy — the CLI cannot see the per-demo putenv config. */
+if (QueryCache::isEnabled() && !QueryCache::exists()) {
+    QueryCache::build();
+}
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 

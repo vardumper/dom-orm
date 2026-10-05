@@ -9,6 +9,7 @@ $startTime = microtime(true);
 // true cost.
 $vfsPageCacheEnabled = in_array(strtolower((string)getenv('VFS_PAGE_CACHE')), ['', '1', 'true', 'on', 'yes'], true);
 
+use DOM\ORM\Storage\QueryCache;
 use DOM\ORM\Storage\StorageService;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -41,6 +42,11 @@ if (!\is_file($storageDir . '/data.xml')) {
     $seed->addFileToFolder('documents', 'notes.txt', 'text/plain', 'Meeting notes go here.');
     $seed->addFolderToFolder('documents', 'work');
     $seed->addFileToFolder('work', 'report.json', 'application/json', '{"status":"done","progress":100}');
+}
+
+/** Build the query cache on first run after a fresh deploy — the CLI cannot see the per-demo putenv config. */
+if (QueryCache::isEnabled() && !QueryCache::exists()) {
+    QueryCache::build();
 }
 
 /**

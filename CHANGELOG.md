@@ -8,6 +8,15 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Full per-release details (with commit links) are available on the
 [GitHub releases page](https://github.com/vardumper/dom-orm/releases).
 
+## [Unreleased]
+
+### Changed
+
+- Demos now self-build the query cache (chunked store + compiled hydrator
+  mappers) on the first request after a fresh deploy. No CLI step is needed:
+  the per-demo `putenv` config is not visible to the CLI, and the CLI cannot
+  load the demo entity classes required for mapper generation.
+
 ## [1.5.0] - 2026-10-03
 
 A performance-focused release. The read path is now chunked, hydration is

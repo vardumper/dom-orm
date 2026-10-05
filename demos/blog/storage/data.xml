@@ -47,13 +47,4 @@ Lorem ipsum dolor sit amet sed diam voluptua. At vero eos et accusam et justo du
       </item>
     </group>
   </item>
-  <item id="fa569748e6344eb69489a28e2880ba1b" type="article">
-    <fragment name="title"><![CDATA[Hallo Welt!]]></fragment>
-    <fragment name="body"><![CDATA[The empty yarn.lock is the marker that tells Yarn "stop here, this is a root." It gets filled in by the install. If the root has a .yarnrc.yml with settings the demo shouldn't inherit, give the demo its own — it won't read the parent's once it's a separate project.
-
-If the root package.json is real (shared linting, a build for the library itself), declare the demos as workspaces instead:]]></fragment>
-    <fragment name="author"><![CDATA[Erisch der Wikinger]]></fragment>
-    <fragment name="subline"><![CDATA[Lorem ipsum dolor sit amet.]]></fragment>
-    <fragment name="createdAt"><![CDATA[2026-10-03T18:15:05+00:00]]></fragment>
-  </item>
 </data>
