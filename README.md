@@ -15,34 +15,6 @@
 
 DOM ORM is a lightweight, zero-setup, XML-based persistence layer for small to medium size datasets in PHP projects. It stores entities in a single XML document, allowing you to use relational data without the need to install a database server or driver.
 
-## Features
-
-- A PHP-native object-relational-mapper - without the need of a database.
-- It operates mainly in-memory to reduce file reads/writes as much as possible.
-- For small datasets (<100K), it beats all Doctrine ORM drivers (MariaDB, MySQL, Postgres, SQLite, etc.) in find by ID lookups.
-- Very Lightweight, zero-setup persistence — entities live in a single XML file, the single source of truth.
-- In-Memory (process runtime), Local file and Remote Storage via Flysystem (S3, Azure, Google Cloud, (S)FTP).
-- Relationships: one-to-one, one-to-many, many-to-one, and many-to-many.
-- Lazy Resultsets, fast reads, Schema evolution
-- Git / Mercurial versioning out of the box.
-- Field-level AES-256-GCM encryption via `#[Sensitive]`, with searchable HMAC hashes.
-- Export to JSON, YAML, and XML.
-- Works with PHP 8.3, 8.4, 8.5 and 8.6
-
-## Installation
-
-```bash
-composer require vardumper/dom-orm
-```
-
-## Documenation
-
-Extensive Documentation has been made [available here](https://vardumper.github.io/dom-orm/).
-
-## Demos
- - [Virtual Filesystem](https://dom-orm.erikpoehler.com/virtual-filesystem/)
- - [Blog](https://dom-orm.erikpoehler.com/blog/)
-
 ## TLDR;
 Entity:
 ```php
@@ -78,3 +50,31 @@ Query (and hydrate):
 $tag = (new EntityRepository(Tag::class))->findOneBy(['name' => 'Tagname']);
 echo $tag->getName();
 ```
+
+## Features
+
+- A PHP-native object-relational-mapper - without the need of a database.
+- It operates mainly in-memory to reduce file reads/writes as much as possible.
+- For small datasets (<100K), it beats all Doctrine ORM drivers (MariaDB, MySQL, Postgres, SQLite, etc.) in find by ID lookups.
+- Very Lightweight, zero-setup persistence — entities live in a single XML file, the single source of truth.
+- In-Memory (process runtime), Local file and Remote Storage via Flysystem (S3, Azure, Google Cloud, (S)FTP).
+- Relationships: one-to-one, one-to-many, many-to-one, and many-to-many.
+- Lazy Resultsets, fast reads, Schema evolution
+- Git / Mercurial versioning out of the box.
+- Field-level AES-256-GCM encryption via `#[Sensitive]`, with searchable HMAC hashes.
+- Export to JSON, YAML, and XML.
+- Works with PHP 8.3, 8.4, 8.5 and 8.6
+
+## Installation
+
+```bash
+composer require vardumper/dom-orm
+```
+
+## Documenation
+
+Extensive Documentation has been made [available here](https://vardumper.github.io/dom-orm/).
+
+## Demos
+ - [Virtual Filesystem](https://dom-orm.erikpoehler.com/virtual-filesystem/)
+ - [Blog](https://dom-orm.erikpoehler.com/blog/)
