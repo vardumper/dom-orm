@@ -16,6 +16,8 @@ Full per-release details (with commit links) are available on the
   mappers) on the first request after a fresh deploy. No CLI step is needed:
   the per-demo `putenv` config is not visible to the CLI, and the CLI cannot
   load the demo entity classes required for mapper generation.
+- Demo profilers: hover tooltips (`title` attributes) on the browser load
+  time, server render time, and peak memory stats.
 
 ## [1.5.0] - 2026-10-03
 

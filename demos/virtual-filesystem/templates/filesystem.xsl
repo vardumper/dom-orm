@@ -147,10 +147,10 @@
                 <div id="xml-viewer">
                     <div id="xml-viewer-bar">
                         <strong>Raw XML</strong>
-                        <span class="stat"><xsl:value-of select="$elapsed-ms"/> ms</span>
-                        <span class="stat"><xsl:value-of select="$memory-mb"/> MB</span>
+                        <span class="stat" title="Server: request handling → template render"><xsl:value-of select="$elapsed-ms"/> ms</span>
+                        <span class="stat" title="Peak PHP memory used during this request"><xsl:value-of select="$memory-mb"/> MB</span>
                         <span class="stat badge cache-badge __CACHE_STATE__" data-cache-state="__CACHE_STATE__">__CACHE_STATE__</span>
-                        <span class="stat" id="client-load-ms">— ms</span>
+                        <span class="stat" id="client-load-ms" title="Browser: navigation start → window load (all resources)">— ms</span>
                     </div>
                     <pre id="raw-xml-pre"><code class="language-xml" id="raw-xml-display"><xsl:value-of select="$raw-xml"/></code></pre>
                 </div>
@@ -168,7 +168,7 @@
                             var el = document.getElementById('client-load-ms');
                             if (!el || !isFinite(ms) || ms &lt; 0) return;
                             el.textContent = Math.round(ms) + ' ms';
-                            el.title = 'Navigation start \u2192 window load (all resources)';
+                            el.title = 'Browser: navigation start \u2192 window load (all resources)';
                         }
                         function paintClientLoad() {
                             var entries = performance.getEntriesByType('navigation');

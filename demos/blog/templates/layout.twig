@@ -319,9 +319,9 @@
       <span class="stat badge {{ twigCacheWarm ? 'is-warm' : 'is-cold' }}">
         {{ twigCacheWarm ? 'cache warm' : 'cache cold' }}
       </span>
-      <span class="stat" id="client-load-ms">— ms</span>
-      <span class="stat">{{ elapsed_ms() }} ms</span>
-      <span class="stat">{{ memory_mb() }} MB</span>
+      <span class="stat" id="client-load-ms" title="Browser: navigation start → window load (all resources)">— ms</span>
+      <span class="stat" title="Server: request handling → template render">{{ elapsed_ms() }} ms</span>
+      <span class="stat" title="Peak PHP memory used during this request">{{ memory_mb() }} MB</span>
     </div>
     <pre id="raw-xml-pre"><code class="language-xml">{{ rawXml }}</code></pre>
   </div>
@@ -336,7 +336,7 @@
         var el = document.getElementById('client-load-ms');
         if (!el || !isFinite(ms) || ms < 0) return;
         el.textContent = Math.round(ms) + ' ms';
-        el.title = 'Navigation start → window load (all resources)';
+        el.title = 'Browser: navigation start → window load (all resources)';
       }
       function paintClientLoad() {
         var entries = performance.getEntriesByType('navigation');
