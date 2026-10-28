@@ -16,7 +16,7 @@
     "ext-libxml": "*",
     "ext-mbstring": "*",
     "ext-xml": "*",
-    "ramsey/uuid": "^4.9.4",
+    "ramsey/uuid": "^3.0 || ^4.0",
     "ramsey/collection": "^2.1.1",
     "symfony/serializer": "^5.4 || ^6.4 || ^7.4 || ^8.1.8",
     "league/flysystem": "^2.0|^3.36",
