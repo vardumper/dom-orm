@@ -28,7 +28,7 @@ abstract class AbstractEntity implements EntityInterface
 
     public function __construct(?string $id = null, ?\DateTimeInterface $createdAt = null)
     {
-        $this->id = $id ?? Uuid::uuid4()->getHex()->toString();
+        $this->id = $this->id = $id ?? Uuid::uuid4()->getHex();
         $this->createdAt = $createdAt ?? new \DateTimeImmutable();
     }
 
